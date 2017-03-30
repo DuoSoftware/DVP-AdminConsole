@@ -150,6 +150,61 @@
             if ($scope.cancelDownload) {
                 $scope.fileDownloadState = 'RESET';
                 $scope.DownloadButtonName = 'CSV';
+                $scope.buttonClass = 'fa fa-file-text';
+            }
+            else {
+                cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
+                    if (fileStatus && fileStatus.Result) {
+                        if (fileStatus.Result.Status === 'PROCESSING') {
+                            $timeout(checkFileReady(fileName), 10000);
+                        }
+                        else {
+
+
+                            var decodedToken = loginService.getTokenDecode();
+
+                            if (decodedToken && decodedToken.company && decodedToken.tenant) {
+                                $scope.currentCSVFilename = fileName;
+                                $scope.DownloadCSVFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.fileDownloadState = 'READY';
+                                $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
+                            }
+                            else {
+                                $scope.fileDownloadState = 'RESET';
+                                $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
+                            }
+
+
+                        }
+                    }
+                    else {
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                        $scope.cancelDownload = true;
+                        $scope.buttonClass = 'fa fa-file-text';
+                        $scope.showAlert('CDR Download', 'warn', 'No CDR Records found for downloading');
+                    }
+
+                }).catch(function (err) {
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                    $scope.showAlert('CDR Download', 'error', 'Error occurred while preparing file');
+                });
+            }
+
+        };
+
+        /*var checkFileReady = function (fileName) {
+            console.log('METHOD CALL');
+            if ($scope.cancelDownload) {
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
             }
             else {
                 cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
@@ -190,7 +245,7 @@
                 });
             }
 
-        };
+        };*/
 
         $scope.downloadPress = function () {
             $scope.fileDownloadState = 'RESET';
