@@ -163,61 +163,51 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
 
     var TimeFromatter = function (mins,timeFormat) {
 
-        var timeStr = '0h:0m:0s';
-        if(mins > 0) {
+        var timeStr = '00:00:00';
+        if(mins > 0)
+        {
             var durationObj = moment.duration(mins * 1000);
 
-            if (durationObj) {
-                if (durationObj._data.days > 0) {
-                    timeStr = durationObj._data.days + 'd ' + durationObj._data.hours + 'h:' + durationObj._data.minutes + 'm:' + durationObj._data.seconds + 's';
-                } else {
-                    timeStr = durationObj._data.hours + 'h:' + durationObj._data.minutes + 'm:' + durationObj._data.seconds + 's';
-                }
+            var totalHrs = Math.floor(durationObj.asHours());
+
+            var temphrs = '00';
+
+
+            if(totalHrs > 0 && totalHrs < 10)
+            {
+                temphrs = '0' + totalHrs;
             }
+            else if(durationObj._data.hours >= 10)
+            {
+                temphrs = totalHrs;
+            }
+
+            var tempmins = '00';
+
+            if(durationObj._data.minutes > 0 && durationObj._data.minutes < 10)
+            {
+                tempmins = '0' + durationObj._data.minutes;
+            }
+            else if(durationObj._data.minutes >= 10)
+            {
+                tempmins = durationObj._data.minutes;
+            }
+
+            var tempsec = '00';
+
+            if(durationObj._data.seconds > 0 && durationObj._data.seconds < 10)
+            {
+                tempsec = '0' + durationObj._data.seconds;
+            }
+            else if(durationObj._data.seconds >= 10)
+            {
+                tempsec = durationObj._data.seconds;
+            }
+
+            timeStr = temphrs + ':' + tempmins + ':' + tempsec;
         }
+
         return timeStr;
-
-
-        /*var secondsData = mins;
-
-
-        var hourData = parseInt( secondsData / 3600 );
-        if(hourData<10)
-        {
-            hourData="0"+hourData;
-        }
-
-        secondsData=secondsData%3600;
-
-        var minutesData = parseInt( secondsData / 60 );
-        if(minutesData<10)
-        {
-            minutesData="0"+minutesData;
-        }
-        secondsData = secondsData % 60;
-
-        if(secondsData.length > 2)
-        {
-            secondsData = secondsData.substring(0,2);
-        }
-        secondsData=parseInt(secondsData);
-        if(secondsData<10)
-        {
-            secondsData="0"+secondsData;
-        }
-
-
-        if(timeFormat=="HH:mm:ss")
-        {
-            return hourData+":"+minutesData+":"+secondsData;
-        }
-        else
-        {
-            return minutesData+":"+secondsData;
-        }*/
-
-
-
 
     };
 
