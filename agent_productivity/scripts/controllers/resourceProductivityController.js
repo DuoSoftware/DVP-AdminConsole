@@ -9,11 +9,15 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         $scope.GetOnlineAgents();
     };
 
+    $scope.firstTimeLoad = true;
+
     $scope.BusinessUnit = ShareData.BusinessUnit;
     $scope.showFilter = true;
     $scope.isLoading = true;
     $scope.productivity = [];
-    $scope.getProductivity = function () {
+    $scope.getProductivity = function ()
+    {
+        $scope.firstTimeLoad = false;
         resourceProductivityService.GetProductivity().then(function (response) {
             $log.debug("GetCallServers: response" + response);
             $scope.productivity = response;
@@ -28,54 +32,143 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
     };
 
     $scope.SaveReportQueryFilter = function () {
-        reportQueryFilterService.SaveReportQueryFilter("AGENTPRODUCTIVITY",$scope.OnlineAgents);
+        var reportQueryName = 'AGENTPRODUCTIVITY';
+
+        if(ShareData.BusinessUnit)
+        {
+            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+        }
+        reportQueryFilterService.SaveReportQueryFilter(reportQueryName,$scope.OnlineAgents);
     };
 
     $scope.AvailableAgents = [];
     $scope.OnlineAgents = [];
-    $scope.GetOnlineAgents = function () {
-        resourceProductivityService.GetOnlineAgents().then(function (response) {
-            if(response){
-                $scope.AvailableAgents = response.map(function (item) {
-                    return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
-                    }
-                });
 
-                $scope.showFilter = !($scope.AvailableAgents.length>0);
-                if($scope.OnlineAgents.length === $scope.AvailableAgents.length){
-                    $scope.agentSelectingType = "ALL";
+
+    var getAvailAgents = function(callback)
+    {
+        var emptyArr = [];
+        resourceProductivityService.GetOnlineAgents().then(function (response) {
+            if(response)
+            {
+
+                if(ShareData.BusinessUnit)
+                {
+                    ShareData.GetUserByBusinessUnit().then(function (bUnitUsers)
+                    {
+                        var resIdListBUnit = bUnitUsers.map(function(item)
+                        {
+                            if(item.resourceid)
+                            {
+                                return item.resourceid;
+                            }
+                        });
+
+                        var removeIndexesAvail = [];
+                        angular.forEach(response, function (agent, key)
+                        {
+                            var tempResIdAvail = agent.ResourceId.toString();
+
+                            if(agent.ResourceId && ShareData.BusinessUnit && resIdListBUnit.indexOf(tempResIdAvail) === -1)
+                            {
+                                removeIndexesAvail.push(key);
+                            }
+
+                        });
+
+                        for (var i = removeIndexesAvail.length -1; i >= 0; i--)
+                        {
+                            response.splice(removeIndexesAvail[i], 1);
+                        }
+
+                        $scope.AvailableAgents = response.map(function (item) {
+
+                            return {
+                                ResourceName:item.ResourceName,
+                                ResourceId:item.ResourceId
+                            }
+                        });
+
+                        $scope.showFilter = !($scope.AvailableAgents.length>0);
+                        if($scope.OnlineAgents.length === $scope.AvailableAgents.length){
+                            $scope.agentSelectingType = "ALL";
+                        }
+                        //$scope.isLoading = false;
+
+                        callback(resIdListBUnit);
+
+                    }).catch(function (errSchedule)
+                    {
+                        //$scope.isLoading = false;
+                        callback(emptyArr);
+                    });
+
                 }
+                else
+                {
+                    $scope.AvailableAgents = response.map(function (item) {
+
+                        return {
+                            ResourceName:item.ResourceName,
+                            ResourceId:item.ResourceId
+                        }
+                    });
+
+                    $scope.showFilter = !($scope.AvailableAgents.length>0);
+                    if($scope.OnlineAgents.length === $scope.AvailableAgents.length){
+                        $scope.agentSelectingType = "ALL";
+                    }
+                    //$scope.isLoading = false;
+
+                    callback(emptyArr);
+                }
+
+
+
             }
-            //$scope.AvailableAgents = response;
-            /*angular.copy(response, $scope.OnlineAgents);
-            $scope.getProductivity();*/
-            $scope.isLoading = false;
+
+
         }, function (error) {
             $log.debug("GetOnlineAgents err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
-            $scope.isLoading = false;
+            //$scope.isLoading = false;
+            callback(null);
         });
-
     };
-    $scope.GetOnlineAgents();
+
+
     $scope.agentSelectingType = "ALL";
     $scope.GetReportQueryFilter = function () {
-        reportQueryFilterService.GetReportQueryFilter("AGENTPRODUCTIVITY").then(function (response) {
-            $scope.agentSelectingType = "ALL";
-            if(response){
-                $scope.OnlineAgents = response;
-                $scope.getProductivity();
-                if($scope.OnlineAgents.length != $scope.AvailableAgents.length){
-                    $scope.agentSelectingType = "USER";
-                }
+        getAvailAgents(function(bUnitResList)
+        {
+            var reportQueryName = 'AGENTPRODUCTIVITY';
+
+            if(ShareData.BusinessUnit)
+            {
+                reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
             }
-        }, function (error) {
-            $scope.getProductivity();
-            $log.debug("GetOnlineAgents err");
-            $scope.showError("Error", "Error", "ok", "There is an error ");
+            reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
+                $scope.agentSelectingType = "ALL";
+                if(response){
+                    $scope.OnlineAgents = response;
+                    $scope.getProductivity();
+                    if($scope.OnlineAgents.length != $scope.AvailableAgents.length){
+                        $scope.agentSelectingType = "USER";
+                    }
+                }
+                else
+                {
+                    angular.copy($scope.AvailableAgents, $scope.OnlineAgents);
+                    $scope.getProductivity();
+                }
+            }, function (error) {
+                $scope.getProductivity();
+                $log.debug("GetOnlineAgents err");
+                $scope.showError("Error", "Error", "ok", "There is an error ");
+            });
+
         });
+
 
     };
     $scope.GetReportQueryFilter();
@@ -131,13 +224,34 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     $scope.Productivitys = [];
 
+    $scope.ShareData = ShareData;
+
+    $scope.$watch('ShareData.BusinessUnit', function()
+    {
+        if(!$scope.firstTimeLoad)
+        {
+            getAvailAgents(function(resIdListBUnit)
+            {
+                /////////////////////////////////////////////////////////////////////////////
+
+                $scope.GetReportQueryFilter();
+
+            });
+        }
+
+
+    });
+
     var calculateProductivity = function () {
+
         if ($scope.OnlineAgents) {
             $scope.Productivitys = [];
-            angular.forEach($scope.OnlineAgents, function (agent) {
+            angular.forEach($scope.OnlineAgents, function (agent, key) {
                 try {
 
                     if (agent) {
+
+
                         agent.onlineStatus = true;
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId.toString()},true);//"ResourceId":"1"
                         var agentProductivity = {
@@ -191,7 +305,6 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                     $scope.isLoading = false;
                 }
             });
-
 
         }
     };
