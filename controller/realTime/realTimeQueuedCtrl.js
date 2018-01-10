@@ -4,7 +4,7 @@
 
 mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService,
                                                    $anchorScroll,
-                                                   subscribeServices, reportQueryFilterService,uiGridConstants) {
+                                                   subscribeServices, reportQueryFilterService,uiGridConstants, ShareData) {
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -75,6 +75,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         $scope.summaryText = "Table";
         $scope.isLoaded = false;
         $scope.refreshTime = 10000;
+        $scope.firstTimeLoad = true;
 
         $scope.pieoption = {
             animate: {
@@ -189,12 +190,26 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
         $scope.SaveReportQueryFilter = function () {
             setGridData();
-            reportQueryFilterService.SaveReportQueryFilter("realtime-queued", $scope.selectedQueues);
+            var reportQueryName = 'realtime-queued';
+
+            if(ShareData.BusinessUnit)
+            {
+                reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+            }
+            reportQueryFilterService.SaveReportQueryFilter(reportQueryName, $scope.selectedQueues);
         };
 
         $scope.selectedQueues = [];
         $scope.GetReportQueryFilter = function () {
-            reportQueryFilterService.GetReportQueryFilter("realtime-queued").then(function (response) {
+
+            var reportQueryName = 'realtime-queued';
+
+            if(ShareData.BusinessUnit)
+            {
+                reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+            }
+
+            reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
                 if (response) {
                     $scope.selectedQueues = response;
                 }
@@ -228,48 +243,99 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
         $scope.GetAllQueueStatistics = function () {
 
+            $scope.queues = {};
+            $scope.queueList = [];
+
             queueMonitorService.GetAllQueueStats().then(function (response) {
-                var i = 1;
-                angular.forEach(response, function (c) {
-                    // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
-                    // if (!value) {
-                    //     $scope.queues.splice($scope.queues.indexOf(item), 1);
-                    // }
+                if(response && response.length > 0)
+                {
+                    var i = 1;
+                    angular.forEach(response, function (c) {
+                        // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
+                        // if (!value) {
+                        //     $scope.queues.splice($scope.queues.indexOf(item), 1);
+                        // }
 
 
-                    var item = c.QueueInfo;
-                    item.id = c.QueueId;
-                    item.QueueName = c.QueueName;
-                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+                        var item = c.QueueInfo;
+                        item.id = c.QueueId;
+                        item.QueueName = c.QueueName;
+                        item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
-                    if (item.CurrentMaxWaitTime) {
-                        var d = moment(item.CurrentMaxWaitTime).valueOf();
-                        item.MaxWaitingMS = d;
+                        if (item.CurrentMaxWaitTime) {
+                            var d = moment(item.CurrentMaxWaitTime).valueOf();
+                            item.MaxWaitingMS = d;
 
-                        if (item.EventTime) {
+                            if (item.EventTime) {
 
-                            var serverTime = moment(item.EventTime).valueOf();
-                            tempMaxWaitingMS = serverTime - d;
-                            item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+                                var serverTime = moment(item.EventTime).valueOf();
+                                tempMaxWaitingMS = serverTime - d;
+                                item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                            }
 
                         }
 
-                    }
+                        if (item.TotalQueued > 0) {
+                            item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
+                        }
+                        item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
+                        // if ($scope.checkQueueAvailability(item.id)) {
+                        item.agentCount = i++;
+                        $scope.queues[item.id] = item;
+                        $scope.queueList.push(item);
+                        //}
+                    });
+                }
+                else
+                {
+                    $scope.queues = {};
+                    $scope.queueList = [];
+                }
 
-                    if (item.TotalQueued > 0) {
-                        item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
-                    }
-                    item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
-                    // if ($scope.checkQueueAvailability(item.id)) {
-                    item.agentCount = i++;
-                    $scope.queues[item.id] = item;
-                    $scope.queueList.push(item);
-                    //}
-                });
 
 
             });
         };
+
+        $scope.ShareData = ShareData;
+
+        $scope.$watch('ShareData.BusinessUnit', function()
+        {
+            var reportQueryName = 'realtime-queued';
+
+            if(ShareData.BusinessUnit)
+            {
+                reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+            }
+
+            reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
+                if (response) {
+                    $scope.selectedQueues = response;
+                    if(!$scope.firstTimeLoad)
+                    {
+                        $scope.GetAllQueueStatistics();
+                    }
+                    else
+                    {
+                        $scope.firstTimeLoad = false;
+                    }
+                }
+            }, function (error) {
+                if(!$scope.firstTimeLoad)
+                {
+                    $scope.GetAllQueueStatistics();
+                }
+                else
+                {
+                    $scope.firstTimeLoad = false;
+                }
+                console.log(error);
+            });
+
+
+
+        });
 
 
         /*
