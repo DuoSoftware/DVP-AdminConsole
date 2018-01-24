@@ -620,6 +620,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goZohoUser: function () {
             $state.go('console.zohousers')
         },
+        goChatbot: function () {
+            $state.go('console.chatbot')
+        },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')
         },
