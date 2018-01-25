@@ -1004,8 +1004,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 url: "/chatbots",
                 templateUrl: "chatbot/views/chatbot.html",
                 controller: "chatbotController"
-            }).state('console.chatbot.details', {
-                url: "/chatbot/details",
+            }).state('console.chatbots.details', {
+                url: "/details",
                 templateUrl: "chatbot/views/chatbot-details.html",
                 controller: "chatbotController"
             }).state('console.zohousers', {

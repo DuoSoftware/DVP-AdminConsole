@@ -624,7 +624,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.chatbots')
         },
         goChatbotDetails: function () {
-            $state.go('console.chatbot.details')
+            $state.go('console.chatbots.details')
         },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')
