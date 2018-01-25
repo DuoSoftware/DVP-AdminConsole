@@ -1000,9 +1000,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
                 }
-            }).state('console.chatbot', {
-                url: "/chatbot",
+            }).state('console.chatbots', {
+                url: "/chatbots",
                 templateUrl: "chatbot/views/chatbot.html",
+                controller: "chatbotController"
+            }).state('console.chatbot.details', {
+                url: "/chatbot/details",
+                templateUrl: "chatbot/views/chatbot-details.html",
                 controller: "chatbotController"
             }).state('console.zohousers', {
                 url: "/zoho/users",

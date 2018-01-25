@@ -621,7 +621,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.zohousers')
         },
         goChatbot: function () {
-            $state.go('console.chatbot')
+            $state.go('console.chatbots')
+        },
+        goChatbotDetails: function () {
+            $state.go('console.chatbot.details')
         },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')
