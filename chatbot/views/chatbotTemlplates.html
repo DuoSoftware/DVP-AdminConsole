@@ -36,8 +36,7 @@
                                 </div>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" ng-model="newApplication.Url" placeholder="Application Url">
-                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                    
                                 </div>
 
                                 <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
@@ -92,8 +91,8 @@
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled timeline">
-                    <li ng-repeat="App in AppList | filterBy: ['AppName']: searchCriteria">
-                        <editapplication application="App" applist="AppList" update-application="removeDeleted(App)" reloadpage="reloadPage()"></editapplication>
+                    <li ng-repeat="template in templateList | filterBy: ['BotName']: searchCriteria">
+                        <edittemplate template="template" templateList="templateList" update-application="removeDeleted(App)" reloadpage="reloadPage()"></edittemplate>
                     </li>
 
                     <paging ng-show="showPaging" class="small" page="currentPage" page-size="pageSize" total="pageTotal" show-prev-next="true"

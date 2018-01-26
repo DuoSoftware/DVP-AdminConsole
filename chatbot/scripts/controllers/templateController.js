@@ -8,4 +8,15 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     $scope.navigateToUI = function(location){
         $state.go(location)
     }
+
+    $scope.templateList = [
+        {
+            name:"Bot One",
+            decription:"This is the first bot template"
+        },
+        {
+            name:"Bot Two",
+            decription:"This is the second bot template"
+        }
+    ];
 });
