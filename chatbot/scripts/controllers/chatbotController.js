@@ -2,7 +2,7 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
     $anchorScroll();
 
     console.log("Chatbot controller is up!");
-
+    //Create New Bot
     $scope.CreateNewBot = function (newBot) {
 
         var bot = {
@@ -48,7 +48,7 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
 
     };
 
-
+    //Get All Bots
     $scope.getAllBots = function () {
         var temp = {
             "Exception": null,
@@ -116,5 +116,5 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
     }
 
 
- 
+
 });
