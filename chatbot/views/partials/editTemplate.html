@@ -12,12 +12,14 @@
                 <div class="col-md-3 ">
                     <div class="pull-right user-option-wrap" ng-show="!editMode">
                         <h3>
-                            <small ng-disabled="true" ng-click="removeApplication(application)" style="cursor: pointer"><i
-                                    class="fa fa-trash-o"></i></small>
-                            <small ng-disabled="true" ng-click="editApplication()" style="cursor: pointer"><i
-                                    class="fa fa-edit"></i></small>
-                            <small ng-disabled="true" ng-click="showConig(application.id)" style="cursor: pointer"><i
-                                    class="fa fa-cog"></i></small>
+                            <small ng-disabled="true" ng-click="editApplication()" style="cursor: pointer">
+                                <i class="fa fa-edit"></i>
+                            </small>
+                            <small ng-disabled="true" ng-click="removeTemplate(template)" style="cursor: pointer">
+                                <i class="fa fa-trash-o"></i>
+                            </small>
+                            <!-- <small ng-disabled="true" ng-click="showConig(application.id)" style="cursor: pointer"><i
+                                    class="fa fa-cog"></i></small> -->
                         </h3>
                     </div>
                 </div>
@@ -39,49 +41,34 @@
                 <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
-                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
-                                 style="margin-bottom: 15px;">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Application Name</label>
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="application.AppName"
-                                       placeholder="Application Name" ng-disabled="true">
+                                <input type="text" class="form-control has-feedback-left" ng-model="application.AppName" placeholder="Application Name" ng-disabled="true">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
-                                 style="margin-bottom: 15px;">
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Description</label>
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="application.Description"
-                                       placeholder="Description">
+                                <input type="text" class="form-control has-feedback-left" ng-model="application.Description" placeholder="Description">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
-                                 style="margin-bottom: 15px;">
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Other Data</label>
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="application.OtherData"
-                                       placeholder="Other Data">
+                                <input type="text" class="form-control has-feedback-left" ng-model="application.OtherData" placeholder="Other Data">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
-                                 style="margin-bottom: 15px;">
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Application URL</label>
-                                <input type="text" class="form-control has-feedback-left "
-                                       ng-model="application.Url"
-                                       placeholder="Application URL">
+                                <input type="text" class="form-control has-feedback-left " ng-model="application.Url" placeholder="Application URL">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback"
-                                 style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Application Type</label>
-                                <select class="form-control has-feedback-left"
-                                        ng-model="application.ObjClass"
-                                        ng-change="changeApplicationType(application.ObjClass)">
+                                <select class="form-control has-feedback-left" ng-model="application.ObjClass" ng-change="changeApplicationType(application.ObjClass)">
                                     <option>SYSTEM</option>
                                     <option>DEVELOPER</option>
                                 </select>
@@ -89,25 +76,19 @@
                             </div>
 
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback "
-                                 style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback " style="margin-bottom: 15px;">
                                 <label class="animated fadeIn">Developer</label>
-                                <select class="form-control" ng-model="application.AppDeveloperId"
-                                        ng-model-options="{trackBy: '$value'}"
-                                        ng-change="changeApplicationType(application.ObjClass)"
-                                        ng-disabled="!IsDeveloper">
+                                <select class="form-control" ng-model="application.AppDeveloperId" ng-model-options="{trackBy: '$value'}" ng-change="changeApplicationType(application.ObjClass)"
+                                    ng-disabled="!IsDeveloper">
                                     <option ng-repeat="Developer in Developers" value="{{Developer.id}}">
                                         {{Developer.Username}}
                                     </option>
                                 </select>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback"
-                                 style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label class="animated fadeIn">Application Protocol</label>
-                                <select class="form-control has-feedback-left"
-                                        ng-model="application.ObjType"
-                                        placeholder="Choose Protocol">
+                                <select class="form-control has-feedback-left" ng-model="application.ObjType" placeholder="Choose Protocol">
                                     <option>HTTAPI</option>
                                     <option>SOCKET</option>
                                     <option>EXTENDED</option>
@@ -117,8 +98,7 @@
 
                             <div class="col-md-3 col-sm-3 col-xs-12" style="margin-bottom: 15px;">
                                 <label>Master Application</label>
-                                <select class="form-control" ng-model="application.MasterApplicationId"
-                                        ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
+                                <select class="form-control" ng-model="application.MasterApplicationId" ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                     <option ng-repeat="masterapp in MasterApps" value="{{masterapp.id}}">
                                         {{masterapp.AppName}}
                                     </option>
@@ -129,13 +109,13 @@
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
                                 <div class="col-md-6 col-sm-6 col-xs-12 ">
                                     <label>
-                                        Availability <input type="checkbox" class="js-switch"
-                                                            ng-model="application.Availability"/>
+                                        Availability
+                                        <input type="checkbox" class="js-switch" ng-model="application.Availability"
+                                        />
                                     </label>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="button" class="btn btn-success btn-sm pull-right"
-                                            ng-click="modifyApplication()">
+                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="modifyApplication()">
                                         Update
                                     </button>
                                 </div>
@@ -170,8 +150,8 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <!-- <label class="form-control-static">Master Application</label>
-                <p>{{application.MasterAppName}} </p> -->
+                <label class="form-control-static">No. of Items</label>
+                <p>{{template.items.length}} </p>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
