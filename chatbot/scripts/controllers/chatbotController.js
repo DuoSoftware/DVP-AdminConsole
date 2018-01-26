@@ -6,10 +6,10 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
     $scope.CreateNewBot = function (newBot) {
 
         var bot = {
-            "name": newBot.AppName,
+            "name": newBot.name,
             "company": 103,
             "tenant": 1,
-            "screen_name": newBot.AppName,
+            "screen_name": newBot.name,
             "status": true,
             "channel_facebook": {
                 "company": 103,
