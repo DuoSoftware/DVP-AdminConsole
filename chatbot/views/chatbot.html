@@ -2,7 +2,7 @@
 
     <div class="col-md-12 col-sm-6 col-xs-12">
 
-        <!-- application list -->
+        <!-- Bot list -->
         <div class="x_panel bg-light-gray animated fadeIn">
             <div class="x_title border-0">
                 <div class="col-md-6 col-sm-6 col-xs-6">
@@ -20,34 +20,32 @@
                 <div class="col-xs-12">
                     <div class="tile-stats m-top15">
                         <form class="form-horizontal form-label-left input_mask">
-                            <div class="row">
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" ng-model="newBot.AppName" placeholder="Bot Name">
+                            <div class="row no-gutters">
+                                <div class="col-12 col-sm-6 col-md-8 form-group has-feedback">
+
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newBot.name" placeholder="Bot Name">
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
 
                                 </div>
-
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <div class="col-6 col-md-4 form-group has-feedback">
                                     <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="CreateNewBot(newBot)">
                                         Add
                                     </button>
+                                </div>
+                            </div>
+                            <div class="row no-gutters">
+                                <div class="col-12 col-sm-6 col-md-8 form-group has-feedback">
+
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newBot.description" placeholder="Bot Description">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
+                                </div>
+                                <div class="col-6 col-md-4 form-group has-feedback">
                                     <button type="button" class="btn btn-block  btn- pull-right" ng-click="navigateToUI('console.chatbots.details')">
                                         Details
                                     </button>
                                 </div>
-
-                                <!-- <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
-                                        <input type="text" class="form-control has-feedback-left"
-                                               ng-model="newApplication.Url"
-                                               placeholder="Application Url">
-                                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                                    </div> -->
                             </div>
-
-
                         </form>
                     </div>
                 </div>
@@ -56,20 +54,17 @@
         </div>
         <!-- end -->
 
-        <!-- view application users -->
+        <!-- view Bot List and Edit -->
 
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="bot in allbots track by $index">
-                        <editachatbot botname="bot" updatebot="" reloadpage="reloadPage()">
+                        <editachatbot bot="bot" updatebot="" reloadpage="reloadPage()">
                         </editachatbot>
                     </li>
 
-                    <!-- <paging ng-show="showPaging" class="small" page="currentPage" page-size="pageSize" total="pageTotal" show-prev-next="true"
-                        show-first-last="true" text-next-class="glyphicon glyphicon-chevron-right" text-prev-class="glyphicon glyphicon-chevron-left"
-                        text-first-class="glyphicon glyphicon-backward" text-last-class="glyphicon glyphicon-forward" paging-action="getPageData('attribute', page, pageSize, total)">
-                    </paging> -->
+
                 </ul>
             </div>
         </div>
