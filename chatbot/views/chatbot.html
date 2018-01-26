@@ -59,7 +59,7 @@
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled timeline">
-                    <li ng-repeat="bot in allbots track by $index">
+                    <li ng-repeat="bot in allbots | filterBy: ['name']: searchCriteria">
                         <editachatbot bot="bot" updatebot="" reloadpage="reloadPage()">
                         </editachatbot>
                     </li>
