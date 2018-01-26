@@ -16,6 +16,9 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
 
         link: function (scope) {
 
+            scope.editTemplate = function () {
+                scope.editMode = !scope.editMode;
+            };
 
             scope.removeTemplate = function (item) {
 
@@ -35,8 +38,6 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
                 }, function () {
 
                 }, item);
-
-
             };
 
             /* Start of Default methods*/

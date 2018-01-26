@@ -12,7 +12,7 @@
                 <div class="col-md-3 ">
                     <div class="pull-right user-option-wrap" ng-show="!editMode">
                         <h3>
-                            <small ng-disabled="true" ng-click="editApplication()" style="cursor: pointer">
+                            <small ng-disabled="true" ng-click="editTemplate()" style="cursor: pointer">
                                 <i class="fa fa-edit"></i>
                             </small>
                             <small ng-disabled="true" ng-click="removeTemplate(template)" style="cursor: pointer">
@@ -30,20 +30,43 @@
             <div class="application-edit">
                 <div class="col-sm-12">
                     <div class="col-sm-6">
-                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{application.AppName}}</h2>
+                        <h2 class="font-robot font-300 text-uppercase font-15">Edit Card: {{template.name}}</h2>
                     </div>
                     <div class="col-sm-6">
                         <div class="edit-close pull-right">
-                            <i class="fa fa-close" ng-click="editApplication()"></i>
+                            <i class="fa fa-close" ng-click="editTemplate()"></i>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Card Name</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="Card Name">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Description</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.description" placeholder="Description">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Card Type</label>
+                                <select class="form-control has-feedback-left" ng-model="template.type">
+                                    <option>generic</option>
+                                    <option>list</option>
+                                </select>
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
-                                <label>Application Name</label>
-                                <input type="text" class="form-control has-feedback-left" ng-model="application.AppName" placeholder="Application Name" ng-disabled="true">
+                                <label>Template Name</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="Application Name" ng-disabled="true">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
@@ -110,8 +133,7 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 ">
                                     <label>
                                         Availability
-                                        <input type="checkbox" class="js-switch" ng-model="application.Availability"
-                                        />
+                                        <input type="checkbox" class="js-switch" ng-model="application.Availability" />
                                     </label>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
