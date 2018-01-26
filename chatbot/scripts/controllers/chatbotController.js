@@ -36,7 +36,7 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
         chatbotService.CreateChatbot(bot).then(function (response) {
             if (response) {
                 $scope.showAlert("ChatBot", 'success', "Bot Created Successfully.");
-
+                $scope.reloadPage();
             } else {
                 $scope.showAlert("ChatBot", 'error', "Fail To Create Bot.");
             }
