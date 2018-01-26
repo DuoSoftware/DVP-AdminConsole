@@ -22,26 +22,27 @@
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" ng-model="newBot.AppName" placeholder="Card Name">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.name" placeholder="Card Name">
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    <select class="form-control has-feedback-left" placeholder="select card type" ng-model="newApplication.ObjClass">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.decription" placeholder="Description">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                    <select class="form-control has-feedback-left" placeholder="select card type" ng-model="newTemplate.type">
                                         <option value="" disabled selected>Select card type</option>
-                                        <option>Genaric</option>
-                                        <option>List</option>
+                                        <option value="generic">Genaric</option>
+                                        <option value="list">List</option>
                                     </select>
                                     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    
-                                </div>
-
                                 <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="CreateNewBot(newBot)">
-                                        New
+                                    <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="AddNewTemplate(newTemplate)">
+                                        Add
                                     </button>
                                 </div>
 

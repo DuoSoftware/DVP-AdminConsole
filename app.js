@@ -130,6 +130,7 @@ var baseUrls = {
     'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',
     'contactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/', //contacts.app1.veery.cloud
     'botAPIUrl': 'https://smoothbotservicesdev.plus.smoothflow.io/DBF/API/1.0.0.0/BotService/',//Bot API URL
+    'templateAPIUrl': 'https://smoothbotservicesdev.plus.smoothflow.io/DBF/API/1.0.0.0/ViewService/',//View service API URL
 };
 
 mainApp.constant('baseUrls', baseUrls);

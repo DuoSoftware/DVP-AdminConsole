@@ -156,27 +156,27 @@
 
 
         <div class="byline" ng-hide="editMode">
-            <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+            <span>{{template.updated_at|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>
         <div ng-hide="editMode">
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Protocol</label>
-                <p>{{application.ObjType}} </p>
+                <label class="form-control-static">Description</label>
+                <p>{{template.decription}} </p>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Application Type</label>
-                <p>{{application.ObjClass}} </p>
+                <label class="form-control-static">Card Type</label>
+                <p>{{template.type}} </p>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Master Application</label>
-                <p>{{application.MasterAppName}} </p>
+                <!-- <label class="form-control-static">Master Application</label>
+                <p>{{application.MasterAppName}} </p> -->
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Availability</label>
-                <p>{{application.Availability}} </p>
+                <!-- <label class="form-control-static">Availability</label>
+                <p>{{application.Availability}} </p> -->
             </div>
 
             <!--<p class="excerpt col-md-3" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>-->
