@@ -7,7 +7,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService) 
         restrict: "EAA",
         scope: {
             bot: "=",
-            botDesc: "=",
+            allbots: "=",
             'updatebot': '&',
             'reloadpage': '&'
         },
@@ -45,7 +45,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService) 
                     chatbotService.DeleteChatbot(bot).then(function (response) {
                         if (response) {
                             scope.showAlert("ChatBot", 'success', "Bot Delete Successfully.");
-
+                            scope.reloadpage();
                         } else {
                             scope.showAlert("ChatBot", 'error', "Fail To Delete Bot.");
                         }
@@ -59,6 +59,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService) 
                 }, bot);
 
             };
+
             scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
 
                 (new PNotify({
