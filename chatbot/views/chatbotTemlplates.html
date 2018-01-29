@@ -27,7 +27,7 @@
                                 </div>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.decription" placeholder="Description">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.description" placeholder="Description">
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
@@ -93,7 +93,7 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="template in templateList | filterBy: ['name']: searchCriteria">
-                        <edittemplate template="template" templateList="templateList" update-application="removeDeleted(App)" reloadpage="reloadPage()"></edittemplate>
+                        <edittemplate template="template" update-application="removeDeleted(template)" reloadpage="reloadPage()"></edittemplate>
                     </li>
 
                     <paging ng-show="showPaging" class="small" page="currentPage" page-size="pageSize" total="pageTotal" show-prev-next="true"

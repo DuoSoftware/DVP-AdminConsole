@@ -10,7 +10,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     $scope.newTemplateSchema = function () {
         return {
             name: "",
-            decription: "",
+            description: "",
             company: 0,
             tenant: 0,
             updated_at: Date.now(),
@@ -24,13 +24,13 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     $scope.templateList = [
         {
             name: "Bot One",
-            decription: "This is the first bot template",
+            description: "This is the first bot template",
             type: "generic",
             updated_at: Date.now()
         },
         {
             name: "Bot Two",
-            decription: "This is the second bot template",
+            description: "This is the second bot template",
             type: "list",
             updated_at: Date.now()
         }
@@ -39,7 +39,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     $scope.AddNewTemplate = function (tempDetails) {
         var template = $scope.newTemplateSchema();
         template.name = tempDetails.name;
-        template.decription = tempDetails.decription;
+        template.description = tempDetails.description;
         template.type = tempDetails.type;
         $scope.templateList.push(template);
         $scope.SaveTemplate(template);
