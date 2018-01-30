@@ -14,9 +14,14 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
         templateUrl: 'chatbot/views/partials/card.html',
 
         link: function (scope) {
+            debugger
+            scope.mode = "view";
+            scope.changeMode = function (mode) {
+                scope.mode = mode
+            };
 
-            scope.getnewButtonObject = function () {
-                return new Object({
+            scope.addNewButton = function () {
+                scope.card.buttons.push({
                     other_data: {
                         url: ""
                     },
@@ -28,38 +33,24 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
                 });
             }
 
-            scope.addNewButton = function(){
-                card.buttons.push(scope.getnewButtonObject);
+            scope.removeButtonfromList = function(button){
+                alert("remove button");
             }
 
-            scope.getnewButtonObject = function () {
-                return {
-                    other_data: {
-                        url: "https://www.pizzahut.lk"
-                    },
-                    payload: {
-                        message: "Small Cheese pizza"
-                    },
-                    title: "Small (Rs.450)",
-                    type: "postback"
-                }
-            }
+            // scope.getnewCardObject = function () {
+            //     var newButton = scope.getnewButtonObject();
+            //     return {
+            //         buttons: [newButton],
+            //         default_action: {
+            //             url: ""
+            //         },
+            //         image_url: "",
+            //         sub_title: "",
+            //         title: ""
+            //     }
+            // }
 
-            scope.getnewCardObject = function () {
-                var newButton = scope.getnewButtonObject();
-                newButton._id = "ssss"
-                return {
-                    buttons: [newButton],
-                    default_action: {
-                        url: ""
-                    },
-                    image_url: "",
-                    sub_title: "",
-                    title: ""
-                }
-            }
-
-            scope.card = scope.getnewCardObject();
+            //scope.card = scope.getnewCardObject();
 
             scope.editCard = function () {
                 scope.editMode = !scope.editMode;

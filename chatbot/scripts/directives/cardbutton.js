@@ -7,16 +7,17 @@ mainApp.directive("cardbutton", function ($filter, $uibModal, appBackendService)
         restrict: "EAA",
         scope: {
             button: "=",
-            'addNewButton': '&'
+            buttons: "=",
+            'removeButton': '&'
         },
         templateUrl: 'chatbot/views/partials/cardbutton.html',
         link: function (scope) {
             scope.mode = "view"
-            if (scope.button == undefined) {
-                scope.mode = "new"
-            } else {
-                scope.mode = "view"
-            }
+            // if (scope.button == undefined) {
+            //     scope.mode = "new"
+            // } else {
+            //     scope.mode = "view"
+            // }
             scope.changeMode = function (mode) {
                 scope.mode = mode
             };
@@ -30,8 +31,9 @@ mainApp.directive("cardbutton", function ($filter, $uibModal, appBackendService)
                 scope.changeMode("edit");
             }
 
-            scope.addNewButton = function () {
-
+            scope.removeButtonfromList = function () {
+                // scope.removeButton(button);
+                scope.buttons.splice(0, 1);
             }
 
         }
