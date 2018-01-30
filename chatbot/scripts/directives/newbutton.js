@@ -1,17 +1,15 @@
 /**
  * Created by Shehan on 29/1/2018.
  */
-mainApp.directive("newcard", function ($filter, $uibModal, appBackendService) {
+mainApp.directive("newbutton", function ($filter, $uibModal, appBackendService) {
 
     return {
         restrict: "EAA",
         scope: {
-            card: "=",
-            'updateApplication': '&',
-            'reloadpage': '&'
+            'updateApplication': '&'
         },
 
-        templateUrl: 'chatbot/views/partials/newcard.html',
+        templateUrl: 'chatbot/views/partials/newbutton.html',
 
         link: function (scope) {
 
