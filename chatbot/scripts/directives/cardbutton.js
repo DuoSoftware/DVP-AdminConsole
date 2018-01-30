@@ -12,34 +12,25 @@ mainApp.directive("cardbutton", function ($filter, $uibModal, appBackendService)
         templateUrl: 'chatbot/views/partials/cardbutton.html',
         link: function (scope) {
             scope.mode = "view"
-            if(scope.button == undefined){
+            if (scope.button == undefined) {
                 scope.mode = "new"
-            }else{
+            } else {
                 scope.mode = "view"
             }
             scope.changeMode = function (mode) {
                 scope.mode = mode
             };
 
-            scope.getnewButtonObject = function () {
-                return {
-                    other_data: {
-                        url: ""
-                    },
-                    payload: {
-                        message: ""
-                    },
-                    title: "",
-                    type: "postback"
-                }
-            }
+            
 
-            scope.newButton = function(){
-                scope.button = scope.getnewButtonObject();
+            scope.newButton = function () {
+                debugger
+                //scope.button = scope.getnewButtonObject();
+                scope.button = {};
                 scope.changeMode("edit");
             }
 
-            scope.addNewButton = function(){
+            scope.addNewButton = function () {
 
             }
 

@@ -5,12 +5,34 @@ width:  200px;
 float: left;
 margin:3px;
 ">
-    <div>
-        <b>{{card.title}}</b>
+    <div ng-show="mode='view'">
+        <div>
+            <b>{{card.title}}</b>
+        </div>
+        <div>{{card.sub_title}}</div>
+        <center>
+            <img ng-src="{{card.image_url}}" style="height:100px;">
+        </center>
+        <input type="button" ng-repeat="button in card.buttons" value="{{button.title}}" />
     </div>
-    <div>{{card.sub_title}}</div>
-    <center>
-        <img ng-src="{{card.image_url}}" style="height:100px;">
-    </center>
-    <input type="button" ng-repeat="button in card.buttons" value="{{button.title}}" />
+
+    <div ng-show="mode='new'">
+        <a class="font-robot font-300 " ng-click="editCard()">
+            <i class="fa fa-plus"></i> New
+        </a>
+    </div>
+    <div ng-show="mode='edit'">
+        <input type="text" placeholder="Title" ng-model="card.title" />
+        <input type="text" placeholder="Description" ng-model="card.sub_title" />
+        <input type="url" placeholder="Default Action" ng-model="card.default_action.url" />
+        <input type="url" placeholder="Image URL" ng-model="card.image_url" />
+        <span>Buttons</span>
+        <cardbutton button="button" ng-repeat="button in card.buttons"></cardbutton>
+        <a class="font-robot font-300 " ng-click="addNewButton()">
+            <i class="fa fa-plus"></i> New
+        </a>
+        <hr>
+        <input type="button" value="Add Card" />
+        <input type="button" value="Close" ng-click="editCard()" />
+    </div>
 </div>

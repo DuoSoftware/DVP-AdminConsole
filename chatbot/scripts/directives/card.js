@@ -15,7 +15,53 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
 
         link: function (scope) {
 
-            scope.editTemplate = function () {
+            scope.getnewButtonObject = function () {
+                return new Object({
+                    other_data: {
+                        url: ""
+                    },
+                    payload: {
+                        message: ""
+                    },
+                    title: "<new>",
+                    type: "postback"
+                });
+            }
+
+            scope.addNewButton = function(){
+                card.buttons.push(scope.getnewButtonObject);
+            }
+
+            scope.getnewButtonObject = function () {
+                return {
+                    other_data: {
+                        url: "https://www.pizzahut.lk"
+                    },
+                    payload: {
+                        message: "Small Cheese pizza"
+                    },
+                    title: "Small (Rs.450)",
+                    type: "postback"
+                }
+            }
+
+            scope.getnewCardObject = function () {
+                var newButton = scope.getnewButtonObject();
+                newButton._id = "ssss"
+                return {
+                    buttons: [newButton],
+                    default_action: {
+                        url: ""
+                    },
+                    image_url: "",
+                    sub_title: "",
+                    title: ""
+                }
+            }
+
+            scope.card = scope.getnewCardObject();
+
+            scope.editCard = function () {
                 scope.editMode = !scope.editMode;
             };
 
