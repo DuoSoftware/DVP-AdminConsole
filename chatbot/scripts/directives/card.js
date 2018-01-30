@@ -1,17 +1,17 @@
 /**
- * Created by Shehan on 26/1/2018.
+ * Created by Shehan on 29/1/2018.
  */
-mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendService) {
+mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendService) {
 
     return {
         restrict: "EAA",
         scope: {
-            template: "=",
+            card: "=",
             'updateApplication': '&',
             'reloadpage': '&'
         },
 
-        templateUrl: 'chatbot/views/partials/editTemplate.html',
+        templateUrl: 'chatbot/views/partials/card.html',
 
         link: function (scope) {
 

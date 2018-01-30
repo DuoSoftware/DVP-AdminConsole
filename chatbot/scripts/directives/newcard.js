@@ -1,21 +1,48 @@
 /**
- * Created by Shehan on 26/1/2018.
+ * Created by Shehan on 29/1/2018.
  */
-mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendService) {
+mainApp.directive("newcard", function ($filter, $uibModal, appBackendService) {
 
     return {
         restrict: "EAA",
         scope: {
-            template: "=",
+            card: "=",
             'updateApplication': '&',
             'reloadpage': '&'
         },
 
-        templateUrl: 'chatbot/views/partials/editTemplate.html',
+        templateUrl: 'chatbot/views/partials/newcard.html',
 
         link: function (scope) {
 
-            scope.editTemplate = function () {
+            scope.getnewButtonObject = function () {
+                return {
+                    other_data: {
+                        url: "https://www.pizzahut.lk"
+                    },
+                    payload: {
+                        message: "Small Cheese pizza"
+                    },
+                    title: "Small (Rs.450)",
+                    type: "postback"
+                }
+            }
+
+            scope.getnewCardObject = function () {
+                return {
+                    buttons: [scope.getnewButtonObject()],
+                    default_action: {
+                        url: ""
+                    },
+                    image_url: "",
+                    sub_title: "",
+                    title: ""
+                }
+            }
+
+            scope.newCard = scope.getnewCardObject();
+
+            scope.editCard = function () {
                 scope.editMode = !scope.editMode;
             };
 

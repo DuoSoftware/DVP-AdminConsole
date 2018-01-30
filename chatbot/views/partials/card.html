@@ -1,0 +1,16 @@
+<div style="
+background-color: #eaeaea;
+padding:  10px;
+width:  200px;
+float: left;
+margin:3px;
+">
+    <div>
+        <b>{{card.title}}</b>
+    </div>
+    <div>{{card.sub_title}}</div>
+    <center>
+        <img ng-src="{{card.image_url}}" style="height:100px;">
+    </center>
+    <input type="button" ng-repeat="button in card.buttons" value="{{button.title}}" />
+</div>
