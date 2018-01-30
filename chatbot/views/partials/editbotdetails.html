@@ -1,12 +1,10 @@
 <div>
     <div>
-
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-md-9">
                     <h2 class=" font-300">
                         <a ng-hide="editMode">Name : {{bot.name}}</a>
-
                     </h2>
                     <span>{{bot.description}}</span>
                 </div>
@@ -19,7 +17,6 @@
                             <small ng-disabled="true" ng-click="editbotdetails()" style="cursor: pointer">
                                 <i class="fa fa-edit"></i>
                             </small>
-                           
                         </h3>
                     </div>
                 </div>
@@ -46,35 +43,94 @@
                                 <input type="text" class="form-control has-feedback-left" ng-model="bot.name" placeholder="Bot Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
-
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Description</label>
                                 <input type="text" class="form-control has-feedback-left" ng-model="bot.Description" placeholder="Description">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
-
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
                                 <div class="col-md-6 col-sm-6 col-xs-12 ">
-                                    <!-- <label>
-                                            Availability <input type="checkbox" class="js-switch"
-                                                                ng-model="application.Availability"/>
-                                        </label> -->
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="modifyBotDetails(bot)">
-                                        Update
-                                    </button>
                                 </div>
                             </div>
-
                         </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <uib-tabset active="0">
+                            <uib-tab index="0" heading="Facebook">
+                                <div class="col-sm-12" style="margin-bottom: 15px;margin-top: 15px;">
+                                    <h2 class="font-robot font-300 text-uppercase font-15">FaceBook Integrations</h2>
+                                </div>
+                                <div class="row no-gutters">
+                                    <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <label>Verification Token</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <label>Page ID</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_facebook.page_id" placeholder="Facebook Page ID">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <label>App ID</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_facebook.app_id" placeholder="Facebook App ID">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <label>App Secret</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_facebook.app_secret" placeholder="Facebook App Secret">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters">
+                                    <div class="col-6 col-md-8 form-group has-feedback">
+                                        <label>Page Token</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_facebook.page_token" placeholder="Facebook Page Token">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="1" heading="Slack">
+                                <div class="col-sm-12" style="margin-bottom: 15px;margin-top: 15px;">
+                                    <h2 class="font-robot font-300 text-uppercase font-15">Slack Integrations</h2>
+                                </div>
+
+                                <div class="row no-gutters">
+                                    <div class="col-6 col-md-4 form-group has-feedback">
+                                        <label>Verification Token</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_slack.verification_token" placeholder="Slack Verification Token">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-6 col-md-4 form-group has-feedback">
+                                        <label>Client Secret</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_slack.client_secret" placeholder="Slack Client Secret">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-6 col-md-4 form-group has-feedback">
+                                        <label>Client ID</label>
+                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_slack.client_id" placeholder="Slack Client ID">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-6 col-md-8"></div>
+                        <div class="col-6 col-md-4 form-group has-feedback">
+                            <button type="button" class="btn btn-success btn-sm pull-right" ng-click="modifyBotDetails(bot)">
+                                Update
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-    <div class="clearfix"></div>
+</div>
+
+<div class="clearfix"></div>
 </div>
 </div>
