@@ -1,7 +1,7 @@
 /**
- * Created by Shehan on 29/1/2018.
+ * Created by Shehan on 30/1/2018.
  */
-mainApp.directive("newbutton", function ($filter, $uibModal, appBackendService) {
+mainApp.directive("newcardbutton", function ($filter, $uibModal, appBackendService) {
 
     return {
         restrict: "EAA",
@@ -9,7 +9,7 @@ mainApp.directive("newbutton", function ($filter, $uibModal, appBackendService) 
             'updateApplication': '&'
         },
 
-        templateUrl: 'chatbot/views/partials/newbutton.html',
+        templateUrl: 'chatbot/views/partials/newcardbutton.html',
 
         link: function (scope) {
 

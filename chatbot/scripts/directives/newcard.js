@@ -15,6 +15,10 @@ mainApp.directive("newcard", function ($filter, $uibModal, appBackendService) {
 
         link: function (scope) {
 
+            scope.addNewButton = function(){
+                alert("added new button");
+            }
+
             scope.getnewButtonObject = function () {
                 return {
                     other_data: {
@@ -29,8 +33,10 @@ mainApp.directive("newcard", function ($filter, $uibModal, appBackendService) {
             }
 
             scope.getnewCardObject = function () {
+                var newButton = scope.getnewButtonObject();
+                newButton._id = "ssss"
                 return {
-                    buttons: [scope.getnewButtonObject()],
+                    buttons: [newButton],
                     default_action: {
                         url: ""
                     },
