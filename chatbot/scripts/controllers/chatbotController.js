@@ -1,4 +1,4 @@
-mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, chatbotService, $state, $uibModal) {
+mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, chatbotService, $state, $uibModal, integrationsService) {
     $anchorScroll();
 
     console.log("Chatbot controller is up!");
@@ -63,6 +63,8 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
         });
     };
     $scope.getAllBots();
+
+
 
     $scope.navigateToUI = function (location) {
         $state.go(location)

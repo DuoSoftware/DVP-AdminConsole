@@ -1,7 +1,7 @@
 /**
  * Created by lakmini on 26/01/2018.
  */
-mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService) {
+mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService) {
 
     return {
         restrict: "EAA",
@@ -59,7 +59,18 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService) 
                 }, bot);
 
             };
+            scope.BotIntegrations = function (configDetails, appmodule) {
+                integrationsService.ConfigApp(configDetails, appmodule).then(function (response) {
+                    if (response) {
+                        scope.showAlert("ChatBot Integrations", 'success', "Bot Integrations Created Successfully.");
+                    } else {
+                        scope.showAlert("ChatBot Integrations", 'error', "Fail Integrations To Created Bot.");
+                    }
 
+                }, function (error) {
+                    scope.showAlert("ChatBot Integrations", 'error', "Fail Integrations To Created Bot.");
+                });
+            }
             scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
 
                 (new PNotify({
