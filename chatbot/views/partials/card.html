@@ -1,10 +1,4 @@
-<div style="
-background-color: #eaeaea;
-padding:  10px;
-width:  200px;
-float: left;
-margin:3px;
-">
+<div>
     <div ng-show="mode=='view'">
         <div>
             <b>{{card.title}}</b>
@@ -28,9 +22,14 @@ margin:3px;
         <input type="url" placeholder="Default Action" ng-model="card.default_action.url" />
         <input type="url" placeholder="Image URL" ng-model="card.image_url" />
         <span>Buttons</span>
-        <cardbutton button="button" buttons="card.buttons" removeButton="removeButtonfromList(button)" ng-repeat="button in card.buttons"></cardbutton>
+        <div ng-repeat="button in card.buttons" class="cardset">
+            <cardbutton button="button"></cardbutton>
+            <a class="font-robot font-300 " ng-click="removeButton($index)">
+                <i class="fa fa-times"></i> Remove
+            </a>
+        </div>
         <a class="font-robot font-300 " ng-click="addNewButton()">
-            <i class="fa fa-plus"></i> New
+            <i class="fa fa-plus"></i> New Button
         </a>
         <hr>
         <input type="button" value="Done" ng-click="changeMode('view')" />

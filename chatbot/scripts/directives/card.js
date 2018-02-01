@@ -14,7 +14,6 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
         templateUrl: 'chatbot/views/partials/card.html',
 
         link: function (scope) {
-            debugger
             scope.mode = "view";
             scope.changeMode = function (mode) {
                 scope.mode = mode
@@ -33,8 +32,8 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
                 });
             }
 
-            scope.removeButtonfromList = function(button){
-                alert("remove button");
+            scope.removeButton = function (index) {
+                scope.card.buttons.splice(index,1);
             }
 
             // scope.getnewCardObject = function () {
