@@ -63,18 +63,22 @@
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Cards</label>
                                 <div class="row">
-                                    <cardtemplate card="item" ng-repeat="item in template.items"></cardtemplate>
-                                    <newcard></newcard>
+                                    <div class="card" ng-repeat="item in template.items">
+                                        <cardtemplate card="item"></cardtemplate>
+                                        <a class="font-robot font-300 " ng-click="removeCard($index)">
+                                            <i class="fa fa-times"></i> Remove Card
+                                        </a>
+                                    </div>
+                                    <div class="card">
+                                        <a class="font-robot font-300 " ng-click="addNewCard(template)">
+                                            <i class="fa fa-plus"></i> New Card
+                                        </a>
+                                    </div>
                                 </div>
-
                             </div>
-
-
-
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
                                 <div class="col-md-6 col-sm-6 col-xs-12 ">
@@ -84,7 +88,7 @@
                                     </label>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="modifyApplication()">
+                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updateTemplate(template)">
                                         Update
                                     </button>
                                 </div>
@@ -124,8 +128,11 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <!-- <label class="form-control-static">Availability</label>
-                <p>{{application.Availability}} </p> -->
+                <label class="form-control-static">Card ID</label>
+                <p>
+                    <input type="text" ng-readonly="true" ng-model="template._id" id="{{template._id}}">
+                    <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                </p>
             </div>
 
             <!--<p class="excerpt col-md-3" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>-->

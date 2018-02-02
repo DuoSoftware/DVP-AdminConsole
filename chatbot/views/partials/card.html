@@ -1,16 +1,37 @@
-<div style="
-background-color: #eaeaea;
-padding:  10px;
-width:  200px;
-float: left;
-margin:3px;
-">
-    <div>
-        <b>{{card.title}}</b>
+<div>
+    <div ng-show="mode=='view'">
+        <div>
+            <b>{{card.title}}</b>
+        </div>
+        <div>{{card.sub_title}}</div>
+        <center>
+            <img ng-src="{{card.image_url}}" style="height:100px;">
+        </center>
+        <input type="button" ng-repeat="button in card.buttons" value="{{button.title}}" />
+        <input type="button" value="Edit" ng-click="changeMode('edit')">
     </div>
-    <div>{{card.sub_title}}</div>
-    <center>
-        <img ng-src="{{card.image_url}}" style="height:100px;">
-    </center>
-    <input type="button" ng-repeat="button in card.buttons" value="{{button.title}}" />
+
+    <div ng-show="mode=='new'">
+        <a class="font-robot font-300 " ng-click="editCard()">
+            <i class="fa fa-plus"></i> New
+        </a>
+    </div>
+    <div ng-show="mode=='edit'">
+        <input type="text" placeholder="Title" ng-model="card.title" />
+        <input type="text" placeholder="Description" ng-model="card.sub_title" />
+        <input type="url" placeholder="Default Action" ng-model="card.default_action.url" />
+        <input type="url" placeholder="Image URL" ng-model="card.image_url" />
+        <span>Buttons</span>
+        <div ng-repeat="button in card.buttons" class="cardset">
+            <cardbutton button="button"></cardbutton>
+            <a class="font-robot font-300 " ng-click="removeButton($index)">
+                <i class="fa fa-times"></i> Remove
+            </a>
+        </div>
+        <a class="font-robot font-300 " ng-click="addNewButton()">
+            <i class="fa fa-plus"></i> New Button
+        </a>
+        <hr>
+        <input type="button" value="Done" ng-click="changeMode('view')" />
+    </div>
 </div>

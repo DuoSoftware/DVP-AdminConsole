@@ -1,0 +1,18 @@
+<div>
+    <div ng-show="mode == 'view'">
+        <input type="button" value="{{button.title}}">
+        <input type="button" value="Edit" ng-click="changeMode('edit')">
+    </div>
+    <div ng-show="mode == 'new'">
+        <a class="font-robot font-300 " ng-click="newButton()">
+            <i class="fa fa-plus"></i> New
+        </a>
+    </div>
+    <div ng-show="mode == 'edit'">
+        <input type="text" placeholder="Title" ng-model="button.title">
+        <input type="text" placeholder="Message" ng-model="button.payload.message">
+        <input type="url" placeholder="Url" ng-model="button.other_data.url">
+        <input type="button" value="Done" ng-click="changeMode('view')">
+    </div>
+
+</div>

@@ -93,7 +93,7 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="template in templateList | filterBy: ['name']: searchCriteria">
-                        <edittemplate template="template" update-application="removeDeleted(template)" reloadpage="reloadPage()"></edittemplate>
+                        <edittemplate template="template" update-template="updateTemplate(template)" delete-template="deleteTemplate(template)"></edittemplate>
                     </li>
 
                     <paging ng-show="showPaging" class="small" page="currentPage" page-size="pageSize" total="pageTotal" show-prev-next="true"

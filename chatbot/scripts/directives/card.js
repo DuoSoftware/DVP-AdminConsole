@@ -14,8 +14,44 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
         templateUrl: 'chatbot/views/partials/card.html',
 
         link: function (scope) {
+            scope.mode = "view";
+            scope.changeMode = function (mode) {
+                scope.mode = mode
+            };
 
-            scope.editTemplate = function () {
+            scope.addNewButton = function () {
+                scope.card.buttons.push({
+                    other_data: {
+                        url: ""
+                    },
+                    payload: {
+                        message: ""
+                    },
+                    title: "<new>",
+                    type: "postback"
+                });
+            }
+
+            scope.removeButton = function (index) {
+                scope.card.buttons.splice(index,1);
+            }
+
+            // scope.getnewCardObject = function () {
+            //     var newButton = scope.getnewButtonObject();
+            //     return {
+            //         buttons: [newButton],
+            //         default_action: {
+            //             url: ""
+            //         },
+            //         image_url: "",
+            //         sub_title: "",
+            //         title: ""
+            //     }
+            // }
+
+            //scope.card = scope.getnewCardObject();
+
+            scope.editCard = function () {
                 scope.editMode = !scope.editMode;
             };
 
