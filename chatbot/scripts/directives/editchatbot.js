@@ -1,7 +1,7 @@
 /**
  * Created by lakmini on 26/01/2018.
  */
-mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService) {
+mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService, botappconfigService) {
 
     return {
         restrict: "EAA",
@@ -15,12 +15,18 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
         templateUrl: 'chatbot/views/partials/editbotdetails.html',
         link: function (scope) {
 
-            console.log(scope.bot.name);
             scope.editMode = false;
+            scope.botappedit = false;
 
             scope.editbotdetails = function () {
+                $("#sortable").sortable();
+                $("#sortable").disableSelection();
+                scope.getallBotApps(scope.bot._id);
                 scope.editMode = !scope.editMode;
-                console.log(scope.bot);
+            };
+            scope.editbotappdetails = function (botapp) {
+                scope.botappedit = !scope.botappedit;
+                scope.selectedBot = botapp;
             };
             // bot details update method
             scope.modifyBotDetails = function (bot) {
@@ -43,7 +49,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 console.log("deleteBot");
                 scope.showConfirm("Delete Bot", "Delete", "ok", "cancel", "Do you want to delete " + bot.screen_name, function (obj) {
                     chatbotService.DeleteChatbot(bot).then(function (response) {
-                        if (response) {
+                        if (response.data.IsSuccess) {
                             scope.showAlert("ChatBot", 'success', "Bot Delete Successfully.");
                             scope.reloadpage();
                         } else {
@@ -59,9 +65,11 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 }, bot);
 
             };
+
+
             scope.BotIntegrations = function (configDetails, appmodule) {
                 integrationsService.ConfigApp(configDetails, appmodule).then(function (response) {
-                    if (response) {
+                    if (response.data.IsSuccess) {
                         scope.showAlert("ChatBot Integrations", 'success', "Bot Integrations Created Successfully.");
                     } else {
                         scope.showAlert("ChatBot Integrations", 'error', "Fail Integrations To Created Bot.");
@@ -105,6 +113,65 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 });
             };
 
+
+            //get all bots apps for mathch with current bot
+            scope.getallBotApps = function (id) {
+                scope.slectedConfig = [];
+                botappconfigService.GetAllBotApps().then(function (response) {
+                    if (response.data.IsSuccess) {
+                        debugger;
+                        for (var index = 0; index < response.data.Result.length; index++) {
+                            if (id == response.data.Result[index].bot_id) {
+                                scope.slectedConfig.push(response.data.Result[index]);
+                            }
+                        }
+                        console.log(scope.slectedConfig);
+                    } else {
+                        scope.showAlert("Bot Apps", 'error', "Fail To load Bot Apps.");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Bot Apps", 'error', "Fail To load Bot Apps.");
+                });
+            }
+            //add new bot app
+            scope.addnewBotApp = function (botapp) {
+
+                var newbotapp = {
+                    "company": -1,
+                    "tenant": -1,
+                    "bot_id": scope.bot._id,
+                    "app": botapp.app,
+                    "order": 0,
+                    "config": {}
+                }
+                botappconfigService.SavenewBotApp(newbotapp).then(function (response) {
+                    if (response.data.IsSuccess) {
+                        scope.getallBotApps(scope.bot._id);
+                        scope.botappedit = false;
+                    } else {
+                        scope.showAlert("Bot Apps", 'error', "Fail To Save Bot Apps.");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Bot Apps", 'error', "Fail To Save Bot Apps.");
+                });
+            }
+
+            //update bot app
+            scope.updatebotapp = function (botapp) {
+                botappconfigService.UpdateBotApp(botapp, scope.bot._id).then(function (response) {
+                    if (response.data.IsSuccess) {
+                        scope.botappedit = false;
+                        scope.showAlert("Bot Apps", 'success', "Bot App Updated Successfully.");
+                    } else {
+                        scope.showAlert("Bot Apps", 'error', "Fail To Update Bot Apps.");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Bot Apps", 'error', "Fail To Update Bot Apps.");
+                });
+            }
         }
     }
 
