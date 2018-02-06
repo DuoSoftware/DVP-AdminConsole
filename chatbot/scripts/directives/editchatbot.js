@@ -19,8 +19,23 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             scope.botappedit = false;
 
             scope.editbotdetails = function () {
-                $("#sortable").sortable();
-                $("#sortable").disableSelection();
+                $(".sortable").sortable({
+
+                    stop: function (event, ui) {
+                        scope.order = [];
+                        $(".sortable li").each(function (i, el) {
+                            var OrderedBots = JSON.parse(el.id);
+                            OrderedBots.order = i;
+                            OrderedBots.aid = OrderedBots._id;
+                            delete OrderedBots._id;
+                            scope.order.push(OrderedBots);
+                        })
+
+                        scope.updatebotapps(scope.order);
+
+                    }
+                });
+                $(".sortable").disableSelection();
                 scope.getallBotApps(scope.bot._id);
                 scope.editMode = !scope.editMode;
             };
@@ -30,7 +45,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             };
             // bot details update method
             scope.modifyBotDetails = function (bot) {
-
+                delete bot._id;
                 chatbotService.UpdateChatbot(bot).then(function (response) {
                     if (response) {
                         scope.showAlert("ChatBot", 'success', "Bot Update Successfully.");
@@ -119,7 +134,6 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 scope.slectedConfig = [];
                 botappconfigService.GetAllBotApps().then(function (response) {
                     if (response.data.IsSuccess) {
-                        debugger;
                         for (var index = 0; index < response.data.Result.length; index++) {
                             if (id == response.data.Result[index].bot_id) {
                                 scope.slectedConfig.push(response.data.Result[index]);
@@ -160,6 +174,8 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
             //update bot app
             scope.updatebotapp = function (botapp) {
+
+                delete botapp._id;
                 botappconfigService.UpdateBotApp(botapp, scope.bot._id).then(function (response) {
                     if (response.data.IsSuccess) {
                         scope.botappedit = false;
@@ -171,7 +187,24 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 }, function (error) {
                     scope.showAlert("Bot Apps", 'error', "Fail To Update Bot Apps.");
                 });
+            };
+
+            //update bot apps 
+            scope.updatebotapps = function (botapps) {
+                botappconfigService.UpdateBotApps(botapps).then(function (response) {
+                    if (response.data.IsSuccess) {
+
+                        scope.getallBotApps(scope.bot._id);
+                        scope.showAlert("Bot Apps", 'success', "Bot App Updated Successfully.");
+                    } else {
+                        scope.showAlert("Bot Apps", 'error', "Fail To Update Bot Apps.");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Bot Apps", 'error', "Fail To Update Bot Apps.");
+                });
             }
+
         }
     }
 

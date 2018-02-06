@@ -38,6 +38,7 @@ mainApp.factory("botappconfigService", function ($http, $log, $filter, authServi
         });
     }
 
+
     //update bot app
     var updatebotapp = function (botapp, botID) {
         return $http({
@@ -53,10 +54,27 @@ mainApp.factory("botappconfigService", function ($http, $log, $filter, authServi
 
         });
     }
+
+    //update bot apps
+    var updatebotapps = function (botapps) {
+        return $http({
+            method: 'PUT',
+            url: baseUrls.botAPIUrl + "BotApps",
+            data: botapps
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response;
+            } else {
+                return response;
+            }
+
+        });
+    }
     return {
         GetAllBotApps: getallbotapps,
         SavenewBotApp: savenewbotapp,
-        UpdateBotApp: updatebotapp
+        UpdateBotApp: updatebotapp,
+        UpdateBotApps: updatebotapps
 
     }
 });

@@ -8498,6 +8498,6 @@ circle {
     filter: grayscale(100%);
 }
 
-#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-#sortable li { margin: 0 3px 3px 3px; padding: 1.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px;background: #e2e2e2; }
-#sortable li span { position: absolute; margin-left: -1.3em; }
+.sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+.sortable li { margin: 0 3px 3px 3px; padding: 1.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px;background: #e2e2e2; }
+.sortable li span { position: absolute; margin-left: -1.3em; }
