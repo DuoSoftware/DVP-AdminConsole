@@ -41,8 +41,8 @@
 
                                 <button type="button" class="btn"
                                         style="background-color: #a3d100; color: #000000; font-weight: 500"
-                                        csv-header="['Campaign', 'Dialed Count', 'Queued Count', 'Answered Count']"
-                                        csv-column-order="['Campaign', 'DialedCount', 'QueuedCount', 'AnsweredCount']"
+                                        csv-header="['Campaign', 'Dialed Count', 'Answered Count', 'Queued Count', 'Agent Answered Count']"
+                                        csv-column-order="['CampaignName', 'DialedCount', 'AnsweredCount', 'QueuedCount', 'AgentAnsweredCount']"
                                         ng-csv="DownloadCSV()" filename="{{DownloadFileName}}.csv">
                                     CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i class="fa fa-download"></i>
@@ -104,21 +104,26 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
+                                                    colspan="1" aria-label="Answered Count">Answered Count
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
                                                     colspan="1" aria-label="Queued Count">Queued Count
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
-                                                    colspan="1" aria-label="Answered Count">Answered Count
+                                                    colspan="1" aria-label="Agent Answered Count">Agent Answered Count
                                                 </th>
 
                                             </thead>
                                             <tbody>
                                             <tr role="row" class="odd"
                                                 ng-repeat="sum in SummaryDetails">
-                                                <td>{{sum.Campaign}}</td>
+                                                <td>{{sum.CampaignName}}</td>
                                                 <td>{{sum.DialedCount}}</td>
-                                                <td>{{sum.QueuedCount}}</td>
                                                 <td>{{sum.AnsweredCount}}</td>
+                                                <td>{{sum.QueuedCount}}</td>
+                                                <td>{{sum.AgentAnsweredCount}}</td>
 
                                             </tr>
                                             </tbody>
