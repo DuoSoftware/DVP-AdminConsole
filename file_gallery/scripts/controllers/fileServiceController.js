@@ -523,7 +523,7 @@ app.directive('onErrorSrc', function () {
 });
 
 
-app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInstance, baseUrls, file,$auth) {
+app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInstance, baseUrls, file,$auth,authService) {
 
     $scope.selectedFile = file;
 
@@ -536,6 +536,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInst
     };
 
     var urlTemp = baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename;
+    var urlTempWithAuth = baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename+"?Authorization="+authService.TokenWithoutBearer();
 
     if(file.ObjCategory === 'CONVERSATION')
     {
@@ -595,7 +596,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInst
             preload: "auto",
             sources: [
                 {
-                    src: $sce.trustAsResourceUrl(urlTemp),
+                    src: $sce.trustAsResourceUrl(urlTempWithAuth),
                     type: file.FileStructure
                 }
             ],
