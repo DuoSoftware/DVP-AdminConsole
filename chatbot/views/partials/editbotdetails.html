@@ -96,6 +96,51 @@
                                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">White List</div>
+                                                        <div class="panel-body">
+                                                            <form name="Whitelist">
+                                                                <!-- <div class="col-md-9"> -->
+                                                                <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
+                                                                    <!-- <label>Url</label> -->
+                                                                    <input type="text" class="form-control has-feedback-left" name="url" ng-pattern="/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/"
+                                                                        ng-model="url" placeholder="White-List Url" required>
+                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                </div>
+                                                                <!-- </div> -->
+                                                                <div class="col-md-3 ">
+                                                                    <div class="pull-right user-option-wrap">
+                                                                        <button type="button" class="btn btn-success btn-sm pull-right" ng-disabled="Whitelist.url.$invalid" ng-click="addnewurl(url)">
+                                                                            Add
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item" style="background-color: #efefef;" ng-repeat="url in urllist">{{url}}
+                                                                    <small ng-disabled="true" ng-click="" style="cursor: pointer;font-size: 21px;float: right;">
+                                                                        <i class="fa fa-trash-o"></i>
+                                                                    </small>
+
+                                                                </li>
+                                                                <!-- <li class="list-group-item">Deleted
+                                                                    <small ng-disabled="true" ng-click="" style="cursor: pointer;font-size: 21px;float: right;">
+                                                                        <i class="fa fa-trash-o"></i>
+                                                                    </small>
+                                                                </li>
+                                                                <li class="list-group-item">Warnings
+                                                                    <small ng-disabled="true" ng-click="" style="cursor: pointer;font-size: 21px;float: right;">
+                                                                        <i class="fa fa-trash-o"></i>
+                                                                    </small>
+                                                                </li> -->
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                             <!-- <div class="row no-gutters">
                                                     <div class="col-6 col-md-8 form-group has-feedback">
                                                         <label>Page Token</label>
@@ -143,20 +188,30 @@
                                             <input type="text" class="form-control has-feedback-left" ng-model="items.app" placeholder="New Bot App">
                                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                         </div> -->
-                                        <div class="col-md-6 col-sm-3 col-xs-12 form-group has-feedback">
-                                            <label>Bot Apps</label>
-                                            <select class="form-control" id="Bot_Apps" ng-model="item.app">
-                                                <option value='apiai'>apiai</option>
-                                                <option value='smoothflow'>smoothflow</option>
-                                                <option value='ards'>ARDS</option>
-                                            </select>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">New Bot Apps</div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <select class="form-control" id="Bot_Apps" ng-model="item.app">
+                                                            <option value="" selected disabled>Select App</option>
+                                                            <option value='APIAI'>apiai</option>
+                                                            <option value='Smoothflow'>smoothflow</option>
+                                                            <option value='ARDS'>ARDS</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="ull-right user-option-wrap col-md-3">
+                                                        <div class="col-3 col-md-3 form-group has-feedback">
+                                                            <button type="button" class="btn btn-success btn-sm pull-right" ng-click="addnewBotApp(item);">
+                                                                New Bot App
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                        </div>
-                                        <div class="col-6 col-md-6 form-group has-feedback">
-                                            <button type="button" class="btn btn-success btn-sm pull-right" ng-click="addnewBotApp(item);">
-                                                New Bot App
-                                            </button>
-                                        </div>
+
 
                                     </div>
 
@@ -164,62 +219,135 @@
                                     <div class="row no-gutters">
                                         <div class="col-6 col-md-8"></div>
                                         <div class="col-6 col-md-4 form-group has-feedback">
-                                            <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                            <!-- <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
                                                 Update
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
                                     <!-- </div> -->
                                     <div class="row no-gutters">
-                                        <ul class="sortable" class="col-lg-12" id="bot._id">
+                                        <ul class="sortable" id="bot._id">
+                                            <!-- <div class="col-lg-12"> -->
                                             <li class="ui-state-default" ng-repeat="item in slectedConfig | orderBy : 'order'" id={{item}}>
-                                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{item.app}}
-                                                <small ng-disabled="true" ng-click="editbotappdetails(item)" style="cursor: pointer">
-                                                    <i class="fa fa-edit"></i>
-                                                </small>
-                                                <small ng-disabled="true" ng-click="" style="cursor: pointer">
-                                                    <i class="fa fa-cog"></i>
-                                                </small>
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <span class="ui-icon ui-icon-arrowthick-2-n-s"> {{item.app}}</span>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <small ng-disabled="true" ng-click="editbotappdetails(item)" style="cursor: pointer">
+                                                            <i class="fa fa-edit"></i>
+                                                        </small>
+                                                        <small ng-disabled="true" ng-click="deletebotapp(item)" style="cursor: pointer">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </small>
+                                                    </div>
+                                                </div>
+
                                             </li>
-                                            <!-- <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>SmoothFlow</li>
-                                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>ARDS</li> -->
+                                            <!-- </div> -->
                                             <div class="row no-gutters">
-
                                                 <div ng-show="botappedit">
-                                                    <div ng-if="selectedBot.app=='apiai'">
-                                                        <!-- <span>apiai</span> -->
-                                                        <div class="col-6 col-md-4 form-group has-feedback">
-                                                            <label>Client Access Token</label>
-                                                            <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.CLIENT_ACCESS_TOKEN" placeholder="Client Access Token">
-                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                    <div ng-if="selectedBot.app=='apiai'" style="padding-left: 23px;">
+                                                        <div class="panel panel-default col-lg-12">
+                                                            <div class="panel-heading">
+                                                                <div class="row">
+                                                                    <div class="col-md-9">
+                                                                        <h4>{{selectedBot.app}} </h4>
+                                                                    </div>
+                                                                    <div class="col-md-3 ">
+                                                                        <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                                                            Update
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-6 col-md-4 form-group has-feedback">
+                                                                    <label>Client Access Token</label>
+                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.CLIENT_ACCESS_TOKEN" placeholder="Client Access Token">
+                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div ng-if="selectedBot.app=='smoothflow'" style="padding-left: 23px;">
+                                                        <div class="panel panel-default col-lg-12">
+                                                            <div class="panel-heading">
+                                                                <div class="row">
+                                                                    <div class="col-md-9">
+                                                                        <h4>{{selectedBot.app}} </h4>
+                                                                    </div>
+                                                                    <div class="col-md-3 ">
+                                                                        <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                                                            Update
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <!-- <div class="col-6 col-md-4 form-group has-feedback"> -->
+                                                                <div class="col-6 col-md-4 form-group has-feedback">
+                                                                    <label>Security key</label>
+                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.Securitykey" placeholder="Security key">
+                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                </div>
+                                                                <div class="col-6 col-md-4 form-group has-feedback">
+                                                                    <label>Host</label>
+                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.host" placeholder="Host">
+                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                </div>
+                                                                <div class="col-6 col-md-4 form-group has-feedback">
+                                                                    <label>Params</label>
+                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.params" placeholder="Params">
+                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                </div>
+                                                                <!-- </div> -->
+                                                            </div>
                                                         </div>
 
                                                     </div>
-                                                    <div ng-if="selectedBot.app=='smoothflow'">
-                                                        <div class="col-6 col-md-4 form-group has-feedback">
-                                                            <label>Security key</label>
-                                                            <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.Securitykey" placeholder="Security key">
-                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                    <div ng-if="selectedBot.app=='ards'" style="padding-left: 23px;">
+                                                        <div class="panel panel-default col-lg-12">
+                                                            <div class="panel-heading">
+                                                                <div class="row">
+                                                                    <div class="col-md-9">
+                                                                        <h4>{{selectedBot.app}} </h4>
+                                                                    </div>
+                                                                    <div class="col-md-3 ">
+                                                                        <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                                                            Update
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-6 col-md-4 form-group has-feedback">
+                                                                    <label>Inputs</label>
+                                                                    <input type="text" class="form-control has-feedback-left" placeholder="Inputs">
+                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-6 col-md-4 form-group has-feedback">
-                                                            <label>Host</label>
-                                                            <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.host" placeholder="Host">
-                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                        </div>
-                                                        <div class="col-6 col-md-4 form-group has-feedback">
-                                                            <label>Params</label>
-                                                            <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.params" placeholder="Params">
-                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                        </div>
-                                                    </div>
-                                                    <div ng-if="selectedBot.app=='ards'">
-                                                        <span>ards</span>
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
+
+
+
+                                            <!-- <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>SmoothFlow</li>
+                                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>ARDS</li> -->
+
                                         </ul>
                                     </div>
                                 </uib-tab>
+                                <!-- <uib-tab index="2" heading="White-list">
+
+                                </uib-tab> -->
                             </uib-tabset>
                         </uib-tabset>
 

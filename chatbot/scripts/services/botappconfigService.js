@@ -70,11 +70,27 @@ mainApp.factory("botappconfigService", function ($http, $log, $filter, authServi
 
         });
     }
+    var deletebotapps = function (botID) {
+        return $http({
+            method: 'DELETE',
+            url: baseUrls.botAPIUrl + "BotApp/" + botID
+          
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response;
+            } else {
+                return response;
+            }
+
+        });
+    }
     return {
         GetAllBotApps: getallbotapps,
         SavenewBotApp: savenewbotapp,
         UpdateBotApp: updatebotapp,
-        UpdateBotApps: updatebotapps
+        UpdateBotApps: updatebotapps,
+        DeleteBotApp: deletebotapps
+
 
     }
 });
