@@ -190,12 +190,15 @@
                                         <div class="row">
                                             <div  class="d1-sumry-count-wrp "
                                                   ng-class={'available-bg':agentCurrentState=='available'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='available'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
                                                     <div class="d1-header available-text">
                                                         {{StatusList.AvailableProfile.length}}
                                                     </div>
                                                     <div class="d1-a-status available-text">
-                                                        Available
+                                                        I/B Available
                                                     </div>
                                                 </div>
 
@@ -206,6 +209,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp  "
                                                  ng-class={'reserved-bg':agentCurrentState=='reserved'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='reserved'">
+
+                                                </div>
                                                 <div class="d1-summary-body ">
 
                                                     <div class="d1-header reserved-text">
@@ -223,6 +229,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'connected-bg':agentCurrentState=='connected'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='connected'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
                                                     <div class="d1-header connected-text">
                                                         {{StatusList.ConnectedProfile.length}}
@@ -239,6 +248,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'after-work-bg':agentCurrentState=='afterwork'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='afterwork'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
                                                     <div class="d1-header after-work-text">
                                                         {{StatusList.AfterWorkProfile.length}}
@@ -256,6 +268,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'break-bg':agentCurrentState=='break'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='break'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header break-text">
@@ -273,13 +288,16 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'outbound-bg':agentCurrentState=='outbound'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='outbound'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header outbound-text">
                                                         {{StatusList.OutboundProfile.length}}
                                                     </div>
                                                     <div class="d1-a-status outbound-text">
-                                                        Outbound
+                                                        O/B Available
                                                     </div>
                                                 </div>
 
@@ -290,6 +308,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'suspended-bg':agentCurrentState=='suspended'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='suspended'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header suspended-text">
@@ -307,6 +328,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'other-bg':agentCurrentState=='other'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='other'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header other-text">
