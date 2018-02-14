@@ -85,7 +85,7 @@
                     <tbody>
                     <tr ng-repeat="task in productivity.taskList">
                         <td class="text-center">{{task.taskType}}</td>
-                        <td class="fs15 fw700 text-center"> {{task.skill | limitTo:5 }}</td>
+                        <td class="fs15 fw700 text-center"> {{task.skill | limitTo:15 }}</td>
                         <td class="fs15 fw700 text-center">{{task.percentage}}%</td>
                     </tr>
                     </tbody>
