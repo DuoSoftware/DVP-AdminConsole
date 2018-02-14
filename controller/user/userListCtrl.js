@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService, resourceService) {
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -191,10 +191,38 @@
         $scope.addNewUser = function () {
             userProfileApiAccess.addUser($scope.newUser).then(function (data) {
                 if (data.IsSuccess) {
+
+                    //Map Resource To User
+                    if($scope.newUser.mapToResource && data.Result && data.Result.username){
+
+                        resourceService.SaveResource({ResourceName: data.Result.username}).then(function (response) {
+                            if (response.IsSuccess) {
+
+                                resourceService.SetResourceToProfile($scope.CurrentProfile.username, response.Result.ResourceId).then(function (response) {
+                                    if (response) {
+                                        $scope.showAlert("Map To Resource", "info", "Resource " + resource.ResourceName + " Successfully Save.");
+                                    }
+                                    else {
+                                        $scope.showAlert("Map To Resource", "warn", "Resource " + resource.ResourceName + " Save Successfully Without Mapping to Profile.");
+                                    }
+                                }, function (error) {
+                                    $scope.showAlert("Map To Resource", "error", "Fail To Map Resource with Profile.");
+                                });
+                            }
+                            else {
+                                if (response.CustomMessage == "invalid Resource Name.") {
+                                    $scope.showAlert("Map To Resource", "error", "Invalid Resource Name.");
+                                }
+                            }
+
+                        }, function (error) {
+                            $scope.showAlert('Map To Resource', 'error', 'Failed to map user to resource');
+                        });
+
+                    }
+
                     $scope.showAlert('Success', 'info', 'User added');
-
                     resetForm();
-
                     loadUsers();
 
 

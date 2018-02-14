@@ -472,6 +472,39 @@
                                     </div>
                                 </div>
 
+                                <!-- Resource info -->
+
+                                <div class="profile-details-wrap">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <label><h4>Resource Information</h4></label>
+                                        </div>
+
+
+                                        <div ng-show="resourceAvailableToMap" class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
+                                             style="margin-right: 20px;">
+                                            <label>Active Resource</label>
+                                            <input ng-disabled="true" type="text" class="form-control"
+                                                   ng-model="activeResourceAccount" style="opacity: 1;color: rgb(0, 0, 0);
+                                            text-align: center;font-weight: bold;padding: 5px;border-radius: 10px;
+                                            background-color: rgb(135, 206, 250);"/>
+
+
+                                        </div>
+                                        <div ng-show="!resourceAvailableToMap" class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
+                                             style="margin-right: 20px;">
+                                            <label>
+                                                <small>Map To  Resource</small>
+                                            </label>
+                                            <checkbox class="btn-success" ng-model="CurrentProfile.mapToResource"
+                                                      ng-init="CurrentProfile.mapToResource=false"></checkbox>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
                                 <!-- veery account info -->
 
                                 <div class="profile-details-wrap">
