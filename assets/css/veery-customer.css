@@ -237,9 +237,9 @@ a {
 }
 
 .nav_menu {
-    background: rgba(237, 237, 237, 0.95);
+    /*background: rgba(237, 237, 237, 0.95);*/
     border-bottom: 1px solid #D9DEE4;
-    height: 61px;
+    height: 50px;
     z-index: 101;
     width: 100%;
     /*position: fixed;*/
@@ -251,7 +251,7 @@ a {
 }
 
 .main_menu_side {
-    padding-left: 10px;
+    /*padding-left: 10px;*/
 }
 
 .nav.side-menu > li.current-page, .nav.side-menu > li.active {
@@ -741,8 +741,21 @@ label {
 
 .btn-primary {
     color: #fff;
-    background-color: #114858;
-    border-color: #1b5465;
+    /*background-color: #114858;*/
+    background-color: #68318e;
+    /*border-color: #1b5465;*/
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.btn-secondary {
+    color: #fff;
+    /*background-color: #114858;*/
+    background-color: #ee407d;
+    /*border-color: #1b5465;*/
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     letter-spacing: 1px;
@@ -2572,10 +2585,6 @@ ul.count2 {
 
 }
 
-.login-header {
-    padding-left: 40px;
-}
-
 /*validation area */
 .validation-area {
     text-align: left;
@@ -2604,7 +2613,7 @@ ul.count2 {
     -o-box-shadow: 0 0 0px #ed1c24 inset;
     box-shadow: 0 0 0px #A97AAD inset;
     background-color: #fff;
-    border: 2px solid #f8b01d;
+    border: 2px solid #e2b8ff;
     outline: none;
 }
 
@@ -2725,10 +2734,6 @@ label {
     color: #383b3b;
 }
 
-.login_content {
-    margin-bottom: 50px;
-}
-
 #bg {
     position: fixed;
     top: 0;
@@ -2736,10 +2741,6 @@ label {
     /* Preserve aspet ratio */
     min-width: 100%;
     min-height: 100%;
-}
-
-.login_content {
-    background: rgba(50, 51, 53, 0.70);
 }
 
 .dark-frm-label {
@@ -2755,7 +2756,7 @@ label {
 .dark-frm-input:hover,
 .dark-frm-input:focus,
 .dark-frm-input:active {
-    background: rgba(55, 55, 56, 0.72) !important;
+    /*background: rgba(55, 55, 56, 0.72) !important;*/
 }
 
 .validation-on {
@@ -2765,27 +2766,31 @@ label {
 .dark-frm-btn {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 400;
-    background: #2aa79b;
+    /*background: #2aa79b;*/
+    background: #ee407d!important;
     color: #fff;
-    border: 1px solid #1f9085;
+    border: 1px solid #ee407d;
+    width: 100%;
+    margin: 20px auto;
 }
 
 .dark-frm-btn:hover {
-    background: rgba(42, 167, 155, 0.73);
+    /*background: rgba(42, 167, 155, 0.73);*/
+    background: #c13969!important;
     color: #fff;
-    border: 1px solid #1f9085;
+    border: 1px solid #ee407d;
 }
 
-.dark-frm-btn.disabled.focus {
-    background: #393b3b !important;
+.dark-frm-btn.disabled.focus, .dark-frm-btn.disabled.hover {
+    background: #ee407d!important;
     color: #fff;
-    border: 1px solid #1f9085;
+    border: 1px solid #ee407d;
 }
 
 .dark-frm-btn.disabled,
 .dark-frm-btn.disabled:active {
-    background: #393b3b !important;
-    border: 1px solid #393b3b !important;
+    background: #ee407d!important;
+    border: 1px solid #ee407d!important;
 }
 
 .dark-reset-text {
@@ -3747,6 +3752,7 @@ ul.stats-overview.ticket-summary > .hidden-phone > .value {
 .login-with-social {
     width: 100%;
     text-align: center;
+    padding: 10px 20px 20px 20px;
 }
 
 .login-with-social > ul {
@@ -6231,7 +6237,7 @@ ul.row-option > li.delete:focus {
 
 /*update nav */
 .nav-sm {
-    margin-left: -71px;
+    /*margin-left: -71px;*/
 
 }
 

@@ -1,6 +1,11 @@
 @charset "UTF-8";
 .left_col {
     background: #2A3F54;
+    width: 100%;
+}
+
+.main_container{
+    margin-top: 50px;
 }
 
 .nav-sm .container.body .col-md-3.left_col {
@@ -13,6 +18,7 @@
 .nav-sm .container.body .col-md-3.left_col.menu_fixed {
     position: fixed;
     height: 100%;
+    margin-left: -70px;
 }
 
 .nav-sm .container.body .col-md-3.left_col .mCSB_container,
@@ -26,7 +32,7 @@
 
 .nav-sm .container.body .right_col {
     padding: 10px 20px;
-    margin-left: 70px;
+    /*margin-left: 70px;*/
     z-index: 2;
 }
 
@@ -214,10 +220,10 @@
 }
 
 .nav_menu {
-    float: left;
+    /*float: left;*/
     background: #EDEDED;
     border-bottom: 1px solid #D9DEE4;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     position: relative;
 
 }
@@ -298,6 +304,19 @@ body .container.body .right_col {
 
 .left_col .mCSB_scrollTools {
     width: 6px;
+}
+
+.left_col .slimScrollDiv {
+    position: static!important;
+}
+
+.left_col .slimScrollBar {
+    top: 20px;
+}
+
+.left_col .slimScrollRail {
+    top: 20px!important;
+    background: transparent!important;
 }
 
 .left_col .mCSB_dragger {
@@ -412,7 +431,7 @@ body .container.body .right_col {
 body {
     /*color: #73879C;*/
     color: #666;
-    background: #383b3b;
+    /*background: #383b3b;*/
     /*background: #f7f7f7;*/
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
@@ -420,9 +439,10 @@ body {
     line-height: 1.471;
 }
 
-.main_container .top_nav {
+.container .top_nav {
     display: block;
-    margin-left: 230px;
+    width: 100%;
+    /*margin-left: 230px;*/
 
     /*FIXED-TO-TOP setup*/
     position: fixed;
@@ -650,17 +670,22 @@ a:hover, a:focus {
 .nav.side-menu > li > a:focus {
     background-color: #383b3b;
     text-decoration: none;
-    color: #17bab8;
+    /*color: #17bab8;*/
+    color: #ee407d;
 }
 
 .nav.side-menu > li.active,
-.nav.side-menu > li.active > a,
+/*.nav.side-menu > li.active > a,*/
 .nav.side-menu > li.active > a > i {
-    color: #17bab8 !important;
+    color: #ee407d !important;
+}
+
+.nav.side-menu > li.active > a{
+    border-left: solid 3px #ee407d;
 }
 
 .nav.side-menu > li > a {
-    margin-bottom: 6px;
+    /*margin-bottom: 6px;*/
 }
 
 .nav > li > a:focus {
@@ -678,35 +703,55 @@ a:hover, a:focus {
 }
 
 .nav.child_menu li {
-    padding-left: 36px;
+    padding-left: 25px;
 }
 
+/*.nav-md ul.nav.child_menu li:before {*/
+    /*background: #525252;*/
+    /*bottom: auto;*/
+    /*content: "";*/
+    /*height: 8px;*/
+    /*left: 23px;*/
+    /*margin-top: 15px;*/
+    /*position: absolute;*/
+    /*right: auto;*/
+    /*width: 8px;*/
+    /*z-index: 1;*/
+    /*-webkit-border-radius: 50%;*/
+    /*-moz-border-radius: 50%;*/
+    /*border-radius: 50%;*/
+/*}*/
 .nav-md ul.nav.child_menu li:before {
-    background: #525252;
+    background: #666;
     bottom: auto;
     content: "";
-    height: 8px;
-    left: 23px;
-    margin-top: 15px;
+    height: 15px;
+    /* left: 23px; */
+    margin-top: 10px;
     position: absolute;
     right: auto;
-    width: 8px;
+    width: 1px;
     z-index: 1;
-    -webkit-border-radius: 50%;
+    /* -webkit-border-radius: 50%; */
     -moz-border-radius: 50%;
-    border-radius: 50%;
+    /* border-radius: 50%; */
 }
 
 .nav-md ul.nav.child_menu li.active:before {
-    background: #0675ba;
+    background: #ee407d;
 }
 
+/*.nav-md ul.nav.child_menu li.active>a {*/
+    /*border-left: solid 1px #ee407d;*/
+/*}*/
+
 .nav-md ul.nav.child_menu li.activet:before {
-    background: rgba(114, 184, 208, 0.76);
+    /*background: rgba(114, 184, 208, 0.76);*/
+    background: #ee407d;
 }
 
 .nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid #4a4a4a;
+    /*border-left: 1px solid #4a4a4a;*/
     bottom: 0;
     content: "";
     left: 27px;
@@ -732,7 +777,8 @@ a:hover, a:focus {
 .nav > li > a {
     position: relative;
     display: block;
-    padding: 13px 15px 12px;
+    /*padding: 13px 15px 12px;*/
+    padding: 8px 10px 8px 20px;
     font-family: 'Roboto', sans-serif !important;
     font-weight: 500 !important;
     font-size: 12px;
@@ -740,6 +786,7 @@ a:hover, a:focus {
 
 .nav.side-menu > li.current-page, .nav.side-menu > li.active {
     border-right: 5px solid #1ABB9C;
+    background: #444;
 }
 
 .nav li.current-page {
@@ -852,7 +899,7 @@ a:hover, a:focus {
 .nav.child_menu > li > a {
     color: rgba(255, 255, 255, 0.75);
     font-size: 12px;
-    padding: 9px;
+    padding: 8px 10px;
     font-family: 'Ubuntu-Regular', sans-serif !important;
 }
 
@@ -881,7 +928,9 @@ a:hover, a:focus {
 }
 
 .main_menu_side {
-    padding: 0;
+    padding: 0 0px 0 0;
+    margin-right: 0px;
+    /*width: 110%!important;*/
 }
 
 .bs-docs-sidebar .nav > li > a {
@@ -1922,7 +1971,7 @@ span.right {
 }
 
 .sidebar-footer > a > span {
-    color: #2ba89c;
+    color: #ee407d;
     cursor: pointer;
 }
 
@@ -4112,18 +4161,42 @@ a.hiddenanchor {
 }
 
 .login_wrapper {
-    right: 0px;
-    margin: 0px auto;
-    margin-top: 5%;
-    max-width: 350px;
+    /*right: 0px;*/
+    /*margin: 0px auto;*/
+    /*margin-top: 5%;*/
+    /*max-width: 350px;*/
     position: relative;
+    text-align: center;
+}
+.login_wrapper>img {
+    width: 300px;
+    margin: 20px 0 0 80px;
+}
+
+.login-header {
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 10px 10px 0 0;
+}
+.login-header>h2{
+    margin: 0;
+    color: #ee407d;
+}
+.login-body{
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
 }
 
 .registration_form, .login_form {
-    position: absolute;
-    top: 0px;
-    width: 100%;
+    /*position: absolute;*/
+    /*top: 0px;*/
+    width: 500px;
+    margin: 50px auto;
     overflow: hidden;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
 }
 
 .registration_form {
@@ -4210,7 +4283,7 @@ a.hiddenanchor {
     position: relative;
     text-align: center;
     min-width: 280px;
-    padding: 26px 37px 2px 29px;
+    /*padding: 26px 37px 2px 29px;*/
     background: #fff;
     border-radius: 10px;
 }
@@ -4228,7 +4301,7 @@ a.hiddenanchor {
     font: normal 25px Helvetica, Arial, sans-serif;
     letter-spacing: 1px;
     line-height: 20px;
-    margin: 10px 0 30px;
+    /*margin: 10px 0 30px;*/
     color: #fff;
     text-transform: uppercase;
 }
@@ -4262,7 +4335,7 @@ a.hiddenanchor {
 /*}*/
 
 .login_content form {
-    margin: 20px 0;
+    /*margin: 20px 0;*/
     position: relative;
 }
 
@@ -4298,7 +4371,7 @@ a.hiddenanchor {
 
 .login_content form div a {
     font-size: 12px;
-    margin: 10px 15px 0 0;
+    /*margin: 10px 15px 0 0;*/
 }
 
 .reset_pass {
@@ -5533,3 +5606,66 @@ ul.notifications {
     padding: 0 5px!important;
 }
 /***  UI GRID EXTENDED - END  ***/
+
+
+.half-divider{
+    width: 60%;
+    height: 2px;
+    background: #eee;
+    margin: 10px auto;
+}
+
+/*USER GUIDE UI*/
+.user-guide-wrap{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 900px;
+    height: 500px;
+    font-size: 14px;
+    background: #fff;
+    z-index: 100000000;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+.user-guide-wrap .user-guide-step{
+    height: 100%;
+}
+.user-guide-wrap .user-guide-step .step-body{
+    height: calc(100% - 50px);
+}
+.user-guide-wrap .user-guide-step .step-footer{
+    height: 50px;
+}
+.user-guide-wrap .user-guide-step .step-footer button{
+    margin: 0;
+}
+.user-guide-wrap .user-guide-step .step-footer .btn-left{
+    float: left;
+}
+.user-guide-wrap .user-guide-step .step-footer .btn-right{
+    float: right;
+}
+.user-guide-wrap .user-guide-step .step-body>h1,.user-guide-wrap .user-guide-step .step-body>h2{
+    color: #ee407d;
+}
+.user-guide-wrap .user-guide-step .step-body>h1{
+    margin: 20px 0 20px 0;
+}
+.user-guide-wrap .user-guide-step .step-body>img{
+    width: 200px;
+    margin-bottom: 50px;
+}
+.user-guide-wrap .user-guide-step .step-body>p.secondary{
+    color: #aaa;
+}
+.user-guide-wrap .user-guide-step .step-body>p.compact{
+    width: 70%;
+    margin: 0 auto 0px auto;
+}
+/*. .   .   .   .   .   .   .       .*/

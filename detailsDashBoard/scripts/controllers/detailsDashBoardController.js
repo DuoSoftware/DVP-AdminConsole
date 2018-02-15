@@ -809,7 +809,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                 enableSorting: true,
                 width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.StaffedTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
-            },
+            }
 
         ],
         data: [{test: "loading"}],
