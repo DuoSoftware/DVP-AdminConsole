@@ -89,6 +89,19 @@ mainApp.controller("filecategoryController", function ($scope, $state, ardsBacke
 
     };
 
+    $scope.GetDefaultStorageOption = function () {
+        fileServiceApiAccess.getDefaultFileStorageOption().then(function (resDef) {
+
+            if(resDef)
+            {
+                $scope.defaultStorage=resDef.Result;
+            }
+
+        },function (errDef) {
+
+        });
+    };
+
 
     $scope.cancleEdit = function () {
         $scope.addNew = false;
@@ -96,5 +109,6 @@ mainApp.controller("filecategoryController", function ($scope, $state, ardsBacke
 
 
     $scope.GetFileCategories();
+    $scope.GetDefaultStorageOption();
 
 });

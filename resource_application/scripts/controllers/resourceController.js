@@ -35,7 +35,6 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         }
     };
 
-    $scope.resource = {};
     $scope.resources = [];
     $scope.GetResources = function (rowCount, pageNo) {
         resourceService.GetResources(rowCount, pageNo).then(function (response) {
@@ -51,6 +50,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     };
     $scope.GetResources($scope.pageSize, 1);
 
+    $scope.resource = {};
     $scope.addNew = false;
     $scope.addResource = function () {
         $scope.addNew = !$scope.addNew;

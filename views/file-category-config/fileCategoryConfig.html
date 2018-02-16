@@ -8,19 +8,14 @@
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <h2 class="font-robot font-300 text-uppercase font-15">New File Category</h2>
                 </div>
-
-                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
-                    <div class="input-group">
-                        <input type="text" ng-model="searchCriteria" class="form-control"
-                               placeholder="Search for...">
-                        <span class="input-group-btn">
-                                  <button class="btn btn-default" type="button">Go!</button>
-                                </span>
-                    </div>
+                <div class="pull-right" style="padding-bottom: 10px">
+                    <h2 title="Files will be saved to this default store when Category does not initialized a storage option">Default Storage Option : {{defaultStorage}}</h2>
                 </div>
-                <div class="col-xs-12">
-                    <div class="tile-stats m-top15">
-                        <form class="form-horizontal form-label-left input_mask">
+
+
+                <div class="col-xs-12" style="border: darkgrey; border-width: 1px ; border-style: groove">
+                    <div class="tile-stats m-top15" >
+                        <form class="form-horizontal form-label-left input_mask" >
                             <div class="row">
                                 <!--<label class="control-label col-md-2 col-sm-6 col-xs-12">Server Type</label>-->
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group">
@@ -80,6 +75,17 @@
         <div class="x_panel ">
             <div class="x_content">
                 <ul class="list-unstyled ">
+
+                    <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search pull-right">
+                        <div class="input-group">
+                            <input type="text" ng-model="searchCriteria" class="form-control"
+                                   placeholder="Search for...">
+                            <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                        </div>
+                    </div>
+
                     <li ng-repeat="fCat in fCategoryList | filterBy: ['Category']: searchCriteria">
                         <editfilecategory category="fCat" reloadpage="reloadPage()"></editfilecategory>
                     </li>

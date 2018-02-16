@@ -39,7 +39,18 @@
             }).then(function (resp) {
                 return resp.data;
             })
-        }
+        };
+
+        var getDefaultFileStorageOption = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.fileServiceUrl + 'DefaultStorage'
+
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
 
@@ -48,7 +59,8 @@
         return {
             addNewFileCategory: addNewFileCategory,
             getAllFileCategories: getAllFileCategories,
-            updateFileCategory: updateFileCategory
+            updateFileCategory: updateFileCategory,
+            getDefaultFileStorageOption: getDefaultFileStorageOption
 
         };
     };
