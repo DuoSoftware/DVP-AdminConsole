@@ -29,13 +29,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         profile: []
     };
 
-    $scope.agentCurrentState = 'available';
+    $scope.agentCurrentState = 'inbound';
+
     $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
     var setAgentCurrentState = function (index) {
         $scope.safeApply(function () {
             switch (index) {
                 case 0:
-                    $scope.agentCurrentState = "available";
+                    $scope.agentCurrentState = "inbound";
                     $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
                     break;
                 case 1:
@@ -85,17 +86,42 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     });
 
     var carouselAutoplay = true;
+    $scope.stoppedState=false;
+    $scope.currItem=-1;
+
+
+
     $scope.carouselAutoplay = function (itemNo) {
+
         carouselAutoplay = !carouselAutoplay;
+
         var owlCarousel = $('.owl-carousel');
         owlCarousel.trigger('to.owl.carousel', itemNo);
         owlCarousel.trigger('to.owl.carousel', itemNo);
-        if (carouselAutoplay) {
+
+        if($scope.currItem ==itemNo)
+        {
+            $scope.stoppedState=false;
             owlCarousel.trigger('play.owl.autoplay', 1000);
-        } else {
+        }
+        else
+        {
+            $scope.stoppedState=true;
             owlCarousel.trigger('stop.owl.autoplay');
         }
+
         setAgentCurrentState(itemNo);
+        $scope.currItem =itemNo;
+
+
+        /*if (carouselAutoplay) {
+            owlCarousel.trigger('play.owl.autoplay', 1000);
+
+        } else {
+            owlCarousel.trigger('stop.owl.autoplay');
+
+        }*/
+
     };
 
 

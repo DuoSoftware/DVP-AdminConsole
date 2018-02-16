@@ -52,6 +52,21 @@
                                         </tags-input>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group  ">
+                                        <label >User Groups</label>
+                                        <tags-input ng-model="newBUnit.unitGroups" display-property="name"
+                                                    add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
+                                                    placeholder="Add a Group" on-tag-added="onChipAddBGroup($tag)"
+                                                    on-tag-removed="onChipDeleteBGroup($tag)" >
+
+                                            <auto-complete source="querySearchGroups($query)"
+                                                           load-on-empty="true"
+                                                           load-on-focus="true"
+                                                           min-length="1"></auto-complete>
+                                        </tags-input>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback item pull-right">

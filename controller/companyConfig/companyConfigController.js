@@ -1079,8 +1079,19 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 if(resSave.IsSuccess)
                 {
                     $scope.showAlert('Business Unit', 'New Business Unit added successfully', 'success');
-                    $scope.getBusinessUnits();
-                    $scope.newBUnit = {};
+
+                    if($scope.groupSofNewBUnit.length>0)
+                    {
+                        $scope.setBusinessUnitUserGroups ($scope.newBUnit.unitName);
+
+                    }
+                    else
+                    {
+                        $scope.getBusinessUnits();
+                        $scope.newBUnit = {};
+                    }
+
+
                 }
                 else
                 {
@@ -1209,6 +1220,25 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.isDefault=false;
     $scope.btnTitle="SAVE";
     $scope.RequireFields=[];
+
+
+
+    $scope.querySearchGroups = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.nonAlocatedGroups) {
+                return $scope.nonAlocatedGroups;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            var results = query ? $scope.nonAlocatedGroups.filter(createFilterForGroups(query)) : [];
+            return results;
+        }
+
+    };
 
     $scope.getExternalUserFields = function ()
     {
@@ -1438,7 +1468,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
 
 
-       if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(filed)==-1)
+        if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(filed)==-1)
 
         {
             $scope.accessFileds.forEach(function (item) {
@@ -1554,6 +1584,63 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.showDefaultAceessFields = function () {
         $scope.isConfigured =true;
+    }
+
+    $scope.groupSofNewBUnit=[];
+
+    $scope.onChipAddBGroup = function (group) {
+
+        $scope.groupSofNewBUnit.push(group._id);
+        $scope.updateGroupsOfBUnit(group._id,"",group,true);
+        /*scope.updateGroupBUnit(scope.unit.unitName,group,true);*/
+
+    };
+    $scope.onChipDeleteBGroup = function (group) {
+
+        /* var index = $scope.attributeGroups.indexOf(chip.GroupId);
+         console.log("index ", index);
+         if (index > -1) {
+         $scope.attributeGroups.splice(index, 1);
+         console.log("rem attGroup " + $scope.attributeGroups);
+         }*/
+        $scope.groupSofNewBUnit = $scope.groupSofNewBUnit.filter(function (item) {
+
+            return item !=group;
+        });
+
+        $scope.updateGroupsOfBUnit(group._id,"",group,false);
+
+
+    };
+
+
+
+    $scope.setBusinessUnitUserGroups = function (bUnit) {
+
+        var obj =
+            {
+                groups:$scope.groupSofNewBUnit
+            }
+
+
+        userProfileApiAccess.addGroupsToBUnit(bUnit,obj).then(function (resUpdate) {
+            if(resUpdate.IsSuccess)
+            {
+                $scope.showAlert("Business Unit","Update Groups of Business Unit successfully","success");
+                $scope.getBusinessUnits();
+                $scope.newBUnit = {};
+
+            }
+            else
+            {
+                $scope.showAlert("Business Unit","Error in updating Groups of Business Unit ","error");
+            }
+        },function (errUpdate) {
+            $scope.showAlert("Business Unit","Error in updating Groups of  Business Unit ","error");
+        });
+
+
+
     }
 
 });

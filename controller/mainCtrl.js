@@ -380,6 +380,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     //check my navigation
     //is can access
     loginService.getNavigationAccess(function (result) {
+
+    	// Kasun_Wijeratne_14_JAN_2018
+		if(Object.keys(result).length
+			=== 3){
+			$rootScope.freshUser = true;
+		}
+    	// Kasun_Wijeratne_14_JAN_2018 - END
+
         $scope.accessNavigation = result;
         //if($scope.accessNavigation.BASIC INFO)
         if ($scope.accessNavigation.TICKET) {
@@ -706,6 +714,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goFileCatRestrict: function () {
             $state.go('console.fileCatRestrict');
+
+        },
+        goFileCatConfig: function () {
+            $state.go('console.fileCatConfig');
 
         },
         goAgentBreakReport: function () {
@@ -1571,7 +1583,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             }
             oldItem = $li;
             //slide menu height set daynamically
-            $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
+            $scope.windowMenuHeight = jsUpdateSize() - 100 + "px";
             document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;
         });
 
@@ -1616,6 +1628,23 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
     // /Sidebar
+
+
+	// Kasun_Wijeratne_14_FEB_2018
+	/** ======================================
+	 * GUIDE FOR FRESH USERS
+	 * =======================================
+	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
+	$scope.freshUserConfigStep = 0;
+	$scope.rotateFreshUserGuide = function (direction) {
+		if(direction == 'forward'){
+			$scope.freshUserConfigStep++;
+		}else if(direction == 'backward' && $scope.freshUserConfigStep != 0){
+			$scope.freshUserConfigStep--;
+		}
+	};
+	/**.	.	.	.	.	.	.	.	.	*/
+	// Kasun_Wijeratne_14_FEB_2018 - ENDS
 
 
 });

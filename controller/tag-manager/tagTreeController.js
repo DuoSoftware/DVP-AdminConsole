@@ -715,6 +715,26 @@ mainApp.controller("NewTagController", function ($scope, $rootScope, $uibModalIn
         $uibModalInstance.close();
     };
 
+    /*$("#tagname").on("keypress", function(evt) {
+        var keycode = evt.charCode || evt.keyCode;
+        if (keycode == 46) {
+            return false;
+        }
+    });*/
+
+    /*document.querySelector("tagname").addEventListener("keypress", function (evt) {
+        if (evt.which < 48 || evt.which > 57)
+        {
+            evt.preventDefault();
+        }
+    });*/
+
+
+
+
+
+
+
     $scope.addNewTag = function () {
         var tagData = {};
 

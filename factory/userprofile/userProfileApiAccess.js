@@ -323,6 +323,15 @@
                 return resp.data;
             })
         };
+        var addGroupsToBUnit = function (unitname,groupIds) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit/'+unitname+'/Groups',
+                data: groupIds
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
 
@@ -358,7 +367,8 @@
             updateAccessFields:updateAccessFields,
             addAccessFields:addAccessFields,
             getBusinessUnitsWithGroups:getBusinessUnitsWithGroups,
-            getExternalUserFields:getExternalUserFields
+            getExternalUserFields:getExternalUserFields,
+            addGroupsToBUnit:addGroupsToBUnit
         };
     };
 

@@ -102,6 +102,14 @@
                                     <span class="fa fa-meh-o form-control-feedback left"
                                           aria-hidden="true"></span>
                                 </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <label>
+                                        <small>Map To  Resource</small>
+                                    </label>
+                                    <checkbox class="btn-success" ng-model="newUser.mapToResource"
+                                              ng-init="newUser.mapToResource=false"></checkbox>
+
+                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <button class="btn btn-success" ng-click="addNewUser()"
                                             ng-disabled="!(newUser.password && newUser.name &&
