@@ -29,14 +29,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         profile: []
     };
 
-    $scope.agentCurrentState = 'available';
+    $scope.agentCurrentState = 'inbound';
 
     $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
     var setAgentCurrentState = function (index) {
         $scope.safeApply(function () {
             switch (index) {
                 case 0:
-                    $scope.agentCurrentState = "available";
+                    $scope.agentCurrentState = "inbound";
                     $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
                     break;
                 case 1:

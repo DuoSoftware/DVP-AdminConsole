@@ -708,6 +708,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.fileCatRestrict');
 
         },
+        goFileCatConfig: function () {
+            $state.go('console.fileCatConfig');
+
+        },
         goAgentBreakReport: function () {
             $state.go('console.agentBreakReport');
 
