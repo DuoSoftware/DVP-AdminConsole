@@ -18,6 +18,15 @@ mainApp.controller("filecategoryController", function ($scope, $state, ardsBacke
             styling: 'bootstrap3'
         });
     };
+    $scope.regex = /^[^`~!@#$%\^&*()_+={}|[\]\\:';"<>?,./1-9]*$/;
+
+
+    $(document).on('change','textarea[id$=textCat]', function () {
+        if (this.value.match(/[^a-zA-Z0-9 ]/g)) {
+            this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');
+        }
+    });
+
 
 
     function createFilterFor(query) {
@@ -111,4 +120,13 @@ mainApp.controller("filecategoryController", function ($scope, $state, ardsBacke
     $scope.GetFileCategories();
     $scope.GetDefaultStorageOption();
 
+});
+
+mainApp.directive('myEnterTag', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (e) {
+            var k = e.keyCode;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8   || (k >= 48 && k <= 57));
+        });
+    };
 });

@@ -402,6 +402,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 if (issuccess) {
                     veeryNotification.disconnectFromServer();
                     $scope.isLogged = false;
+                    $rootScope.freshUser = false;
                     $state.go('login');
                     SE.disconnect();
 
@@ -812,9 +813,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     // Kasun_Wijeratne
 	$scope.isNavHidden = false;
-	$scope.navToggleCheck = function () {
-		$scope.isNavHidden = !$scope.isNavHidden;
-	}
+	// $scope.navToggleCheck = function () {
+	// 	$scope.isNavHidden = !$scope.isNavHidden;
+	// }
     // Kasun_Wijeratne
 
     // $scope.loadBusinessUnit();
@@ -1526,7 +1527,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     // Sidebar
     var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
         $BODY = $('body'),
-        $MENU_TOGGLE = $('#menu_toggle'),
+        $MENU_TOGGLE = $('.menu_toggle'),
         $SIDEBAR_MENU = $('#sidebar-menu'),
         $SIDEBAR_FOOTER = $('.sidebar-footer'),
         $LEFT_COL = $('.left_col'),
@@ -1592,10 +1593,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             if ($BODY.hasClass('nav-md')) {
                 $SIDEBAR_MENU.find('li.active ul').hide();
                 $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+				$('#menu_toggle2').hide();
+				$('#menu_toggle').show();
             } else {
                 $SIDEBAR_MENU.find('li.active-sm ul').show();
                 $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
-            }
+				$('#menu_toggle').hide();
+				$('#menu_toggle2').show();
+			}
 
             $BODY.toggleClass('nav-md nav-sm');
 
@@ -1636,12 +1641,16 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 	 * =======================================
 	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
 	$scope.freshUserConfigStep = 0;
+	$scope.freshUserConfigMin = false;
 	$scope.rotateFreshUserGuide = function (direction) {
 		if(direction == 'forward'){
 			$scope.freshUserConfigStep++;
 		}else if(direction == 'backward' && $scope.freshUserConfigStep != 0){
 			$scope.freshUserConfigStep--;
 		}
+	};
+	$scope.minMaxFreshUserConfig = function () {
+		$scope.freshUserConfigMin = !$scope.freshUserConfigMin;
 	};
 	/**.	.	.	.	.	.	.	.	.	*/
 	// Kasun_Wijeratne_14_FEB_2018 - ENDS
