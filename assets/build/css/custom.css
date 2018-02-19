@@ -221,8 +221,9 @@
 
 .nav_menu {
     /*float: left;*/
-    background: #EDEDED;
-    border-bottom: 1px solid #D9DEE4;
+    background: #fff;
+    /*border-bottom: 1px solid #D9DEE4;*/
+    border-bottom: none;
     /*margin-bottom: 10px;*/
     position: relative;
 
@@ -248,11 +249,12 @@
 }
 
 body .container.body .right_col {
-    background: #F7F7F7;
+    /*background: #F7F7F7;*/
+    background: #eee;
 }
 
 .nav-md .container.body .right_col {
-    padding: 10px 20px 0;
+    padding: 20px;
     margin-left: 230px;
 }
 
@@ -621,6 +623,9 @@ a:hover, a:focus {
     float: right;
     position: static;
 }
+.top_nav .navbar-right li a {
+    padding: 9px 20px;
+}
 
 @media (min-width: 480px) {
     .top_nav .navbar-right li {
@@ -879,11 +884,21 @@ a:hover, a:focus {
     margin-bottom: 0 !important;
 }
 
-.toggle {
+.toggle.toggle_ {
     float: left;
     margin: 0;
     padding-top: 16px;
-    width: 70px;
+    width: 50px;
+    position: static;
+    display: none;
+}
+.toggle{
+    float: none;
+    padding-top: 13px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
 }
 
 .toggle a {
@@ -1124,7 +1139,7 @@ h2 {
 .x_panel {
     position: relative;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding: 10px 17px;
     display: inline-block;
     background: #fff;
@@ -1138,7 +1153,17 @@ h2 {
     -webkit-transition: all .2s ease;
     -ms-transition: all .2s ease;
     transition: all .2s ease;
-    border-radius: 0px;
+    /*border-radius: 0px;*/
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.x_panel .x_panel{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .x_panel-2 {
@@ -2060,11 +2085,11 @@ a.user-profile {
 }
 
 .user-profile img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    /* border-radius: 50%; */
     margin-right: 10px;
-    margin-top: -8px;
+    /* margin-top: -8px; */
 }
 
 ul.top_profiles {
@@ -2760,13 +2785,15 @@ a.btn-success, a.btn-primary, a.btn-warning, a.btn-danger {
 }
 
 .btn-success {
-    background: #26B99A;
-    border: 1px solid #40bcb0;
+    background: #6a3390;
+    border: 1px solid #6a3390;
 }
 
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
-    background: #40bcb0;
-    border: 1px solid #40bcb0 !important;
+    /*background: #40bcb0;*/
+    background: #6a3390!important;
+    /*border: 1px solid #40bcb0 !important;*/
+    border: none;
 }
 
 .btn-dark {
@@ -3588,13 +3615,16 @@ ul.project_files li a i {
 /* *********  pricing  **************************** */
 .pricing {
     background: #fff;
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .pricing .title {
     background: #1ABB9C;
-    height: 110px;
+    /*height: 110px;*/
     color: #fff;
-    padding: 15px 0 0;
+    /*padding: 15px 0 0;*/
     text-align: center;
 }
 
@@ -5633,6 +5663,42 @@ ul.notifications {
     box-shadow: 0 3px 60px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
+.user-guide-wrap.dialog-min{
+    position: fixed;
+    top: auto;
+    left: auto;
+    margin: 0;
+    height: 50px;
+    width: 300px;
+    /*padding: 15px;*/
+}
+
+
+.user-guide-wrap .dialog-toolbar{
+    height: 50px;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    margin-left: -20px;
+    padding: 10px;
+}
+.user-guide-wrap .dialog-toolbar .iconed-btn{
+    font-size: 20px;
+    display: inline-block;
+    padding: 5px 7px;
+    border-radius: 3px;
+}
+.user-guide-wrap .dialog-toolbar .iconed-btn:hover{
+    background: #eee;
+    cursor: pointer;
+}
+.user-guide-wrap .dialog-toolbar .iconed-btn.right{
+    float: right;
+}
+.user-guide-wrap .dialog-body{
+    height: 100%;
+}
+
 .user-guide-wrap .user-guide-step{
     height: 100%;
 }
