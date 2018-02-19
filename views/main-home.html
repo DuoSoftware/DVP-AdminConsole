@@ -3,10 +3,11 @@
         <div class="top_nav">
             <div class="nav_menu">
                 <nav class="" role="navigation">
-                    <div class="nav toggle ">
-                        <a id="menu_toggle" nav-toggle ng-click="navToggleCheck()"><i class="fa fa-bars font-gry-150"></i></a>
+                    <div class="nav toggle toggle_" id="menu_toggle">
+                        <a class="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
                     </div>
-                    <img src="images/logo_main.svg" width="120px" height="50px">
+
+                    <img src="images/logo_main.svg" width="120px" height="50px" style="margin-left: 10px">
 
                     <ul class="nav navbar-nav navbar-right">
 
@@ -47,7 +48,8 @@
                             <a href="javascript:void(0);" class="dropdown-toggle info-number" data-toggle="dropdown"
                                ng-click="checkAndRegister()"
                                aria-expanded="false">
-                                <i class="veery-font-1-alarm "></i>
+                                <!--<i class="veery-font-1-alarm "></i>-->
+                                <i class="fa fa-bell"></i>
                                 <span class="badge bg-green">{{unredNotifications}}</span>
                             </a>
 
@@ -158,6 +160,10 @@
                     railColor: '#19191b',
                     railBorderRadius: 5}"
                          class="main_menu_side hidden-print main_menu">
+
+                        <div class="nav toggle" id="menu_toggle2">
+                            <a class="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
+                        </div>
 
                         <!--<div ng-if="selectedCategoryMenu">-->
                         <!--<div class="menu_section">-->
@@ -1157,34 +1163,38 @@
     <!--##########################################
         GUIDE FOR FRESH USERS
         #####################-->
-    <div class="user-guide-wrap" ng-if="freshUser">
+    <div class="user-guide-wrap" ng-if="freshUser == true" ng-class="{'dialog-min':freshUserConfigMin}">
         <div class="dialog-toolbar">
-
+            <span class="iconed-btn right glyphicon glyphicon-{{freshUserConfigMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
         </div>
-        <div class="user-guide-step" ng-if="freshUserConfigStep == 0">
-            <div class="step-body">
-                <h1>Welcome to FaceTone!</h1>
+        <div ng-if="freshUserConfigMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
+        <div class="dialog-body" ng-if="!freshUserConfigMin">
+            <div class="user-guide-step" ng-if="freshUserConfigStep == 0">
+                <div class="step-body">
+                    <h1>Welcome to FaceTone!</h1>
 
-                <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
+                    <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
 
-                <p class="compact">Hi {{displayname}}. Before start working with FaceTone, you have to do some configurations. Please go through the steps and do what is needed.</p>
-                <div class="text-center">
-                    <button type="button" class="btn btn-default btn-primary" ng-click="rotateFreshUserGuide('forward')">Start</button>
+                    <p class="compact">Hi {{displayname}}. Before start working with FaceTone, we have to do some configurations. Let's get started!</p>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-success" ng-click="rotateFreshUserGuide('forward')">Start</button>
+                    </div>
+                    <p class="secondary">You can always get this reopened by clicking <span class="glyphicon glyphicon-question-sign" style="color: #ee407d"></span> icon on bottom left corner.</p>
                 </div>
-                <p class="secondary">You can always get this reopened by clicking <span class="glyphicon glyphicon-question-sign" style="color: #ee407d"></span> icon on bottom left corner.</p>
             </div>
-        </div>
-        <div class="user-guide-step" ng-if="freshUserConfigStep == 1">
-            <div class="step-body">
-                <h2>Create a Wallet</h2>
+            <div class="user-guide-step" ng-if="freshUserConfigStep == 1">
+                <div class="step-body">
+                    <h2>Create a Wallet</h2>
 
-                <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
-
-                <p class="compact">Hi {{displayname}}. Before start working with FaceTone, you have to do some configurations. Please go through the steps and do what is needed.</p>
-            </div>
-            <div class="step-footer">
-                <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
-                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')">Next ></button>
+                    <div class="step-content-block image-block">
+                        <div class="step-content-image"></div>
+                        <div class="step-content-image"></div>
+                    </div>
+                </div>
+                <div class="step-footer">
+                    <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
+                    <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')">Next ></button>
+                </div>
             </div>
         </div>
     </div>
