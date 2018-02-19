@@ -9,9 +9,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     // check adminconsole is focus or not.
     angular.element($window).bind('focus', function () {
-        console.log('enter......................');
+
     }).bind('blur', function () {
-        console.log('out................');
+
     });
 
 
