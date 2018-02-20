@@ -9,9 +9,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     // check adminconsole is focus or not.
     angular.element($window).bind('focus', function () {
-        console.log('enter......................');
+
     }).bind('blur', function () {
-        console.log('out................');
+
     });
 
 
@@ -380,6 +380,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     //check my navigation
     //is can access
     loginService.getNavigationAccess(function (result) {
+
+    	// Kasun_Wijeratne_14_JAN_2018
+		if(Object.keys(result).length
+			=== 3){
+			$rootScope.freshUser = true;
+		}
+    	// Kasun_Wijeratne_14_JAN_2018 - END
+
         $scope.accessNavigation = result;
         //if($scope.accessNavigation.BASIC INFO)
         if ($scope.accessNavigation.TICKET) {
@@ -394,6 +402,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 if (issuccess) {
                     veeryNotification.disconnectFromServer();
                     $scope.isLogged = false;
+                    $rootScope.freshUser = false;
                     $state.go('login');
                     SE.disconnect();
 
@@ -708,6 +717,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.fileCatRestrict');
 
         },
+        goFileCatConfig: function () {
+            $state.go('console.fileCatConfig');
+
+        },
         goAgentBreakReport: function () {
             $state.go('console.agentBreakReport');
 
@@ -800,9 +813,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     // Kasun_Wijeratne
 	$scope.isNavHidden = false;
-	$scope.navToggleCheck = function () {
-		$scope.isNavHidden = !$scope.isNavHidden;
-	}
+	// $scope.navToggleCheck = function () {
+	// 	$scope.isNavHidden = !$scope.isNavHidden;
+	// }
     // Kasun_Wijeratne
 
     // $scope.loadBusinessUnit();
@@ -1514,7 +1527,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     // Sidebar
     var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
         $BODY = $('body'),
-        $MENU_TOGGLE = $('#menu_toggle'),
+        $MENU_TOGGLE = $('.menu_toggle'),
         $SIDEBAR_MENU = $('#sidebar-menu'),
         $SIDEBAR_FOOTER = $('.sidebar-footer'),
         $LEFT_COL = $('.left_col'),
@@ -1571,7 +1584,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             }
             oldItem = $li;
             //slide menu height set daynamically
-            $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
+            $scope.windowMenuHeight = jsUpdateSize() - 100 + "px";
             document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;
         });
 
@@ -1580,10 +1593,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             if ($BODY.hasClass('nav-md')) {
                 $SIDEBAR_MENU.find('li.active ul').hide();
                 $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+				$('#menu_toggle2').hide();
+				$('#menu_toggle').show();
             } else {
                 $SIDEBAR_MENU.find('li.active-sm ul').show();
                 $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
-            }
+				$('#menu_toggle').hide();
+				$('#menu_toggle2').show();
+			}
 
             $BODY.toggleClass('nav-md nav-sm');
 
@@ -1616,6 +1633,27 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
     // /Sidebar
+
+
+	// Kasun_Wijeratne_14_FEB_2018
+	/** ======================================
+	 * GUIDE FOR FRESH USERS
+	 * =======================================
+	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
+	$scope.freshUserConfigStep = 0;
+	$scope.freshUserConfigMin = false;
+	$scope.rotateFreshUserGuide = function (direction) {
+		if(direction == 'forward'){
+			$scope.freshUserConfigStep++;
+		}else if(direction == 'backward' && $scope.freshUserConfigStep != 0){
+			$scope.freshUserConfigStep--;
+		}
+	};
+	$scope.minMaxFreshUserConfig = function () {
+		$scope.freshUserConfigMin = !$scope.freshUserConfigMin;
+	};
+	/**.	.	.	.	.	.	.	.	.	*/
+	// Kasun_Wijeratne_14_FEB_2018 - ENDS
 
 
 });
