@@ -1,6 +1,6 @@
 <div class="row" ng-controller="resourceProductivityController">
     <div class="col-md-12 col-sm-6 col-xs-12" >
-        <div class="x_panel">
+        <div class="x_panel main-title">
             <div class="x_title">
                 <h2>Agent Productivity</h2>
                 <ul class="nav navbar-right panel_toolbox">
@@ -31,13 +31,13 @@
                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                 <button ng-disabled="csatForm.$invalid" type="button"
                                                         ng-if="!isLoading"
-                                                        class="btn btn-green btn-block "
+                                                        class="btn btn-success btn-block "
                                                         ng-click="getProductivity();">
                                                     Load
                                                 </button>
                                                 <button disabled type="button"
                                                         ng-if="isLoading"
-                                                        class="btn btn-green btn-block"
+                                                        class="btn btn-success btn-block"
                                                         >
                                                     Please Wait...
                                                 </button>
