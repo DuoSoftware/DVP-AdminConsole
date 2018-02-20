@@ -7,6 +7,8 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
         restrict: "EAA",
         scope: {
             template: "=",
+            templateType: "=",
+            templateTypes: "=",
             'updateTemplate': '&',
             'deleteTemplate': '&'
         },
@@ -14,6 +16,15 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
         templateUrl: 'chatbot/views/partials/editTemplate.html',
 
         link: function (scope) {
+
+            
+
+            scope.templateType = scope.templateType;
+
+            scope.getSelectedTemplateType = function(){
+                angular.for
+            }
+            scope.selectedTemplateType = scope.getSelectedTemplateType(scope.templateType);
 
             scope.editTemplate = function () {
                 scope.editMode = !scope.editMode;
@@ -36,7 +47,7 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
             }
 
             scope.copyCardID = function (cardID) {
-                
+
                 var id = cardID;
                 window.getSelection().empty();
                 var copyField = document.getElementById(id);

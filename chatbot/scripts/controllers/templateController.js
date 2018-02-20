@@ -1,7 +1,36 @@
-mainApp.controller('templateController', function ($scope, $q, $anchorScroll, chatbotService, templateService, $state) {
+mainApp.controller('templateController', function ($scope, $q, $anchorScroll, chatbotService, templateService, $state, $stateParams) {
     $anchorScroll();
 
     console.log("Template controller is up!");
+
+    $scope.getTemplateTypes = function (type) {
+        var returnArray = [];
+        switch (type) {
+            case "card": {
+                returnArray = [
+                    { "Key": "Generic", "Value": "generic" },
+                    { "Key": "List", "Value": "list" }
+                ]; break;
+            }
+            case "attachment": {
+                returnArray = [
+                    { "Key": "Image", "Value": "image" },
+                    { "Key": "Audio", "Value": "audio" },
+                    { "Key": "Video", "Value": "video" },
+                    { "Key": "File", "Value": "file" }
+                ]; break;
+            }
+        }
+        return returnArray;
+    }
+
+    $scope.TemplateTypes = [];
+    if ($stateParams.templateType == "cards") {
+        $scope.TemplateCategory = "Card";
+    } else if ($stateParams.templateType == "attachments") {
+        $scope.TemplateCategory = "Attachment";
+    }
+    $scope.TemplateTypes = $scope.getTemplateTypes($scope.TemplateCategory.toLowerCase());
 
     $scope.navigateToUI = function (location) {
         $state.go(location)
@@ -25,17 +54,17 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
         var template = $scope.newTemplateSchema();
         template.name = tempDetails.name;
         template.description = tempDetails.description;
-        template.type = tempDetails.type;
+        template.type = tempDetails.type.Value;
         //$scope.templateList.push(template);
-        $scope.SaveTemplate(template);
+        $scope.SaveTemplate(template, $scope.TemplateCategory);
     }
 
-    $scope.SaveTemplate = function (template) {
-        templateService.CreateTemplate(template).then(function (response) {
+    $scope.SaveTemplate = function (template, category) {
+        templateService.CreateTemplate(template, category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
                 $scope.showAlert("Template", 'success', "New template created successfully.");
-                $scope.GetAllTemplates();
+                $scope.GetAllTemplates($scope.TemplateCategory);
             } else {
                 $scope.showAlert("Template", 'error', "Failed to create new template.");
             }
@@ -44,12 +73,13 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
         });
     }
 
-    $scope.updateTemplate = function (template) {
-        templateService.UpdateTemplate(template).then(function (response) {
+    $scope.updateTemplate = function (template, category) {
+        debugger
+        templateService.UpdateTemplate(template, category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
                 $scope.showAlert("Template", 'success', "Template updated successfully.");
-                $scope.GetAllTemplates();
+                $scope.GetAllTemplates($scope.TemplateCategory);
             } else {
                 $scope.showAlert("Template", 'error', "Failed to update template.");
             }
@@ -58,13 +88,12 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
         });
     };
 
-    $scope.deleteTemplate = function (template) {
-        debugger
-        templateService.DeleteTemplate(template).then(function (response) {
+    $scope.deleteTemplate = function (template, category) {
+        templateService.DeleteTemplate(template, category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
                 $scope.showAlert("Template", 'success', "Template deleted successfully.");
-                $scope.GetAllTemplates();
+                $scope.GetAllTemplates($scope.TemplateCategory);
             } else {
                 $scope.showAlert("Template", 'error', "Failed to delete template.");
             }
@@ -73,9 +102,9 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
         });
     };
 
-    $scope.GetAllTemplates = function () {
+    $scope.GetAllTemplates = function (category) {
         $scope.templateList = [];
-        templateService.GetAllTemplates().then(function (response) {
+        templateService.GetAllTemplates(category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
                 angular.forEach(response.data.Result, function (item) {
@@ -88,5 +117,5 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
             $scope.showAlert("Template", 'error', "Failed to create new template.");
         });
     }
-    $scope.GetAllTemplates();
+    $scope.GetAllTemplates($scope.TemplateCategory);
 });

@@ -1018,7 +1018,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     navigation: "ZOHO_CRM"
                 }
             }).state('console.bottemplates', {
-                url: "/templates",
+                url: "/templates/:templateType",
                 templateUrl: "chatbot/views/chatbotTemlplates.html",
                 controller: "templateController",
                 data: {

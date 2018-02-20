@@ -5,10 +5,10 @@
 'use strict';
 mainApp.factory("templateService", function ($http, $log, $filter, authService, baseUrls) {
 
-    var createTemplate = function (template) {
+    var createTemplate = function (template, category) {
         return $http({
             method: 'POST',
-            url: baseUrls.templateAPIUrl + "Card/",
+            url: baseUrls.templateAPIUrl + category + "/",
             data: template
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -19,10 +19,10 @@ mainApp.factory("templateService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var updateTemplate = function (template) {
+    var updateTemplate = function (template, category) {
         return $http({
             method: 'POST',
-            url: baseUrls.templateAPIUrl + "Card/" + template._id,
+            url: baseUrls.templateAPIUrl + category + "/" + template._id,
             data: template
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -33,10 +33,10 @@ mainApp.factory("templateService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var deleteTemplate = function (template) {
+    var deleteTemplate = function (template, category) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.templateAPIUrl + "Card/" + template._id,
+            url: baseUrls.templateAPIUrl + category + "/" + template._id,
             data: template
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -47,10 +47,10 @@ mainApp.factory("templateService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var getAllTemplates = function () {
+    var getAllTemplates = function (category) {
         return $http({
             method: 'GET',
-            url: baseUrls.templateAPIUrl + "Cards/"
+            url: baseUrls.templateAPIUrl + category + "s/"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response;

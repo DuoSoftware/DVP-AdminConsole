@@ -30,7 +30,7 @@
             <div class="application-edit">
                 <div class="col-sm-12">
                     <div class="col-sm-6">
-                        <h2 class="font-robot font-300 text-uppercase font-15">Edit Card: {{template.name}}</h2>
+                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{templateType}}: {{template.name}}</h2>
                     </div>
                     <div class="col-sm-6">
                         <div class="edit-close pull-right">
@@ -43,8 +43,8 @@
                         <form class="form-horizontal form-label-left input_mask">
 
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
-                                <label>Card Name</label>
-                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="Card Name">
+                                <label>{{templateType}} Name</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="{{templateType}} Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
@@ -55,26 +55,24 @@
                             </div>
 
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
-                                <label>Card Type</label>
-                                <select class="form-control has-feedback-left" ng-model="template.type">
-                                    <option>generic</option>
-                                    <option>list</option>
+                                <label>{{templateType}} Type</label>
+                                <select class="form-control has-feedback-left" ng-model="template.type" ng-options="x.Key for x in templateTypes">
                                 </select>
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
-                                <label>Cards</label>
+                                <label>{{templateType}}s</label>
                                 <div class="row">
                                     <div class="card" ng-repeat="item in template.items">
-                                        <cardtemplate card="item"></cardtemplate>
+                                        <cardtemplate card="item" template-type="templateType"></cardtemplate>
                                         <a class="font-robot font-300 " ng-click="removeCard($index)">
-                                            <i class="fa fa-times"></i> Remove Card
+                                            <i class="fa fa-times"></i> Remove {{templateType}}
                                         </a>
                                     </div>
                                     <div class="card">
                                         <a class="font-robot font-300 " ng-click="addNewCard(template)">
-                                            <i class="fa fa-plus"></i> New Card
+                                            <i class="fa fa-plus"></i> New {{templateType}}
                                         </a>
                                     </div>
                                 </div>
@@ -118,7 +116,7 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Card Type</label>
+                <label class="form-control-static">{{templateType}} Type</label>
                 <p>{{template.type}} </p>
             </div>
 
@@ -128,7 +126,7 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Card ID</label>
+                <label class="form-control-static">{{templateType}} ID</label>
                 <p>
                     <input type="text" ng-readonly="true" ng-model="template._id" id="{{template._id}}">
                     <input type="button" value="Copy" ng-click="copyCardID(template._id)">
