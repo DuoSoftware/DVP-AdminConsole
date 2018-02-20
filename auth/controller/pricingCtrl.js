@@ -52,7 +52,15 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
                         loginService.clearCookie();
                         //$state.go('login');
                         $scope.showMessage("Package Buy", "Package upgrade was done successfully.", 'Success');
-                        return;
+
+                        /** Kasun_Wijeratne_19_FEB_2018
+						 * --------------------------------*/
+                        $rootScope.freshUserConfigMin = false;
+						$rootScope.guidePhase1Closure = true;
+						/** --------------------------------
+						 * Kasun_Wijeratne_19_FEB_2018 */
+
+						return;
                     }
                 });
             }

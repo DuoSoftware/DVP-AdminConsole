@@ -898,7 +898,7 @@ a:hover, a:focus {
     position: absolute;
     right: 0;
     top: 0;
-    width: 40px;
+    width: 50px;
 }
 
 .toggle a {
@@ -1160,10 +1160,21 @@ h2 {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
+.x_panel h2{
+    /*margin-top: 0;
+    margin-bottom: 10px;
+    height: 30px;*/
+}
+
 .x_panel .x_panel{
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+}
+
+.x_panel.bordered-left{
+    border-left-width: 3px;
+    border-radius: 0 5px 5px 0;
 }
 
 .x_panel-2 {
@@ -1194,7 +1205,8 @@ h2 {
 
 .x_title {
     border-bottom: 2px solid #F7F7F7;
-    padding: 15px 5px 6px;
+    /*padding: 15px 5px 6px;*/
+    padding: 5px 0px 10px;
     margin-bottom: 10px;
 }
 
@@ -1804,6 +1816,7 @@ ul.msg_list li a .message {
 
 .dropdown-menu > li > a {
     color: #5A738E;
+    /*color: #fff;*/
 }
 
 .navbar-nav .open .dropdown-menu {
@@ -2087,9 +2100,9 @@ a.user-profile {
 .user-profile img {
     width: 35px;
     height: 35px;
-    /* border-radius: 50%; */
+     border-radius: 50%;
     margin-right: 10px;
-    /* margin-top: -8px; */
+     margin-top: -4px;
 }
 
 ul.top_profiles {
@@ -2256,8 +2269,9 @@ h4.graph_title {
 }
 
 .tile-stats .count {
-    font-size: 38px;
+    font-size: 20px!important;
     font-weight: bold;
+    padding: 10px!important;
     line-height: 1.65857;
 }
 
@@ -5647,14 +5661,14 @@ ul.notifications {
 
 /*USER GUIDE UI*/
 .user-guide-wrap{
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
     width: 900px;
-    height: 500px;
+    height: 550px;
     font-size: 14px;
     background: #fff;
     z-index: 100000000;
@@ -5700,10 +5714,12 @@ ul.notifications {
 }
 
 .user-guide-wrap .user-guide-step{
-    height: 100%;
+    height: calc(100% - 50px);
 }
 .user-guide-wrap .user-guide-step .step-body{
-    height: calc(100% - 50px);
+    /*height: calc(100% - 50px);*/
+    height: calc(100% - 40px);
+    overflow-y: scroll;
 }
 .user-guide-wrap .user-guide-step .step-footer{
     height: 50px;
@@ -5717,10 +5733,10 @@ ul.notifications {
 .user-guide-wrap .user-guide-step .step-footer .btn-right{
     float: right;
 }
-.user-guide-wrap .user-guide-step .step-body>h1,.user-guide-wrap .user-guide-step .step-body>h2{
+.user-guide-wrap .user-guide-step>h1,.user-guide-wrap .user-guide-step>h2{
     color: #ee407d;
 }
-.user-guide-wrap .user-guide-step .step-body>h1{
+.user-guide-wrap .user-guide-step>h1{
     margin: 20px 0 20px 0;
 }
 .user-guide-wrap .user-guide-step .step-body>img{
@@ -5733,5 +5749,58 @@ ul.notifications {
 .user-guide-wrap .user-guide-step .step-body>p.compact{
     width: 70%;
     margin: 0 auto 0px auto;
+}
+.user-guide-wrap .user-guide-step .step-content-block{
+    padding: 20px;
+}
+.user-guide-wrap .user-guide-step .step-content-block .step-content-image{
+    float: left;
+    width: 30%;
+}
+.user-guide-wrap .user-guide-step .step-content-block .step-content-image img{
+    border-radius: 50%;
+    padding: 10px;
+    border: solid 1px #ddd;
+}
+.user-guide-wrap .user-guide-step .step-content-block .step-content-image img.img-sm{
+    width: 60%;
+}
+.user-guide-wrap .user-guide-step .step-content-block .step-content-text{
+    float: right;
+    width: 70%;
+    text-align: left;
+    line-height: 30px;
+}
+.user-guide-wrap .user-guide-step .step-content-block .step-content-text ul{
+}
+.user-guide-wrap .user-guide-step .step-content-block .step-content-text ul li{
+    list-style-type: circle;
+}
+
+
+.user-guide-wrap .user-guide-step .step-arrow{
+    text-align: center;
+    position: relative;
+    padding: 0 20px;
+}
+.user-guide-wrap .user-guide-step .step-arrow.lefty{
+    width: 30%;
+    margin: 0 15px;
+}
+.user-guide-wrap .user-guide-step .step-arrow>span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-right: solid 10px #aaa;
+    border-bottom: solid 10px #aaa;
+    border-left: solid 10px #fff;
+    border-top: solid 10px #fff;
+}
+.user-guide-wrap .user-guide-step .step-arrow.down>span{
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 /*. .   .   .   .   .   .   .       .*/

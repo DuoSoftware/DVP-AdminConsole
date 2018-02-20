@@ -6,26 +6,27 @@
         <!--</div>-->
         <!--</div>-->
 
-        <div class="x_title">
-            <h2>All Profiles</h2>
-
-            <div class="clearfix"></div>
-
-        </div>
-
         <div class="x_panel">
+            <div class="x_title">
+                <h2>All Profiles</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i
+                            class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i
+                            class="fa fa-chevron-down"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
 
-            <h4>Agent Filters</h4>
-
-            <div class="clearfix"></div>
-
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div ng-show="showFilter">
                 <div class="col-md-1 col-sm-1 col-xs-1" style="position: relative; top: 10px">
                     <label>Filter Type</label>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-2">
                     <select name="filterType" ng-model="filter.filterType" ng-change="onSelectionChanged()"
-                        aria-controls="datatable-responsive" class="form-control select-limit">
+                            aria-controls="datatable-responsive" class="form-control select-limit">
                         <option value="ALL">All Users</option>
                         <option value="USER">By User</option>
                         <option value="GROUP">By Group</option>
@@ -33,7 +34,7 @@
                     </select>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-show="filter.filterType === 'USER'">
-                    <label>Users</label>
+                    <!--<label>Users</label>-->
                     <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="filter.agentFilter" display-property="username"
                                 add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Add User">
                         <auto-complete max-results-to-show="1000" source="querySearchUser($query)"
@@ -42,7 +43,7 @@
                     </tags-input>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-show="filter.filterType === 'GROUP'">
-                    <label>Groups</label>
+                    <!--<label>Groups</label>-->
                     <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="filter.groupFilter" display-property="name"
                                 add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Add Group">
                         <auto-complete max-results-to-show="1000" source="querySearchGroup($query)"
@@ -54,11 +55,11 @@
 
         </div>
         <!-- SUSPEND  PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered suspended">
             <h2>Suspended <b class="profile-status-right">{{filtered1.length}}</b>
             </h2>
-            <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+            <ul class="list-unstyled top-profile-shadow scroll-view clearfix">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event suspended"
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -100,7 +101,7 @@
 
 
         <!-- AVAILABLE  PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered available">
             <h2>Available <b class="profile-status-right">{{filtered2.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
@@ -147,7 +148,7 @@
         <!-- END AVAILABLE PROFILE -->
 
         <!-- CONNECTED  PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered connected">
             <h2>Connected <b class="profile-status-right">{{filtered3.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
@@ -192,7 +193,7 @@
         <!-- END CONNECTED PROFILE -->
 
         <!-- OUTBOUND  PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered outbound">
             <h2>Outbound <b class="profile-status-right">{{filtered4.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
@@ -237,7 +238,7 @@
         <!-- END OUTBOUND PROFILE -->
 
         <!-- OUTBOUND  PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered afterwork">
             <h2>After Work <b class="profile-status-right">{{filtered5.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
@@ -288,7 +289,7 @@
 
 
         <!-- RESERVED  PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered reserved">
             <h2>Reserved <b class="profile-status-right">{{filtered6.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
@@ -334,7 +335,7 @@
 
 
         <!-- BREAK PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered break">
             <h2>Break <b class="profile-status-right">{{filtered7.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
@@ -384,7 +385,7 @@
 
 
         <!-- RESERVED  PROFILE -->
-        <div class="x_panel">
+        <div class="x_panel x_bordered leftbordered other">
             <h2> Other <b class="profile-status-right">{{filtered8.length}}</b></h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
