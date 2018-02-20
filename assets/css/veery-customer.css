@@ -5019,7 +5019,7 @@ section.h3 {
     box-shadow: none!important;
     -webkit-box-shadow: none!important;
     border: none!important;
-    margin: 0!important;
+    margin: 0 0 20px 0!important;
     padding: 0!important;
 }
 .x_panel.main-title>.x_title> h2 {
@@ -5036,7 +5036,7 @@ section.h3 {
     background: #ddd;
     margin-top: 0;
     border-radius: 0 0 5px 5px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
 }
 
 .x_panel.main-title .dropdown-menu{
