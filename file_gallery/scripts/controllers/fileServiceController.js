@@ -11,6 +11,16 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
 
     // FILTERS
 
+    $scope.showError = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
+
     uploader.filters.push({
         name: 'customFilter',
         fn: function (item /*{File|FileLikeObject}*/, options) {
@@ -57,6 +67,11 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
     };
     uploader.onErrorItem = function (fileItem, response, status, headers) {
         console.info('onErrorItem', fileItem, response, status, headers);
+        if(response && response.Exception)
+        {
+            $scope.showError("Error in uploading file",response.Exception.Message);
+        }
+
     };
     uploader.onCancelItem = function (fileItem, response, status, headers) {
         console.info('onCancelItem', fileItem, response, status, headers);
