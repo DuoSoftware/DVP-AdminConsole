@@ -381,8 +381,8 @@ body .container.body .right_col {
 }
 
 .bg-green {
-    background: #1ABB9C !important;
-    border: 1px solid #1ABB9C !important;
+    background: #6a3390 !important;
+    border: 1px solid #6a3390 !important;
     color: #fff;
 }
 
@@ -644,6 +644,10 @@ a:hover, a:focus {
 
 .top_nav li a i {
     font-size: 15px;
+    color: #bbb;
+}
+.top_nav li a i.active {
+    color: #974acc;
 }
 
 .navbar-static-top {
@@ -1852,6 +1856,10 @@ ul.msg_list li a .message {
     position: absolute;
     right: 2px;
     top: 8px;
+    background: #bbb;
+}
+.info-number .badge.active {
+    background: #974acc;
 }
 
 ul.to_do {
@@ -5049,7 +5057,7 @@ fieldset {
 }
 
 .progress-bar-success {
-    background-color: #26B99A;
+    background-color: #6a3390;
 }
 
 .progress_summary .progress {
@@ -5550,7 +5558,7 @@ ul.notifications {
 
 .product_price {
     margin: 20px 0;
-    padding: 5px 10px;
+    padding: 15px 5px 5px 5px;
     background-color: #f7f7f7;
     text-align: left;
     border: 2px solid #f7f7f7;

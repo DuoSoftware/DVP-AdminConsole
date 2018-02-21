@@ -622,6 +622,7 @@ a {
 
 .s-mode > i.outbound {
     color: #0cb745 !important;
+    font-size: 20px;
 }
 
 /*reserved*/
@@ -964,6 +965,7 @@ label {
     text-align: center;
 }
 .data-state-wrap>i{
+    display: none;
     display: block;
     font-size: 30px;
     color: #ddd;
@@ -4491,7 +4493,7 @@ footer {
 
 tags-input .tags {
     height: auto !important;
-    border-radius: 0px !important;
+    border-radius: 3px !important;
 }
 
 .image_edit > i {
