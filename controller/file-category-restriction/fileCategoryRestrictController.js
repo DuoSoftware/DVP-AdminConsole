@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 5/29/2017.
  */
-mainApp.controller("fileCatRestrictController", function ($scope, $state, userProfileApiAccess,fileService, loginService,fileServiceApiAccess,$anchorScroll) {
+mainApp.controller("fileCatRestrictController", function ($scope, $state, userProfileApiAccess,fileService, loginService,$anchorScroll) {
 
     $anchorScroll();
     $scope.addNew = false;
@@ -46,11 +46,11 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
     };
 
     $scope.loadFileCategoryList = function () {
-        fileServiceApiAccess.getAllFileCategories().then(function (response) {
+        userProfileApiAccess.GetFileCatagories().then(function (response) {
 
-            if(response.Result)
+            if(response)
             {
-                $scope.FileCategories=response.Result;
+                $scope.FileCategories=response;
                 $scope.FileCategoryNames=$scope.FileCategories.map(function (item) {
 
                     return item.Category;

@@ -1635,13 +1635,15 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     // /Sidebar
 
 
-	// Kasun_Wijeratne_14_FEB_2018
-	/** ======================================
+	/** Kasun_Wijeratne_14_FEB_2018
+	 * --------------------------------------------------------------------------
 	 * GUIDE FOR FRESH USERS
-	 * =======================================
 	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
 	$scope.freshUserConfigStep = 0;
-	$scope.freshUserConfigMin = false;
+	$rootScope.freshUserConfigMin = false;
+	$rootScope.toggleFreshUserGuide = function () {
+		$rootScope.freshUser = !$rootScope.freshUser;
+	};
 	$scope.rotateFreshUserGuide = function (direction) {
 		if(direction == 'forward'){
 			$scope.freshUserConfigStep++;
@@ -1650,10 +1652,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		}
 	};
 	$scope.minMaxFreshUserConfig = function () {
-		$scope.freshUserConfigMin = !$scope.freshUserConfigMin;
+		$rootScope.freshUserConfigMin = !$rootScope.freshUserConfigMin;
 	};
-	/**.	.	.	.	.	.	.	.	.	*/
-	// Kasun_Wijeratne_14_FEB_2018 - ENDS
+	/** -------------------------------------------------------------------------
+	/*Kasun_Wijeratne_14_FEB_2018*/
 
 
 });

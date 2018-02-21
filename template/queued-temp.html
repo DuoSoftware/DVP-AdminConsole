@@ -1,21 +1,21 @@
 <div class="col-lg-4 col-lg-4 col-sm-4 col-xs-12 ">
     <div class="x_panel">
         <div class="x_title">
-            <h2>Queued - {{que.QueueName}}</h2>
+            <h2>Queued - {{que.QueueName | limitTo:20}}{{que.QueueName.length > 15 ? '...' : null}}</h2>
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
             <div class="row">
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                    <div class="tile-stats text-center bg-green100" ng-class="{'small-card':viewmode!='large'}">
-                        <div class="count" style=" padding-top: 10px;font-size: 27px;">{{que.CurrentWaiting}}</div>
+                    <div class="tile-stats text-center bg-purple500" ng-class="{'small-card':viewmode!='large'}">
+                        <div class="count">{{que.CurrentWaiting}}</div>
                         <h3 class="font-700 font-yellow800" style="padding-bottom: 10px ; padding-top: 10px">Current
                             Waiting</h3>
                     </div>
                 </div>
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                    <div class="tile-stats text-center bg-blue700" ng-class="{'small-card':viewmode!='large'}">
-                        <div class="count" style=" padding-top: 10px;font-size: 27px;">
+                    <div class="tile-stats text-center bg-purple700" ng-class="{'small-card':viewmode!='large'}">
+                        <div class="count">
                             <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} :
                                 {{sseconds}}
                             </timer>
