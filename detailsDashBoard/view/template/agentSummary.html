@@ -10,9 +10,19 @@
         <div class="clearfix"></div>
     </div>-->
 
-    <h2 class="x_title_inner" ng-click="GetProductivity();">Agents <small>Summary</small></h2>
-    <div class="form-group">
-        <h2 class="x_title_inner" style="margin-bottom: 10px"><small>Skill filter</small></h2>
+    <!--<h2 class="x_title_inner" ng-click="GetProductivity();">Agents <small>Summary</small></h2>-->
+    <div class="x_title">
+        <h2>Agents Summery</h2>
+        <ul class="nav navbar-right panel_toolbox">
+            <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <div class="form-group" ng-show="showFilter" style="padding: 10px; background: rgb(221, 221, 221)">
+        <h2 style="margin:0 0 10px"><small>Skill filter</small></h2>
         <div class="input-group col-md-12">
             <tags-input  ng-model="selectedSkills"
                          display-property="Attribute" min-length="1"
@@ -31,7 +41,8 @@
             <div class="row ">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="data-state-wrap">
-                        No Data...
+                        <i class="fa fa-exclamation-circle"></i>
+                        <span>No Data</span>
                     </div>
 
                 </div>

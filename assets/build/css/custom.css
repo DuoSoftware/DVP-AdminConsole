@@ -1830,13 +1830,14 @@ ul.msg_list li a .message {
 
 .navbar-nav .open .dropdown-menu {
     position: absolute;
-    background: #f7f7f7;
+    background: #fff;
     margin-top: 0;
     border: 1px solid #f7f7f7;
-    -webkit-box-shadow: none;
     right: 0;
     left: auto;
     width: 220px;
+    box-shadow: 0 7px 10px -4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 7px 10px -4px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-nav .open .dropdown-menu.msg_list {
@@ -3471,7 +3472,7 @@ ul.widget_profile_box li .profile_img {
 
 ul.count2 {
     width: 100%;
-    margin-left: 1px;
+    margin-left: 0px;
     border: 1px solid #ddd;
     border-left: 0;
     border-right: 0;
@@ -5595,7 +5596,7 @@ ul.notifications {
 .ui-grid-top-panel input[type="text"].ui-grid-filter-input{
     border-radius: 3px!important;
     /*border-color: #e5e5e5!important;*/
-    border-color: #95d4ce!important;
+    border-color: #e4bdff!important;
     padding: 0 5px;
 }
 .ui-grid-filter-container{

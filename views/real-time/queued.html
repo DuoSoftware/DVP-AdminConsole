@@ -48,31 +48,23 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content" ng-show="showFilter">
-                <div class="col-md-12 col-sm-6 col-xs-12">
-                    <div class="x_content">
-                        <div class="row">
-                            <form id="csatForm" name="csatForm" novalidate>
-
-                                <div class="col-md-12 col-sm-12 col-xs-12  form-group">
-                                    <div class="form-group">
-                                        <label>Queue Filter</label>
-                                        <div class="input-group col-md-12">
-                                            <tags-input on-tag-removed="SaveReportQueryFilter()"
-                                                        on-tag-added="SaveReportQueryFilter()" ng-model="selectedQueues"
-                                                        display-property="QueueName" min-length="1"
-                                                        add-from-autocomplete-only="true" placeholder="Select queues">
-                                                <auto-complete max-results-to-show="1000" source="querySearch($query)"
-                                                               load-on-empty="true" load-on-focus="true"
-                                                               min-length="1"></auto-complete>
-                                            </tags-input>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                <form id="csatForm" name="csatForm" novalidate>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group" style="margin-bottom: 0">
+                            <label>Queue Filter</label>
+                            <div class="input-group col-md-12" style="margin-bottom: 0">
+                                <tags-input on-tag-removed="SaveReportQueryFilter()"
+                                            on-tag-added="SaveReportQueryFilter()" ng-model="selectedQueues"
+                                            display-property="QueueName" min-length="1"
+                                            add-from-autocomplete-only="true" placeholder="Select queues">
+                                    <auto-complete max-results-to-show="1000" source="querySearch($query)"
+                                                   load-on-empty="true" load-on-focus="true"
+                                                   min-length="1"></auto-complete>
+                                </tags-input>
+                            </div>
                         </div>
                     </div>
-
-                </div>
+                </form>
             </div>
         </div>
     </div>

@@ -46,79 +46,71 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content" ng-show="showFilter">
-            <div class="col-md-12 col-sm-6 col-xs-12">
-                <div class="x_content">
-                    <div class="row">
-                        <form id="csatForm" name="csatForm" novalidate>
-                            <div class="col-md-12 col-sm-12 col-xs-12  form-group">
-                                <div class="form-group">
-                                    <label>Agents</label>
-                                    <div class="row">
-                                        <div class="col-md-3 col-sm-3 col-xs-12">
-                                            <select name="filterType" ng-disabled="isLoading" ng-model="filterType" ng-change="onSelectionChanged()"
-                                                    aria-controls="datatable-responsive" class="form-control select-limit">
-                                                <option value="ALL">All Users</option>
-                                                <option value="USER">By User</option>
+            <form id="csatForm" name="csatForm" novalidate>
+                <div class="col-md-12 col-sm-12 col-xs-12  form-group">
+                    <div class="form-group">
+                        <label>Agents</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <select name="filterType" ng-disabled="isLoading" ng-model="filterType" ng-change="onSelectionChanged()"
+                                        aria-controls="datatable-responsive" class="form-control select-limit">
+                                    <option value="ALL">All Users</option>
+                                    <option value="USER">By User</option>
 
 
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="input-group col-md-12" ng-if="filterType==='USER'">
-                                        <!--on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()"-->
-                                        <tags-input ng-model="profile" display-property="ResourceName"
-                                                    key-property="ResourceName"
-                                                    placeholder="Select Agent"
-                                                    add-from-autocomplete-only="true" min-length="0"
-                                                    on-tag-removed="ResourceRemoved($tag)"
-                                                    on-tag-added="ResourceAdded($tag)">
-                                            <auto-complete source="querySearch($query)" load-on-empty="true"
-                                                           max-results-to-show="10000" min-length="1"
-                                                           load-on-focus="true"></auto-complete>
-                                        </tags-input>
-                                    </div>
-                                </div>
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="col-md-12 col-sm-12 col-xs-12  form-group">
-                                <div class="form-group">
-                                    <label>Agent Mode</label>
-                                    <div class="input-group col-md-12">
-                                        <!--on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()"-->
-                                        <tags-input ng-model="agentMode" display-property="Name" key-property="Name"
-                                                    placeholder="Select Agent Mode"
-                                                    add-from-autocomplete-only="true" min-length="0"
-                                                    on-tag-removed="AgentModeRemoved($tag)"
-                                                    on-tag-added="AgentModeAdded($tag)">
-                                            <auto-complete source="agentModeQuerySearch($query)"
-                                                           load-on-empty="true"
-                                                           max-results-to-show="10000" min-length="1"
-                                                           load-on-focus="true"></auto-complete>
-                                        </tags-input>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-1 col-sm-1 col-xs-12">
-                                <button ng-disabled="csatForm.$invalid || isLoading" type="button"
-                                        class="btn btn-green btn-block "
-                                        style="margin-top: 24px;"
-                                        ng-click="LoadProductivity();">
-                                    Load
-                                </button>
-                                <!--<button disabled type="button"
-                                        ng-if="isLoading"
-                                        class="btn btn-green btn-block"
-                                        style="margin-top: 24px;">
-                                    Please Wait...
-                                </button>-->
-                            </div>
-                        </form>
+
+                        <div class="input-group col-md-12" ng-if="filterType==='USER'">
+                            <!--on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()"-->
+                            <tags-input ng-model="profile" display-property="ResourceName"
+                                        key-property="ResourceName"
+                                        placeholder="Select Agent"
+                                        add-from-autocomplete-only="true" min-length="0"
+                                        on-tag-removed="ResourceRemoved($tag)"
+                                        on-tag-added="ResourceAdded($tag)">
+                                <auto-complete source="querySearch($query)" load-on-empty="true"
+                                               max-results-to-show="10000" min-length="1"
+                                               load-on-focus="true"></auto-complete>
+                            </tags-input>
+                        </div>
                     </div>
                 </div>
 
-            </div>
+                <div class="col-md-12 col-sm-12 col-xs-12  form-group">
+                    <div class="form-group">
+                        <label>Agent Mode</label>
+                        <div class="input-group col-md-12">
+                            <!--on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()"-->
+                            <tags-input ng-model="agentMode" display-property="Name" key-property="Name"
+                                        placeholder="Select Agent Mode"
+                                        add-from-autocomplete-only="true" min-length="0"
+                                        on-tag-removed="AgentModeRemoved($tag)"
+                                        on-tag-added="AgentModeAdded($tag)">
+                                <auto-complete source="agentModeQuerySearch($query)"
+                                               load-on-empty="true"
+                                               max-results-to-show="10000" min-length="1"
+                                               load-on-focus="true"></auto-complete>
+                            </tags-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12">
+                    <button ng-disabled="csatForm.$invalid || isLoading" type="button"
+                            class="btn btn-green btn-block "
+                            ng-click="LoadProductivity();">
+                        Load
+                    </button>
+                    <!--<button disabled type="button"
+                            ng-if="isLoading"
+                            class="btn btn-green btn-block"
+                            style="margin-top: 24px;">
+                        Please Wait...
+                    </button>-->
+                </div>
+            </form>
         </div>
     </div>
 </div>
