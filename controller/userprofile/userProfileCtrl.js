@@ -796,6 +796,8 @@
                 if (data.IsSuccess) {
                     $scope.CurrentProfile = data.Result;
 
+                    $scope.checkAvailability();
+
                     if (data.Result) {
                         if (data.Result.address) {
                             $scope.displayAddress = data.Result.address.city + ' , ' + data.Result.address.province + ' , ' + data.Result.address.country;
@@ -982,7 +984,6 @@
             });
         };
 
-        $scope.checkAvailability();
 
 
     };
