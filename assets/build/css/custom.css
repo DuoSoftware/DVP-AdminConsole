@@ -1022,6 +1022,18 @@ footer {
 
 .tile {
     overflow: hidden;
+        padding: 0 10px 10px 10px;
+    margin: 10px 0;
+        font-weight: 600;
+    color: #6a3390;
+}
+.tile>span{
+    font-weight: normal;
+    color: #000;
+}
+
+.row .tile:not(:last-child) {
+    border-right: solid 1px #eee;
 }
 
 .top_tiles {
@@ -1167,9 +1179,9 @@ h2 {
     /*-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);*/
-    -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-    -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 .x_panel h2{
@@ -5789,6 +5801,15 @@ ul.notifications {
     width: 70%;
     text-align: left;
     line-height: 30px;
+    padding: 20px 0;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.user-guide-wrap .user-guide-step .step-body .step-content-block:nth-child(even) .step-content-text{
+    background: #ee407d12;
+}
+.user-guide-wrap .user-guide-step .step-body .step-content-block:nth-child(odd) .step-content-text{
+    background: #6a339012;
 }
 .user-guide-wrap .user-guide-step .step-content-block .step-content-text ul{
 }
@@ -5810,8 +5831,8 @@ ul.notifications {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border-right: solid 10px #aaa;
-    border-bottom: solid 10px #aaa;
+    border-right: solid 10px #ee407d;
+    border-bottom: solid 10px #ee407d;
     border-left: solid 10px #fff;
     border-top: solid 10px #fff;
 }
