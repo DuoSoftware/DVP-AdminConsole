@@ -60,16 +60,26 @@ mainApp.controller("filecategoryController", function ($scope, $state, ardsBacke
     $scope.newFileCat={};
     $scope.newFileCat.Visible=true;
     $scope.newFileCat.Encripted=false;
+
     $scope.addFileCategory = function (resource) {
 
 
-        fileServiceApiAccess.addNewFileCategory(resource).then(function (resAdd) {
-            $scope.showAlert("Success", "File Category Saved successfully", "success");
-            $state.reload();
-        },function (errAdd) {
+        $scope.newFileCat.Category=document.getElementById("textCat").value;
+
+        if($scope.newFileCat.Category)
+        {
+            fileServiceApiAccess.addNewFileCategory(resource).then(function (resAdd) {
+                $scope.showAlert("Success", "File Category Saved successfully", "success");
+                $state.reload();
+            },function (errAdd) {
+                $scope.showAlert("Error", "Error in saving new file category", "error");
+                console.log("Exception in request ", errAdd);
+            });
+        }
+        else {
             $scope.showAlert("Error", "Error in saving new file category", "error");
-            console.log("Exception in request ", errAdd);
-        });
+        }
+
 
 
     };

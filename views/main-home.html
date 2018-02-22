@@ -50,7 +50,7 @@
                                aria-expanded="false">
                                 <!--<i class="veery-font-1-alarm "></i>-->
                                 <i class="fa fa-bell"></i>
-                                <span class="badge bg-green">{{unredNotifications}}</span>
+                                <span class="badge bg-green" ng-if="unredNotifications > 0">{{unredNotifications}}</span>
                             </a>
 
                             <ul id="menu1"
@@ -1086,7 +1086,7 @@
                            title="FullScreen">
                             <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                        <a data-toggle="tooltip" data-placement="top" title="Lock" ng-click="toggleFreshUserGuide()">
                             <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                         </a>
                         <a data-toggle="tooltip" data-placement="top" ng-click="clickDirective.goLogout()"
@@ -1170,8 +1170,8 @@
         <div ng-if="freshUserConfigMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
         <div class="dialog-body" ng-if="!freshUserConfigMin">
             <div class="user-guide-step" ng-if="freshUserConfigStep == 0">
-                <div class="step-body">
-                    <h1>Welcome to FaceTone!</h1>
+                <h1>Welcome to FaceTone!</h1>
+                <div class="step-body" style="overflow: hidden">
 
                     <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
 
@@ -1183,18 +1183,150 @@
                 </div>
             </div>
             <div class="user-guide-step" ng-if="freshUserConfigStep == 1">
+                <h2>Create a Wallet</h2>
                 <div class="step-body">
-                    <h2>Create a Wallet</h2>
-
-                    <div class="step-content-block image-block">
-                        <div class="step-content-image"></div>
-                        <div class="step-content-image"></div>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_1.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Click on <b>Account</b> on left navigation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step-arrow down lefty"><span></span></div>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_2.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Click on <b>Credit</b></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step-arrow down lefty"><span></span></div>
+                    <p>This will open up the UI for creating a wallet.</p>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_3.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Click on <b>Create Wallet</b> button on the top right corner.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step-arrow down lefty"><span></span></div>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_4.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Fill up the fields necessarily.</li>
+                                <li>Click on <b>Save Card</b></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="step-footer">
-                    <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
-                    <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')">Next ></button>
+            </div>
+            <div class="user-guide-step" ng-if="freshUserConfigStep == 2">
+                <h2>Buy Credit</h2>
+                <div class="step-body">
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_1.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Click on <b>Account</b> on left navigation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step-arrow down lefty"><span></span></div>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_2.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Click on <b>Credit</b></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step-arrow down lefty"><span></span></div>
+                    <p>This will open up the UI for creating a wallet.</p>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_5.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Type in preferred number of Credits in input field.</li>
+                                <li>Click on <b>Buy</b> button to buy credits.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="user-guide-step" ng-if="freshUserConfigStep == 3">
+                <h2>Buy Package</h2>
+                <div class="step-body">
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_1.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Click on <b>Account</b> on left navigation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step-arrow down lefty"><span></span></div>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_6.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Click on <b>Packages</b></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step-arrow down lefty"><span></span></div>
+                    <p>This will open up the UI for buying a package.</p>
+                    <div class="step-content-block image-block clearfix">
+                        <div class="step-content-image">
+                            <img class="img-sm" src="assets/images/user guide/account_guide_7.jpg" alt="">
+                        </div>
+                        <div class="step-content-text">
+                            <ul>
+                                <li>Choose a package that suits you from the given packages.</li>
+                                <li>Click on <b>BUY NOW</b> button to buy.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-guide-step" ng-if="guidePhase1Closure">
+                <h1>Logging out..</h1>
+                <div class="step-body" style="overflow: hidden">
+
+                    <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
+
+                    <p class="compact">Now that you have finished the initial configuration process, you are required to logout from the system.</p>
+                    <div class="text-center">
+                        <h3>You will be logged out in {{logoutCountdown}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-footer" ng-if="freshUserConfigStep != 0">
+                <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
+                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')">Next ></button>
             </div>
         </div>
     </div>

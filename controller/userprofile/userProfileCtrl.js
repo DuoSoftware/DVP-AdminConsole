@@ -699,6 +699,13 @@
             userProfileApiAccess.updateProfile($scope.CurrentProfile.username, $scope.CurrentProfile).then(function (data) {
                 if (data.IsSuccess) {
 
+                    if (curUser) {
+                        curUser.GuRefId = $scope.CurrentProfile._id;
+
+                        sipUserApiHandler.updateUser(curUser);
+                    }
+                    $scope.isEditState = false;
+
                     if($scope.CurrentProfile.mapToResource){
 
                         resourceService.SaveResource({ResourceName: $scope.CurrentProfile.username}).then(function (response) {
@@ -706,36 +713,43 @@
 
                                 resourceService.SetResourceToProfile($scope.CurrentProfile.username, response.Result.ResourceId).then(function (response) {
                                     if (response) {
+                                        $scope.showAlert('Success', 'success', 'User profile updated successfully');
                                         $scope.showAlert("Map To Resource", "info", "Resource " + resource.ResourceName + " Successfully Save.");
+                                        resetPage();
                                     }
                                     else {
+                                        $scope.showAlert('Success', 'success', 'User profile updated successfully');
                                         $scope.showAlert("Map To Resource", "warn", "Resource " + resource.ResourceName + " Save Successfully Without Mapping to Profile.");
+                                        resetPage();
                                     }
                                 }, function (error) {
+                                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
                                     $scope.showAlert("Map To Resource", "error", "Fail To Map Resource with Profile.");
+                                    resetPage();
                                 });
                             }
                             else {
                                 if (response.CustomMessage == "invalid Resource Name.") {
+                                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
                                     $scope.showAlert("Map To Resource", "error", "Invalid Resource Name.");
+                                    resetPage();
+                                }else{
+                                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                                    resetPage();
                                 }
                             }
 
                         }, function (error) {
+                            $scope.showAlert('Success', 'success', 'User profile updated successfully');
                             $scope.showAlert('Map To Resource', 'error', 'Failed to map user to resource');
+                            resetPage();
                         });
 
+                    }else {
+
+                        $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                        resetPage();
                     }
-
-
-                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
-                    if (curUser) {
-                        curUser.GuRefId = $scope.CurrentProfile._id;
-
-                        sipUserApiHandler.updateUser(curUser);
-                    }
-                    $scope.isEditState = false;
-                    resetPage();
                 }
                 else {
                     var errMsg = data.CustomMessage;
@@ -781,6 +795,8 @@
             userProfileApiAccess.getProfileByName(username).then(function (data) {
                 if (data.IsSuccess) {
                     $scope.CurrentProfile = data.Result;
+
+                    $scope.checkAvailability();
 
                     if (data.Result) {
                         if (data.Result.address) {
@@ -968,7 +984,6 @@
             });
         };
 
-        $scope.checkAvailability();
 
 
     };

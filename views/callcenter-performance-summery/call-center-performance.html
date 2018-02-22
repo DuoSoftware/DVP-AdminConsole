@@ -1,250 +1,246 @@
 <div ng-controller="callcenterPerformanceController">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel min-h-750" style="padding: 0px;">
-                <div>
-                    <div class="d1-grading-header"
-                         style="background: transparent;padding-left: 21px;padding-top: 16px;">
-                        CALL CENTER PERFORMANCE
+            <div class="x_panel main-title">
+                <div class="x_title">
+                    <h2>Call Center Performance</h2>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!-- call center performance top -->
+            <section class="section-ccp-wrp top">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0;">
+                    <!--  AVG Dialed -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ccp-widget-wrapper">
+                        <div class="ccp-top-widget white text-center">
+                            <div class="ccp-w-header">
+                                Dialed - Outbound
+                            </div>
+
+                            <div class="ccp-w-value">
+                                {{callCenterPerformance.AverageOutboundCallsPerAgent}}
+                            </div>
+                            <div class="ccp-w-header-small">
+                                Average - Per Agent
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  AVG Answered -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ccp-widget-wrapper">
+                        <div class="ccp-top-widget white text-center">
+                            <div class="ccp-w-header">
+                                Answered - Inbound
+                            </div>
+
+                            <div class="ccp-w-value">
+                                {{callCenterPerformance.AverageInboundCallsPerAgent}}
+                            </div>
+                            <div class="ccp-w-header-small">
+                                Average - Per Agent
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logged In Agents -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ccp-widget-wrapper">
+                        <div class="ccp-top-widget blue-l-400 text-center">
+                            <div class="ccp-w-header">
+                                Logged In Agents
+                            </div>
+
+                            <div class="ccp-w-value round-value">
+                                {{callCenterPerformance.TotalLoginAgents}}
+                            </div>
+                            <div class="ccp-w-header-small">
+                                Total Logged In Agents - per day
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Idle -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ccp-widget-wrapper">
+                        <div class="ccp-top-widget white text-center">
+                            <div class="ccp-w-header">
+                                Idle Time
+                            </div>
+                            <div class="ccp-w-value ">
+                                {{callCenterPerformance.totalIdleTime}}
+                            </div>
+                            <div class="ccp-w-header-small ">
+                                Total
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- call center performance top -->
-                <section class="section-ccp-wrp top">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <!--  AVG Dialed -->
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-top-widget white text-center">
+            <!--  <!-- call center performance body -->
+            <section class="section-ccp-wrp body" style="padding: 0px;">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0;">
+                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                        <div class="ccp-body-l-wrp">
+                            <div class="ccp-body-widget-md  white text-center">
                                 <div class="ccp-w-header">
-                                    Dialed - Outbound
+                                    Break Time
                                 </div>
 
                                 <div class="ccp-w-value">
-                                    {{callCenterPerformance.AverageOutboundCallsPerAgent}}
+                                    {{callCenterPerformance.totalBreakTime}}
                                 </div>
                                 <div class="ccp-w-header-small">
-                                    Average - Per Agent
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--  AVG Answered -->
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-top-widget white text-center">
-                                <div class="ccp-w-header">
-                                    Answered - Inbound
-                                </div>
-
-                                <div class="ccp-w-value">
-                                    {{callCenterPerformance.AverageInboundCallsPerAgent}}
-                                </div>
-                                <div class="ccp-w-header-small">
-                                    Average - Per Agent
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Logged In Agents -->
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-top-widget blue-l-400 text-center">
-                                <div class="ccp-w-header">
-                                    Logged In Agents
-                                </div>
-
-                                <div class="ccp-w-value round-value">
-                                    {{callCenterPerformance.TotalLoginAgents}}
-                                </div>
-                                <div class="ccp-w-header-small">
-                                    Total Logged In Agents - per day
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Idle -->
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-top-widget white text-center">
-                                <div class="ccp-w-header">
-                                    Idle Time
-                                </div>
-                                <div class="ccp-w-value ">
-                                    {{callCenterPerformance.totalIdleTime}}
-                                </div>
-                                <div class="ccp-w-header-small ">
                                     Total
+                                </div>
+                            </div>
+
+                            <div class="ccp-body-widget-md ccp-body-widget-md-offset white text-center" style="margin-top: 15px;">
+                                <div class="ccp-w-header">
+                                    Staff Time
+                                </div>
+
+                                <div class="ccp-w-value">
+                                    {{callCenterPerformance.AverageStaffTime}}
+                                </div>
+                                <div class="ccp-w-header-small">
+                                    Average
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
 
-                <!--  <!-- call center performance body -->
-                <section class="section-ccp-wrp body" style="padding: 0px;">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-                            <div class="ccp-body-l-wrp">
-                                <div class="ccp-body-widget-md  white text-center"
-                                     style="margin-bottom: 25px;">
-                                    <div class="ccp-w-header">
-                                        Break Time
-                                    </div>
-
-                                    <div class="ccp-w-value">
-                                        {{callCenterPerformance.totalBreakTime}}
-                                    </div>
-                                    <div class="ccp-w-header-small">
-                                        Total
-                                    </div>
-                                </div>
-
-                                <div class="ccp-body-widget-sm white text-center" style="margin-top: 15px;">
-                                    <div class="ccp-w-header">
+                    <!-- chart wrapper -->
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                        <!-- chat wrapper -->
+                        <div class="ccp-chart-w-header">
+                            <h4>Call Summary</h4>
+                        </div>
+                        <div class="ccp-chart-wrp">
+                            <canvas id="callCenterPerformanceCanvas"></canvas>
+                        </div>
+                        <div class="ccp-chat-footer">
+                            <ul class="ccp-inline-footer">
+                                <li>
+                                    <div class="ccp-f-title">
                                         Staff Time
                                     </div>
-
-                                    <div class="ccp-w-value">
-                                        {{callCenterPerformance.AverageStaffTime}}
+                                    <div class="ccp-f-title-2">
+                                        Total
                                     </div>
-                                    <div class="ccp-w-header-small">
-                                        Average
+                                </li>
+                                <li>
+                                    <div class="ccp-f-value">
+                                        {{callCenterPerformance.totalStaffTime}}
                                     </div>
-                                </div>
-                            </div>
+                                </li>
+                            </ul>
                         </div>
 
-                        <!-- chart wrapper -->
-                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                            <!-- chat wrapper -->
-                            <div class="ccp-chart-w-header">
-                                <h4>Call Summary</h4>
-                            </div>
-                            <div class="ccp-chart-wrp">
-                                <canvas id="callCenterPerformanceCanvas"></canvas>
-                            </div>
-                            <div class="ccp-chat-footer">
-                                <ul class="ccp-inline-footer">
-                                    <li>
-                                        <div class="ccp-f-title">
-                                            Staff Time
-                                        </div>
-                                        <div class="ccp-f-title-2">
-                                            Total
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ccp-f-value">
-                                            {{callCenterPerformance.totalStaffTime}}
-                                        </div>
-                                    </li>
-                                </ul>
+
+                    </div>
+                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                        <div class="ccp-body-widget-sm ccp-body-widget-xs white text-center">
+                            <div class="ccp-w-header">
+                                Hold Time
                             </div>
 
-
+                            <div class="ccp-w-value ">
+                                {{callCenterPerformance.totalHoldTime}}
+                            </div>
+                            <div class="ccp-w-header-small ">
+                                Total
+                            </div>
                         </div>
-                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-                            <div class="ccp-body-widget-sm white text-center">
-                                <div class="ccp-w-header">
-                                    Hold Time
-                                </div>
-
-                                <div class="ccp-w-value ">
-                                    {{callCenterPerformance.totalHoldTime}}
-                                </div>
-                                <div class="ccp-w-header-small ">
-                                    Total
-                                </div>
+                        <div class="ccp-body-widget-sm ccp-body-widget-xs white text-center"
+                             style="margin-top: 20px; margin-bottom: 20px;">
+                            <div class="ccp-w-header">
+                                ACW Time
                             </div>
-                            <div class="ccp-body-widget-sm white text-center"
-                                 style="margin-top: 5px; margin-bottom: 5px;">
-                                <div class="ccp-w-header">
-                                    ACW Time
-                                </div>
 
-                                <div class="ccp-w-value">
-                                    {{callCenterPerformance.totalAcwTime}}
-                                </div>
-                                <div class="ccp-w-header-small">
-                                    Total
-                                </div>
+                            <div class="ccp-w-value">
+                                {{callCenterPerformance.totalAcwTime}}
                             </div>
-                            <div class="ccp-body-widget-sm white text-center">
-                                <div class="ccp-w-header">
-                                    ACW Time
-                                </div>
+                            <div class="ccp-w-header-small">
+                                Total
+                            </div>
+                        </div>
+                        <div class="ccp-body-widget-sm ccp-body-widget-xs white text-center">
+                            <div class="ccp-w-header">
+                                ACW Time
+                            </div>
 
-                                <div class="ccp-w-value">
-                                    {{callCenterPerformance.AverageAcwTime}}
-                                </div>
-                                <div class="ccp-w-header-small">
-                                    Average
-                                </div>
+                            <div class="ccp-w-value">
+                                {{callCenterPerformance.AverageAcwTime}}
+                            </div>
+                            <div class="ccp-w-header-small">
+                                Average
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- call center performance bottom -->
-                <section class="section-ccp-wrp footer">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!-- call center performance bottom -->
+            <section class="section-ccp-wrp footer">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ccp-footer-inner">
 
 
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-footer-widget">
-                                <div class="ccp-w-header">
-                                    Talk Time - Outbound
-                                </div>
-                                <div class="ccp-w-body">
-                                    {{callCenterPerformance.totalTalkTimeOutbound}}
-                                </div>
-                                <div class="ccp-w-header-sm">
-                                    Total
-                                </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="ccp-footer-widget">
+                            <div class="ccp-w-header">
+                                Talk Time - Outbound
                             </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-footer-widget">
-                                <div class="ccp-w-header">
-                                    Talk Time - Outbound
-                                </div>
-                                <div class="ccp-w-body">
-                                    {{callCenterPerformance.AverageTalkTimeOutbound}}
-                                </div>
-                                <div class="ccp-w-header-sm">
-                                    Average
-                                </div>
+                            <div class="ccp-w-body">
+                                {{callCenterPerformance.totalTalkTimeOutbound}}
                             </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-footer-widget">
-                                <div class="ccp-w-header">
-                                    Talk Time -Inbound
-                                </div>
-                                <div class="ccp-w-body">
-                                    {{callCenterPerformance.AverageTalkTimeInbound}}
-                                </div>
-                                <div class="ccp-w-header-sm">
-                                    Average
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="ccp-footer-widget">
-                                <div class="ccp-w-header">
-                                    Talk Time - Inbound
-                                </div>
-                                <div class="ccp-w-body">
-                                    {{callCenterPerformance.totalTalkTimeInbound}}
-                                </div>
-                                <div class="ccp-w-header-sm">
-                                    Total
-                                </div>
+                            <div class="ccp-w-header-sm">
+                                Total
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="ccp-footer-widget">
+                            <div class="ccp-w-header">
+                                Talk Time - Outbound
+                            </div>
+                            <div class="ccp-w-body">
+                                {{callCenterPerformance.AverageTalkTimeOutbound}}
+                            </div>
+                            <div class="ccp-w-header-sm">
+                                Average
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="ccp-footer-widget">
+                            <div class="ccp-w-header">
+                                Talk Time -Inbound
+                            </div>
+                            <div class="ccp-w-body">
+                                {{callCenterPerformance.AverageTalkTimeInbound}}
+                            </div>
+                            <div class="ccp-w-header-sm">
+                                Average
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="ccp-footer-widget">
+                            <div class="ccp-w-header">
+                                Talk Time - Inbound
+                            </div>
+                            <div class="ccp-w-body">
+                                {{callCenterPerformance.totalTalkTimeInbound}}
+                            </div>
+                            <div class="ccp-w-header-sm">
+                                Total
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </div>
