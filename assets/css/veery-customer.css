@@ -2716,7 +2716,7 @@ ul.count2 {
 }
 
 .task-tbl > tbody > tr:nth-of-type(odd) {
-    background-color: #faecff  !important;
+    background-color: #fff4f8!important;
 }
 
 .task-tbl > tbody > tr > td {
