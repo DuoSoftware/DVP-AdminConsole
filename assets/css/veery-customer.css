@@ -1502,7 +1502,7 @@ a.thumbnaildrag:hover {
 /* UI date picker */
 .ui-datepicker {
     background-color: #fff;
-    border: 2px solid #f8b01d;
+    border: 2px solid #9549ca;
     border-radius: 4px;
     display: none;
     padding: 10px;
@@ -1603,7 +1603,7 @@ a.thumbnaildrag:hover {
 }
 
 .ui-datepicker .ui-datepicker-current-day {
-    background-color: #f8b01d;
+    background-color: #ee407d;
 }
 
 .ui-datepicker .ui-datepicker-current-day a {
@@ -2025,13 +2025,16 @@ small > i {
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus,
-.nav-tabs > li.active > a:hover {
+.nav-tabs > li.active > a:hover ,
+.nav-tabs > li > a:hover
+{
     color: #ee407d;
     cursor: default;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .cover-image {
@@ -2233,7 +2236,7 @@ div > div > .widget_profile_box {
 
 .agent-main-wrap.reserved > .x_content >
 div > div > .widget_profile_box > div > div > .profile_img {
-    background: #f8b01d;
+    background: #fff;
 }
 
 .agent-main-wrap.break > .x_content >
@@ -2367,7 +2370,7 @@ div > div > .widget_profile_box {
 
 .agent-main-wrap.break > .x_content >
 div > div > .widget_profile_box > div > div > .profile_img {
-    background: #731630;
+    background: #fff;
 }
 
 .widget_profile_box > div > .slot-state {
@@ -2433,7 +2436,7 @@ div > div > .widget_profile_box {
 
 .agent-main-wrap.connected > .x_content >
 div > div > .widget_profile_box > div > div > .profile_img {
-    background: #264f7f;
+    background: #fff;
 }
 
 .agent-main-wrap.connected > .x_content >
@@ -2494,7 +2497,7 @@ div > div > .widget_profile_box {
 
 .agent-main-wrap.afterWork > .x_content >
 div > div > .widget_profile_box > div > div > .profile_img {
-    background: #a1d700;
+    background: #fff;
 }
 
 .agent-main-wrap.afterWork > .x_content >
@@ -2555,7 +2558,7 @@ div > div > .widget_profile_box {
 
 .agent-main-wrap.suspended > .x_content >
 div > div > .widget_profile_box > div > div > .profile_img {
-    background: #ff8c00;
+    background: #fff;
 }
 
 .agent-main-wrap.suspended > .x_content >
@@ -5077,6 +5080,9 @@ section.h3 {
     margin: 0 0 20px 0!important;
     padding: 0!important;
 }
+.x_panel.main-title.main-title-tabbed{
+    margin-bottom: 0!important;
+}
 .x_panel.main-title>.x_title> h2 {
     text-transform: none;
     font-size: 22px;
@@ -5091,7 +5097,7 @@ section.h3 {
     border-color: #fff;
 }
 
-.x_panel.main-title>.x_content{
+.x_panel.main-title>.x_content, .tabbed-filters{
     background: #ddd;
     margin-top: 0;
     border-radius: 0 0 5px 5px;
@@ -5500,7 +5506,11 @@ ul.row-option > li.delete:focus {
     overflow: hidden;
     position: relative;
     background: #fff;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 .chart-ng-w-tr {
@@ -5517,7 +5527,7 @@ ul.row-option > li.delete:focus {
     min-height: 409px;
     overflow: hidden;
     position: relative;
-    padding: 10px 25px;
+    padding: 5px 15px;
 }
 
 .widget-h > h2 {
@@ -5525,8 +5535,8 @@ ul.row-option > li.delete:focus {
     font-family: 'Roboto', sans-serif !important;
     text-transform: capitalize;
     font-size: 18px;
-    padding-bottom: 13px;
-    border-bottom: 1px solid #f7f7f7;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c267ff;
 }
 
 .widget-body {

@@ -43,6 +43,7 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService, 
 				outbound: '#777',
 				afterwork: '#f9bf2b',
 				reserved: '#753a88',
+				officialbreak: '#db2a26',
 				break: '#db2a26',
 				other: '#bbb'
 			}

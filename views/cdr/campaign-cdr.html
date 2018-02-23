@@ -13,52 +13,52 @@
             </div>
 
             <div class="x_content" ng-show="showFilter">
-                    <div class="clearfix bottom-gray-200 m-bottom20">
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <!--<input type="text" class="form-control" name="agent" ng-model="agentFilter" placeholder="Agent">-->
-                            <input type="text" class="form-control" ng-model="agentFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.SipUsername as usr.SipUsername for usr in userList" placeholder="Agent" bs-typeahead>
-                        </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <!--<input type="text" class="form-control" name="skillFilter" ng-model="skillFilter" placeholder="Skill">-->
+                <div class="clearfix bottom-gray-200 m-bottom20">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <!--<input type="text" class="form-control" name="agent" ng-model="agentFilter" placeholder="Agent">-->
+                        <input type="text" class="form-control" ng-model="agentFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.SipUsername as usr.SipUsername for usr in userList" placeholder="Agent" bs-typeahead>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <!--<input type="text" class="form-control" name="skillFilter" ng-model="skillFilter" placeholder="Skill">-->
 
-                            <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="queue.QueueName as queue.QueueName for queue in qList" placeholder="Skill" bs-typeahead>
+                        <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="queue.QueueName as queue.QueueName for queue in qList" placeholder="Skill" bs-typeahead>
 
-                        </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <input type="text" class="form-control" name="custFilter" ng-model="custFilter" placeholder="Customer Number">
-                        </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-                                    ng-options="camp.CampaignName as camp.CampaignName for camp in campaignList"
-                                    ng-model="campaignFilter">
-                                <option value="">ALL CAMPAIGNS</option>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <input type="text" class="form-control" name="custFilter" ng-model="custFilter" placeholder="Customer Number">
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                ng-options="camp.CampaignName as camp.CampaignName for camp in campaignList"
+                                ng-model="campaignFilter">
+                            <option value="">ALL CAMPAIGNS</option>
+                        </select>
+                        <!--<input type="text" class="form-control" ng-model="campaignFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="camp.CampaignName as camp.CampaignName for camp in campaignList" placeholder="Campaign" bs-typeahead>-->
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <select name="directionFilter" ng-model="directionFilter"
+                                    aria-controls="datatable-responsive" class="form-control">
+                                <option value="">DIRECTION - ANY</option>
+                                <option value="inbound">DIRECTION - INBOUND</option>
+                                <option value="outbound">DIRECTION - OUTBOUND</option>
                             </select>
-                            <!--<input type="text" class="form-control" ng-model="campaignFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="camp.CampaignName as camp.CampaignName for camp in campaignList" placeholder="Campaign" bs-typeahead>-->
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <select name="directionFilter" ng-model="directionFilter"
-                                        aria-controls="datatable-responsive" class="form-control">
-                                    <option value="">DIRECTION - ANY</option>
-                                    <option value="inbound">DIRECTION - INBOUND</option>
-                                    <option value="outbound">DIRECTION - OUTBOUND</option>
-                                </select>
-                            </div>
 
-                        </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2 text-right">
-                            <div>
-                                <a ng-if="fileDownloadState === 'READY'" class="btn btn-success" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <i class="fa fa-download"></i></a>
-                                <button ng-if="fileDownloadState === 'RESET'" ng-disabled="!cancelDownload" class="btn btn-success" type="button" ng-click="getProcessedCDRCSVDownload()">
-                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <i ng-class="buttonClass"></i>
-                                </button>
-                                <!--<button type="button" style="width:60px; height:30px; background-image: url(assets/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
-                            </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2 text-right">
+                        <div>
+                            <a ng-if="fileDownloadState === 'READY'" class="btn btn-success" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-download"></i></a>
+                            <button ng-if="fileDownloadState === 'RESET'" ng-disabled="!cancelDownload" class="btn btn-success" type="button" ng-click="getProcessedCDRCSVDownload()">
+                                CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i ng-class="buttonClass"></i>
+                            </button>
+                            <!--<button type="button" style="width:60px; height:30px; background-image: url(assets/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
                         </div>
                     </div>
-                    <div class="row clearfix">
+                </div>
+                <div class="row clearfix">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-md-2 col-sm-2 col-xs-12">
                             <label>Start Date</label>

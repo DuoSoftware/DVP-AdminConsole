@@ -790,7 +790,7 @@ a:hover, a:focus {
     padding: 8px 10px 8px 20px;
     font-family: 'Roboto', sans-serif !important;
     font-weight: 500 !important;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .nav.side-menu > li.current-page, .nav.side-menu > li.active {
@@ -925,6 +925,12 @@ a:hover, a:focus {
 .panel_toolbox {
     float: right;
     /*min-width: 70px;*/
+}
+
+.panel_toolbox.navbar-right.offset {
+    position: absolute;right: 0;top: 60px;
+    border-radius: 3px;
+    background: #eee;
 }
 
 .panel_toolbox > li {
