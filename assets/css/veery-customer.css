@@ -2026,7 +2026,7 @@ small > i {
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus,
 .nav-tabs > li.active > a:hover {
-    color: #f8b01d;
+    color: #ee407d;
     cursor: default;
     background-color: transparent;
     border: 0;
@@ -2892,6 +2892,7 @@ ul.count2 {
 }
 
 .pricing {
+    position: relative;
     background: #fff;
     border-radius: 10px;
 }
@@ -2945,7 +2946,7 @@ ul.count2 {
     color: #fff;
     position: absolute;
     top: 10px;
-    right: 30px;
+    right: 10px;
 }
 
 .select-package-icon>i{
@@ -3254,7 +3255,7 @@ ul.social li {
 }
 
 .pricing .title h2 {
-    text-transform: capitalize;
+    text-transform: uppercase;
     /*color: #2ba89c;*/
     color: #6a3390;
 }
@@ -3334,10 +3335,10 @@ ul.social li {
 
 /*pagination style*/
 .pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover, .pagination > .disabled > span, .pagination > .disabled > span:focus, .pagination > .disabled > span:hover {
-    color: #2ba89c;
+    color: #a9a9a9;
     cursor: not-allowed;
     background-color: #fff;
-    border-color: #f8b01d;
+    border-color: #ee407d;
 }
 
 .pagination > li:first-child > a, .pagination > li:first-child > span {
@@ -3355,8 +3356,9 @@ ul.social li {
     z-index: 0;
     color: #fff;
     cursor: default;
-    background-color: #f8b01d;
-    border-color: #f8b01d;
+    background-color: #ee407d;
+    border-color: #ee407d;
+    top: 1px;
 }
 
 .x_title span {
@@ -4483,6 +4485,11 @@ footer {
     border-right: 1px solid #e8e8e8;
 }
 
+.well{
+    background-color: #ebcfff!important;
+    border: 1px solid #994bd0!important;
+}
+
 .well-price {
     margin-top: 45px;
     overflow: hidden;
@@ -5059,6 +5066,7 @@ section.h3 {
     text-transform: uppercase;
     font-size: 18px;
     font-weight: 500;
+    margin: 0;
 }
 
 .x_panel.main-title {
@@ -5074,11 +5082,13 @@ section.h3 {
     font-size: 22px;
     /*font-weight: 700;*/
     color: #6a3390;
+    margin: 5px 0;
 }
 .x_panel.main-title>.x_title{
     margin-bottom: 0;
     padding: 5px 0px 5px!important;
     margin: 0;
+    border-color: #fff;
 }
 
 .x_panel.main-title>.x_content{
@@ -8059,8 +8069,8 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     font-family: 'Roboto-bold', sans-serif !important;
     font-size: 13px;
     letter-spacing: 1.7px;
-    color: #8a8e86;
-    border-bottom: 2px solid #8fd539;
+    color: #ee407d;
+    border-bottom: 2px solid #ee407d;
     box-shadow: 0 26px 21px 0 rgba(143, 213, 56, 0.1);
 }
 
