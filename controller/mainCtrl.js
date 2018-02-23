@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http) {
 
 
     // check adminconsole is focus or not.
@@ -385,6 +385,8 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		if(Object.keys(result).length
 			=== 3){
 			$rootScope.freshUser = true;
+		}else{
+			$rootScope.allUsers = true;
 		}
     	// Kasun_Wijeratne_14_JAN_2018 - END
 
@@ -1640,7 +1642,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 	 * GUIDE FOR FRESH USERS
 	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
 	$scope.freshUserConfigStep = 0;
-	$rootScope.freshUserConfigMin = false;
+	$rootScope.userGuideMin = false;
 	$rootScope.toggleFreshUserGuide = function () {
 		$rootScope.freshUser = !$rootScope.freshUser;
 	};
@@ -1652,8 +1654,33 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		}
 	};
 	$scope.minMaxFreshUserConfig = function () {
-		$rootScope.freshUserConfigMin = !$rootScope.freshUserConfigMin;
+		$rootScope.userGuideMin = !$rootScope.userGuideMin;
 	};
+
+	/** GUIDE FOR ALL USERS
+	* Functionality for the Guide panel of all users appears after the main configuration is done.*/
+	$rootScope.userGuide = {};
+	$scope.userGuideStep = 0;
+	$scope.$watch(function () {
+		$rootScope.$statecurrent = $state.current.name.split('.')[1];
+	});
+	$http.get('assets/js/userguide.json').then(function (res) {
+		$rootScope.userGuide = res.data.secondaryguide;
+		var b = $rootScope.userGuide[$rootScope.$statecurrent];
+	}, function (errorres) {
+		debugger;
+	});
+
+	$scope.activeGuide = {};
+	$scope.rotateAllUserGuide = function (direction) {
+		if(direction == 'forward'){
+			$scope.userGuideStep++;
+		}else if(direction == 'backward' && $scope.userGuideStep != 0){
+			$scope.userGuideStep--;
+		}
+	};
+
+
 	/** -------------------------------------------------------------------------
 	/*Kasun_Wijeratne_14_FEB_2018*/
 

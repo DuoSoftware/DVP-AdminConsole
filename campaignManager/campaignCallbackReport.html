@@ -1,17 +1,20 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
+        <div class="x_panel main-title">
             <div class="x_title">
-                <h2>Campaign Callback Report</h2>
+                <h2><b>REPORT</b> | CAMPAIGN - Callback</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+                    </li>
+                </ul>
                 <div class="clearfix"></div>
             </div>
-
-            <div class="x_content">
+            <div class="x_content" ng-show="showFilter">
                 <div class="col-md-12 col-sm-6 col-xs-12">
                     <form id="campaingForm" name="ivrForm" novalidate class="form-label-left input_mask">
-
                         <div class="row">
-
                             <div class="col-md-10 col-sm-4 col-xs-4 form-group"
                                  ng-class="{ 'has-error' : campaingForm.Extensions.$invalid && !campaingForm.Extensions.$pristine }">
                                 <select class="form-control has-feedback-left" id="Extensions"
@@ -25,8 +28,6 @@
                                    class="help-block">
                                     Extensions is required.</p>
                             </div>
-
-
                             <div class="col-md-2 col-sm-2 col-xs-12  form-group has-feedback">
                                 <button ng-if="!isLoading" ng-disabled="campaingForm.$invalid" type="button"
                                         class="btn btn-green btn-block"
@@ -43,14 +44,10 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12 col-sm-6 col-xs-12" ng-hide="intiate">
-        <div class="x_panel">
+        <div class="x_panel" ng-hide="intiate">
             <div class="x_title">
-                <h2>Campaign {{campaign.CampaignName}} Callbacks
+                <h2>Details
+                    <!--Campaign {{campaign.CampaignName}} Callbacks-->
                     <!--<small> {{campaingSerachData.StartTime| date : 'dd-MM-yyyy HH:mm'}} To {{campaingSerachData.EndTime| date :
                         'dd-MM-yyyy HH:mm'}}
                     </small>-->
