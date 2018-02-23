@@ -21,6 +21,85 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
         });
     };
 
+    $scope.availableKb=0;
+    $scope.usedSize=0;
+    $scope.allocatedSpace=0;
+    $scope.usedPtg=0;
+
+    /*function bytesToSize(kbs) {
+
+     var bytes = parseInt(kbs)*1024;
+     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+     if (bytes == 0) return 'n/a';
+     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+     if (i == 0) return bytes + ' ' + sizes[i];
+     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+     };
+
+     function setToKbs(size,type) {
+
+     var kbSize=0;
+
+     switch(type)
+     {
+     case "MB" : kbSize = size*1024; break;
+     case "GB" : kbSize = size*Math.pow(1024,2); break;
+     case "TB" : kbSize = size*Math.pow(1024,3); break;
+     default : size*1024; break;
+     }
+
+     return kbSize;
+
+     };*/
+
+    function getUsedSpaceInAllocatedStorageFormat(size,type) {
+
+        var usdSize=0;
+
+        switch(type)
+        {
+            case "MB" : usdSize = size/1024; break;
+            case "GB" : usdSize = size/Math.pow(1024,2); break;
+            case "TB" : usdSize = size/Math.pow(1024,3); break;
+            default : size/1024; break;
+        }
+
+        return usdSize.toFixed(2);
+
+    }
+
+
+    $scope.loadFileStorageDetails = function () {
+
+        fileService.getStorageDetails().then(function (resStore) {
+
+            if(resStore.spaceLimit && resStore.spaceUnit && resStore.currTotal)
+            {
+                $scope.allocatedSpace=resStore.spaceLimit +" "+ resStore.spaceUnit;
+                /*$scope.limitInKb = setToKbs(resStore.spaceLimit,resStore.spaceUnit);*/
+                $scope.usedSize=getUsedSpaceInAllocatedStorageFormat(resStore.currTotal,resStore.spaceUnit);
+                $scope.usedSizeWithType=$scope.usedSize+" "+resStore.spaceUnit;
+                $scope.usedPtg  =(($scope.usedSize/resStore.spaceLimit)*100).toFixed(1);
+                /* parseInt((parseInt(resStore.currTotal)/$scope.limitInKb)*100);*/
+
+                $('#storage-bar').css('width', $scope.usedPtg+'%').attr('aria-valuenow', $scope.usedPtg);
+                /*$('.progress-bar').addClass('progress-bar-striped bg-success progress-bar-animated');*/
+                /*usedSize = bytesToSize(parseInt(resStore.currTotal));
+                 availableSize = bytesToSize(limitInKb - parseInt(resStore.currTotal));*/
+
+            }
+
+
+        },function (errStore) {
+            $scope.showError("Error","Error in loading Storage Details")
+        })
+    };
+
+
+
+
+    $scope.loadFileStorageDetails();
+
     uploader.filters.push({
         name: 'customFilter',
         fn: function (item /*{File|FileLikeObject}*/, options) {
@@ -28,15 +107,59 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
         }
     });
 
+    $scope.UploadSize=0;
+    $scope.getUploadSize = function () {
+        fileService.getUploadSize().then(function (resSize) {
+            $scope.UploadSize=resSize;
+        },function (errRes) {
+
+        });
+    }
+    $scope.getUploadSize();
     //uploader.formData.push({'DuoType' : 'fax'});
 
     // CALLBACKS
 
+    $scope.disblUpload = false;
+
+    $scope.checkReadyToUploadAll = function () {
+
+        if(uploader.queue.filter(function( obj ) {return obj.readyToUpload == false;}).length>0)
+        {
+            $scope.disblUpload = true;
+        }
+        else {
+            $scope.disblUpload = false;
+        }
+
+
+
+    };
+
+    $scope.removeItemFromQueue = function (item) {
+        uploader.queue = uploader.queue.filter(function( obj ) {return obj != item;});
+        $scope.checkReadyToUploadAll();
+
+    }
+
+    $scope.disbleAllUpload=false;
     uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
         console.info('onWhenAddingFileFailed', item, filter, options);
     };
     uploader.onAfterAddingFile = function (fileItem) {
         console.info('onAfterAddingFile', fileItem);
+        if($scope.UploadSize !=0 && $scope.UploadSize<(parseInt(fileItem.file.size)/1024))
+        {
+            fileItem.readyToUpload=false;
+            $scope.disbleAllUpload=true;
+        }
+        else
+        {
+            fileItem.readyToUpload=true;
+        }
+
+        $scope.checkReadyToUploadAll();
+
 
     };
     uploader.onAfterAddingAll = function (addedFileItems) {
@@ -82,12 +205,13 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');
+        $scope.loadFileStorageDetails();
     };
 
     console.info('uploader', uploader);
 
     $scope.file = {};
-    $scope.file.Category = {};
+    $scope.file.Category = undefined;
     $scope.loadFileService = function () {
 
         $scope.Categorys=[];
@@ -260,6 +384,88 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     var categoryObj = {
         categoryList:[]
     };
+
+
+    $scope.availableKb=0;
+    $scope.usedSize=0;
+    $scope.allocatedSpace=0;
+    $scope.usedPtg=0;
+
+    /*function bytesToSize(kbs) {
+
+        var bytes = parseInt(kbs)*1024;
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return 'n/a';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        if (i == 0) return bytes + ' ' + sizes[i];
+        return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+    };
+
+    function setToKbs(size,type) {
+
+        var kbSize=0;
+
+        switch(type)
+        {
+            case "MB" : kbSize = size*1024; break;
+            case "GB" : kbSize = size*Math.pow(1024,2); break;
+            case "TB" : kbSize = size*Math.pow(1024,3); break;
+            default : size*1024; break;
+        }
+
+        return kbSize;
+
+    };*/
+
+    function getUsedSpaceInAllocatedStorageFormat(size,type) {
+
+        var usdSize=0;
+
+        switch(type)
+        {
+            case "MB" : usdSize = size/1024; break;
+            case "GB" : usdSize = size/Math.pow(1024,2); break;
+            case "TB" : usdSize = size/Math.pow(1024,3); break;
+            default : size/1024; break;
+        }
+
+        return usdSize.toFixed(2);
+
+    }
+
+
+    $scope.loadFileStorageDetails = function () {
+
+        fileService.getStorageDetails().then(function (resStore) {
+
+            if(resStore.spaceLimit && resStore.spaceUnit && resStore.currTotal)
+            {
+                $scope.allocatedSpace=resStore.spaceLimit +" "+ resStore.spaceUnit;
+                /*$scope.limitInKb = setToKbs(resStore.spaceLimit,resStore.spaceUnit);*/
+                $scope.usedSize=getUsedSpaceInAllocatedStorageFormat(resStore.currTotal,resStore.spaceUnit);
+                $scope.usedSizeWithType=$scope.usedSize+" "+resStore.spaceUnit;
+                $scope.usedPtg  =(($scope.usedSize/resStore.spaceLimit)*100).toFixed(1);
+                /* parseInt((parseInt(resStore.currTotal)/$scope.limitInKb)*100);*/
+
+                $('.progress-bar').css('width', $scope.usedPtg+'%').attr('aria-valuenow', $scope.usedPtg);
+                /*$('.progress-bar').addClass('progress-bar-striped bg-success progress-bar-animated');*/
+                /*usedSize = bytesToSize(parseInt(resStore.currTotal));
+                availableSize = bytesToSize(limitInKb - parseInt(resStore.currTotal));*/
+
+            }
+
+
+        },function (errStore) {
+            $scope.showError("Error","Error in loading Storage Details")
+        })
+    };
+
+
+
+
+    $scope.loadFileStorageDetails();
+
+
     $scope.loadFileList = function (pageSize, currentPage) {
         $scope.files = [];
         $scope.noDataToshow = false;
@@ -531,7 +737,11 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             $scope.isLoading = false;
         });
     };
+
+
 });
+
+
 
 app.controller('SidebarController', function ($scope, sidebar) {
         $scope.sidebar = sidebar;
