@@ -801,19 +801,19 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
             if (response.IsSuccess) {
                 var jResult = JSON.parse(response.Result);
                 var result = jResult.productCheckoutList[0];
-                $scope.showAlert("Voxbone", "success", result.message);
+                $scope.showAlert("Voxbone", result.message, "success");
                 $scope.closeModal();
             }
             else {
                 if (Array.isArray(response.Result)) {
-                    $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                    $scope.showAlert("Voxbone", response.Result[0].apiErrorMessage, 'error');
                 } else {
                     var errMsg = response.CustomMessage;
 
                     if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert("Voxbone", 'error', errMsg);
+                    $scope.showAlert("Voxbone", errMsg, 'error');
                 }
             }
         }, function (err) {
@@ -822,7 +822,7 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
             if (err.statusText) {
                 errMsg = err.statusText;
             }
-            $scope.showAlert('Voxbone', 'error', errMsg);
+            $scope.showAlert('Voxbone', errMsg, 'error');
         });
     };
 

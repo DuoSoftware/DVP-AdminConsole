@@ -519,6 +519,7 @@
             $scope.CurrentTab = 'Info';
 
             loadProfile($stateParams.username);
+            //loadProfile($scope.CurrentProfile.username);
             loadSipUsers();
 
         };
@@ -711,15 +712,15 @@
                         resourceService.SaveResource({ResourceName: $scope.CurrentProfile.username}).then(function (response) {
                             if (response.IsSuccess) {
 
-                                resourceService.SetResourceToProfile($scope.CurrentProfile.username, response.Result.ResourceId).then(function (response) {
-                                    if (response) {
+                                resourceService.SetResourceToProfile($scope.CurrentProfile.username, response.Result.ResourceId).then(function (mappingStatus) {
+                                    if (mappingStatus) {
                                         $scope.showAlert('Success', 'success', 'User profile updated successfully');
-                                        $scope.showAlert("Map To Resource", "info", "Resource " + resource.ResourceName + " Successfully Save.");
+                                        $scope.showAlert("Map To Resource", "info", "Resource " + response.Result.ResourceName + " Successfully Save.");
                                         resetPage();
                                     }
                                     else {
                                         $scope.showAlert('Success', 'success', 'User profile updated successfully');
-                                        $scope.showAlert("Map To Resource", "warn", "Resource " + resource.ResourceName + " Save Successfully Without Mapping to Profile.");
+                                        $scope.showAlert("Map To Resource", "warn", "Resource " + response.Result.ResourceName + " Save Successfully Without Mapping to Profile.");
                                         resetPage();
                                     }
                                 }, function (error) {
