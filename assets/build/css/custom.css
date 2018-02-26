@@ -381,8 +381,8 @@ body .container.body .right_col {
 }
 
 .bg-green {
-    background: #1ABB9C !important;
-    border: 1px solid #1ABB9C !important;
+    background: #6a3390 !important;
+    border: 1px solid #6a3390 !important;
     color: #fff;
 }
 
@@ -644,6 +644,10 @@ a:hover, a:focus {
 
 .top_nav li a i {
     font-size: 15px;
+    color: #bbb;
+}
+.top_nav li a i.active {
+    color: #974acc;
 }
 
 .navbar-static-top {
@@ -786,7 +790,7 @@ a:hover, a:focus {
     padding: 8px 10px 8px 20px;
     font-family: 'Roboto', sans-serif !important;
     font-weight: 500 !important;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .nav.side-menu > li.current-page, .nav.side-menu > li.active {
@@ -923,6 +927,12 @@ a:hover, a:focus {
     /*min-width: 70px;*/
 }
 
+.panel_toolbox.navbar-right.offset {
+    position: absolute;right: 0;top: 60px;
+    border-radius: 3px;
+    background: #eee;
+}
+
 .panel_toolbox > li {
     float: left;
     cursor: pointer;
@@ -1018,6 +1028,18 @@ footer {
 
 .tile {
     overflow: hidden;
+        padding: 0 10px 10px 10px;
+    margin: 10px 0;
+        font-weight: 600;
+    color: #6a3390;
+}
+.tile>span{
+    font-weight: normal;
+    color: #000;
+}
+
+.row .tile:not(:last-child) {
+    border-right: solid 1px #eee;
 }
 
 .top_tiles {
@@ -1163,9 +1185,9 @@ h2 {
     /*-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);*/
-    -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-    -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 .x_panel h2{
@@ -1213,7 +1235,8 @@ h2 {
 }
 
 .x_title {
-    border-bottom: 2px solid #F7F7F7;
+    /*border-bottom: 2px solid #F7F7F7;*/
+    border-bottom: 2px solid #c267ff;
     /*padding: 15px 5px 6px;*/
     padding: 5px 0px 10px;
     margin-bottom: 10px;
@@ -1852,6 +1875,10 @@ ul.msg_list li a .message {
     position: absolute;
     right: 2px;
     top: 8px;
+    background: #bbb;
+}
+.info-number .badge.active {
+    background: #974acc;
 }
 
 ul.to_do {
@@ -3069,11 +3096,11 @@ ul.bar_tabs > li {
 }
 
 ul.bar_tabs > li.active {
-    border-right: 0px solid #D3D6DA;
+        border-right: 0px solid #D3D6DA;
     border-top: 0;
     margin-top: -15px;
     background: transparent;
-    border-bottom: 2px solid #f8b01d;
+    /* border-bottom: 3px solid #ee407d; */
 }
 
 ul.bar_tabs > li a {
@@ -3083,8 +3110,8 @@ ul.bar_tabs > li a {
     border-top-right-radius: 0;
     font-family: 'Roboto', sans-serif !important;
     font-weight: 300;
-    font-size: 15px;
-    color: #ffffff;
+    /*font-size: 15px;*/
+    /*color: #ffffff;*/
     text-transform: uppercase;
 }
 
@@ -3094,7 +3121,7 @@ ul.bar_tabs > li a:hover {
 }
 
 ul.bar_tabs > li.active a {
-    border-bottom: none;
+    /*border-bottom: none;*/
 }
 
 ul.bar_tabs.right {
@@ -3588,10 +3615,17 @@ ul.stats-overview {
 }
 
 ul.stats-overview li {
-    display: inline-block;
+    /*display: inline-block;
     text-align: center;
     padding: 0 15px;
     width: 30%;
+    font-size: 14px;
+    border-right: 1px solid #e8e8e8;*/
+
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    width: 33%;
     font-size: 14px;
     border-right: 1px solid #e8e8e8;
 }
@@ -3988,8 +4022,9 @@ ul.project_files li a i {
 /* *********  /verticle tabs  **************************** */
 .avatar-view {
     display: block;
-    border: 3px solid #fff;
-    border-radius: 5px;
+    border: 5px solid #fff;
+    /*border-radius: 5px;*/
+    border-radius: 50%;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     overflow: hidden;
@@ -5049,7 +5084,7 @@ fieldset {
 }
 
 .progress-bar-success {
-    background-color: #26B99A;
+    background-color: #6a3390;
 }
 
 .progress_summary .progress {
@@ -5550,7 +5585,7 @@ ul.notifications {
 
 .product_price {
     margin: 20px 0;
-    padding: 5px 10px;
+    padding: 15px 5px 5px 5px;
     background-color: #f7f7f7;
     text-align: left;
     border: 2px solid #f7f7f7;
@@ -5633,7 +5668,7 @@ ul.notifications {
     padding: 0!important;
 }
 .ui-grid-row:nth-child(even) .ui-grid-cell{
-    background-color: rgba(43, 168, 156, 0.04)!important;
+    background-color: rgb(255, 243, 247)!important;
 }
 .ui-grid-row:nth-child(odd) .ui-grid-cell{
     background-color: transparent!important;
@@ -5650,7 +5685,7 @@ ul.notifications {
     font-weight: bolder!important;
     opacity: 0.5!important;
     border-radius: 50%;
-    background: #2ba89c;
+    background: #6a3390;
     color: #fff;
 }
 .ui-grid-header-cell-wrapper .ui-grid-icon-ok:before{
@@ -5781,6 +5816,15 @@ ul.notifications {
     width: 70%;
     text-align: left;
     line-height: 30px;
+    padding: 20px 0;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.user-guide-wrap .user-guide-step .step-body .step-content-block:nth-child(even) .step-content-text{
+    background: #ee407d12;
+}
+.user-guide-wrap .user-guide-step .step-body .step-content-block:nth-child(odd) .step-content-text{
+    background: #6a339012;
 }
 .user-guide-wrap .user-guide-step .step-content-block .step-content-text ul{
 }
@@ -5802,8 +5846,8 @@ ul.notifications {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border-right: solid 10px #aaa;
-    border-bottom: solid 10px #aaa;
+    border-right: solid 10px #ee407d;
+    border-bottom: solid 10px #ee407d;
     border-left: solid 10px #fff;
     border-top: solid 10px #fff;
 }
@@ -5815,3 +5859,10 @@ ul.notifications {
     transform: rotate(45deg);
 }
 /*. .   .   .   .   .   .   .       .*/
+
+
+.ui-tabs-scrollable > .dropdown > .dropdown-toggle, .ui-tabs-scrollable > .nav-button{
+    color: #ee407d!important;
+    background: transparent!important;
+    border: none!important;
+}

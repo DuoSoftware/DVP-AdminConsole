@@ -14,11 +14,20 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
 
     $window.fbAsyncInit = function () {
 
+        /*FB.init({
+            appId      : '1339841416135058',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v2.12'
+        });
+
+        FB.AppEvents.logPageView();*/
+
         FB.init({
-            appId: '2014934418779879',
+            appId: '1653017581444883',
             cookie: true,
             xfbml: true,
-            version: 'v2.8'
+            version: 'v2.12'
         });
 
         /* FB.init({

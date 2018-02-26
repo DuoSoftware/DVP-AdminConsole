@@ -50,7 +50,7 @@
                                aria-expanded="false">
                                 <!--<i class="veery-font-1-alarm "></i>-->
                                 <i class="fa fa-bell"></i>
-                                <span class="badge bg-green">{{unredNotifications}}</span>
+                                <span class="badge bg-green" ng-if="unredNotifications > 0">{{unredNotifications}}</span>
                             </a>
 
                             <ul id="menu1"
@@ -1163,12 +1163,12 @@
     <!--##########################################
         GUIDE FOR FRESH USERS
         #####################-->
-    <div class="user-guide-wrap" ng-if="freshUser == true" ng-class="{'dialog-min':freshUserConfigMin}">
+    <div class="user-guide-wrap" ng-if="freshUser == true" ng-class="{'dialog-min':userGuideMin}">
         <div class="dialog-toolbar">
-            <span class="iconed-btn right glyphicon glyphicon-{{freshUserConfigMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
+            <span class="iconed-btn right glyphicon glyphicon-{{userGuideMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
         </div>
-        <div ng-if="freshUserConfigMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
-        <div class="dialog-body" ng-if="!freshUserConfigMin">
+        <div ng-if="userGuideMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
+        <div class="dialog-body" ng-if="!userGuideMin && !allUsers">
             <div class="user-guide-step" ng-if="freshUserConfigStep == 0">
                 <h1>Welcome to FaceTone!</h1>
                 <div class="step-body" style="overflow: hidden">
@@ -1326,7 +1326,29 @@
 
             <div class="step-footer" ng-if="freshUserConfigStep != 0">
                 <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
-                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')">Next ></button>
+                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')" ng-disabled="freshUserConfigStep == 3">Next ></button>
+            </div>
+        </div>
+        <div class="dialog-body" ng-if="!userGuideMin && allUsers">
+            <div class="user-guide-step" ng-repeat="userguide in userGuide[$statecurrent].pages" ng-if="userGuideStep == $index">
+                <h2 style="text-transform: capitalize">{{$statecurrent}} guide</h2>
+                <div class="step-body">
+                    <div class="step-content-block image-block clearfix" ng-repeat="step in userguide.steps">
+                    <div class="step-content-image">
+                        <img class="img-sm" src="{{step.image}}" alt="">
+                    </div>
+                    <div class="step-content-text">
+                        <ul>
+                            <li>{{step.description}}</li>
+                        </ul>
+                    </div>
+                </div>
+                    <div class="step-arrow down lefty" ng-if="$index < userguide.length-1"><span></span></div>
+                </div>
+            </div>
+            <div class="step-footer">
+                <button type="button" class="btn btn-default btn-left" ng-click="rotateAllUserGuide('backward')">< Previous</button>
+                <button type="button" class="btn btn-default btn-right" ng-click="rotateAllUserGuide('forward')" ng-disabled="userGuideStep == userGuide[$statecurrent].pages.length - 1">Next ></button>
             </div>
         </div>
     </div>
