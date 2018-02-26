@@ -799,9 +799,9 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
     $scope.initiateOrder = function () {
         voxboneApi.OrderDid($scope.order).then(function (response) {
             if (response.IsSuccess) {
-                var jResult = JSON.parse(response.Result);
-                var result = jResult.productCheckoutList[0];
-                $scope.showAlert("Voxbone", result.message, "success");
+                //var jResult = JSON.parse(response);
+                //var result = jResult.productCheckoutList[0];
+                $scope.showAlert("Voxbone", response.CustomMessage, "success");
                 $scope.closeModal();
             }
             else {
