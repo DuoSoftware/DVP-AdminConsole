@@ -594,7 +594,10 @@
                     },
                     numberRates: function () {
                         return $scope.numberRates;
-                    }
+                    },
+					clearOrder: function () {
+						return $scope.clearOrder;
+					}
                 }
             });
         };
@@ -773,7 +776,7 @@
 
 
 
-mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, voxboneApi) {
+mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, clearOrder, voxboneApi) {
     $scope.showModal = true;
     $scope.order = order;
     $scope.numberRates = numberRates;
@@ -833,6 +836,7 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
     };
 
     $scope.closeModal = function () {
+		clearOrder();
         $uibModalInstance.dismiss('cancel');
         //reloadPage();
     }
