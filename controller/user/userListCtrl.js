@@ -196,11 +196,12 @@
                         resourceService.SaveResource({ResourceName: data.Result.username}).then(function (response) {
                             if (response.IsSuccess) {
 
-                                resourceService.SetResourceToProfile($scope.CurrentProfile.username, response.Result.ResourceId).then(function (response) {
-                                    if (response) {
-                                        $scope.showAlert("Map To Resource", "info", "Resource " + resource.ResourceName + " Successfully Save.");
+                                resourceService.SetResourceToProfile(response.Result.ResourceName, response.Result.ResourceId).then(function (mappingStatus) {
+                                    if (mappingStatus) {
+                                        $scope.showAlert("Map To Resource", "info", "Resource " + response.Result.ResourceName + " Successfully Save.");
+                                    }else {
+                                        $scope.showAlert("Map To Resource", "warn", "Resource " + response.Result.ResourceName + " Save Successfully Without Mapping to Profile.");
                                     }
-                                    $scope.showAlert("Map To Resource", "warn", "Resource " + resource.ResourceName + " Save Successfully Without Mapping to Profile.");
                                     $scope.showAlert('Success', 'info', 'User added');
                                     resetForm();
                                     loadUsers();
