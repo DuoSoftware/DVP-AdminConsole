@@ -594,9 +594,6 @@
                     },
                     numberRates: function () {
                         return $scope.numberRates;
-                    },
-                    clearOrder: function () {
-                        return $scope.clearOrder;
                     }
                 }
             });
@@ -776,7 +773,7 @@
 
 
 
-mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, clearOrder, voxboneApi) {
+mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, voxboneApi) {
     $scope.showModal = true;
     $scope.order = order;
     $scope.numberRates = numberRates;
@@ -802,21 +799,21 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
     $scope.initiateOrder = function () {
         voxboneApi.OrderDid($scope.order).then(function (response) {
             if (response.IsSuccess) {
-                //var jResult = JSON.parse(response);
-                //var result = jResult.productCheckoutList[0];
-                $scope.showAlert("Voxbone", response.CustomMessage, "success");
+                var jResult = JSON.parse(response.Result);
+                var result = jResult.productCheckoutList[0];
+                $scope.showAlert("Voxbone", "success", result.message);
                 $scope.closeModal();
             }
             else {
                 if (Array.isArray(response.Result)) {
-                    $scope.showAlert("Voxbone", response.Result[0].apiErrorMessage, 'error');
+                    $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
                 } else {
                     var errMsg = response.CustomMessage;
 
                     if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert("Voxbone", errMsg, 'error');
+                    $scope.showAlert("Voxbone", 'error', errMsg);
                 }
             }
         }, function (err) {
@@ -825,12 +822,11 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
             if (err.statusText) {
                 errMsg = err.statusText;
             }
-            $scope.showAlert('Voxbone', errMsg, 'error');
+            $scope.showAlert('Voxbone', 'error', errMsg);
         });
     };
 
     $scope.closeModal = function () {
-        clearOrder();
         $uibModalInstance.dismiss('cancel');
         //reloadPage();
     }
