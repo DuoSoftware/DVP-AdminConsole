@@ -1331,7 +1331,7 @@
         </div>
         <div class="dialog-body" ng-if="!userGuideMin && allUsers">
             <div class="user-guide-step" ng-repeat="userguide in userGuide[$statecurrent].pages" ng-if="userGuideStep == $index">
-                <h1 style="text-transform: capitalize">{{$statecurrent}} guide</h1>
+                <h2 style="text-transform: capitalize">{{$statecurrent}} guide</h2>
                 <div class="step-body">
                     <div class="step-content-block image-block clearfix" ng-repeat="step in userguide.steps">
                     <div class="step-content-image">

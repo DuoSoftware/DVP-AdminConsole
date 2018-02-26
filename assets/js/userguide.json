@@ -31,6 +31,38 @@
             ]
           }
         ]
+      },
+      "callmonitor" : {
+        "title" : "Call Monitor",
+        "pages" : [
+          {
+            "steps" : [
+              {
+                "image" : "assets/images/noimage.jpg",
+                "description" : "Description goes here"
+              },{
+                "image" : "assets/images/noimage.jpg",
+                "description" : "Description goes here"
+              },{
+                "image" : "assets/images/noimage.jpg",
+                "description" : "Description goes here"
+              }
+            ]
+          },{
+            "steps" : [
+              {
+                "image" : "assets/images/noimage.jpg",
+                "description" : "Description goes here"
+              },{
+                "image" : "assets/images/noimage.jpg",
+                "description" : "Description goes here"
+              },{
+                "image" : "assets/images/noimage.jpg",
+                "description" : "Description goes here"
+              }
+            ]
+          }
+        ]
       }
     }
 }

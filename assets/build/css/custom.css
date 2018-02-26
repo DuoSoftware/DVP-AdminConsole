@@ -3096,11 +3096,11 @@ ul.bar_tabs > li {
 }
 
 ul.bar_tabs > li.active {
-    border-right: 0px solid #D3D6DA;
+        border-right: 0px solid #D3D6DA;
     border-top: 0;
     margin-top: -15px;
     background: transparent;
-    border-bottom: 2px solid #f8b01d;
+    /* border-bottom: 3px solid #ee407d; */
 }
 
 ul.bar_tabs > li a {
@@ -3110,8 +3110,8 @@ ul.bar_tabs > li a {
     border-top-right-radius: 0;
     font-family: 'Roboto', sans-serif !important;
     font-weight: 300;
-    font-size: 15px;
-    color: #ffffff;
+    /*font-size: 15px;*/
+    /*color: #ffffff;*/
     text-transform: uppercase;
 }
 
@@ -3121,7 +3121,7 @@ ul.bar_tabs > li a:hover {
 }
 
 ul.bar_tabs > li.active a {
-    border-bottom: none;
+    /*border-bottom: none;*/
 }
 
 ul.bar_tabs.right {
@@ -3615,10 +3615,17 @@ ul.stats-overview {
 }
 
 ul.stats-overview li {
-    display: inline-block;
+    /*display: inline-block;
     text-align: center;
     padding: 0 15px;
     width: 30%;
+    font-size: 14px;
+    border-right: 1px solid #e8e8e8;*/
+
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    width: 33%;
     font-size: 14px;
     border-right: 1px solid #e8e8e8;
 }
@@ -4015,8 +4022,9 @@ ul.project_files li a i {
 /* *********  /verticle tabs  **************************** */
 .avatar-view {
     display: block;
-    border: 3px solid #fff;
-    border-radius: 5px;
+    border: 5px solid #fff;
+    /*border-radius: 5px;*/
+    border-radius: 50%;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     overflow: hidden;

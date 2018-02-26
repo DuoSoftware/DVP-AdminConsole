@@ -959,8 +959,8 @@ label {
     font-size: 12px;
     padding-top: 20px;
     padding-bottom: 20px;
-    color: #aaa;
-    background: #fff;
+    color: #888;
+    /*background: #fff;*/
     width: 100%;
     text-align: center;
 }
@@ -1982,9 +1982,10 @@ small > i {
 }
 
 .profile_left > h3 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 500;
-    color: #f8b01d;
+    /*color: #f8b01d;*/
+    margin-bottom: 20px;
 }
 
 .profile_left > ul.profile-data-list > li {
@@ -3351,7 +3352,7 @@ ul.social li {
 }
 
 .pagination>li>a, .pagination>li>span{
-    color: #6d3593!important;
+    color: #6d3593;
     border: 1px solid #ee407d!important;
 }
 
@@ -3965,18 +3966,19 @@ tags-input .tags.focused {
 }
 
 ul.stats-overview.ticket-summary {
-    padding-bottom: 25px;
+    /*padding-bottom: 25px;*/
+    padding: 0 0 10px 0;
     margin-bottom: 13px;
 }
 
 ul.stats-overview.ticket-summary > .hidden-phone > .name {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
 }
 
 ul.stats-overview.ticket-summary > .hidden-phone > .value {
     font-size: 16px;
-    color: #2ba89c;
+    color: #6a3390;
 }
 
 .back-btn-wrapper {
@@ -5627,6 +5629,7 @@ ul.row-option > li.delete:focus {
 
 .w-bg-text-bg {
     font-size: 25px;
+    color: #6a3390;
 }
 
 .w-bg-text {
@@ -5648,7 +5651,7 @@ ul.row-option > li.delete:focus {
 }
 
 .widget-dy-wrp {
-    min-width: 242px;
+    /*min-width: 242px;
     min-height: 69px;
     background: rgb(255, 255, 255);
     overflow: hidden;
@@ -5657,6 +5660,17 @@ ul.row-option > li.delete:focus {
     margin: 2px 5px 0px 0px;
     padding: 10px 5px 5px 10px;
     border-left: 3px solid #ededed;
+    cursor: pointer;*/
+
+    min-width: 242px;
+    min-height: 69px;
+    background: rgb(255, 255, 255);
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 0px 0px 10px 0px;
+    padding: 10px 5px 5px 10px;
+    border-right: 1px solid #ddd;
     cursor: pointer;
 }
 
