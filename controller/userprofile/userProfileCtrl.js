@@ -672,6 +672,7 @@
 
         $scope.saveProfile = function () {
 
+            $scope.isEditState = false;
             var filteredUsers = $scope.sipUserList.filter(function (item) {
                 if (item.id == $scope.selectedSipUser.id) {
                     return true;
