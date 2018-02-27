@@ -41,7 +41,6 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
 
     //create new user
     var signUp = function (newUser) {
-    	debugger;
         $auth.signup(newUser)
             .then(function (response) {
                 //$auth.setToken(response);
@@ -61,7 +60,6 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
 	};
 
     $scope.onClickCreateAccount = function () {
-    	debugger;
         newUser.mail = $scope.email;
         newUser.companyname = $scope.companyName;
         newUser.password = $scope.password;
