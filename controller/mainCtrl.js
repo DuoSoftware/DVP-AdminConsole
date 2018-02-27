@@ -385,6 +385,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		if(Object.keys(result).length
 			=== 3){
 			$rootScope.freshUser = true;
+			$rootScope.allUsers = false;
 		}else{
 			$rootScope.allUsers = true;
 		}

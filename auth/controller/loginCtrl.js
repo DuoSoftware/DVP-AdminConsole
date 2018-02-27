@@ -123,7 +123,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                         if (result) {
                             loginService.getUserNavigation(function (isnavigation) {
                                 if (isnavigation)
-                                    $state.go('console');
+                                    $state.go('console.dashboard');
                                 //else
                                 // $state.go('login');
                             })

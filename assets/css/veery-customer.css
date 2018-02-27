@@ -4302,10 +4302,13 @@ ul#strength {
     position: absolute;
     top: -125px;
     left: 1px;
-    background: #080808;
+    background: #fafafa;
     padding: 15px 23px 13px 20px;
     z-index: 100;
     border-radius: 10px;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .password-leg-wrapper > ul > li {
@@ -6763,7 +6766,8 @@ ul.newsticker {
 }
 
 .ccp-top-widget.blue-l-400 {
-    background: #77EBF4;
+    /*background: #77EBF4;*/
+    background: #e5beff;
 }
 
 .ccp-body-widget-md.red-l-400 {
@@ -6835,7 +6839,7 @@ ul.newsticker {
     width: 55px;
     height: 55px;
     margin: 0 auto;
-    background: #74BEFB;
+    background: #6a3390;
     color: #fff;
     text-align: center;
     border-radius: 100%;
