@@ -1565,7 +1565,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             }
 
             if ($li.is('.active')) {
-                $li.removeClass('active active-sm activet');
+                $li.removeClass('active');
+                $li.removeClass('active-sm');
+                $li.removeClass('activet');
                 $('ul:first', $li).slideUp(function () {
                     setContentHeight();
                 });
@@ -1574,6 +1576,16 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 }
             } else {
                 // prevent closing menu if we are on child menu
+				var sibs = $li.siblings('.active');
+				var sibschild = sibs.find('.active');
+				sibs.removeClass('active');
+				sibs.removeClass('activet');
+				if(sibschild != undefined){
+					sibschild.removeClass('active');
+					sibschild.removeClass('activet');
+				}
+				// if(as!=undefined)
+				// 	var elems = $li.find('a').siblings('.active');
                 if (!$li.parent().is('.child_menu')) {
                     $SIDEBAR_MENU.find('li').removeClass('active active-sm');
                     $SIDEBAR_MENU.find('li ul').slideUp();
