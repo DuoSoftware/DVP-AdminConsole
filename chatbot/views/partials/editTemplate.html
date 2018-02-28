@@ -30,7 +30,7 @@
             <div class="application-edit">
                 <div class="col-sm-12">
                     <div class="col-sm-6">
-                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{templateType}}: {{template.name}}</h2>
+                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{templateCategory}}: {{template.name}}</h2>
                     </div>
                     <div class="col-sm-6">
                         <div class="edit-close pull-right">
@@ -42,37 +42,44 @@
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
 
-                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
-                                <label>{{templateType}} Name</label>
-                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="{{templateType}} Name">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Name</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="{{templateCategory}} Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Description</label>
                                 <input type="text" class="form-control has-feedback-left" ng-model="template.description" placeholder="Description">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
-                                <label>{{templateType}} Type</label>
-                                <select class="form-control has-feedback-left" ng-model="template.type" ng-options="x.Key for x in templateTypes">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Type</label>
+                                <select class="form-control has-feedback-left" ng-model="template.type" ng-options="x.Value as x.Key for x in templateTypes">
+                                </select>
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Content Type</label>
+                                <select class="form-control has-feedback-left" ng-model="template.contentType" ng-options="x.Value as x.Key for x in templateContentTypes">
                                 </select>
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
-                                <label>{{templateType}}s</label>
+                                <label>{{templateCategory}}s</label>
                                 <div class="row">
                                     <div class="card" ng-repeat="item in template.items">
-                                        <cardtemplate card="item" template-type="templateType"></cardtemplate>
+                                        <cardtemplate card="item" template-type="templateCategory"></cardtemplate>
                                         <a class="font-robot font-300 " ng-click="removeCard($index)">
-                                            <i class="fa fa-times"></i> Remove {{templateType}}
+                                            <i class="fa fa-times"></i> Remove {{templateCategory}}
                                         </a>
                                     </div>
                                     <div class="card">
                                         <a class="font-robot font-300 " ng-click="addNewCard(template)">
-                                            <i class="fa fa-plus"></i> New {{templateType}}
+                                            <i class="fa fa-plus"></i> New {{templateCategory}}
                                         </a>
                                     </div>
                                 </div>
@@ -116,8 +123,13 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">{{templateType}} Type</label>
+                <label class="form-control-static">{{templateCategory}} Type</label>
                 <p>{{template.type}} </p>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                <label class="form-control-static">Content Type</label>
+                <p>{{template.contentType}} </p>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
@@ -126,7 +138,7 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">{{templateType}} ID</label>
+                <label class="form-control-static">{{templateCategory}} ID</label>
                 <p>
                     <input type="text" ng-readonly="true" ng-model="template._id" id="{{template._id}}">
                     <input type="button" value="Copy" ng-click="copyCardID(template._id)">

@@ -7,8 +7,9 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
         restrict: "EAA",
         scope: {
             template: "=",
-            templateType: "=",
+            templateCategory: "=",
             templateTypes: "=",
+            templateContentTypes: "=",
             'updateTemplate': '&',
             'deleteTemplate': '&'
         },
@@ -19,12 +20,12 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
 
             
 
-            scope.templateType = scope.templateType;
+            scope.templateCategory = scope.templateCategory;
 
             scope.getSelectedTemplateType = function(){
                 angular.for
             }
-            scope.selectedTemplateType = scope.getSelectedTemplateType(scope.templateType);
+            scope.selectedTemplateType = scope.getSelectedTemplateType(scope.templateCategory);
 
             scope.editTemplate = function () {
                 scope.editMode = !scope.editMode;
@@ -47,7 +48,6 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
             }
 
             scope.copyCardID = function (cardID) {
-
                 var id = cardID;
                 window.getSelection().empty();
                 var copyField = document.getElementById(id);
@@ -56,22 +56,6 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
                 window.getSelection().addRange(range);
                 document.execCommand('copy');
                 scope.showAlert("Card ID", 'Card ID copied to clipboard.', "success");
-
-                // var copyElement = document.createElement("textarea");
-                // copyElement.style.position = 'fixed';
-                // copyElement.style.opacity = '0';
-                // copyElement.textContent = cardID;
-                // var body = document.getElementsByTagName('body')[0];
-                // body.appendChild(copyElement);
-                // copyElement.select();
-                // document.execCommand('copy');
-                // body.removeChild(copyElement);
-                // row.copied = true;
-                // var urlheaders = document.getElementsByClassName('url-header');
-                // $('<span class="dynamic-state-pill">Copied</span>').appendTo(urlheaders[index]);
-                // setTimeout(function () {
-                //     $('.dynamic-state-pill').remove();
-                // }, 1000);
             }
 
             scope.removeTemplate = function (item) {

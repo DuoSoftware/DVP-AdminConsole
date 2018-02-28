@@ -4,16 +4,25 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     console.log("Template controller is up!");
 
     $scope.getTemplateTypes = function (type) {
-        var returnArray = [];
+        var returnTypes = [];
+        var returnContentTypes = [];
         switch (type) {
             case "card": {
-                returnArray = [
+                returnTypes = [
+                    { "Key": "Select Type", "Value": "select" },
                     { "Key": "Generic", "Value": "generic" },
                     { "Key": "List", "Value": "list" }
-                ]; break;
+                ];
+                returnContentTypes = [
+                    { "Key": "Select Content Type", "Value": "select" },
+                    { "Key": "Dynamic", "Value": "dynamic" },
+                    { "Key": "Static", "Value": "static" }
+                ]
+                break;
             }
             case "attachment": {
-                returnArray = [
+                returnTypes = [
+                    { "Key": "Select Attachment Type", "Value": "select" },
                     { "Key": "Image", "Value": "image" },
                     { "Key": "Audio", "Value": "audio" },
                     { "Key": "Video", "Value": "video" },
@@ -21,42 +30,51 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
                 ]; break;
             }
         }
-        return returnArray;
+        return { types: returnTypes, contentTypes: returnContentTypes };
     }
-
-    $scope.TemplateTypes = [];
-    if ($stateParams.templateType == "cards") {
-        $scope.TemplateCategory = "Card";
-    } else if ($stateParams.templateType == "attachments") {
-        $scope.TemplateCategory = "Attachment";
-    }
-    $scope.TemplateTypes = $scope.getTemplateTypes($scope.TemplateCategory.toLowerCase());
 
     $scope.navigateToUI = function (location) {
         $state.go(location)
     }
 
     $scope.newTemplateSchema = function () {
-        return {
-            name: "",
-            description: "",
-            company: 0,
-            tenant: 0,
-            updated_at: Date.now(),
-            updated_at: Date.now(),
-            type: "",
-            items: [],
-            buttons: []
+        var obj = $scope.getTemplateTypes($scope.TemplateCategory.toLowerCase());
+        switch ($scope.TemplateCategory.toLowerCase()) {
+            case "card": {
+                return {
+                    name: "",
+                    description: "",
+                    company: 0,
+                    tenant: 0,
+                    created_at: Date.now(),
+                    updated_at: Date.now(),
+                    type: "select",
+                    contentType: "select",
+                    items: [],
+                    buttons: []
+                }
+            }
+            case "attachment": {
+                return {
+                    name: "",
+                    description: "",
+                    company: 0,
+                    tenant: 0,
+                    created_at: Date.now(),
+                    updated_at: Date.now(),
+                    type: "select",
+                    title: "",
+                    payload: {
+                        url: ""
+                    }
+                }
+            }
         }
     }
 
     $scope.AddNewTemplate = function (tempDetails) {
-        var template = $scope.newTemplateSchema();
-        template.name = tempDetails.name;
-        template.description = tempDetails.description;
-        template.type = tempDetails.type.Value;
-        //$scope.templateList.push(template);
-        $scope.SaveTemplate(template, $scope.TemplateCategory);
+        $scope.SaveTemplate(tempDetails, $scope.TemplateCategory);
+        $scope.newTemplate = $scope.newTemplateSchema();
     }
 
     $scope.SaveTemplate = function (template, category) {
@@ -117,5 +135,20 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
             $scope.showAlert("Template", 'error', "Failed to create new template.");
         });
     }
-    $scope.GetAllTemplates($scope.TemplateCategory);
+
+    $scope.runDefaultFunctions = function () {
+        $scope.TemplateTypes = [];
+        $scope.TemplateContentTypes = [];
+        if ($stateParams.templateType == "cards") {
+            $scope.TemplateCategory = "Card";
+        } else if ($stateParams.templateType == "attachments") {
+            $scope.TemplateCategory = "Attachment";
+        }
+        var obj = $scope.getTemplateTypes($scope.TemplateCategory.toLowerCase());
+        $scope.TemplateTypes = obj.types;
+        $scope.TemplateContentTypes = obj.contentTypes;
+        $scope.newTemplate = $scope.newTemplateSchema();
+        $scope.GetAllTemplates($scope.TemplateCategory);
+    }
+    $scope.runDefaultFunctions();
 });

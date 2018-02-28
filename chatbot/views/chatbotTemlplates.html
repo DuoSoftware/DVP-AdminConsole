@@ -17,22 +17,26 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-xs-12">
+                <div class="col-xs-12" ng-show="TemplateCategory == 'Card'">
                     <div class="tile-stats m-top15">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="row">
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                     <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.name" placeholder="{{TemplateCategory}} Name">
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                     <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.description" placeholder="Description">
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    <select class="form-control has-feedback-left" placeholder="Select {{TemplateCategory}} Type" ng-model="newTemplate.type" ng-options="x.Key for x in TemplateTypes" ></select>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <select class="form-control has-feedback-left" placeholder="Select Type" ng-model="newTemplate.type" ng-options="x.Value as x.Key for x in TemplateTypes" ></select>
                                     <!-- <select class="form-control has-feedback-left" placeholder="Select {{TemplateCategory}} Type" ng-model="newTemplate.type">
                                         <option value="" disabled selected>Select {{TemplateCategory}} Type</option>
                                         <option value="{{itemType.Valye}}" ng-repeat="itemType in TemplateTypes">{{itemType.Key}}</option>
@@ -40,7 +44,16 @@
                                     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
-                                <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <select class="form-control has-feedback-left" placeholder="Select {{TemplateCategory}} Content Type" ng-model="newTemplate.contentType" ng-options="x.Value as x.Key for x in TemplateContentTypes" ></select>
+                                    <!-- <select class="form-control has-feedback-left" placeholder="Select {{TemplateCategory}} Type" ng-model="newTemplate.type">
+                                        <option value="" disabled selected>Select {{TemplateCategory}} Type</option>
+                                        <option value="{{itemType.Valye}}" ng-repeat="itemType in TemplateTypes">{{itemType.Key}}</option>
+                                    </select> -->
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                     <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="AddNewTemplate(newTemplate)">
                                         Add {{TemplateCategory}}
                                     </button>
@@ -48,37 +61,50 @@
 
                             </div>
 
-                            <!--     
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-xs-12" ng-show="TemplateCategory == 'Attachment'">
+                    <div class="tile-stats m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
                             <div class="row">
-                                <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                    <select class="form-control has-feedback-left" placeholder="select application type"
-                                            ng-model="newApplication.ObjClass">
-                                        <option value="" disabled selected>Select application type</option>
-                                        <option>SYSTEM</option>
-                                        <option>DEVELOPER</option>
-                                    </select>
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.name" placeholder="{{TemplateCategory}} Name">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.description" placeholder="Description">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <select class="form-control has-feedback-left" placeholder="Select Type" ng-model="newTemplate.type" ng-options="x.Value as x.Key for x in TemplateTypes" ></select>
                                     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
+                            </div>
 
-                                <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                    <select class="form-control has-feedback-left" ng-model="newApplication.ObjType"
-                                            placeholder="Choose Protocol">
-                                        <option value="" disabled selected>Select application protocol</option>
-                                        <option>HTTAPI</option>
-                                        <option>SOCKET</option>
-                                        <option>EXTENDED</option>
-                                    </select>
+                            <div class="row">
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="newTemplate.title" placeholder="Title">
                                     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
-                                <div class="col-md-2 col-sm-2 col-xs-12  ">
-                                    <button type="button" class="btn btn-success btn-block  btn- pull-right"
-                                            ng-click="saveApplication(newApplication)">
-                                        Add
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="url" class="form-control has-feedback-left" ng-model="newTemplate.payload.url" placeholder="Image URL">
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="AddNewTemplate(newTemplate)">
+                                        Add {{TemplateCategory}}
                                     </button>
                                 </div>
-                            </div> -->
+
+                            </div>
 
                         </form>
                     </div>
@@ -93,8 +119,8 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="template in templateList | filterBy: ['name']: searchCriteria">
-                        <edittemplate template="template" template-type="TemplateCategory" update-template="updateTemplate(template,TemplateCategory)"
-                            delete-template="deleteTemplate(template,TemplateCategory)" template-Types="TemplateTypes"></edittemplate>
+                        <edittemplate template="template" template-category="TemplateCategory" update-template="updateTemplate(template,TemplateCategory)"
+                            delete-template="deleteTemplate(template,TemplateCategory)" template-types="TemplateTypes" template-content-types="TemplateContentTypes"></edittemplate>
                     </li>
 
                     <paging ng-show="showPaging" class="small" page="currentPage" page-size="pageSize" total="pageTotal" show-prev-next="true"
