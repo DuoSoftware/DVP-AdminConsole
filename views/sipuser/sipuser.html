@@ -228,7 +228,10 @@
                             <p><input class="form-control" id="NewsipUserName" name="sipUsrName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
+                                      ng-trim="true"
+                                      ng-pattern="/^[a-z0-9]*$/"
                                       ng-model-options="{ updateOn: 'blur' }"></p>
+                            <div ng-if="!sipUserConfForm.$valid" style="color: indianred">Use only simple and numeric characters for username</div>
                         </div>
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="newPassword">Password *</label></h3>
