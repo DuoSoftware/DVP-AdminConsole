@@ -53,16 +53,22 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
             });
     };
 
+    $scope.newWidgetId = 0;
+	$scope.getRecaptchaId = function(widgetId) {
+		$scope.newWidgetId = widgetId;
+		return;
+	};
+
     $scope.onClickCreateAccount = function () {
         newUser.mail = $scope.email;
         newUser.companyname = $scope.companyName;
         newUser.password = $scope.password;
         newUser.timeZone = {tz:moment.tz.guess(), utcOffset: ""};
         $scope.isSignUp = true;
-        if (vcRecaptchaService.getResponse() === "") { //if string is empty
-            alert("Please resolve the captcha and submit!")
+        if (vcRecaptchaService.getResponse($scope.newWidgetId) === "") { //if string is empty
+            alert("Please resolve the captcha and submit!");
         } else {
-            newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse();
+            newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse($scope.newWidgetId);
             signUp(newUser);
         }
     };

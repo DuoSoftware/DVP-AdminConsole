@@ -77,7 +77,7 @@ mainApp.controller("filecategoryController", function ($scope, $state, ardsBacke
             });
         }
         else {
-            $scope.showAlert("Error", "Error in saving new file category", "error");
+            $scope.showAlert("Error", "File Category name required", "error");
         }
 
 
