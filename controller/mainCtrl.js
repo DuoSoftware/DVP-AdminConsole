@@ -399,6 +399,31 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
     $scope.isLogged = true;
+
+    /**Kasun_Wijeratne_28_FEB_2018
+	* --------------------------------*/
+	$rootScope.globalLogout = function () {
+		loginService.Logoff(undefined, function (issuccess) {
+			if (issuccess) {
+				veeryNotification.disconnectFromServer();
+				$scope.isLogged = false;
+				$rootScope.freshUser = false;
+				$state.go('login');
+				SE.disconnect();
+
+
+				/*$timeout.cancel(getAllRealTimeTimer);*/
+			} else {
+
+			}
+
+		});
+		//loginService.clearCookie("@loginToken");
+		//$state.go('login');
+	}
+	/**--------------------------------
+	* Kasun_Wijeratne_28_FEB_2018 - ENDS*/
+
     $scope.clickDirective = {
         goLogout: function () {
             loginService.Logoff(undefined, function (issuccess) {

@@ -55,8 +55,17 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 
                         /** Kasun_Wijeratne_19_FEB_2018
 						 * --------------------------------*/
-                        $rootScope.freshUserConfigMin = false;
+						$rootScope.userGuideMin = false;
+						$rootScope.freshUser = true;
 						$rootScope.guidePhase1Closure = true;
+						$rootScope.logoutcount = 5;
+						var logoutcounter = $interval(function () {
+							if($rootScope.logoutcount == 2){
+								$interval.cancel(logoutcounter);
+								$rootScope.globalLogout();
+							}
+							$rootScope.logoutcount--;
+						}, 1200);
 						/** --------------------------------
 						 * Kasun_Wijeratne_19_FEB_2018 */
 

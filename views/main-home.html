@@ -1164,7 +1164,7 @@
         GUIDE FOR FRESH USERS
         #####################-->
     <div class="user-guide-wrap" ng-if="freshUser == true" ng-class="{'dialog-min':userGuideMin}">
-        <div class="dialog-toolbar">
+        <div class="dialog-toolbar" ng-if="!guidePhase1Closure">
             <span class="iconed-btn right glyphicon glyphicon-{{userGuideMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
         </div>
         <div ng-if="userGuideMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
@@ -1310,8 +1310,14 @@
                     </div>
                 </div>
             </div>
+            <div class="step-footer" ng-if="freshUserConfigStep != 0">
+                <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
+                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')" ng-disabled="freshUserConfigStep == 3">Next ></button>
+            </div>
+        </div>
 
-            <div class="user-guide-step" ng-if="guidePhase1Closure">
+        <div class="dialog-body" ng-if="!userGuideMin && guidePhase1Closure">
+            <div class="user-guide-step">
                 <h1>Logging out..</h1>
                 <div class="step-body" style="overflow: hidden">
 
@@ -1319,14 +1325,9 @@
 
                     <p class="compact">Now that you have finished the initial configuration process, you are required to logout from the system.</p>
                     <div class="text-center">
-                        <h3>You will be logged out in {{logoutCountdown}}</h3>
+                        <h3>You will be logged out in <span style="color: #ee407d">{{logoutcount}}</span></h3>
                     </div>
                 </div>
-            </div>
-
-            <div class="step-footer" ng-if="freshUserConfigStep != 0">
-                <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
-                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')" ng-disabled="freshUserConfigStep == 3">Next ></button>
             </div>
         </div>
         <div class="dialog-body" ng-if="!userGuideMin && allUsers">
