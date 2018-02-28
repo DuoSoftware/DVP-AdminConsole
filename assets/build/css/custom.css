@@ -5162,28 +5162,35 @@ ul.verticle_bars li {
 }
 
 .alert-info {
-    color: #E9EDEF;
+    color: #fff;
     background-color: rgba(52, 152, 219, 0.88);
     border-color: rgba(52, 152, 219, 0.88);
 }
 
 .alert-warning {
-    color: #E9EDEF;
+    color: #fff;
     background-color: rgba(243, 156, 18, 0.88);
     border-color: rgba(243, 156, 18, 0.88);
 }
 
 .alert-danger,
 .alert-error {
-    color: #E9EDEF;
+    color: #fff;
     background-color: rgba(231, 76, 60, 0.88);
     border-color: rgba(231, 76, 60, 0.88);
 }
 
 .ui-pnotify.dark .ui-pnotify-container {
-    color: #E9EDEF;
+    color: #fff;
     background-color: rgba(52, 73, 94, 0.88);
     border-color: rgba(52, 73, 94, 0.88);
+}
+.ui-pnotify-container .ui-pnotify-title, .ui-pnotify-icon span {
+    color: rgba(256, 256, 256, 0.8);
+}
+
+.brighttheme-notice .ui-pnotify-title{
+    margin-bottom: 20px;
 }
 
 .custom-notifications {

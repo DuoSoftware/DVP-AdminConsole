@@ -77,7 +77,7 @@
                                         </br>
                                         no new notification
                                     </div>
-                                    <div class="row notification-list" ng-repeat="notifi in newNotifications">
+                                    <div class="clearfix notification-list" ng-repeat="notifi in newNotifications">
                                         <div ng-click="showNotificationMessage(notifi)">
                                             <div class="col-lg-3">
                                                 <div class="notify-img-small">
@@ -1176,7 +1176,7 @@
                     <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
 
                     <p class="compact">Hi {{displayname}}. Before start working with FaceTone, we have to do some configurations. Let's get started!</p>
-                    <div class="text-center">
+                    <div class="text-center" style="padding: 10px 0">
                         <button type="button" class="btn btn-success" ng-click="rotateFreshUserGuide('forward')">Start</button>
                     </div>
                     <p class="secondary">You can always get this reopened by clicking <span class="glyphicon glyphicon-question-sign" style="color: #ee407d"></span> icon on bottom left corner.</p>
@@ -1323,7 +1323,7 @@
 
                     <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
 
-                    <p class="compact">Now that you have finished the initial configuration process, you are required to logout from the system.</p>
+                    <p class="compact">Since you have Purchased a Package, you are required to logout from the system.</p>
                     <div class="text-center">
                         <h3>You will be logged out in <span style="color: #ee407d">{{logoutcount}}</span></h3>
                     </div>

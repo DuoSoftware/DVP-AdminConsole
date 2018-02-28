@@ -41,7 +41,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
     //onclick get my package
     $scope.onClickBuyPackages = function (pak) {
         walletService.CreditBalance().then(function (res) {
-            if ((parseInt(res.Credit) / 100) >= parseInt(pak.price)) {
+            if (res && (parseInt(res.Credit) / 100) >= parseInt(pak.price)) {
                 loginService.buyMyPackage(pak.packageName, function (result, data) {
                     if (!result) {
                         $scope.showMessage("Package Buy", "Please Contact System Administrator.", 'error');
@@ -62,13 +62,22 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 						var logoutcounter = $interval(function () {
 							if($rootScope.logoutcount == 2){
 								$interval.cancel(logoutcounter);
-								$rootScope.globalLogout();
+								loginService.Logoff(undefined, function (issuccess) {
+									if (issuccess) {
+										veeryNotification.disconnectFromServer();
+										$rootScope.freshUser = false;
+										SE.disconnect();
+										$state.go('login');
+									} else {
+										$scope.showMessage("Logout", "Something went wrong. Please logout manually", 'error');
+										return;
+									}
+								});
 							}
 							$rootScope.logoutcount--;
 						}, 1200);
 						/** --------------------------------
 						 * Kasun_Wijeratne_19_FEB_2018 */
-
 						return;
                     }
                 });
