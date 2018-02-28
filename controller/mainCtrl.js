@@ -744,7 +744,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 $scope.BusinessUnit = ShareData.BusinessUnit;
             }
         }, function (error) {
-            $log.debug("loadBusinessUnit err");
+            console.error("loadBusinessUnit err");
         });
 
     };
