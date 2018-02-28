@@ -5155,26 +5155,27 @@ ul.verticle_bars li {
 
 /** bootstrap-progressbar  **/
 /** PNotify **/
-.alert-success {
+.alert-success, .alert-info {
     color: #ffffff;
     background-color: rgba(23, 175, 82, 0.88);
     border-color: rgba(23, 175, 82, 0.88);
 }
 
-.alert-info {
-    color: #fff;
-    background-color: rgba(52, 152, 219, 0.88);
-    border-color: rgba(52, 152, 219, 0.88);
-}
+/*.alert-info {*/
+    /*color: #fff;*/
+    /*background-color: rgba(52, 152, 219, 0.88);*/
+    /*border-color: rgba(52, 152, 219, 0.88);*/
+/*}*/
 
-.alert-warning {
-    color: #fff;
-    background-color: rgba(243, 156, 18, 0.88);
-    border-color: rgba(243, 156, 18, 0.88);
-}
+/*.alert-warning {*/
+    /*color: #fff;*/
+    /*background-color: rgba(243, 156, 18, 0.88);*/
+    /*border-color: rgba(243, 156, 18, 0.88);*/
+/*}*/
 
 .alert-danger,
-.alert-error {
+.alert-error,
+.alert-warning{
     color: #fff;
     background-color: rgba(231, 76, 60, 0.88);
     border-color: rgba(231, 76, 60, 0.88);
@@ -5191,6 +5192,7 @@ ul.verticle_bars li {
 
 .brighttheme-notice .ui-pnotify-title{
     margin-bottom: 20px;
+    color: #aaaaaa;
 }
 
 .custom-notifications {

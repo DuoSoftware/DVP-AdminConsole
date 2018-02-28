@@ -3,9 +3,9 @@
         <div class="x_title">
             <h2><b>REPORT</b> | CALL - Summary</h2>
             <ul class="nav navbar-right panel_toolbox offset">
-                <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
-                <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+                <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -14,7 +14,7 @@
     <uib-tabset active="0">
         <uib-tab index="0" heading="Hourly Summary (By Day)">
 
-            <div class="tabbed-filters clearfix" ng-show="showFilter">
+            <div class="tabbed-filters clearfix" ng-show="!showFilter">
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Day</label>
                     <input type="text" class="form-control" ng-model="obj.dateofmonth" ng-change="onDateChange()" name="dayofmonth" datepicker>
