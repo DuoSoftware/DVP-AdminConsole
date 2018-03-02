@@ -172,7 +172,8 @@ mainApp.directive('passwordStrengthBox', [
             scope: {
                 password: '=ngModel',
                 confirm: '=',
-                box: '='
+                box: '=',
+				invaliduserp: '='
             },
 
             link: function (scope, elem, attrs, ctrl) {
@@ -185,15 +186,14 @@ mainApp.directive('passwordStrengthBox', [
                     capitalLetter: false
                 };
 
-
-                scope.$watch('password', function (newVal) {
+				scope.$watch('password', function (newVal) {
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
                         isSatisfied(newVal && /\d/.test(newVal));
 
-                    if (!ctrl || !newVal || scope.strength != 5) {
+						if (!ctrl || !newVal || scope.strength != 5) {
                         ctrl.$setValidity('unique', false);
                     } else {
                         ctrl.$setValidity('unique', true);
@@ -202,30 +202,41 @@ mainApp.directive('passwordStrengthBox', [
                     //length
                     if (newVal && newVal.length >= 8) {
                         scope.isPwdValidation.minLength = true;
-                    } else {
+					} else {
                         scope.isPwdValidation.minLength = false;
-                    }
+					}
 
                     // Special Character
                     if (newVal && /(?=.*\W)/.test(newVal)) {
                         scope.isPwdValidation.specialChr = true;
-                    } else {
-                        scope.isPwdValidation.specialChr = false;
-                    }
+					} else {
+						scope.isPwdValidation.specialChr = false;
+					}
 
                     //digit
                     if (newVal && /\d/.test(newVal)) {
                         scope.isPwdValidation.digit = true;
-                    } else {
+					} else {
                         scope.isPwdValidation.digit = false;
-                    }
+					}
 
                     //capital Letter
                     if (newVal && /(?=.*[A-Z])/.test(newVal)) {
                         scope.isPwdValidation.capitalLetter = true;
-                    } else {
+					} else {
                         scope.isPwdValidation.capitalLetter = false;
-                    }
+					}
+
+
+					/** Kasun_Wijeratne_2_MARCH_2018
+					 * ------------------------------ */
+					if(scope.strength >= 5){
+						scope.invaliduserp = false;
+					}else{
+						scope.invaliduserp = true;
+					}
+					/**---------------------------------
+					 Kasun_Wijeratne_2_MARCH_2018 */
 
 
                     //check password confirm validation

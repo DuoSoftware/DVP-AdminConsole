@@ -28,6 +28,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.newNotifications = [];
 
 
+	/** Kasun_Wijeratne_2_MARCH_2018
+	 * ------------------------------ */
+	$scope.invalidUserPassword = true;
+	/**---------------------------------
+	 Kasun_Wijeratne_2_MARCH_2018 */
+
 // Register for notifications
 
     $scope.showAlert = function (tittle, type, msg) {
