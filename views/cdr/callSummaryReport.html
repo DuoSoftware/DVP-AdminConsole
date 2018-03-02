@@ -145,7 +145,7 @@
                     </div>
         </uib-tab>
         <uib-tab index="1" heading="Daily Summary (By Month)">
-            <div class="tabbed-filters clearfix" ng-show="showFilter">
+            <div class="tabbed-filters clearfix" ng-show="!showFilter">
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <label>Start Day</label>
                     <input type="text" class="form-control" ng-model="obj2.startDay" name="startDay" datepicker>
@@ -286,7 +286,7 @@
         <uib-tab index="2" heading="Customer Call Summary (By Day)">
 
             <div ng-controller="callSummaryCustCtrl">
-                <div class="tabbed-filters clearfix" ng-show="showFilter">
+                <div class="tabbed-filters clearfix" ng-show="!showFilter">
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <label>Day</label>
                         <input type="text" class="form-control" ng-model="obj.dayCust" name="dayCust" datepicker>

@@ -455,6 +455,10 @@ body {
     padding: 0 !important;
 }
 
+.no-border {
+    border: none!important;
+}
+
 .page-title {
     width: 100%;
     height: 65px;

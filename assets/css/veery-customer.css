@@ -1007,7 +1007,8 @@ label {
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: rgba(17, 72, 88, 0.11);
+    /*background-color: rgba(17, 72, 88, 0.11);*/
+    background-color: rgb(255, 243, 247);
 }
 
 .table-striped > tbody > tr {
@@ -3367,7 +3368,7 @@ ul.social li {
     cursor: default;
     background-color: #ee407d;
     border-color: #ee407d;
-    top: 1px;
+    /*top: 1px;*/
 }
 
 .x_title span {
@@ -4610,8 +4611,9 @@ tags-input .tags {
 }
 
 .progress-bar {
-    color: #fff;
-    /*background-color: #4CAF50;*/
+    color: #bababa;
+    font-weight: normal!important;
+    background-color: #6a3390;
 }
 
 .progress-camp-upload > div > b {
@@ -6654,33 +6656,47 @@ ul.newsticker {
 }
 
 .tag-ticket-summary-wrp {
-    width: 100%;
-    height: 110px;
-    background: #fbfbfb;
-    padding-top: 20px;
-    margin-bottom: 5px;
+    /*width: 100%;*/
+    /*height: 110px;*/
+    /*background: #fbfbfb;*/
+    /*padding-top: 20px;*/
+    /*margin-bottom: 5px;*/
+    display: inline-block;
+    float: left;
+    text-align: center;
+    padding: 20px 20px 0 20px;
+    margin-bottom: 20px;
+    width: 25%;
+    font-size: 14px;
+    border-right: 1px solid #e8e8e8;
 }
 
-.tag-ticket-summary-wrp > .tag-name {
-    font-family: 'Roboto-bold', sans-serif;
-    width: 100%;
-    text-align: center;
-    height: 25px;
-    overflow: hidden;
-    position: relative;
-    font-size: 17px;
-    padding-bottom: 5px;
+.tag-ticket-summary-wrp .tag-name {
+    /*font-family: 'Roboto-bold', sans-serif;*/
+    /*width: 100%;*/
+    /*text-align: center;*/
+    /*height: 25px;*/
+    /*overflow: hidden;*/
+    /*position: relative;*/
+    /*font-size: 17px;*/
+    /*padding-bottom: 5px;*/
+
+    font-size: 14px;
+    font-weight: normal;
 }
 
-.tag-ticket-summary-wrp > .count {
-    font-family: 'Roboto', sans-serif;
-    width: 100%;
-    text-align: center;
-    min-height: 20px;
-    overflow: hidden;
-    position: relative;
-    font-size: 24px;
-    padding-bottom: 2px;
+.tag-ticket-summary-wrp .count {
+    /*font-family: 'Roboto', sans-serif;*/
+    /*width: 100%;*/
+    /*text-align: center;*/
+    /*min-height: 20px;*/
+    /*overflow: hidden;*/
+    /*position: relative;*/
+    /*font-size: 24px;*/
+    /*padding-bottom: 2px;*/
+
+    font-size: 16px;
+    color: #6a3390;
 }
 
 /* call center performance */

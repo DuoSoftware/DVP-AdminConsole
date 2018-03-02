@@ -54,21 +54,29 @@
         <div class="x_panel" ng-show="tagSummaryDetails.length > 0">
             <div class="x_content">
                 <div class="col-lg-12">
-                    <div class="col-lg-3" ng-repeat="sum in tagSummaryDetails">
-                        <div class="tag-ticket-summary-wrp">
-                            <div class="count">
-                                {{sum.count}}
-                            </div>
+                    <div class="tag-ticket-summary-wrp"
+                         ng-repeat="sum in tagSummaryDetails"
+                         ng-class="{'divider clearfix width-100 no-padding': ($index+1) % 5 == 0}"
+                    >
+                        <div ng-if="($index+1) % 5 != 0">
                             <div class="tag-name">
                                 {{sum.tag}}
                             </div>
+                            <div class="count">
+                                {{sum.count}}
+                            </div>
                         </div>
+                        <!--<div class="divider clearfix width-100" ng-if=""></div>-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+	window.scrollTo(0, 0);
+</script>
 
 <!--
 <script type="text/javascript">
