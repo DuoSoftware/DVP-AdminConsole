@@ -230,10 +230,12 @@ mainApp.directive('passwordStrengthBox', [
 
 					/** Kasun_Wijeratne_2_MARCH_2018
 					 * ------------------------------ */
-					if(scope.strength >= 5){
-						scope.invaliduserp = false;
-					}else{
-						scope.invaliduserp = true;
+					if(scope.invaliduserp != undefined){
+						if(scope.strength >= 5){
+							scope.invaliduserp = false;
+						}else{
+							scope.invaliduserp = true;
+						}
 					}
 					/**---------------------------------
 					 Kasun_Wijeratne_2_MARCH_2018 */
