@@ -1,90 +1,85 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
+        <div class="x_panel main-title">
             <div class="x_title">
-                <h2>Campaign Summery Report</h2>
+                <h2><b>REPORT</b> | CAMPAIGN - Summary</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+                    </li>
+                </ul>
                 <div class="clearfix"></div>
             </div>
-
-            <div class="x_content">
+            <div class="x_content" ng-show="!showFilter">
                 <div class="col-md-12 col-sm-6 col-xs-12">
                     <form id="userForm" name="ivrForm" novalidate class="form-label-left input_mask">
 
                         <div class="row">
-
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Create"
+                                <checkbox class="btn" ng-model="summeryCondition.Create"
                                           ng-click="addConditions('create')"></checkbox>
                                 <label>
                                     <small>Create</small>
                                 </label>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Ongoing"
+                                <checkbox class="btn" ng-model="summeryCondition.Ongoing"
                                           ng-click="addConditions('ongoing')"></checkbox>
                                 <label>
                                     <small>Ongoing</small>
                                 </label>
                             </div>
-
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Offline"
+                                <checkbox class="btn" ng-model="summeryCondition.Offline"
                                           ng-click="addConditions('offline')"></checkbox>
                                 <label>
                                     <small>Offline</small>
                                 </label>
                             </div>
-
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Start"
+                                <checkbox class="btn" ng-model="summeryCondition.Start"
                                           ng-click="addConditions('start')"></checkbox>
                                 <label>
                                     <small>Start</small>
                                 </label>
                             </div>
-
-
-
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Pause"
+                                <checkbox class="btn" ng-model="summeryCondition.Pause"
                                           ng-click="addConditions('pause')"></checkbox>
                                 <label>
                                     <small>Pause</small>
                                 </label>
                             </div>
-
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Stop"
+                                <checkbox class="btn" ng-model="summeryCondition.Stop"
                                           ng-click="addConditions('stop')"></checkbox>
                                 <label>
                                     <small>Stop</small>
                                 </label>
                             </div>
-
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Done"
+                                <checkbox class="btn" ng-model="summeryCondition.Done"
                                           ng-click="addConditions('done')"></checkbox>
                                 <label>
                                     <small>Done</small>
                                 </label>
                             </div>
-
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.All"
+                                <checkbox class="btn" ng-model="summeryCondition.All"
                                           ng-click="addConditions('All')"></checkbox>
                                 <label>
                                     <small>All</small>
                                 </label>
                             </div>
-
                             <div class="col-md-12 col-sm-12 col-xs-12  form-group has-feedback">
                                 <button ng-if="!isLoading" ng-disabled="ivrForm.$invalid" type="button"
-                                        class="btn btn-green btn-block"
+                                        class="btn btn-green"
                                         ng-click="GetCampaignSummery();">
                                     Load
                                 </button>
                                 <button ng-if="isLoading" disabled type="button" class="btn btn-green btn-block"
-                                         ng-click="GetCampaignSummery();">
+                                        ng-click="GetCampaignSummery();">
                                     PLEASE WAIT...
                                 </button>
                             </div>
@@ -93,11 +88,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12 col-sm-6 col-xs-12" ng-hide="intiate">
         <div class="x_panel">
             <div class="x_title">
                 <h2>Details
@@ -139,11 +129,11 @@
                                     </div>
                                     <div class="widget-body chart-center">
                                         <canvas  class="chart chart-doughnut"
-                                                width="300" height="300"
-                                                chart-data="doughnutObj.data"
-                                                chart-labels="doughnutObj.labels"
-                                                chart-legend="true"
-                                                chart-options="options">
+                                                 width="300" height="300"
+                                                 chart-data="doughnutObj.data"
+                                                 chart-labels="doughnutObj.labels"
+                                                 chart-legend="true"
+                                                 chart-options="options">
                                         </canvas>
                                     </div>
                                 </div>
@@ -243,5 +233,6 @@
         </div>
     </div>
 </div>
+
 
 

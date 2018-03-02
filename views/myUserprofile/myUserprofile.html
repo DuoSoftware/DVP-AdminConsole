@@ -1,19 +1,19 @@
 <div class="row" ng-controller="myUserProfileCtrl">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel p-0">
-            <div class="profile-header">
+        <div class="x_panel p-0" style="top: 100px">
+            <!--<div class="profile-header">-->
 
-                <div class="cover-image">
-                    <img src="assets/images/profile-background/wallhaven-391750.jpg"/>
-                </div>
-            </div>
+                <!--<div class="cover-image">-->
+                    <!--<img src="assets/images/profile-background/wallhaven-391750.jpg"/>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="profile-content">
                 <div class="col-md-3 col-sm-3 col-xs-12 ">
-                    <div class="profile_left">
+                    <div class="profile_left text-center">
                         <div class="profile_img">
                             <!-- end of image cropping -->
-                            <div id="crop-avatar">
+                            <div id="crop-avatar" style="width: 230px;height: 230px;background: #fff;border-radius: 50%">
                                 <!-- Current avatar -->
                                 <img class="img-responsive avatar-view"
                                      style='height: 100%; width: 100%; object-fit: contain'
@@ -113,7 +113,7 @@
                             <!-- end of image cropping -->
 
                         </div>
-                        <h3 style="margin-bottom: 1px;">{{displayName}} ({{CurrentProfile.user_meta.role}})</h3>
+                        <h3>{{displayName}} ({{CurrentProfile.user_meta.role}})</h3>
                         <ul class="list-unstyled profile-data-list">
                             <li>{{displayAddress}}
                             </li>
@@ -134,7 +134,7 @@
                 <!-- profile left wrap -->
                 <div class="col-md-9 col-sm-9 col-xs-12" role="tabpanel" data-example-id="togglable-tabs">
                     <div class="profile_right">
-                        <ul id="myTab" class="nav nav-tabs bar_tabs profile-tab-panel" role="tablist">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs profile-tab-panel" role="tablist" style="margin-top: 27px;">
                             <li role="presentation" class="{{infoActive}}">
                                 <a href="" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"
                                    ng-click="tabClick('Info')">Info</a>
@@ -146,11 +146,11 @@
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div ng-if="CurrentTab==='Contacts'">
-                                <div class="profile_title col-md-12 col-sm-12 col-xs-12">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_title clearfix">
                                         <h2 class="col-md-10 col-sm-10 col-xs-10">Contacts</h2>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <button type="button" class="btn btn-round btn-primary"
+                                        <div class="col-md-2 col-sm-2 col-xs-2 text-right">
+                                            <button type="button" class="btn" ng-class="{'btn-success':NewContactLabel == 'New'}"
                                                     ng-click="addContactPress()">{{NewContactLabel}}
                                             </button>
                                         </div>
@@ -176,8 +176,8 @@
                                                 <option value="email">E-Mail</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                            <button class="btn btn-primary" ng-click="addNewContact()"
+                                        <div class="col-md-4 col-sm-4 col-xs-12 has-feedback">
+                                            <button class="btn btn-success" ng-click="addNewContact()"
                                                     ng-disabled="!(newContact.Type && newContact.Contact)">Save
                                             </button>
                                         </div>
@@ -228,8 +228,8 @@
                                 <!-- address -->
                                 <div class="profile-details-wrap">
                                     <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <label><h4>Address</h4></label>
+                                        <div class="x_title clearfix">
+                                            <h2>Address</h2>
                                         </div>
                                         <form class="form-horizontal form-label-left">
 
@@ -290,8 +290,8 @@
                                 <!-- avatar URL -->
                                 <div class="profile-details-wrap">
                                     <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <label><h4>Avatar URL</h4></label>
+                                        <div class="x_title clearfix">
+                                            <h2>Avatar URL</h2>
                                         </div>
                                         <div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback">
                                             <input type="text" class="form-control" ng-model="CurrentProfile.avatar">
@@ -302,8 +302,8 @@
                                 <!-- profile information -->
                                 <div class="profile-details-wrap">
                                     <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <label><h4>Personal Information</h4></label>
+                                        <div class="x_title clearfix">
+                                            <h2>Personal Information</h2>
                                         </div>
                                         <form class="form-horizontal form-label-left">
 
@@ -385,8 +385,8 @@
                                 <!-- contact info -->
                                 <div class="profile-details-wrap">
                                     <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <label><h4>Contact Information</h4></label>
+                                        <div class="x_title clearfix">
+                                            <h2>Contact Information</h2>
                                         </div>
 
 
@@ -414,17 +414,17 @@
 
                                 <div class="profile-details-wrap">
                                     <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <label><h4>Veery Account Information</h4></label>
+                                        <div class="x_title clearfix">
+                                            <h2>Veery Account Information</h2>
                                         </div>
 
 
                                         <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
                                              style="margin-right: 20px;">
                                             <label>Active Account</label>
-                                            <input type="text" class="form-control" ng-model="displayVeeryContact" style="opacity: 1;color: rgb(0, 0, 0);
-                                            text-align: center;font-weight: bold;padding: 5px;border-radius: 10px;
-                                            background-color: rgb(135, 206, 250);"/>
+                                            <input type="text" class="form-control" ng-model="displayVeeryContact" style="opacity: 1;color: #68318e;
+                                            text-align: center;padding: 5px;border-radius: 10px;
+                                            background-color: rgb(237, 212, 255)"/>
 
 
                                         </div>

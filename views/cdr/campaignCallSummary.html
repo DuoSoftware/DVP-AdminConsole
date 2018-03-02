@@ -1,66 +1,63 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
+        <div class="x_panel main-title">
             <div class="x_title">
-                <h2>Campaign Call Summary
-                </h2>
+                <h2><b>REPORT</b> | CAMPAIGN - Call Summary</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+                    </li>
+                </ul>
                 <div class="clearfix"></div>
             </div>
+            <div class="x_content" ng-show="!showFilter">
+                <div class="col-md-12 col-sm-6 col-xs-12">
+                        <form id="campaingForm" name="ivrForm" novalidate class="form-label-left input_mask">
+                            <div class="row">
 
-            <div class="x_content">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <form id="campaingForm" name="ivrForm" novalidate class="form-label-left input_mask">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <label>Start Date</label>
+                                    <input type="text" class="form-control" ng-model="StartDate"
+                                           name="startDate"
+                                           datepicker>
+                                </div>
 
-                        <div class="row">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <label>End Date</label>
+                                    <input type="text" class="form-control" ng-model="EndDate"
+                                           name="endDate"
+                                           datepicker>
+                                </div>
 
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <label>Start Date</label>
-                                <input type="text" class="form-control" ng-model="StartDate"
-                                       name="startDate"
-                                       datepicker>
+                                <div class="col-md-2 col-sm-4 col-xs-12 form-group" style="position: relative; top:24px;">
+                                    <button ng-if="!isLoading" ng-disabled="campaingForm.$invalid" type="button"
+                                            class="btn btn-green btn-block"
+                                            ng-click="getPageData();">
+                                        Search
+                                    </button>
+                                    <button ng-if="isLoading" disabled type="button" class="btn btn-green btn-block">
+                                        PLEASE WAIT...
+                                    </button>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative; top: 24px;">
+
+                                    <button type="button" class="btn btn-success"
+                                            csv-header="['Campaign', 'Dialed Count', 'Answered Count', 'Queued Count', 'Agent Answered Count']"
+                                            csv-column-order="['CampaignName', 'DialedCount', 'AnsweredCount', 'QueuedCount', 'AgentAnsweredCount']"
+                                            ng-csv="DownloadCSV()" filename="{{DownloadFileName}}.csv">
+                                        CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-download"></i>
+                                    </button>
+                                </div>
                             </div>
-
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <label>End Date</label>
-                                <input type="text" class="form-control" ng-model="EndDate"
-                                       name="endDate"
-                                       datepicker>
-                            </div>
-
-                            <div class="col-md-2 col-sm-4 col-xs-12 form-group" style="position: relative; top:24px;">
-                                <button ng-if="!isLoading" ng-disabled="campaingForm.$invalid" type="button"
-                                        class="btn btn-green btn-block"
-                                        ng-click="getPageData();">
-                                    Search
-                                </button>
-                                <button ng-if="isLoading" disabled type="button" class="btn btn-green btn-block">
-                                    PLEASE WAIT...
-                                </button>
-                            </div>
-                            <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative; top: 24px;">
-
-                                <button type="button" class="btn"
-                                        style="background-color: #a3d100; color: #000000; font-weight: 500"
-                                        csv-header="['Campaign', 'Dialed Count', 'Answered Count', 'Queued Count', 'Agent Answered Count']"
-                                        csv-column-order="['CampaignName', 'DialedCount', 'AnsweredCount', 'QueuedCount', 'AgentAnsweredCount']"
-                                        ng-csv="DownloadCSV()" filename="{{DownloadFileName}}.csv">
-                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <i class="fa fa-download"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+        <div class="x_panel" ng-show="!initialLoad">
 
-<div class="row" ng-show="!initialLoad">
-    <div class="col-md-12 col-sm-12 col-xs-12" ng-hide="intiate">
-        <div class="x_panel">
-
-            <div class="x_content">
+            <div class="x_content" ng-hide="intiate">
 
                 <div ng-show="isError">
                     <div class="row ">
@@ -139,5 +136,6 @@
         </div>
     </div>
 </div>
+
 
 

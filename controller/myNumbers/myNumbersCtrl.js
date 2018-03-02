@@ -594,7 +594,10 @@
                     },
                     numberRates: function () {
                         return $scope.numberRates;
-                    }
+                    },
+					clearOrder: function () {
+						return $scope.clearOrder;
+					}
                 }
             });
         };
@@ -773,7 +776,7 @@
 
 
 
-mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, voxboneApi) {
+mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, clearOrder, voxboneApi) {
     $scope.showModal = true;
     $scope.order = order;
     $scope.numberRates = numberRates;
@@ -796,37 +799,44 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
 
     calculateNumberFee();
 
+    $scope.isOrderInitiated = false;
     $scope.initiateOrder = function () {
-        voxboneApi.OrderDid($scope.order).then(function (response) {
+		$scope.isOrderInitiated = true;
+		voxboneApi.OrderDid($scope.order).then(function (response) {
             if (response.IsSuccess) {
-                var jResult = JSON.parse(response.Result);
-                var result = jResult.productCheckoutList[0];
-                $scope.showAlert("Voxbone", "success", result.message);
+				$scope.isOrderInitiated = false;
+				// var jResult = JSON.parse(response.Result);
+				// var result = jResult.productCheckoutList[0];
+				$scope.showAlert("Voxbone", response.CustomMessage, "success");
                 $scope.closeModal();
             }
             else {
                 if (Array.isArray(response.Result)) {
-                    $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+					$scope.isOrderInitiated = false;
+					$scope.showAlert("Voxbone", response.Result[0].apiErrorMessage, 'error');
                 } else {
-                    var errMsg = response.CustomMessage;
+					$scope.isOrderInitiated = false;
+					var errMsg = response.CustomMessage;
 
                     if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert("Voxbone", 'error', errMsg);
+					$scope.showAlert("Voxbone", errMsg, 'error');
                 }
             }
         }, function (err) {
-            loginService.isCheckResponse(err);
+			$scope.isOrderInitiated = false;
+			loginService.isCheckResponse(err);
             var errMsg = "Error occurred while initiate order";
             if (err.statusText) {
                 errMsg = err.statusText;
             }
-            $scope.showAlert('Voxbone', 'error', errMsg);
+			$scope.showAlert('Voxbone', errMsg, 'error');
         });
     };
 
     $scope.closeModal = function () {
+		clearOrder();
         $uibModalInstance.dismiss('cancel');
         //reloadPage();
     }

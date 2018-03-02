@@ -10,17 +10,17 @@
             <div class="x_title">
                 <h2>All Profiles</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i
+                    <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i
                             class="fa fa-chevron-up"></i></a>
                     </li>
-                    <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i
                             class="fa fa-chevron-down"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="x_content" ng-show="showFilter">
+            <div class="x_content" ng-show="!showFilter">
                 <div class="col-md-1 col-sm-1 col-xs-1" style="position: relative; top: 10px">
                     <label>Filter Type</label>
                 </div>
@@ -59,7 +59,7 @@
             <h2>Suspended <b class="profile-status-right">{{filtered1.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view clearfix">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event suspended"
+                <li class="col-md-3 col-sm-3 col-xs-12 media event suspended"
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -105,7 +105,7 @@
             <h2>Available <b class="profile-status-right">{{filtered2.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                <li class="col-md-3 col-sm-3 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -152,7 +152,7 @@
             <h2>Connected <b class="profile-status-right">{{filtered3.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                <li class="col-md-3 col-sm-3 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -197,7 +197,7 @@
             <h2>Outbound <b class="profile-status-right">{{filtered4.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                <li class="col-md-3 col-sm-3 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -242,7 +242,7 @@
             <h2>After Work <b class="profile-status-right">{{filtered5.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                <li class="col-md-3 col-sm-3 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -293,7 +293,7 @@
             <h2>Reserved <b class="profile-status-right">{{filtered6.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                <li class="col-md-3 col-sm-3 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -339,7 +339,7 @@
             <h2>Break <b class="profile-status-right">{{filtered7.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                <li class="col-md-3 col-sm-3 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -388,7 +388,7 @@
         <div class="x_panel x_bordered leftbordered other">
             <h2> Other <b class="profile-status-right">{{filtered8.length}}</b></h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                <li class="col-md-3 col-sm-3 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',

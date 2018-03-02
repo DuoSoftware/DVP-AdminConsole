@@ -497,7 +497,7 @@
                                             <label>
                                                 <small>Map To  Resource</small>
                                             </label>
-                                            <checkbox class="btn-success" ng-model="CurrentProfile.mapToResource"
+                                            <checkbox ng-disabled="!isEditState" class="btn-success" ng-model="CurrentProfile.mapToResource"
                                                       ng-init="CurrentProfile.mapToResource=false"></checkbox>
 
 
@@ -560,10 +560,10 @@
 
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="row">
-                                        <div ng-disabled="!isEditState" class="profile-details-btn-wrap">
-                                            <a class="btn btn-primary" ng-click="saveProfile()">
+                                        <div class="profile-details-btn-wrap">
+                                            <button class="btn btn-primary" ng-disabled="!isEditState" ng-click="saveProfile()">
                                                 Save Profile
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

@@ -111,8 +111,9 @@
 
 
                             <div class="recaptcha-wrapper"
-                                 ng-show="!isSignUp">
+                                 ng-if="!isSignUp">
                                 <div vc-recaptcha
+                                     on-create="getRecaptchaId(widgetId)"
                                      key="siteKey"></div>
                             </div>
 

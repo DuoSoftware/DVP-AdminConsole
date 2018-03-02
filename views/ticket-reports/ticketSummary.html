@@ -1,20 +1,16 @@
-<div>
-    <div class="page-title">
-        <div class="title_left">
-            <h3 class="font-robot font-600 ">Ticket Summary</h3>
-        </div>
-    </div>
-
-
+<div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
-        <div class="row">
-            <div class="x_panel">
-
-                <div>Filter Conditions</div>
-                <br>
-
+        <div class="x_panel main-title">
+            <div class="x_title">
+                <h2><b>REPORT</b> | TICKET - Summary</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a></li>
+                </ul>
                 <div class="clearfix"></div>
-
+            </div>
+            <div class="x_content" ng-show="!showFilter">
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Start Date</label>
                     <input type="text" class="form-control" ng-model="obj.startDay" name="startDate" datepicker>
@@ -89,202 +85,182 @@
 
                 <div class="clearfix"></div>
 
-
                 <div class="col-md-3 col-sm-3 col-xs-12">
-                    <div class="x_content btn-wrap-header">
-                        <button type="button" class="btn btn-success" ng-click="getTicketSummary()">
-                            Search
-                        </button>
+                    <button type="button" class="btn btn-success" ng-click="getTicketSummary()">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoading==0">
+            <div class="data-state-wrap">
+                Please Wait...
+            </div>
+        </div>
+        <div class="x_panel"  ng-if="obj.isTableLoading==1">
+            <div class="x_content">
+                <div class="col-lg-6">
+                    <div class="col-lg-8">
+                        <div class="ticker-pie-chart">
+                            <canvas id="doughnut" class=" "
+                                    width="300"
+                                    height="300"
+                                    chart-data="data" chart-doughnut
+                                    chart-options="options"
+                                    chart-labels="labels">
+                            </canvas>
+                        </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="ticker-totla-cnt">
+                            <h2 class="font-700">Total</h2>
+                            <h2 class="font-700">
+                                {{summaryDetails.total}}
+                            </h2>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="clearfix"></div>
-
-
-            </div>
-        </div>
-    </div>
-
-    <div class="search-main-wrap" ng-if="obj.isTableLoading==0">
-        <div class="row ">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="data-state-wrap">
-                    Please Wait...
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-12 col-xs-12" ng-if="obj.isTableLoading==1">
-        <div class="row">
-            <div class="x_panel">
-                <div class="x_content">
+                <div class="col-lg-6">
                     <div class="col-lg-6">
-                        <div class="col-lg-8">
-                            <div class="ticker-pie-chart">
-                                <canvas id="doughnut" class=" "
-                                        width="300"
-                                        height="300"
-                                        chart-data="data" chart-doughnut
-                                        chart-options="options"
-                                        chart-labels="labels">
-                                </canvas>
+                        <div class="ticker-pro-wrapper">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <small>Resolved Tickets</small>
+                                    <uib-progressbar value="summaryProgressBar.resolved"></uib-progressbar>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="ticker-prg-val text-left">
+                                        {{summaryProgressBar.resolved}} %
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <small>RE-Opened Tickets</small>
+                                    <uib-progressbar value="summaryProgressBar.reopen"></uib-progressbar>
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <div class="ticker-prg-val text-left">
+                                        {{summaryProgressBar.reopen}} %
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <small>SLA Violated Tickets</small>
+                                    <uib-progressbar value="summaryProgressBar.sla"></uib-progressbar>
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <div class="ticker-prg-val text-left">
+                                        {{summaryProgressBar.sla}} %
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <small>Completed Overdue Tickets</small>
+                                    <uib-progressbar value="summaryProgressBar.completed"></uib-progressbar>
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <div class="ticker-prg-val text-left">
+                                        {{summaryProgressBar.completed}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="ticker-totla-cnt">
-                                <h2 class="font-700">Total</h2>
-                                <h2 class="font-700">
-                                    {{summaryDetails.total}}
-                                </h2>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="col-lg-6">
-                        <div class="col-lg-6">
-                            <div class="ticker-pro-wrapper">
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <small>Resolved Tickets</small>
-                                        <uib-progressbar value="summaryProgressBar.resolved"></uib-progressbar>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="ticker-prg-val text-left">
-                                            {{summaryProgressBar.resolved}} %
-                                        </div>
-                                    </div>
+                        <div class="ticker-pro-wrapper">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <small>Overdue Tickets</small>
+                                    <uib-progressbar value="summaryProgressBar.overdue"></uib-progressbar>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <small>RE-Opened Tickets</small>
-                                        <uib-progressbar value="summaryProgressBar.reopen"></uib-progressbar>
-                                    </div>
-                                    <div class="col-sm-2 ">
-                                        <div class="ticker-prg-val text-left">
-                                            {{summaryProgressBar.reopen}} %
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <small>SLA Violated Tickets</small>
-                                        <uib-progressbar value="summaryProgressBar.sla"></uib-progressbar>
-                                    </div>
-                                    <div class="col-sm-2 ">
-                                        <div class="ticker-prg-val text-left">
-                                            {{summaryProgressBar.sla}} %
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <small>Completed Overdue Tickets</small>
-                                        <uib-progressbar value="summaryProgressBar.completed"></uib-progressbar>
-                                    </div>
-                                    <div class="col-sm-2 ">
-                                        <div class="ticker-prg-val text-left">
-                                            {{summaryProgressBar.completed}}
-                                        </div>
+                                <div class="col-sm-2">
+                                    <div class="ticker-prg-val text-left">
+                                        {{summaryProgressBar.overdue}}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="ticker-pro-wrapper">
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <small>Overdue Tickets</small>
-                                        <uib-progressbar value="summaryProgressBar.overdue"></uib-progressbar>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="ticker-prg-val text-left">
-                                            {{summaryProgressBar.overdue}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
 
-    </div>
+        <div class="x_panel" ng-if="obj.isTableLoading==1">
+            <div class="x_content">
+                <div class="col-lg-12">
+                    <ul class="stats-overview ticket-summary">
+                        <li class="hidden-phone">
+                            <span class="name"> Tickets In Progress </span>
+                            <span class="value text-success"> {{summaryDetails.progressing}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name"> New Tickets </span>
+                            <span class="value text-success"> {{summaryDetails.new}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name">Closed Tickets </span>
+                            <span class="value text-success"> {{summaryDetails.closed}} </span>
+                        </li>
 
+                    </ul>
+                    <ul class="stats-overview ticket-summary">
+                        <li class="hidden-phone">
+                            <span class="name">Resolved Tickets </span>
+                            <span class="value text-success"> {{summaryDetails.resolved}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name">RE-Opened Tickets</span>
+                            <span class="value text-success"> {{summaryDetails.reopen}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name">SLA Violated Tickets </span>
+                            <span class="value text-success"> {{summaryDetails.sla_violated}} </span>
+                        </li>
+                    </ul>
+                    <ul class="stats-overview ticket-summary">
 
-    <div class="col-lg-12" ng-if="obj.isTableLoading==1">
-        <div class="row">
-            <div class="x_panel">
-                <div class="x_content">
-                    <div class="col-lg-12">
-                        <ul class="stats-overview ticket-summary">
-                            <li class="hidden-phone">
-                                <span class="name"> Tickets In Progress </span>
-                                <span class="value text-success"> {{summaryDetails.progressing}} </span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name"> New Tickets </span>
-                                <span class="value text-success"> {{summaryDetails.new}} </span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name">Closed Tickets </span>
-                                <span class="value text-success"> {{summaryDetails.closed}} </span>
-                            </li>
+                        <li class="hidden-phone">
+                            <span class="name">Completed Overdue Tickets</span>
+                            <span class="value text-success"> {{summaryDetails.overdue_done}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name">Overdue Tickets</span>
+                            <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name">First Call Resolved Tickets</span>
+                            <span class="value text-success"> {{summaryDetails.first_call_resolved}} </span>
+                        </li>
+                    </ul>
+                    <ul class="stats-overview ticket-summary">
 
-                        </ul>
-                        <ul class="stats-overview ticket-summary">
-                            <li class="hidden-phone">
-                                <span class="name">Resolved Tickets </span>
-                                <span class="value text-success"> {{summaryDetails.resolved}} </span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name">RE-Opened Tickets</span>
-                                <span class="value text-success"> {{summaryDetails.reopen}} </span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name">SLA Violated Tickets </span>
-                                <span class="value text-success"> {{summaryDetails.sla_violated}} </span>
-                            </li>
-                        </ul>
-                        <ul class="stats-overview ticket-summary">
-
-                            <li class="hidden-phone">
-                                <span class="name">Completed Overdue Tickets</span>
-                                <span class="value text-success"> {{summaryDetails.overdue_done}} </span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name">Overdue Tickets</span>
-                                <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name">First Call Resolved Tickets</span>
-                                <span class="value text-success"> {{summaryDetails.first_call_resolved}} </span>
-                            </li>
-                        </ul>
-                        <ul class="stats-overview ticket-summary">
-
-                            <li class="hidden-phone">
-                                <span class="name">Average Resolution</span>
-                                <span class="value text-success"> {{summaryDetails.average_resolution}}</span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name">Average Response</span>
-                                <span class="value text-success"> {{summaryDetails.average_response}} </span>
-                            </li>
-                            <li class="hidden-phone">
-                                <span class="name">Total</span>
-                                <span class="value text-success">{{summaryDetails.total}}</span>
-                            </li>
-                        </ul>
-                    </div>
-
+                        <li class="hidden-phone">
+                            <span class="name">Average Resolution</span>
+                            <span class="value text-success"> {{summaryDetails.average_resolution}}</span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name">Average Response</span>
+                            <span class="value text-success"> {{summaryDetails.average_response}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                            <span class="name">Total</span>
+                            <span class="value text-success">{{summaryDetails.total}}</span>
+                        </li>
+                    </ul>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+<script>
+	window.scrollTo(0, 0);
+</script>
 
 <!--
 <script type="text/javascript">

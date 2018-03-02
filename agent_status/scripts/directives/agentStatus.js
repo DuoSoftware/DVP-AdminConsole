@@ -33,6 +33,22 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService, 
                 slotStateTime: 0,
             };
 
+            // Kasun_Wijeratne_2_21_2018
+			scope.agentStateHelper = {
+				suspended: '#000',
+				offline: '#000',
+				available: '#56ab46',
+				inbound: '#56ab46',
+				connected: '#4ec4d2',
+				outbound: '#777',
+				afterwork: '#f9bf2b',
+				reserved: '#753a88',
+				officialbreak: '#db2a26',
+				break: '#db2a26',
+				other: '#bbb'
+			}
+            // Kasun_Wijeratne_2_21_2018 - ENDS
+
             scope.profile.name = scope.resItem.ResourceName;
 
             //get current user profile image

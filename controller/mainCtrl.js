@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http) {
 
 
     // check adminconsole is focus or not.
@@ -27,6 +27,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     $scope.newNotifications = [];
 
+
+	/** Kasun_Wijeratne_2_MARCH_2018
+	 * ------------------------------ */
+	$scope.invalidUserPassword = true;
+	/**---------------------------------
+	 Kasun_Wijeratne_2_MARCH_2018 */
 
 // Register for notifications
 
@@ -385,6 +391,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		if(Object.keys(result).length
 			=== 3){
 			$rootScope.freshUser = true;
+			$rootScope.allUsers = false;
+		}else{
+			$rootScope.allUsers = true;
 		}
     	// Kasun_Wijeratne_14_JAN_2018 - END
 
@@ -396,6 +405,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
     $scope.isLogged = true;
+
     $scope.clickDirective = {
         goLogout: function () {
             loginService.Logoff(undefined, function (issuccess) {
@@ -405,13 +415,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     $rootScope.freshUser = false;
                     $state.go('login');
                     SE.disconnect();
-
-
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {
 
                 }
-
             });
             //loginService.clearCookie("@loginToken");
             //$state.go('login');
@@ -742,7 +749,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 $scope.BusinessUnit = ShareData.BusinessUnit;
             }
         }, function (error) {
-            $log.debug("loadBusinessUnit err");
+            console.error("loadBusinessUnit err");
         });
 
     };
@@ -1562,7 +1569,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             }
 
             if ($li.is('.active')) {
-                $li.removeClass('active active-sm activet');
+                $li.removeClass('active');
+                $li.removeClass('active-sm');
+                $li.removeClass('activet');
                 $('ul:first', $li).slideUp(function () {
                     setContentHeight();
                 });
@@ -1571,6 +1580,16 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 }
             } else {
                 // prevent closing menu if we are on child menu
+				var sibs = $li.siblings('.active');
+				var sibschild = sibs.find('.active');
+				sibs.removeClass('active');
+				sibs.removeClass('activet');
+				if(sibschild != undefined){
+					sibschild.removeClass('active');
+					sibschild.removeClass('activet');
+				}
+				// if(as!=undefined)
+				// 	var elems = $li.find('a').siblings('.active');
                 if (!$li.parent().is('.child_menu')) {
                     $SIDEBAR_MENU.find('li').removeClass('active active-sm');
                     $SIDEBAR_MENU.find('li ul').slideUp();
@@ -1640,7 +1659,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 	 * GUIDE FOR FRESH USERS
 	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
 	$scope.freshUserConfigStep = 0;
-	$rootScope.freshUserConfigMin = false;
+	$rootScope.userGuideMin = false;
 	$rootScope.toggleFreshUserGuide = function () {
 		$rootScope.freshUser = !$rootScope.freshUser;
 	};
@@ -1652,7 +1671,30 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		}
 	};
 	$scope.minMaxFreshUserConfig = function () {
-		$rootScope.freshUserConfigMin = !$rootScope.freshUserConfigMin;
+		$rootScope.userGuideMin = !$rootScope.userGuideMin;
+	};
+
+	/** GUIDE FOR ALL USERS
+	* Functionality for the Guide panel of all users appears after the main configuration is done.*/
+	$rootScope.userGuide = {};
+	$scope.userGuideStep = 0;
+	$scope.$watch(function () {
+		$rootScope.$statecurrent = $state.current.name.split('.')[1];
+	});
+	$http.get('assets/js/userguide.json').then(function (res) {
+		$rootScope.userGuide = res.data.secondaryguide;
+		var b = $rootScope.userGuide[$rootScope.$statecurrent];
+	}, function (errorres) {
+		debugger;
+	});
+
+	$scope.activeGuide = {};
+	$scope.rotateAllUserGuide = function (direction) {
+		if(direction == 'forward'){
+			$scope.userGuideStep++;
+		}else if(direction == 'backward' && $scope.userGuideStep != 0){
+			$scope.userGuideStep--;
+		}
 	};
 	/** -------------------------------------------------------------------------
 	/*Kasun_Wijeratne_14_FEB_2018*/

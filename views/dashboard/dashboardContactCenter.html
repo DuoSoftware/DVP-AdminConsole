@@ -121,17 +121,21 @@
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <div class="x_panel">
-                                            <p class="d1-c-header">CENTER STATUS <small class="d1-c-sub-header">Total calls received for last 5 min</small></p>
-                                            <div class="d1-call-s-wrp" style="height:250px">
-                                                <flot id="callHit" dataset="dataSetAll"
-                                                      options="myChartOptions"></flot>
+                                            <div class="x_title">
+                                                <h2>CENTER STATUS <small class="d1-c-sub-header">Total calls received for last 5 min</small></h2>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                                <div class="d1-call-s-wrp" style="height:250px">
+                                                    <flot id="callHit" dataset="dataSetAll"
+                                                          options="myChartOptions"></flot>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <div class="x_panel">
-                                            <div class="x_title d1-grading-header-text">
+                                            <div class="x_title">
                                                 <h2>QUEUED <small>{{queues.length}}</small></h2>
                                                 <div class="clearfix"></div>
                                             </div>

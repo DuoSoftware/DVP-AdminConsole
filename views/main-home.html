@@ -50,7 +50,7 @@
                                aria-expanded="false">
                                 <!--<i class="veery-font-1-alarm "></i>-->
                                 <i class="fa fa-bell"></i>
-                                <span class="badge bg-green">{{unredNotifications}}</span>
+                                <span class="badge bg-green" ng-if="unredNotifications > 0">{{unredNotifications}}</span>
                             </a>
 
                             <ul id="menu1"
@@ -77,7 +77,7 @@
                                         </br>
                                         no new notification
                                     </div>
-                                    <div class="row notification-list" ng-repeat="notifi in newNotifications">
+                                    <div class="clearfix notification-list" ng-repeat="notifi in newNotifications">
                                         <div ng-click="showNotificationMessage(notifi)">
                                             <div class="col-lg-3">
                                                 <div class="notify-img-small">
@@ -275,7 +275,7 @@
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goFileCatRestrict()">File
                                                     Category Restrictions </a></li>
-                                                <li ng-show="accessNavigation.FILE_CAT_RESTRICT"><a
+                                                <li ng-show="accessNavigation.FILE_CAT_CONFIG"><a
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goFileCatConfig()">File
                                                     Category Configuration </a></li>
@@ -1163,12 +1163,12 @@
     <!--##########################################
         GUIDE FOR FRESH USERS
         #####################-->
-    <div class="user-guide-wrap" ng-if="freshUser == true" ng-class="{'dialog-min':freshUserConfigMin}">
-        <div class="dialog-toolbar">
-            <span class="iconed-btn right glyphicon glyphicon-{{freshUserConfigMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
+    <div class="user-guide-wrap" ng-if="freshUser == true" ng-class="{'dialog-min':userGuideMin}">
+        <div class="dialog-toolbar" ng-if="!guidePhase1Closure">
+            <span class="iconed-btn right glyphicon glyphicon-{{userGuideMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
         </div>
-        <div ng-if="freshUserConfigMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
-        <div class="dialog-body" ng-if="!freshUserConfigMin">
+        <div ng-if="userGuideMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
+        <div class="dialog-body" ng-if="!userGuideMin && !allUsers">
             <div class="user-guide-step" ng-if="freshUserConfigStep == 0">
                 <h1>Welcome to FaceTone!</h1>
                 <div class="step-body" style="overflow: hidden">
@@ -1176,7 +1176,7 @@
                     <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
 
                     <p class="compact">Hi {{displayname}}. Before start working with FaceTone, we have to do some configurations. Let's get started!</p>
-                    <div class="text-center">
+                    <div class="text-center" style="padding: 10px 0">
                         <button type="button" class="btn btn-success" ng-click="rotateFreshUserGuide('forward')">Start</button>
                     </div>
                     <p class="secondary">You can always get this reopened by clicking <span class="glyphicon glyphicon-question-sign" style="color: #ee407d"></span> icon on bottom left corner.</p>
@@ -1310,23 +1310,46 @@
                     </div>
                 </div>
             </div>
+            <div class="step-footer" ng-if="freshUserConfigStep != 0">
+                <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
+                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')" ng-disabled="freshUserConfigStep == 3">Next ></button>
+            </div>
+        </div>
 
-            <div class="user-guide-step" ng-if="guidePhase1Closure">
+        <div class="dialog-body" ng-if="!userGuideMin && guidePhase1Closure">
+            <div class="user-guide-step">
                 <h1>Logging out..</h1>
                 <div class="step-body" style="overflow: hidden">
 
                     <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
 
-                    <p class="compact">Now that you have finished the initial configuration process, you are required to logout from the system.</p>
+                    <p class="compact">Since you have Purchased a Package, you are required to logout from the system.</p>
                     <div class="text-center">
-                        <h3>You will be logged out in {{logoutCountdown}}</h3>
+                        <h3>You will be logged out in <span style="color: #ee407d">{{logoutcount}}</span></h3>
                     </div>
                 </div>
             </div>
-
-            <div class="step-footer" ng-if="freshUserConfigStep != 0">
-                <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
-                <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')">Next ></button>
+        </div>
+        <div class="dialog-body" ng-if="!userGuideMin && allUsers">
+            <div class="user-guide-step" ng-repeat="userguide in userGuide[$statecurrent].pages" ng-if="userGuideStep == $index">
+                <h2 style="text-transform: capitalize">{{$statecurrent}} guide</h2>
+                <div class="step-body">
+                    <div class="step-content-block image-block clearfix" ng-repeat="step in userguide.steps">
+                    <div class="step-content-image">
+                        <img class="img-sm" src="{{step.image}}" alt="">
+                    </div>
+                    <div class="step-content-text">
+                        <ul>
+                            <li>{{step.description}}</li>
+                        </ul>
+                    </div>
+                </div>
+                    <div class="step-arrow down lefty" ng-if="$index < userguide.length-1"><span></span></div>
+                </div>
+            </div>
+            <div class="step-footer">
+                <button type="button" class="btn btn-default btn-left" ng-click="rotateAllUserGuide('backward')">< Previous</button>
+                <button type="button" class="btn btn-default btn-right" ng-click="rotateAllUserGuide('forward')" ng-disabled="userGuideStep == userGuide[$statecurrent].pages.length - 1">Next ></button>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-6 col-xs-12">
     <div class="x_panel main-title">
         <div class="x_title">
-            <h2>Agent List</h2>
+            <h2>Agent Status</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li class="dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -36,16 +36,16 @@
                         </li>
                     </ul>
                 </li>
-                <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i
+                <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i
                         class="fa fa-chevron-up"></i></a>
                 </li>
-                <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i
+                <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i
                         class="fa fa-chevron-down"></i></a>
                 </li>
             </ul>
             <div class="clearfix"></div>
         </div>
-        <div class="x_content" ng-show="showFilter">
+        <div class="x_content" ng-show="!showFilter">
             <form id="csatForm" name="csatForm" novalidate>
                 <div class="col-md-12 col-sm-12 col-xs-12  form-group">
                     <div class="form-group">
