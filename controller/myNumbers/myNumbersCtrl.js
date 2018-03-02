@@ -84,7 +84,7 @@
         $scope.updateTrunk = function (trunk) {
             phnNumApiAccess.updateTrunk(trunk.EditData.id, trunk.EditData).then(function (data) {
                 if (data.IsSuccess) {
-                    $scope.showAlert('Success', 'success', 'Phone number added');
+                    $scope.showAlert('Success', 'success', 'Trunk settings updated');
 
                     if (data.Result) {
                         trunk.TrunkName = data.Result.TrunkName;
@@ -401,7 +401,7 @@
         $scope.addNewTrunk = function () {
             phnNumApiAccess.addNewTrunk($scope.currentTrunk).then(function (data) {
                 if (data.IsSuccess) {
-                    $scope.showAlert('Success', 'success', 'Phone number added');
+                    $scope.showAlert('Success', 'success', 'Trunk configuration added');
 
                     resetTrunkForm();
 
