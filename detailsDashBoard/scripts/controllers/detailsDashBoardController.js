@@ -665,7 +665,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
         $scope.StartTimer();
     };
 
-	$scope.maxHeight = false;
+	$scope.maxHeight = true;
 	$scope.updateOVPanel = function () {
 		$scope.maxHeight = !$scope.maxHeight;
 	}
