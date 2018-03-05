@@ -389,7 +389,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     	// Kasun_Wijeratne_14_JAN_2018
 		if(Object.keys(result).length
-			=== 3){
+			<= 3){
 			$rootScope.freshUser = true;
 			$rootScope.allUsers = false;
 		}else{

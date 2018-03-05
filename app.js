@@ -1196,7 +1196,24 @@ mainApp.directive('datepicker', function () {
             var options = {
                 dateFormat: "yy-mm-dd",
                 onSelect: function (dateText) {
-					updateModel(dateText);
+					// var sd = new Date(scope.sd);
+					// var ed = new Date(dateText);
+					// var msd = moment(sd);
+					// var med = moment(ed);
+					// if(sd && ed){
+					// 	var dif = med.diff(msd, 'days');
+					// 	if(dif > 30){
+					// 		dateText = new Date();
+					// 		new PNotify({
+					// 			title: "Invalid End Date",
+					// 			text: "End Date should not exceed 30 days from Start Date",
+					// 			type: "error",
+					// 			styling: 'bootstrap3'
+					// 		});
+					// 	}else{
+							updateModel(dateText);
+					// 	}
+					// }
                 }
             };
             elem.datepicker(options);
