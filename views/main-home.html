@@ -1168,7 +1168,7 @@
             <span class="iconed-btn right glyphicon glyphicon-{{userGuideMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
         </div>
         <div ng-if="userGuideMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
-        <div class="dialog-body" ng-if="!userGuideMin && !allUsers">
+        <div class="dialog-body" ng-if="!userGuideMin && !allUsers && !guidePhase1Closure">
             <div class="user-guide-step" ng-if="freshUserConfigStep == 0">
                 <h1>Welcome to FaceTone!</h1>
                 <div class="step-body" style="overflow: hidden">
@@ -1330,6 +1330,7 @@
                 </div>
             </div>
         </div>
+
         <div class="dialog-body" ng-if="!userGuideMin && allUsers">
             <div class="user-guide-step" ng-repeat="userguide in userGuide[$statecurrent].pages" ng-if="userGuideStep == $index">
                 <h2 style="text-transform: capitalize">{{$statecurrent}} guide</h2>

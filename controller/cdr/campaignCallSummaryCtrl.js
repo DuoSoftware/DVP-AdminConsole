@@ -60,20 +60,20 @@ mainApp.controller("campaignCallSummaryController", function ($http, $scope, $fi
 
 	/** Kasun_Wijeratne_5_MARCH_2018
 	 * ----------------------------------------*/
-	// var endDateValidatorListner = $scope.$watch(function () {
-	// 	var sd = new Date($scope.StartDate);
-	// 	var ed = new Date($scope.EndDate);
-	// 	var msd = moment(sd);
-	// 	var med = moment(ed);
-	// 	if(sd && ed){
-	// 		var dif = med.diff(msd, 'days');
-	// 		if(dif > 30){
-	// 			$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-	// 			$scope.EndDate = $scope.StartDate;
-	// 			endDateValidatorListner();
-	// 		}
-	// 	}
-	// });
+	var endDateValidatorListner = $scope.$watch(function () {
+		var sd = new Date($scope.StartDate);
+		var ed = new Date($scope.EndDate);
+		var msd = moment(sd);
+		var med = moment(ed);
+		if(sd && ed){
+			var dif = med.diff(msd, 'days');
+			if(dif > 30){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+				$scope.EndDate = $scope.StartDate;
+				endDateValidatorListner();
+			}
+		}
+	});
 	/** ----------------------------------------
 	 * Kasun_Wijeratne_5_MARCH_2018*/
 

@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
-                                            loginService, walletService, $anchorScroll) {
+                                            loginService, walletService, $anchorScroll, $interval, veeryNotification) {
     $anchorScroll();
 
     //on load get my package
@@ -50,7 +50,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 
                     }
                     else {
-                        loginService.clearCookie();
+                        // loginService.clearCookie();
                         //$state.go('login');
                         $scope.showMessage("Package Buy", "Package upgrade was done successfully.", 'Success');
 
@@ -61,7 +61,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 						$rootScope.guidePhase1Closure = true;
 						$rootScope.logoutcount = 5;
 						var logoutcounter = $interval(function () {
-							if($rootScope.logoutcount == 2){
+							if($rootScope.logoutcount == 1){
 								$interval.cancel(logoutcounter);
 								loginService.Logoff(undefined, function (issuccess) {
 									if (issuccess) {
