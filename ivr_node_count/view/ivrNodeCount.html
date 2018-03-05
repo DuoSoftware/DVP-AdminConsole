@@ -49,53 +49,57 @@
                         </div>
                         <div class="row">
 
-                            <div class="col-md-5 col-sm-5 col-xs-5"
+                            <div class="col-md-3 col-sm-3 col-xs-12"
                                  ng-class="{ 'has-error' : userForm.StartTime.$invalid && !userForm.StartTime.$pristine }">
                                 <label>Start Date</label>
 
                                 <div>
                                     <p class="input-group">
-                                        <input name="EndTime" type="text" class="form-control"
-                                               datetime-picker="MM/dd/yyyy HH:mm"
-                                               ng-model="fileSerach.StartTime" is-open="StartTime.open" required/>
-                                        <span class="input-group-btn">
-                                          <button type="button" class="btn btn-default"
-                                                  ng-click="openCalendar('StartTime')">
-                                              <i
-                                                      class="fa fa-calendar"></i></button>
-                                      </span>
+                                        <input type="text" class="form-control" ng-model="fileSerach.StartTime" ng-change="onDateChange()" name="StartTime"
+                                               datepicker>
+                                        <!--<input name="EndTime" type="text" class="form-control"-->
+                                               <!--datetime-picker="MM/dd/yyyy HH:mm"-->
+                                               <!--ng-model="fileSerach.StartTime" is-open="StartTime.open" required/>-->
+                                        <!--<span class="input-group-btn">-->
+                                          <!--<button type="button" class="btn btn-default"-->
+                                                  <!--ng-click="openCalendar('StartTime')">-->
+                                              <!--<i-->
+                                                      <!--class="fa fa-calendar"></i></button>-->
+                                      <!--</span>-->
 
                                     <p ng-show="userForm.StartTime.$error.required && !userForm.StartTime.$pristine"
                                        class="help-block">
-                                        EndTime is required.</p>
+                                        Start date is required.</p>
 
-                                    <p ng-show="userForm.StartTime.$error.min && !userForm.StartTime.$pristine"
-                                       class="help-block">
-                                        End time should be greater than start time.</p>
-                                    </p>
+                                    <!--<p ng-show="userForm.StartTime.$error.min && !userForm.StartTime.$pristine"-->
+                                       <!--class="help-block">-->
+                                        <!--End date should be greater than start time.</p>-->
+                                    <!--</p>-->
                                 </div>
                             </div>
 
-                            <div class="col-md-5 col-sm-5 col-xs-5"
+                            <div class="col-md-3 col-sm-3 col-xs-12"
                                  ng-class="{ 'has-error' : userForm.EndTime.$invalid && !userForm.EndTime.$pristine }">
                                 <label>End Date</label>
 
                                 <div>
                                     <p class="input-group">
-                                        <input name="EndTime" type="text" class="form-control"
-                                               datetime-picker="MM/dd/yyyy HH:mm"
-                                               ng-model="fileSerach.EndTime" is-open="EndTime.open" required/>
-                                        <span class="input-group-btn">
-                                          <button type="button" class="btn btn-default" ng-click="openCalendar('EndTime')">
-                                              <i
-                                                      class="fa fa-calendar"></i></button>
-                                      </span>
+                                        <input type="text" class="form-control" ng-model="fileSerach.EndTime" ng-change="onDateChange()" name="EndTime"
+                                               datepicker>
+                                        <!--<input name="EndTime" type="text" class="form-control"-->
+                                               <!--datetime-picker="MM/dd/yyyy HH:mm"-->
+                                               <!--ng-model="fileSerach.EndTime" is-open="EndTime.open" required/>-->
+                                        <!--<span class="input-group-btn">-->
+                                          <!--<button type="button" class="btn btn-default" ng-click="openCalendar('EndTime')">-->
+                                              <!--<i-->
+                                                      <!--class="fa fa-calendar"></i></button>-->
+                                      <!--</span>-->
 
                                     <p ng-show="userForm.EndTime.$error.required && !userForm.EndTime.$pristine"
                                        class="help-block">
                                         EndTime is required.</p>
 
-                                    <p ng-show="userForm.EndTime.$error.min && !userForm.EndTime.$pristine"
+                                    <p ng-show="fileSerach.EndTime < fileSerach.StartTime && !userForm.EndTime.$pristine"
                                        class="help-block">
                                         End time should be greater than start time.</p>
                                     </p>
@@ -128,14 +132,14 @@
                                 </div>
                             </div>-->
 
-                            <div class="col-md-2 col-sm-2 col-xs-12 has-feedback">
+                            <div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
                                 <button ng-if="!isLoading" ng-disabled="ivrForm.$invalid" type="button"
-                                        class="btn btn-green btn-block"
+                                        class="btn btn-success"
                                         style="
         margin-top: 24px;" ng-click="LoadNodeData();">
                                     Search
                                 </button>
-                                <button ng-if="isLoading" disabled type="button" class="btn btn-green btn-block"
+                                <button ng-if="isLoading" disabled type="button" class="btn btn-success"
                                         style="
         margin-top: 24px;" ng-click="LoadNodeData();">
                                     PLEASE WAIT...

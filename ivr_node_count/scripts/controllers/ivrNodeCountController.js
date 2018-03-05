@@ -35,9 +35,29 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     var d = new Date();
     d.setDate(d.getDate() - 1);
     $scope.fileSerach = {};
-    $scope.fileSerach.StartTime = d;
-    $scope.fileSerach.EndTime = new Date();
+    $scope.fileSerach.StartTime = moment().format("YYYY-MM-DD");
+    $scope.fileSerach.EndTime = moment().format("YYYY-MM-DD");
     // search end
+
+	/** Kasun_Wijeratne_5_MARCH_2018
+	 * ----------------------------------------*/
+	$scope.onDateChange = function () {
+		var sd = new Date($scope.fileSerach.StartTime);
+		var ed = new Date($scope.fileSerach.EndTime);
+		var msd = moment(sd);
+		var med = moment(ed);
+		if(sd && ed){
+			var dif = med.diff(msd, 'days');
+			if(dif > 30){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+				$scope.fileSerach.EndTime = $scope.fileSerach.StartTime;
+			}else{
+				$scope.dateValid = true;
+			}
+		}
+	};
+	/** ----------------------------------------
+	 * Kasun_Wijeratne_5_MARCH_2018*/
 
     var showAlert = function (tittle, type, content) {
         new PNotify({
@@ -93,6 +113,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     $scope.isLoading = false;
 
     $scope.LoadNodeData = function () {
+    	debugger;
         if (!$scope.application) {
             showAlert("IVR", "error", "Please Select Application");
             return
