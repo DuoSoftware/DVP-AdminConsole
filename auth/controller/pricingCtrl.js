@@ -42,7 +42,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
     //onclick get my package
     $scope.onClickBuyPackages = function (pak) {
         walletService.CreditBalance().then(function (res) {
-            if (res && (parseInt(res.Credit) / 100) >= parseInt(pak.price)) {
+            if ((parseInt(res.Credit) / 100) >= parseInt(pak.price)) {
                 loginService.buyMyPackage(pak.packageName, function (result, data) {
                     if (!result) {
                         $scope.showMessage("Package Buy", "Please Contact System Administrator.", 'error');
