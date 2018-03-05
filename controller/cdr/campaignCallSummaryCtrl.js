@@ -58,6 +58,25 @@ mainApp.controller("campaignCallSummaryController", function ($http, $scope, $fi
     $scope.StartDate = moment().format("YYYY-MM-DD");
     $scope.EndDate = moment().format("YYYY-MM-DD");
 
+	/** Kasun_Wijeratne_5_MARCH_2018
+	 * ----------------------------------------*/
+	// var endDateValidatorListner = $scope.$watch(function () {
+	// 	var sd = new Date($scope.StartDate);
+	// 	var ed = new Date($scope.EndDate);
+	// 	var msd = moment(sd);
+	// 	var med = moment(ed);
+	// 	if(sd && ed){
+	// 		var dif = med.diff(msd, 'days');
+	// 		if(dif > 30){
+	// 			$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+	// 			$scope.EndDate = $scope.StartDate;
+	// 			endDateValidatorListner();
+	// 		}
+	// 	}
+	// });
+	/** ----------------------------------------
+	 * Kasun_Wijeratne_5_MARCH_2018*/
+
     $scope.DownloadCSV = function () {
 
         $scope.DownloadFileName = 'CAMPAIGN_SUMMARY_' + $scope.StartDate + '_' + $scope.EndDate;

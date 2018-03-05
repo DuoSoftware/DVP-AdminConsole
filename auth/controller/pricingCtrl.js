@@ -20,9 +20,10 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
                         $scope.packages[i]['disable'] = true;
                         $scope.packages[i]['active'] = true;
                         i = $scope.packages.length;
-                    } else {
-                        $scope.packages[i]['disable'] = true;
                     }
+                    // else {
+                    //     $scope.packages[i]['disable'] = true;
+                    // }
                 }
             }
         })

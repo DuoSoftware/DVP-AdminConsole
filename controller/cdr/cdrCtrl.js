@@ -9,6 +9,10 @@
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, ShareData, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
+
+
+
+
         $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
 
