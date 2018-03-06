@@ -20,6 +20,15 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
             styling: 'bootstrap3'
         });
     };
+    $scope.showInfo = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'info',
+            styling: 'bootstrap3'
+        });
+    };
 
     $scope.availableKb=0;
     $scope.usedSize=0;
@@ -91,7 +100,7 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
 
 
         },function (errStore) {
-            $scope.showError("Error","Error in loading Storage Details")
+            $scope.showInfo("Info","Storage details not found");
         })
     };
 
@@ -568,6 +577,16 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             title: tittle,
             text: content,
             type: 'success',
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.showAlert = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'info',
             styling: 'bootstrap3'
         });
     };
