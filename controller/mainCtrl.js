@@ -626,6 +626,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goChatbotTemplates: function (templateType) {
             $state.go('console.bottemplates', {templateType: templateType})
         },
+        goChatbotIntegration: function () {
+            $state.go('console.botintegration')
+        },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')
         },
