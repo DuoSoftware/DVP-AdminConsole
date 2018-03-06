@@ -32,19 +32,7 @@
 
         $scope.onDateChange = function () {
             if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-				var sd = new Date($scope.startDate);
-				var ed = new Date($scope.endDate);
-				var msd = moment(sd);
-				var med = moment(ed);
-				if(sd && ed){
-					var dif = med.diff(msd, 'days');
-					if(dif > 31){
-						$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-						$scope.endDate = $scope.startDate;
-					}else{
-						$scope.dateValid = true;
-					}
-				}
+				$scope.dateValid = true;
             }
             else {
                 $scope.dateValid = false;
@@ -287,6 +275,17 @@
 
 
         $scope.getProcessedCDRCSVDownload = function () {
+			var sd = new Date($scope.startDate);
+			var ed = new Date($scope.endDate);
+			var msd = moment(sd);
+			var med = moment(ed);
+			if(sd && ed){
+				var dif = med.diff(msd, 'days');
+				if(dif > 31){
+					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+					return -1;
+				}
+			}
             /*if (checkCSVGenerateAllowed()) {
 
             }

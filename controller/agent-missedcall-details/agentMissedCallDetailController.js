@@ -5,7 +5,7 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls, $anchorScroll) {
+    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls, $anchorScroll, filterDateRangeValidation) {
 
         $anchorScroll();
         $scope.pageSize = 10;
@@ -25,23 +25,7 @@
 		$scope.onDateChange = function () {
 
 			if (moment($scope.obj.startDay, "YYYY-MM-DD").isValid() && moment($scope.obj.endDay, "YYYY-MM-DD").isValid()) {
-				/** Kasun_Wijeratne_5_MARCH_2018
-				 * ----------------------------------------*/
-				var sd = new Date($scope.obj.startDay);
-				var ed = new Date($scope.obj.endDay);
-				var msd = moment(sd);
-				var med = moment(ed);
-				if(sd && ed){
-					var dif = med.diff(msd, 'days');
-					if(dif > 31){
-						$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-						$scope.obj.endDay = $scope.obj.startDay;
-					}else{
-						$scope.dateValid = true;
-					}
-				}
-				/** ----------------------------------------
-				 * Kasun_Wijeratne_5_MARCH_2018*/
+				$scope.dateValid = true;
 			}
 			else {
 				$scope.dateValid = false;
@@ -130,6 +114,15 @@
 
 
         $scope.getProcessedCDRCSVDownload = function () {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.obj.startDay, $scope.obj.endDay) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
+
                 if ($scope.DownloadButtonName === 'CSV') {
                     $scope.cancelDownload = false;
                     $scope.buttonClass = 'fa fa-spinner fa-spin';

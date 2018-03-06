@@ -246,14 +246,16 @@
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="newExtensio">Extension *</label></h3>
-                            <p><input type="text" class="form-control "
+                            <p><input type="text" class="form-control"
                                       id="newExtensio"
                                       name="ext"
+                                      ng-pattern="/^[a-z]*$/"
                                       ng-model="basicConfig.Extension"
                                       placeholder="Extension"
                                       ng-model-options="{ updateOn: 'blur'}"
                                       ng-disabled="IsEdit">
                             </p>
+                            <div ng-if="sipUserConfForm.ext.$pristine && sipUserConfForm.ext.$error" style="color: indianred">Use only simple and numeric characters for username</div>
                         </div>
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="newPinId"> PIN</label></h3>

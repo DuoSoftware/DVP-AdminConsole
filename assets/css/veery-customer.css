@@ -4050,12 +4050,12 @@ ul.stats-overview.ticket-summary > .hidden-phone > .value {
 
 .login-with-social > ul > li > i {
     font-size: 20px;
-    color: #9e9c9c;
+    color: #5d5a5a;
     cursor: pointer;
 }
 
 .login-with-social > ul > li > i.disable {
-    color: #5d5a5a;
+    color: #9e9c9c;
     cursor: not-allowed;
 }
 

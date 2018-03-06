@@ -21,9 +21,9 @@
                 </div>
                     <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                         <select class="form-control has-feedback-left" ng-model="searchQ.selectedDidType"
-                                ng-model-options="{trackBy: '$value'}">
-                            <option value="" disabled selected>Number Type</option>
-                            <option value="{{didTypes[0].group}}" style="font-weight: bold">{{didTypes[0].group}}</option>
+                                ng-model-options="{trackBy: '$value'}" placeholder="Number Type">
+                            <!--<option value="" disabled selected>Number Type</option>-->
+                            <option style="font-weight: bold;pointer-events: none">{{didTypes[0].group}}</option>
                             <option ng-repeat="didt in didTypes[0].items" value="{{didt.value}}">
                                  -{{didt.key}}
                             </option>

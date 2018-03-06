@@ -324,7 +324,6 @@
                                                 <!--ng-model="CurrentProfile.address.country">-->
 
                                                 <select ng-disabled="!isEditState" class="select2_single form-control"
-                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="country" ng-model="CurrentProfile.address.country">
                                                     <option ng-repeat="country in countryList" value="{{country.name}}">
@@ -390,7 +389,6 @@
                                             <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                                 <label>Locale</label>
                                                 <select ng-disabled="!isEditState" class="select2_single form-control"
-                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="contactType" ng-model="CurrentProfile.locale">
                                                     <option ng-repeat="locale in languages" value="{{locale.code}}">

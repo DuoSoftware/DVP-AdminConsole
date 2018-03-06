@@ -4,7 +4,7 @@
 
 (function () {
 
-    mainApp.controller('callcenterPerformanceReportController', function ($scope, $anchorScroll, $timeout, loginService, dashboardService, cdrApiHandler, baseUrls) {
+    mainApp.controller('callcenterPerformanceReportController', function ($scope, $anchorScroll, $timeout, loginService, dashboardService, cdrApiHandler, baseUrls, filterDateRangeValidation) {
 
         $anchorScroll();
 
@@ -138,6 +138,14 @@
 
 
         $scope.downloadPress = function () {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.startDate, $scope.endDate) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
             $scope.fileDownloadState = 'RESET';
             $scope.DownloadButtonName = 'CSV';
             $scope.cancelDownload = true;
@@ -146,29 +154,22 @@
 
         $scope.onDateChange = function () {
         	if(moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-				/** Kasun_Wijeratne_5_MARCH_2018
-				 * ----------------------------------------*/
-				var sd = new Date($scope.startDate);
-				var ed = new Date($scope.endDate);
-				var msd = moment(sd);
-				var med = moment(ed);
-				if(sd && ed){
-					var dif = med.diff(msd, 'days');
-					if(dif > 31){
-						$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-						$scope.endDate = $scope.startDate;
-					}else{
-						$scope.dateValid = true;
-					}
-				}
-				/** ----------------------------------------
-				 * Kasun_Wijeratne_5_MARCH_2018*/
+				$scope.dateValid = true;
 			}else{
 				$scope.dateValid = false;
 			}
         };
 
         $scope.prepareToDownload = function () {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.startDate, $scope.endDate) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
+
             if ($scope.DownloadButtonName === 'CSV') {
                 $scope.cancelDownload = false;
                 $scope.buttonClass = 'fa fa-spinner fa-spin';

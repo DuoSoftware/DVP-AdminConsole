@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, companyConfigBackendService, loginService,$anchorScroll) {
+    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, companyConfigBackendService, loginService,$anchorScroll, filterDateRangeValidation) {
 
         $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
@@ -80,25 +80,6 @@
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
         };
-
-		/** Kasun_Wijeratne_5_MARCH_2018
-		 * ----------------------------------------*/
-		var endDateValidatorListner = $scope.$watch(function () {
-			var sd = new Date($scope.obj.startDay);
-			var ed = new Date($scope.obj.endDay);
-			var msd = moment(sd);
-			var med = moment(ed);
-			if(sd && ed){
-				var dif = med.diff(msd, 'days');
-				if(dif > 31){
-					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-					$scope.obj.endDay = $scope.obj.startDay;
-					endDateValidatorListner();
-				}
-			}
-		});
-		/** ----------------------------------------
-		 * Kasun_Wijeratne_5_MARCH_2018*/
 
         $scope.startTime = '12:00 AM';
         $scope.endTime = '12:00 AM';
@@ -375,6 +356,14 @@
         $scope.statusData=[];
         $scope.isDowloading=false;
         $scope.getAgentStatusListCSV = function () {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.obj.startDay, $scope.obj.endDay) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
             $scope.isDowloading=true;
             $scope.agentStatusListCSV ={};
             $scope.statusData=[];
