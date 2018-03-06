@@ -14,21 +14,58 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
         //get my package
         loginService.getMyPackages(function (status, res, data) {
             if (status && data && data.Result) {
-                $scope.myCurrentPackage = data.Result[0];
-                for (var i = 0; i < $scope.packages.length; i++) {
-                	for(var j = 0; j < data.Result.length; j++){
+                $scope.myCurrentPackage = data.Result;
 
-						if ($scope.packages[i].packageName == data.Result[j]) {
-							$scope.packages[i]['disable'] = true;
-							$scope.packages[i]['active'] = true;
-							//i = $scope.packages.length;
+                ////////////////////////////////////////sukitha added new logic////////////////////////////////////////////////////
+				$scope.myPackages = $scope.packages.filter(function(item){
+					return $scope.myCurrentPackage.indexOf(item.packageName) >= 0;
+				});
+
+
+				for (var i = 0; i < $scope.packages.length; i++) {
+					for(var j = 0; j < $scope.myPackages.length; j++){
+
+						if($scope.packages[i].packageType == $scope.myPackages[j].packageType){
+
+							if ($scope.packages[i].packageName == $scope.myPackages[j].packageName) {
+								$scope.packages[i]['disable'] = true;
+								$scope.packages[i]['active'] = true;
+								//i = $scope.packages.length;
+							}else if($scope.packages[i].price < $scope.myPackages[j].price){
+
+								$scope.packages[i]['disable'] = true;
+
+							}
+
+
 						}
 
-					}
-                    // else {
-                    //     $scope.packages[i]['disable'] = true;
-                    // }
-                }
+
+				}
+				    // else {
+				    //     $scope.packages[i]['disable'] = true;
+				    // }
+				}
+
+
+
+
+				///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                // for (var i = 0; i < $scope.packages.length; i++) {
+                // 	for(var j = 0; j < data.Result.length; j++){
+				//
+					// 	if ($scope.packages[i].packageName == data.Result[j]) {
+					// 		$scope.packages[i]['disable'] = true;
+					// 		$scope.packages[i]['active'] = true;
+					// 		//i = $scope.packages.length;
+					// 	}
+				//
+					// }
+                //     // else {
+                //     //     $scope.packages[i]['disable'] = true;
+                //     // }
+                // }
             }
         })
     });
