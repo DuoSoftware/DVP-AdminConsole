@@ -122,8 +122,18 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                     if (status == 200) {
                         if (result) {
                             loginService.getUserNavigation(function (isnavigation) {
-                                if (isnavigation)
-                                    $state.go('console');
+                                if (isnavigation){
+
+									/** Kasun_Wijeratne_5_MARCH_2018
+									 * ----------------------------------------
+									 * User validation for Dev or Live goes here
+									 * ----------------------------------------*/
+									$rootScope.isLive = true;
+
+									/** ----------------------------------------
+									 * Kasun_Wijeratne_5_MARCH_2018*/
+									$state.go('console');
+								}
                                 //else
                                 // $state.go('login');
                             })

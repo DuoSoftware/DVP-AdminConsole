@@ -24,6 +24,32 @@
             endDay: moment().format("YYYY-MM-DD")
         };
 
+		$scope.onDateChange = function () {
+
+			if (moment($scope.searchParams.startDay, "YYYY-MM-DD").isValid() && moment($scope.searchParams.endDay, "YYYY-MM-DD").isValid()) {
+				/** Kasun_Wijeratne_5_MARCH_2018
+				 * ----------------------------------------*/
+				var sd = new Date($scope.searchParams.startDay);
+				var ed = new Date($scope.searchParams.endDay);
+				var msd = moment(sd);
+				var med = moment(ed);
+				if(sd && ed){
+					var dif = med.diff(msd, 'days');
+					if(dif > 30){
+						$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+						$scope.searchParams.endDay = $scope.searchParams.startDay;
+					}else{
+						$scope.dateValid = true;
+					}
+				}
+				/** ----------------------------------------
+				 * Kasun_Wijeratne_5_MARCH_2018*/
+			}
+			else {
+				$scope.dateValid = false;
+			}
+		};
+
         $scope.tagSummaryDetails = [];
 
         $scope.tagList = [];

@@ -385,6 +385,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     //check my navigation
     //is can access
+	/** Kasun_Wijeratne_5_MARCH_2018
+	 * ----------------------------------------
+	 * User validation for Dev or Live goes here
+	 * ----------------------------------------*/
+	$rootScope.isLive = true;
+
+	/** ----------------------------------------
+	 * Kasun_Wijeratne_5_MARCH_2018*/
     loginService.getNavigationAccess(function (result) {
 
     	// Kasun_Wijeratne_14_JAN_2018

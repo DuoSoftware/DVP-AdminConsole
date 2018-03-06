@@ -597,7 +597,9 @@
                             <h3>Reports</h3>
                             <ul class="nav side-menu">
 
-                                <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT || accessNavigation.CAMPAIGN_DISPOSITION_REPORT|| accessNavigation.CAMPAIGN_CALLBACK_REPORT|| accessNavigation.CAMPAIGN_ATTEMPT_REPORT|| accessNavigation.CAMPAIGN_CDR|| accessNavigation.AGENT_DIALER_SUMMARY_REPORT|| accessNavigation.AGENT_DIALER_DETAIL_REPORT ">
+                                <li
+                                        ng-if="!isLive"
+                                        ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT || accessNavigation.CAMPAIGN_DISPOSITION_REPORT|| accessNavigation.CAMPAIGN_CALLBACK_REPORT|| accessNavigation.CAMPAIGN_ATTEMPT_REPORT|| accessNavigation.CAMPAIGN_CDR|| accessNavigation.AGENT_DIALER_SUMMARY_REPORT|| accessNavigation.AGENT_DIALER_DETAIL_REPORT ">
                                     <a
                                             class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign Reports
                                         <span
@@ -715,7 +717,9 @@
                                         <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goAcwReport()">
                                             ACW Detail </a></li>
-                                        <li ng-show="accessNavigation.QUALITYASSUARANCE_REPORT"><a
+                                        <li
+                                                ng-if="!isLive"
+                                                ng-show="accessNavigation.QUALITYASSUARANCE_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goQAReport()">
                                             QA </a></li>
@@ -762,7 +766,9 @@
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goSMSDetailReport()">SMS
                                             Detail </a></li>
-                                        <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
+                                        <li
+                                                ng-if="!isLive"
+                                                ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
                                                                                      ng-click="clickDirective.goAuditTrailReport()">Audit
                                             Trail </a></li>
                                     </ul>

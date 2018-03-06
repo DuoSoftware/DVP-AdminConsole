@@ -8,8 +8,8 @@
 mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll,uiGridConstants ) {
 
     $anchorScroll();
-    $scope.startDate = moment().add(-1, 'd').format("YYYY-MM-DD");
-    $scope.endDate = moment().add(-1, 'd').format("YYYY-MM-DD");
+    $scope.startDate = moment().format("YYYY-MM-DD");
+    $scope.endDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;
     $scope.agentSummaryList = [];
     $scope.Agents = [];
@@ -142,11 +142,25 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
 
 
     $scope.onDateChange = function () {
-        $scope.startDate = moment($scope.startDate).format("YYYY-MM-DD");
-        $scope.endDate = moment($scope.endDate).format("YYYY-MM-DD");
 
         if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-            $scope.dateValid = true;
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			var sd = new Date($scope.startDate);
+			var ed = new Date($scope.endDate);
+			var msd = moment(sd);
+			var med = moment(ed);
+			if(sd && ed){
+				var dif = med.diff(msd, 'days');
+				if(dif > 30){
+					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+					$scope.endDate = $scope.startDate;
+				}else{
+					$scope.dateValid = true;
+				}
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
         }
         else {
             $scope.dateValid = false;

@@ -16,11 +16,15 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
             if (status && data && data.Result) {
                 $scope.myCurrentPackage = data.Result[0];
                 for (var i = 0; i < $scope.packages.length; i++) {
-                    if ($scope.packages[i].packageName == data.Result[0]) {
-                        $scope.packages[i]['disable'] = true;
-                        $scope.packages[i]['active'] = true;
-                        i = $scope.packages.length;
-                    }
+                	for(var j = 0; j < data.Result.length; j++){
+
+						if ($scope.packages[i].packageName == data.Result[j]) {
+							$scope.packages[i]['disable'] = true;
+							$scope.packages[i]['active'] = true;
+							//i = $scope.packages.length;
+						}
+
+					}
                     // else {
                     //     $scope.packages[i]['disable'] = true;
                     // }
