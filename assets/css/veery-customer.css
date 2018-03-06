@@ -9012,3 +9012,14 @@ circle {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.invalInput{
+    color: indianred;
+    font-size: 12px;
+}
+
+.ng-invalid-pattern + .invalInput{
+    display: block;
+}
+.ng-valid-pattern + .invalInput{
+    display: none;
+}
