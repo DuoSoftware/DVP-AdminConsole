@@ -41,7 +41,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
 			var med = moment(ed);
 			if(sd && ed){
 				var dif = med.diff(msd, 'days');
-				if(dif > 30){
+				if(dif > 31){
 					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
 					$scope.csatSerach.EndTime = $scope.csatSerach.StartTime;
 				}else{
