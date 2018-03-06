@@ -5,15 +5,15 @@
                 <h2><b>REPORT</b> | CALL - Abandon CDR</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><button class="btn btn-success" ng-click="HeaderDetails()"><i class="fa fa-refresh" ></i></button></li>
-                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
-                    <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="x_content" ng-show="showFilter">
+            <div class="x_content" ng-show="!showFilter">
                 <div class="clearfix bottom-gray-200 m-bottom20">
                     <!--<div class="col-md-4 col-sm-4 col-xs-4">
                         <input type="text" class="form-control" ng-model="agentFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.SipUsername as usr.SipUsername for usr in userList" placeholder="Agent" bs-typeahead>
@@ -216,6 +216,10 @@
         </div>
     </div>
 </div>
+
+<script>
+	window.scrollTo(0, 0);
+</script>
 
 
 <!--Old-->

@@ -1,6 +1,8 @@
 mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $q, $timeout, cSatService, ticketReportsService, cdrApiHandler, loginService) {
     $anchorScroll();
 
+
+
     // search
     $scope.StartTime = {
         date: new Date()
@@ -17,11 +19,42 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
         }
 
     };
+
+
+
     $scope.csatSerach = {};
     var d = new Date();
     d.setDate(d.getDate() - 1);
-    $scope.csatSerach.StartTime = d;
-    $scope.csatSerach.EndTime = new Date();
+    $scope.csatSerach.StartTime = moment().format("YYYY-MM-DD");
+    $scope.csatSerach.EndTime = moment().format("YYYY-MM-DD");
+
+	$scope.onDateChange = function () {
+		// $scope.startDate = moment($scope.startDate).format("YYYY-MM-DD");
+		// $scope.endDate = moment($scope.endDate).format("YYYY-MM-DD");
+
+		if (moment($scope.csatSerach.StartTime, "YYYY-MM-DD").isValid() && moment($scope.csatSerach.EndTime, "YYYY-MM-DD").isValid()) {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			var sd = new Date($scope.csatSerach.StartTime);
+			var ed = new Date($scope.csatSerach.EndTime);
+			var msd = moment(sd);
+			var med = moment(ed);
+			if(sd && ed){
+				var dif = med.diff(msd, 'days');
+				if(dif > 31){
+					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+					$scope.csatSerach.EndTime = $scope.csatSerach.StartTime;
+				}else{
+					$scope.dateValid = true;
+				}
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
+		}
+		else {
+			$scope.dateValid = false;
+		}
+	};
     // search end
 
     $scope.enableSearchButton = true;

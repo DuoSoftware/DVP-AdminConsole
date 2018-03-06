@@ -1193,7 +1193,7 @@ mainApp.directive('datepicker', function () {
             var options = {
                 dateFormat: "yy-mm-dd",
                 onSelect: function (dateText) {
-                    updateModel(dateText);
+					updateModel(dateText);
                 }
             };
             elem.datepicker(options);

@@ -2,11 +2,11 @@
     <div class="col-md-12 col-sm-6 col-xs-12" pdf-save-content="idOne">
         <div class="x_panel main-title">
             <div class="x_title">
-                <h2><b>REPORT</b> | CALL - Customer Satisfaction</h2>
+                <h2><b>REPORT</b> | AGENT - Customer Satisfaction</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
-                    <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
                     </li>
                     <li ng-show="false">
                         <a class="close-link">
@@ -20,22 +20,23 @@
                 </ul>
                 <div class="clearfix"></div>
             </div>
-            <div class="x_content" ng-show="showFilter">
+            <div class="x_content" ng-show="!showFilter">
                 <form id="csatForm" name="csatForm" novalidate>
                     <div class="col-md-3 col-sm-3 col-xs-12"
                          ng-class="{ 'has-error' : csatForm.StartTime.$invalid && !csatForm.StartTime.$pristine }">
                         <label>Start Date</label>
                         <div>
                             <p class="input-group">
-                                <input required name="StartTime" type="text" class="form-control"
-                                       datetime-picker="MM/dd/yyyy HH:mm"
-                                       ng-model="csatSerach.StartTime" is-open="StartTime.open" ng-change="uiParamsChanged()"
-                                       ng-class="{ 'has-error' : csatForm.StartTime.$invalid && !csatForm.StartTime.$pristine }"/>
-                                <span class="input-group-btn">
-                                      <button type="button" class="btn btn-default"
-                                              ng-click="openCalendar('StartTime')"><i
-                                              class="fa fa-calendar"></i></button>
-                                  </span>
+                                <input required type="text" class="form-control" ng-model="csatSerach.StartTime" name="StartTime" ng-change="onDateChange()" datepicker>
+                                <!--<input required name="StartTime" type="text" class="form-control"-->
+                                       <!--datetime-picker="MM/dd/yyyy HH:mm"-->
+                                       <!--ng-model="csatSerach.StartTime" is-open="StartTime.open" ng-change="uiParamsChanged()"-->
+                                       <!--ng-class="{ 'has-error' : csatForm.StartTime.$invalid && !csatForm.StartTime.$pristine }"/>-->
+                                <!--<span class="input-group-btn">-->
+                                      <!--<button type="button" class="btn btn-default"-->
+                                              <!--ng-click="openCalendar('StartTime')"><i-->
+                                              <!--class="fa fa-calendar"></i></button>-->
+                                  <!--</span>-->
                             <p ng-show="csatForm.StartTime.$error.required && !csatForm.StartTime.$pristine"
                                class="help-block">
                                 StartTime is required.</p>
@@ -49,21 +50,22 @@
 
                         <div>
                             <p class="input-group">
-                                <input name="EndTime" type="text" class="form-control"
-                                       datetime-picker="MM/dd/yyyy HH:mm" min="csatSerach.StartTime" ng-change="uiParamsChanged()"
-                                       ng-model="csatSerach.EndTime" is-open="EndTime.open"
-                                       required/>
-                                <span class="input-group-btn">
-                                      <button type="button" class="btn btn-default" ng-click="openCalendar('EndTime')">
-                                          <i
-                                                  class="fa fa-calendar"></i></button>
-                                  </span>
+                                <input required type="text" class="form-control" ng-model="csatSerach.EndTime" name="EndTime" ng-change="onDateChange()" datepicker>
+                                <!--<input name="EndTime" type="text" class="form-control"-->
+                                       <!--datetime-picker="MM/dd/yyyy HH:mm" min="csatSerach.StartTime" ng-change="uiParamsChanged()"-->
+                                       <!--ng-model="csatSerach.EndTime" is-open="EndTime.open"-->
+                                       <!--required/>-->
+                                <!--<span class="input-group-btn">-->
+                                      <!--<button type="button" class="btn btn-default" ng-click="openCalendar('EndTime')">-->
+                                          <!--<i-->
+                                                  <!--class="fa fa-calendar"></i></button>-->
+                                  <!--</span>-->
 
                             <p ng-show="csatForm.EndTime.$error.required && !csatForm.EndTime.$pristine"
                                class="help-block">
                                 EndTime is required.</p>
 
-                            <p ng-show="csatForm.EndTime.$error.min && !csatForm.EndTime.$pristine"
+                            <p ng-show="csatSerach.StartTime>csatForm.EndTime && !csatForm.EndTime.$pristine"
                                class="help-block">
                                 End time should be greater than start time.</p>
                             </p>
@@ -749,6 +751,8 @@
 <!--</div>-->
 <!--Old-->
 
-
+<script>
+	window.scrollTo(0, 0);
+</script>
 
 

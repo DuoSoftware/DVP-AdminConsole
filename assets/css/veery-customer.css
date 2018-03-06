@@ -902,7 +902,7 @@ label {
     font-weight: 300;
     letter-spacing: 1px;
     cursor: pointer;
-    margin: 10px 0;
+    /*margin: 10px 0;*/
 }
 
 .btn-secondary {
@@ -1007,7 +1007,8 @@ label {
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: rgba(17, 72, 88, 0.11);
+    /*background-color: rgba(17, 72, 88, 0.11);*/
+    background-color: rgb(255, 243, 247);
 }
 
 .table-striped > tbody > tr {
@@ -3367,7 +3368,7 @@ ul.social li {
     cursor: default;
     background-color: #ee407d;
     border-color: #ee407d;
-    top: 1px;
+    /*top: 1px;*/
 }
 
 .x_title span {
@@ -3913,18 +3914,22 @@ tags-input .tags.focused {
 .notify-img-modal {
     margin: 0 auto;
     text-align: left;
-    position: absolute;
-    top: 30px;
+    /*position: absolute;*/
+    /*top: 30px;*/
     min-height: 50px;
 }
 
 .notify-img-modal > img {
     border-radius: 70%;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     overflow: visible;
     position: relative;
     z-index: 0;
+    border: solid 2px #ffffff;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .notify-img-small {
@@ -4162,8 +4167,8 @@ ul#strength {
     width: 100%;
     height: 350px;
     overflow: hidden;
-    padding: 0px 5px 5px 0px;
-
+    /*padding: 0px 5px 5px 0px;*/
+    padding: 10px;
 }
 
 .console-notofication-wrapper > .notification-status {
@@ -4180,15 +4185,20 @@ ul#strength {
 
 .notification-list {
     display: block;
-    margin-top: 10px;
+    margin-bottom: 20px;
     cursor: pointer;
     padding: 5px 0px 3px 0px;
-    margin-left: 2px;
-    margin-right: 12px;
+    border-radius: 3px;
+    /*margin-left: 2px;
+    margin-right: 12px;*/
+}
+
+.notification-list h5{
+    margin: 0 0 5px 0;
 }
 
 .notification-list:hover {
-    background: lavender;
+    background: #f5f5f5;
 }
 
 .notification-time {
@@ -4302,10 +4312,13 @@ ul#strength {
     position: absolute;
     top: -125px;
     left: 1px;
-    background: #080808;
+    background: #fafafa;
     padding: 15px 23px 13px 20px;
     z-index: 100;
     border-radius: 10px;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .password-leg-wrapper > ul > li {
@@ -4598,8 +4611,9 @@ tags-input .tags {
 }
 
 .progress-bar {
-    color: #fff;
-    /*background-color: #4CAF50;*/
+    color: #bababa;
+    font-weight: normal!important;
+    background-color: #6a3390;
 }
 
 .progress-camp-upload > div > b {
@@ -5092,6 +5106,7 @@ section.h3 {
     font-size: 18px;
     font-weight: 500;
     margin: 0;
+    color: #984bce;
 }
 
 .x_panel.main-title {
@@ -5346,7 +5361,7 @@ section.h3 {
 }
 
 .ui-pnotify-text {
-    text-transform: capitalize !important;
+    /*text-transform: capitalize !important;*/
 }
 
 .calendar-legend {
@@ -6642,33 +6657,47 @@ ul.newsticker {
 }
 
 .tag-ticket-summary-wrp {
-    width: 100%;
-    height: 110px;
-    background: #fbfbfb;
-    padding-top: 20px;
-    margin-bottom: 5px;
+    /*width: 100%;*/
+    /*height: 110px;*/
+    /*background: #fbfbfb;*/
+    /*padding-top: 20px;*/
+    /*margin-bottom: 5px;*/
+    display: inline-block;
+    float: left;
+    text-align: center;
+    padding: 20px 20px 0 20px;
+    margin-bottom: 20px;
+    width: 25%;
+    font-size: 14px;
+    border-right: 1px solid #e8e8e8;
 }
 
-.tag-ticket-summary-wrp > .tag-name {
-    font-family: 'Roboto-bold', sans-serif;
-    width: 100%;
-    text-align: center;
-    height: 25px;
-    overflow: hidden;
-    position: relative;
-    font-size: 17px;
-    padding-bottom: 5px;
+.tag-ticket-summary-wrp .tag-name {
+    /*font-family: 'Roboto-bold', sans-serif;*/
+    /*width: 100%;*/
+    /*text-align: center;*/
+    /*height: 25px;*/
+    /*overflow: hidden;*/
+    /*position: relative;*/
+    /*font-size: 17px;*/
+    /*padding-bottom: 5px;*/
+
+    font-size: 14px;
+    font-weight: normal;
 }
 
-.tag-ticket-summary-wrp > .count {
-    font-family: 'Roboto', sans-serif;
-    width: 100%;
-    text-align: center;
-    min-height: 20px;
-    overflow: hidden;
-    position: relative;
-    font-size: 24px;
-    padding-bottom: 2px;
+.tag-ticket-summary-wrp .count {
+    /*font-family: 'Roboto', sans-serif;*/
+    /*width: 100%;*/
+    /*text-align: center;*/
+    /*min-height: 20px;*/
+    /*overflow: hidden;*/
+    /*position: relative;*/
+    /*font-size: 24px;*/
+    /*padding-bottom: 2px;*/
+
+    font-size: 16px;
+    color: #6a3390;
 }
 
 /* call center performance */
@@ -6763,7 +6792,8 @@ ul.newsticker {
 }
 
 .ccp-top-widget.blue-l-400 {
-    background: #77EBF4;
+    /*background: #77EBF4;*/
+    background: #e5beff;
 }
 
 .ccp-body-widget-md.red-l-400 {
@@ -6835,7 +6865,7 @@ ul.newsticker {
     width: 55px;
     height: 55px;
     margin: 0 auto;
-    background: #74BEFB;
+    background: #6a3390;
     color: #fff;
     text-align: center;
     border-radius: 100%;
@@ -7075,6 +7105,7 @@ ul.newsticker {
 }
 
 .modal-panel-notify {
+    padding: 10px;
     height: 300px;
     border-left-width: 2pt;
     border-color: lightgrey;
@@ -8957,4 +8988,27 @@ circle {
 {
     color:green;
     font-weight:bold;
+}
+
+
+/*Preloader*/
+.preloader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

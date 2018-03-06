@@ -436,6 +436,26 @@
         };
 
 
+		/** Kasun_Wijeratne_5_MARCH_2018
+		 * ----------------------------------------*/
+		var endDateValidatorListner = $scope.$watch(function () {
+			var sd = new Date($scope.obj2.startDay);
+			var ed = new Date($scope.obj2.endDay);
+			var msd = moment(sd);
+			var med = moment(ed);
+			if(sd && ed){
+				var dif = med.diff(msd, 'days');
+				if(dif > 31){
+					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+					$scope.obj2.endDay = $scope.obj2.startDay;
+					endDateValidatorListner();
+				}
+			}
+		});
+		/** ----------------------------------------
+		 * Kasun_Wijeratne_5_MARCH_2018*/
+
+
     };
     app.controller("callSummaryCtrl", callSummaryCtrl);
 

@@ -77,7 +77,7 @@
                                         </br>
                                         no new notification
                                     </div>
-                                    <div class="row notification-list" ng-repeat="notifi in newNotifications">
+                                    <div class="clearfix notification-list" ng-repeat="notifi in newNotifications">
                                         <div ng-click="showNotificationMessage(notifi)">
                                             <div class="col-lg-3">
                                                 <div class="notify-img-small">
@@ -234,7 +234,7 @@
                                                 ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
                                         <li ng-show="accessNavigation.AGENT_SUMMARY"><a href="javascript:void(0);"
                                                                                         ng-click="clickDirective.goAgentProfileSummary()">Agent
-                                            Summery</a></li>
+                                            Summary</a></li>
                                         <li ng-show="accessNavigation.TICKET_DASHBOARD"><a
                                                 ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dashboard</a>
                                         </li>
@@ -597,7 +597,9 @@
                             <h3>Reports</h3>
                             <ul class="nav side-menu">
 
-                                <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT || accessNavigation.CAMPAIGN_DISPOSITION_REPORT|| accessNavigation.CAMPAIGN_CALLBACK_REPORT|| accessNavigation.CAMPAIGN_ATTEMPT_REPORT|| accessNavigation.CAMPAIGN_CDR|| accessNavigation.AGENT_DIALER_SUMMARY_REPORT|| accessNavigation.AGENT_DIALER_DETAIL_REPORT ">
+                                <li
+                                        ng-if="!isLive"
+                                        ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT || accessNavigation.CAMPAIGN_DISPOSITION_REPORT|| accessNavigation.CAMPAIGN_CALLBACK_REPORT|| accessNavigation.CAMPAIGN_ATTEMPT_REPORT|| accessNavigation.CAMPAIGN_CDR|| accessNavigation.AGENT_DIALER_SUMMARY_REPORT|| accessNavigation.AGENT_DIALER_DETAIL_REPORT ">
                                     <a
                                             class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign Reports
                                         <span
@@ -605,7 +607,7 @@
                                     <ul class="nav child_menu">
                                         <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT"><a
                                                 href="javascript:void(0);"
-                                                ng-click="clickDirective.goCampaignSummery();">Summery</a>
+                                                ng-click="clickDirective.goCampaignSummery();">Summary</a>
                                         </li>
                                         <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT"><a
                                                 href="javascript:void(0);"
@@ -632,11 +634,11 @@
                                             <ul class="nav child_menu">
                                                 <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
-                                                        ng-click="clickDirective.goAgentDialerAgentWise();">Agent Wise Summery</a>
+                                                        ng-click="clickDirective.goAgentDialerAgentWise();">Agent Wise Summary</a>
                                                 </li>
                                                 <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
-                                                        ng-click="clickDirective.goAgentDialerSummery();">Summery</a>
+                                                        ng-click="clickDirective.goAgentDialerSummery();">Summary</a>
                                                 </li>
                                                 <li ng-show="accessNavigation.AGENT_DIALER_DETAIL_REPORT"><a
                                                         href="javascript:void(0);"
@@ -666,11 +668,11 @@
                                         <li ng-show="accessNavigation.CALL_SUMMARY_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goCallSummary()">Call
-                                            Summery </a></li>
+                                            Summary </a></li>
                                         <li ng-show="accessNavigation.QUEUE_SUMMARY_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goQueueSummary()">Queue
-                                            Summery</a></li>
+                                            Summary</a></li>
                                         <li ng-show="accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goQueueHourlySummary()">Queue
@@ -715,7 +717,9 @@
                                         <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goAcwReport()">
                                             ACW Detail </a></li>
-                                        <li ng-show="accessNavigation.QUALITYASSUARANCE_REPORT"><a
+                                        <li
+                                                ng-if="!isLive"
+                                                ng-show="accessNavigation.QUALITYASSUARANCE_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goQAReport()">
                                             QA </a></li>
@@ -739,12 +743,12 @@
                                         <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goTicketSummary()">Ticket
-                                            Summery</a></li>
+                                            Summary</a></li>
                                         <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goTicketTagSummary()">Tag
                                             Wise Ticket
-                                            Summery</a></li>
+                                            Summary</a></li>
                                         <li ng-show="accessNavigation.TICKET_DETAIL_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goTicketDetailReport()">Ticket
@@ -762,7 +766,9 @@
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goSMSDetailReport()">SMS
                                             Detail </a></li>
-                                        <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
+                                        <li
+                                                ng-if="!isLive"
+                                                ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
                                                                                      ng-click="clickDirective.goAuditTrailReport()">Audit
                                             Trail </a></li>
                                     </ul>
@@ -788,7 +794,7 @@
                                             <ul class="nav child_menu">
                                                 <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
-                                                        ng-click="clickDirective.goCampaignSummery();">Summery</a>
+                                                        ng-click="clickDirective.goCampaignSummery();">Summary</a>
                                                 </li>
                                                 <li ng-show="accessNavigation.CAMPAIGN_DISPOSITION_REPORT"><a
                                                         href="javascript:void(0);"
@@ -811,7 +817,7 @@
                                                     <ul class="nav child_menu">
                                                         <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
                                                                 href="javascript:void(0);"
-                                                                ng-click="clickDirective.goAgentDialerSummery();">Summery</a>
+                                                                ng-click="clickDirective.goAgentDialerSummery();">Summary</a>
                                                         </li>
                                                         <li ng-show="accessNavigation.AGENT_DIALER_DETAIL_REPORT"><a
                                                                 href="javascript:void(0);"
@@ -835,11 +841,11 @@
                                                 <li ng-show="accessNavigation.CALL_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goCallSummary()">Call
-                                                    Summery </a></li>
+                                                    Summary </a></li>
                                                 <li ng-show="accessNavigation.QUEUE_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goQueueSummary()">Queue
-                                                    Summery</a></li>
+                                                    Summary</a></li>
                                                 <li ng-show="accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT"><a
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goQueueHourlySummary()">Queue
@@ -900,12 +906,12 @@
                                                 <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goTicketSummary()">Ticket
-                                                    Summery</a></li>
+                                                    Summary</a></li>
                                                 <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goTicketTagSummary()">Tag
                                                     Wise Ticket
-                                                    Summery</a></li>
+                                                    Summary</a></li>
                                                 <li ng-show="accessNavigation.TICKET_DETAIL_REPORT"><a
                                                         href="javascript:void(0);"
                                                         ng-click="clickDirective.goTicketDetailReport()">Ticket
@@ -952,7 +958,7 @@
                                             <ul class="nav child_menu">
                                                 <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
-                                                        ng-click="clickDirective.goCampaignSummery();">Summery</a>
+                                                        ng-click="clickDirective.goCampaignSummery();">Summary</a>
                                                 </li>
                                                 <li ng-show="accessNavigation.CAMPAIGN_DISPOSITION_REPORT"><a
                                                         href="javascript:void(0);"
@@ -975,7 +981,7 @@
                                                     <ul class="nav child_menu">
                                                         <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
                                                                 href="javascript:void(0);"
-                                                                ng-click="clickDirective.goAgentDialerSummery();">Summery</a>
+                                                                ng-click="clickDirective.goAgentDialerSummery();">Summary</a>
                                                         </li>
                                                         <li ng-show="accessNavigation.AGENT_DIALER_DETAIL_REPORT"><a
                                                                 href="javascript:void(0);"
@@ -990,7 +996,7 @@
                                             <ul class="nav child_menu">
                                                 <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
                                                         href="javascript:void(0);"
-                                                        ng-click="clickDirective.goAgentDialerSummery();">Summery</a>
+                                                        ng-click="clickDirective.goAgentDialerSummery();">Summary</a>
                                                 </li>
                                                 <li ng-show="accessNavigation.AGENT_DIALER_DETAIL_REPORT"><a
                                                         href="javascript:void(0);"
@@ -1006,10 +1012,10 @@
                                             Call </a></li>
                                         <li ng-show="accessNavigation.CALL_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                               ng-click="clickDirective.goCallSummary()">Call
-                                            Summery </a></li>
+                                            Summary </a></li>
                                         <li ng-show="accessNavigation.QUEUE_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                                ng-click="clickDirective.goQueueSummary()">Queue
-                                            Summery</a></li>
+                                            Summary</a></li>
                                         <li ng-show="accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT"><a
                                                 href="javascript:void(0);"
                                                 ng-click="clickDirective.goQueueHourlySummary()">Queue
@@ -1023,11 +1029,11 @@
                                             Status Events</a></li>
                                         <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                                 ng-click="clickDirective.goTicketSummary()">Ticket
-                                            Summery</a></li>
+                                            Summary</a></li>
                                         <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                                 ng-click="clickDirective.goTicketTagSummary()">Tag
                                             Wise Ticket
-                                            Summery</a></li>
+                                            Summary</a></li>
                                         <li ng-show="accessNavigation.TICKET_DETAIL_REPORT"><a href="javascript:void(0);"
                                                                                                ng-click="clickDirective.goTicketDetailReport()">Ticket
                                             Detail </a></li>
@@ -1164,11 +1170,11 @@
         GUIDE FOR FRESH USERS
         #####################-->
     <div class="user-guide-wrap" ng-if="freshUser == true" ng-class="{'dialog-min':userGuideMin}">
-        <div class="dialog-toolbar">
+        <div class="dialog-toolbar" ng-if="!guidePhase1Closure">
             <span class="iconed-btn right glyphicon glyphicon-{{userGuideMin ? 'unchecked' : 'minus'}}" ng-click="minMaxFreshUserConfig()"></span>
         </div>
         <div ng-if="userGuideMin" class="text-left"><b>User guide</b><span ng-if="freshUserConfigStep > 0"> - Step {{freshUserConfigStep}}</span> </div>
-        <div class="dialog-body" ng-if="!userGuideMin && !allUsers">
+        <div class="dialog-body" ng-if="!userGuideMin && !allUsers && !guidePhase1Closure">
             <div class="user-guide-step" ng-if="freshUserConfigStep == 0">
                 <h1>Welcome to FaceTone!</h1>
                 <div class="step-body" style="overflow: hidden">
@@ -1176,7 +1182,7 @@
                     <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
 
                     <p class="compact">Hi {{displayname}}. Before start working with FaceTone, we have to do some configurations. Let's get started!</p>
-                    <div class="text-center">
+                    <div class="text-center" style="padding: 10px 0">
                         <button type="button" class="btn btn-success" ng-click="rotateFreshUserGuide('forward')">Start</button>
                     </div>
                     <p class="secondary">You can always get this reopened by clicking <span class="glyphicon glyphicon-question-sign" style="color: #ee407d"></span> icon on bottom left corner.</p>
@@ -1310,25 +1316,27 @@
                     </div>
                 </div>
             </div>
-
-            <div class="user-guide-step" ng-if="guidePhase1Closure">
-                <h1>Logging out..</h1>
-                <div class="step-body" style="overflow: hidden">
-
-                    <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
-
-                    <p class="compact">Now that you have finished the initial configuration process, you are required to logout from the system.</p>
-                    <div class="text-center">
-                        <h3>You will be logged out in {{logoutCountdown}}</h3>
-                    </div>
-                </div>
-            </div>
-
             <div class="step-footer" ng-if="freshUserConfigStep != 0">
                 <button type="button" class="btn btn-default btn-left" ng-click="rotateFreshUserGuide('backward')">< Previous</button>
                 <button type="button" class="btn btn-default btn-right" ng-click="rotateFreshUserGuide('forward')" ng-disabled="freshUserConfigStep == 3">Next ></button>
             </div>
         </div>
+
+        <div class="dialog-body" ng-if="!userGuideMin && guidePhase1Closure">
+            <div class="user-guide-step">
+                <h1>Logging out..</h1>
+                <div class="step-body" style="overflow: hidden">
+
+                    <img src="assets/images/congif_facetone.png" alt="Congif Facetone">
+
+                    <p class="compact">Since you have Purchased a Package, you are required to logout from the system.</p>
+                    <div class="text-center">
+                        <h3>You will be logged out in <span style="color: #ee407d">{{logoutcount}}</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="dialog-body" ng-if="!userGuideMin && allUsers">
             <div class="user-guide-step" ng-repeat="userguide in userGuide[$statecurrent].pages" ng-if="userGuideStep == $index">
                 <h2 style="text-transform: capitalize">{{$statecurrent}} guide</h2>

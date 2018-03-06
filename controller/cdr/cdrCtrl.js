@@ -9,6 +9,10 @@
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, ShareData, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
+
+
+
+
         $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
 
@@ -94,7 +98,19 @@
 
         $scope.onDateChange = function () {
             if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-                $scope.dateValid = true;
+				var sd = new Date($scope.startDate);
+				var ed = new Date($scope.endDate);
+				var msd = moment(sd);
+				var med = moment(ed);
+				if(sd && ed){
+					var dif = med.diff(msd, 'days');
+					if(dif > 31){
+						$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+						$scope.endDate = $scope.startDate;
+					}else{
+						$scope.dateValid = true;
+					}
+				}
             }
             else {
                 $scope.dateValid = false;

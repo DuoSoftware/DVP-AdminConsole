@@ -122,8 +122,18 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                     if (status == 200) {
                         if (result) {
                             loginService.getUserNavigation(function (isnavigation) {
-                                if (isnavigation)
-                                    $state.go('console');
+                                if (isnavigation){
+
+									/** Kasun_Wijeratne_5_MARCH_2018
+									 * ----------------------------------------
+									 * User validation for Dev or Live goes here
+									 * ----------------------------------------*/
+									$rootScope.isLive = true;
+
+									/** ----------------------------------------
+									 * Kasun_Wijeratne_5_MARCH_2018*/
+									$state.go('console');
+								}
                                 //else
                                 // $state.go('login');
                             })
@@ -151,8 +161,12 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             })
             .catch(function (error) {
                 if (error.status == 449 || error.status == 401) {
-                    showAlert('Account Info', 'warning', error.data.message);
-                } else {
+					if (error.data.message.toLowerCase() == 'invalid user account') {
+						showAlert('Account Info', 'warning', error.data.message + '. Make sure you have activated your account through the email you may have received');
+					}else{
+						showAlert('Account Info', 'warning', error.data.message);
+					}
+                }else {
                     showAlert('Error', 'error', 'Please check login details...');
 
                 }

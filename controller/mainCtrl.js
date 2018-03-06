@@ -28,6 +28,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.newNotifications = [];
 
 
+	/** Kasun_Wijeratne_2_MARCH_2018
+	 * ------------------------------ */
+	$scope.invalidUserPassword = true;
+	/**---------------------------------
+	 Kasun_Wijeratne_2_MARCH_2018 */
+
 // Register for notifications
 
     $scope.showAlert = function (tittle, type, msg) {
@@ -379,14 +385,23 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     //check my navigation
     //is can access
+	/** Kasun_Wijeratne_5_MARCH_2018
+	 * ----------------------------------------
+	 * User validation for Dev or Live goes here
+	 * ----------------------------------------*/
+	$rootScope.isLive = true;
+
+	/** ----------------------------------------
+	 * Kasun_Wijeratne_5_MARCH_2018*/
     loginService.getNavigationAccess(function (result) {
 
     	// Kasun_Wijeratne_14_JAN_2018
 		if(Object.keys(result).length
-			=== 3){
-			$rootScope.freshUser = true;
-		}else{
+			> 5){
 			$rootScope.allUsers = true;
+		}else{
+			$rootScope.freshUser = true;
+			$rootScope.allUsers = false;
 		}
     	// Kasun_Wijeratne_14_JAN_2018 - END
 
@@ -398,6 +413,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
     $scope.isLogged = true;
+
     $scope.clickDirective = {
         goLogout: function () {
             loginService.Logoff(undefined, function (issuccess) {
@@ -407,13 +423,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     $rootScope.freshUser = false;
                     $state.go('login');
                     SE.disconnect();
-
-
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {
 
                 }
-
             });
             //loginService.clearCookie("@loginToken");
             //$state.go('login');
@@ -744,7 +757,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 $scope.BusinessUnit = ShareData.BusinessUnit;
             }
         }, function (error) {
-            $log.debug("loadBusinessUnit err");
+            console.error("loadBusinessUnit err");
         });
 
     };
@@ -1564,7 +1577,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             }
 
             if ($li.is('.active')) {
-                $li.removeClass('active active-sm activet');
+                $li.removeClass('active');
+                $li.removeClass('active-sm');
+                $li.removeClass('activet');
                 $('ul:first', $li).slideUp(function () {
                     setContentHeight();
                 });
@@ -1573,6 +1588,16 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 }
             } else {
                 // prevent closing menu if we are on child menu
+				var sibs = $li.siblings('.active');
+				var sibschild = sibs.find('.active');
+				sibs.removeClass('active');
+				sibs.removeClass('activet');
+				if(sibschild != undefined){
+					sibschild.removeClass('active');
+					sibschild.removeClass('activet');
+				}
+				// if(as!=undefined)
+				// 	var elems = $li.find('a').siblings('.active');
                 if (!$li.parent().is('.child_menu')) {
                     $SIDEBAR_MENU.find('li').removeClass('active active-sm');
                     $SIDEBAR_MENU.find('li ul').slideUp();
@@ -1679,8 +1704,6 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 			$scope.userGuideStep--;
 		}
 	};
-
-
 	/** -------------------------------------------------------------------------
 	/*Kasun_Wijeratne_14_FEB_2018*/
 
