@@ -389,10 +389,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 	 * ----------------------------------------
 	 * User validation for Dev or Live goes here
 	 * ----------------------------------------*/
-	$rootScope.isLive = true;
-
+	$rootScope.isLive = false;
 	/** ----------------------------------------
 	 * Kasun_Wijeratne_5_MARCH_2018*/
+
     loginService.getNavigationAccess(function (result) {
 
     	// Kasun_Wijeratne_14_JAN_2018

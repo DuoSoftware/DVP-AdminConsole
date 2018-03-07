@@ -1,4 +1,4 @@
-mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $q, $timeout, cSatService, ticketReportsService, cdrApiHandler, loginService) {
+mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $q, $timeout, cSatService, ticketReportsService, cdrApiHandler, loginService, filterDateRangeValidation) {
     $anchorScroll();
 
 
@@ -33,23 +33,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
 		// $scope.endDate = moment($scope.endDate).format("YYYY-MM-DD");
 
 		if (moment($scope.csatSerach.StartTime, "YYYY-MM-DD").isValid() && moment($scope.csatSerach.EndTime, "YYYY-MM-DD").isValid()) {
-			/** Kasun_Wijeratne_5_MARCH_2018
-			 * ----------------------------------------*/
-			var sd = new Date($scope.csatSerach.StartTime);
-			var ed = new Date($scope.csatSerach.EndTime);
-			var msd = moment(sd);
-			var med = moment(ed);
-			if(sd && ed){
-				var dif = med.diff(msd, 'days');
-				if(dif > 31){
-					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-					$scope.csatSerach.EndTime = $scope.csatSerach.StartTime;
-				}else{
-					$scope.dateValid = true;
-				}
-			}
-			/** ----------------------------------------
-			 * Kasun_Wijeratne_5_MARCH_2018*/
+			$scope.dateValid = true;
 		}
 		else {
 			$scope.dateValid = false;
@@ -141,6 +125,14 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
 
     $scope.processDownloadRequest = function()
     {
+		/** Kasun_Wijeratne_5_MARCH_2018
+		 * ----------------------------------------*/
+		if(filterDateRangeValidation.validateDateRange($scope.csatSerach.StartTime, $scope.csatSerach.EndTime) == false){
+			$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+			return -1;
+		}
+		/** ----------------------------------------
+		 * Kasun_Wijeratne_5_MARCH_2018*/
         if ($scope.DownloadButtonName === 'CSV') {
             $scope.cancelDownload = false;
             $scope.buttonClass = 'fa fa-spinner fa-spin';

@@ -2,7 +2,7 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("queueSummaryController", function ($scope, $filter, $state, $q, _, queueSummaryBackendService, loginService,$anchorScroll) {
+mainApp.controller("queueSummaryController", function ($scope, $filter, $state, $q, _, queueSummaryBackendService, loginService,$anchorScroll,filterDateRangeValidation) {
 
     $anchorScroll();
     $scope.params = {
@@ -16,23 +16,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
     $scope.onDateChange = function () {
         if (moment($scope.params.startDate, "YYYY-MM-DD").isValid() && moment($scope.params.endDate, "YYYY-MM-DD").isValid()) {
-			/** Kasun_Wijeratne_5_MARCH_2018
-			 * ----------------------------------------*/
-			var sd = new Date($scope.params.startDate);
-			var ed = new Date($scope.params.endDate);
-			var msd = moment(sd);
-			var med = moment(ed);
-			if(sd && ed){
-				var dif = med.diff(msd, 'days');
-				if(dif > 31){
-					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-					$scope.params.endDate = $scope.params.startDate;
-				}else{
-					$scope.dateValid = true;
-				}
-			}
-			/** ----------------------------------------
-			 * Kasun_Wijeratne_5_MARCH_2018*/
+			$scope.dateValid = true;
         }
         else {
             $scope.dateValid = false;
@@ -85,6 +69,14 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
 
     $scope.getQueueSummaryCSV = function () {
+		/** Kasun_Wijeratne_5_MARCH_2018
+		 * ----------------------------------------*/
+		if(filterDateRangeValidation.validateDateRange($scope.params.startDate, $scope.params.endDate) == false){
+			$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+			return -1;
+		}
+		/** ----------------------------------------
+		 * Kasun_Wijeratne_5_MARCH_2018*/
 
         $scope.DownloadFileName = 'QUEUESUMMARY_' + $scope.params.startDate + '_' + $scope.params.endDate;
         var deferred = $q.defer();
@@ -129,7 +121,6 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
             deferred.reject(queueSummaryList);
         }
 
-
         return deferred.promise;
     };
 
@@ -146,23 +137,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
     $scope.onDateChange2 = function () {
         if (moment($scope.params2.startDate, "YYYY-MM-DD").isValid() && moment($scope.params2.endDate, "YYYY-MM-DD").isValid()) {
-			/** Kasun_Wijeratne_5_MARCH_2018
-			 * ----------------------------------------*/
-			var sd = new Date($scope.params2.startDate);
-			var ed = new Date($scope.params2.endDate);
-			var msd = moment(sd);
-			var med = moment(ed);
-			if(sd && ed){
-				var dif = med.diff(msd, 'days');
-				if(dif > 31){
-					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
-					$scope.params2.endDate = $scope.params2.startDate;
-				}else{
-					$scope.dateValid2 = true;
-				}
-			}
-			/** ----------------------------------------
-			 * Kasun_Wijeratne_5_MARCH_2018*/
+			$scope.dateValid2 = true;
         }
         else {
             $scope.dateValid2 = false;
@@ -265,6 +240,14 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
 
     $scope.getQueueSummaryCSV2 = function () {
+		/** Kasun_Wijeratne_5_MARCH_2018
+		 * ----------------------------------------*/
+		if(filterDateRangeValidation.validateDateRange($scope.params2.startDate, $scope.params2.endDate) == false){
+			$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+			return -1;
+		}
+		/** ----------------------------------------
+		 * Kasun_Wijeratne_5_MARCH_2018*/
 
         $scope.DownloadFileName2 = 'QUEUESUMMARY_TOTAL_' + $scope.params2.startDate + '_' + $scope.params2.endDate;
         var deferred = $q.defer();
