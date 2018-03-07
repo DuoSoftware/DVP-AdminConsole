@@ -442,6 +442,16 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
     }
 
+    $scope.showInfo = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'info',
+            styling: 'bootstrap3'
+        });
+    };
+
 
     $scope.loadFileStorageDetails = function () {
 
@@ -465,7 +475,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
 
         },function (errStore) {
-            $scope.showError("Error","Error in loading Storage Details")
+            $scope.showInfo("Info","No storage details found");
         })
     };
 
