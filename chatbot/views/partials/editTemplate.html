@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                <div ng-show="templateCategory == 'Card'" class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
 
@@ -87,10 +87,10 @@
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
                                 <div class="col-md-6 col-sm-6 col-xs-12 ">
-                                    <label>
+                                    <!-- <label>
                                         Active
                                         <input type="checkbox" class="js-switch" ng-model="application.Availability" />
-                                    </label>
+                                    </label> -->
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updateTemplate(template)">
@@ -109,6 +109,213 @@
                         </form>
                     </div>
                 </div>
+
+                <div ng-show="templateCategory == 'Attachment'" class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                    <div class="tile-stats  m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Name</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="{{templateCategory}} Name">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Description</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.description" placeholder="Description">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Type</label>
+                                <select class="form-control has-feedback-left" ng-model="template.type" ng-options="x.Value as x.Key for x in templateTypes">
+                                </select>
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Title</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.title" placeholder="{{templateCategory}} Title">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} URL</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.payload.url" placeholder="{{templateCategory}} URL">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Preview</label>
+                                <img ng-show="template.type == 'image'" ng-src="{{template.payload.url}}" style="height:100px;" err-src="http://www.santacruzmentor.org/wp-content/uploads/2012/12/Placeholder.png">
+                            </div>
+
+                            <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
+                                <div class="col-md-6 col-sm-6 col-xs-12 ">
+                                    <!-- <label>
+                                        Active
+                                        <input type="checkbox" class="js-switch" ng-model="application.Availability" />
+                                    </label> -->
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updateTemplate(template)">
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                                <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
+                                       placeholder="Other Data">
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                            </div>-->
+
+
+                        </form>
+                    </div>
+                </div>
+
+                <div ng-show="templateCategory == 'Quick Reply'" class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                    <div class="tile-stats  m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Name</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="{{templateCategory}} Name">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Description</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.description" placeholder="Description">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Type</label>
+                                <select class="form-control has-feedback-left" ng-model="template.contentType" ng-options="x.Value as x.Key for x in templateContentTypes">
+                                </select>
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Quick Reply Text</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.text" placeholder="Quick Reply Text">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}}s</label>
+                                <div class="row">
+                                    <div class="card" ng-repeat="item in template.items">
+                                        <quickreplytemplate card="item" template-type="templateCategory"></quickreplytemplate>
+                                        <a class="font-robot font-300 " ng-click="removeCard($index)">
+                                            <i class="fa fa-times"></i> Remove {{templateCategory}}
+                                        </a>
+                                    </div>
+                                    <div class="card">
+                                        <a class="font-robot font-300 " ng-click="addNewCard(template)">
+                                            <i class="fa fa-plus"></i> New {{templateCategory}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
+                                <div class="col-md-6 col-sm-6 col-xs-12 ">
+                                    <!-- <label>
+                                            Active
+                                            <input type="checkbox" class="js-switch" ng-model="application.Availability" />
+                                        </label> -->
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updateTemplate(template)">
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
+                                           placeholder="Other Data">
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>-->
+
+
+                        </form>
+                    </div>
+                </div>
+
+                <div ng-show="templateCategory == 'Button List'" class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                    <div class="tile-stats  m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Name</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="{{templateCategory}} Name">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Description</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.description" placeholder="Description">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Type</label>
+                                <select class="form-control has-feedback-left" ng-model="template.type" ng-options="x.Value as x.Key for x in templateTypes">
+                                </select>
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>{{templateCategory}} Title</label>
+                                <input type="text" class="form-control has-feedback-left" ng-model="template.text" placeholder="{{templateCategory}} Text">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                                <label>Buttons</label>
+                                <div class="row">
+                                    <div class="card" ng-repeat="item in template.items">
+                                        <cardbutton button="item"></cardbutton>
+                                        <a class="font-robot font-300 " ng-click="removeCard($index)">
+                                            <i class="fa fa-times"></i> Remove Button
+                                        </a>
+                                    </div>
+                                    <div class="card">
+                                        <a class="font-robot font-300 " ng-click="addNewCard(template)">
+                                            <i class="fa fa-plus"></i> New Button
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
+                                <div class="col-md-6 col-sm-6 col-xs-12 ">
+                                    <!-- <label>
+                                            Active
+                                            <input type="checkbox" class="js-switch" ng-model="application.Availability" />
+                                        </label> -->
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updateTemplate(template)">
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
+                                           placeholder="Other Data">
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>-->
+
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -117,32 +324,75 @@
             <span>{{template.updated_at|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>
         <div ng-hide="editMode">
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Description</label>
-                <p>{{template.description}} </p>
+
+            <div ng-show="templateCategory == 'Card'">
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                    <label class="form-control-static">Description</label>
+                    <p>{{template.description}} </p>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                    <label class="form-control-static">{{templateCategory}} Type</label>
+                    <p>{{template.type}} </p>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                    <label class="form-control-static">Content Type</label>
+                    <p>{{template.contentType}} </p>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                    <label class="form-control-static">No. of Items</label>
+                    <p>{{template.items.length}} </p>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                    <label class="form-control-static">{{templateCategory}} ID</label>
+                    <p>
+                        <input type="text" ng-readonly="true" ng-model="template._id" id="{{template._id}}">
+                        <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                    </p>
+                </div>
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">{{templateCategory}} Type</label>
-                <p>{{template.type}} </p>
+            <div ng-show="templateCategory == 'Attachment'">
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
+                    <label class="form-control-static">Description</label>
+                    <p>{{template.description}} </p>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
+                    <label class="form-control-static">{{templateCategory}} Type</label>
+                    <p>{{template.type}} </p>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
+                    <label class="form-control-static">{{templateCategory}} ID</label>
+                    <p>
+                        <input type="text" ng-readonly="true" ng-model="template._id" id="{{template._id}}">
+                        <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                    </p>
+                </div>
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Content Type</label>
-                <p>{{template.contentType}} </p>
-            </div>
+            <div ng-show="templateCategory == 'Quick Reply'">
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
+                    <label class="form-control-static">Description</label>
+                    <p>{{template.description}} </p>
+                </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">No. of Items</label>
-                <p>{{template.items.length}} </p>
-            </div>
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
+                    <label class="form-control-static">{{templateCategory}} Type</label>
+                    <p>{{template.contentType}} </p>
+                </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">{{templateCategory}} ID</label>
-                <p>
-                    <input type="text" ng-readonly="true" ng-model="template._id" id="{{template._id}}">
-                    <input type="button" value="Copy" ng-click="copyCardID(template._id)">
-                </p>
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
+                    <label class="form-control-static">{{templateCategory}} ID</label>
+                    <p>
+                        <input type="text" ng-readonly="true" ng-model="template._id" id="{{template._id}}">
+                        <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                    </p>
+                </div>
             </div>
 
             <!--<p class="excerpt col-md-3" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>-->

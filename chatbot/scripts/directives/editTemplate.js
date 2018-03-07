@@ -18,14 +18,35 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
 
         link: function (scope) {
 
-            
-
             scope.templateCategory = scope.templateCategory;
 
-            scope.getSelectedTemplateType = function(){
-                angular.for
+            scope.getTemplateItemObject = function (type) {
+                var returnObj = {};
+                switch (type.toLowerCase()) {
+                    case "card": {
+                        returnObj = {
+                            buttons: [],
+                            default_action: {
+                                url: ""
+                            },
+                            image_url: "",
+                            sub_title: "",
+                            title: "<new card>"
+                        }
+                        break;
+                    }
+                    case "quick reply": {
+                        returnObj = {
+                            title: "<quick reply>",
+                            type: "",
+                            payload: "",
+                            image: ""
+                        }
+                        break;
+                    }
+                }
+                return returnObj;
             }
-            scope.selectedTemplateType = scope.getSelectedTemplateType(scope.templateCategory);
 
             scope.editTemplate = function () {
                 scope.editMode = !scope.editMode;
@@ -36,15 +57,8 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
             }
 
             scope.addNewCard = function () {
-                scope.template.items.push({
-                    buttons: [],
-                    default_action: {
-                        url: ""
-                    },
-                    image_url: "",
-                    sub_title: "",
-                    title: "<new card>"
-                });
+                debugger
+                scope.template.items.push(scope.getTemplateItemObject(scope.templateCategory));
             }
 
             scope.copyCardID = function (cardID) {

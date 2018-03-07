@@ -11,6 +11,17 @@
     <div ng-show="mode == 'edit'">
         <input type="text" placeholder="Title" ng-model="button.title">
         <input type="text" placeholder="Message" ng-model="button.payload.message">
+        <select placeholder="Select Type" ng-model="button.type">
+            <option value="" disabled selected>Select Type</option>
+            <option value="web_url">Web URL</option>
+            <option value="postback">Postback</option>
+            <option value="element_shear">Element Shear</option>
+            <option value="payment">Payment</option>
+            <option value="phone_number">Phone Number</option>
+            <option value="account_link">Account Link</option>
+            <option value="account_unlink">Account Unlink</option>
+            <option value="game_play">Game Play</option>
+        </select>
         <input type="url" placeholder="Url" ng-model="button.other_data.url">
         <input type="button" value="Done" ng-click="changeMode('view')">
     </div>

@@ -27,7 +27,24 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
                     { "Key": "Audio", "Value": "audio" },
                     { "Key": "Video", "Value": "video" },
                     { "Key": "File", "Value": "file" }
-                ]; break;
+                ];
+                break;
+            }
+            case "quick reply": {
+                returnContentTypes = [
+                    { "Key": "Select Content Type", "Value": "select" },
+                    { "Key": "Dynamic", "Value": "dynamic" },
+                    { "Key": "Static", "Value": "static" }
+                ];
+                break;
+            }
+            case "button list": {
+                returnTypes = [
+                    { "Key": "Select Button List Type", "Value": "select" },
+                    { "Key": "Card", "Value": "card" },
+                    { "Key": "Normal", "Value": "normal" }
+                ];
+                break;
             }
         }
         return { types: returnTypes, contentTypes: returnContentTypes };
@@ -69,6 +86,32 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
                     }
                 }
             }
+            case "quick reply": {
+                return {
+                    name: "",
+                    description: "",
+                    company: 0,
+                    tenant: 0,
+                    created_at: Date.now(),
+                    updated_at: Date.now(),
+                    contentType: "select",
+                    text: "",
+                    items: []
+                }
+            }
+            case "button list": {
+                return {
+                    name: "",
+                    description: "",
+                    company: 0,
+                    tenant: 0,
+                    created_at: Date.now(),
+                    updated_at: Date.now(),
+                    type: "select",
+                    text: "",
+                    items: []
+                }
+            }
         }
     }
 
@@ -78,6 +121,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     }
 
     $scope.SaveTemplate = function (template, category) {
+        category = category.replace(/ /g, "");
         templateService.CreateTemplate(template, category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
@@ -92,7 +136,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     }
 
     $scope.updateTemplate = function (template, category) {
-        debugger
+        category = category.replace(/ /g, "");
         templateService.UpdateTemplate(template, category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
@@ -107,6 +151,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
     };
 
     $scope.deleteTemplate = function (template, category) {
+        category = category.replace(/ /g, "");
         templateService.DeleteTemplate(template, category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
@@ -122,6 +167,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
 
     $scope.GetAllTemplates = function (category) {
         $scope.templateList = [];
+        category = category.replace(/ /g, "");
         templateService.GetAllTemplates(category).then(function (response) {
             console.log(response);
             if (response.data && response.data.IsSuccess) {
@@ -129,10 +175,10 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
                     $scope.templateList.push(item);
                 });
             } else {
-                $scope.showAlert("Template", 'error', "Failed to create new template.");
+                $scope.showAlert("Template", 'error', "Failed to get all templates.");
             }
         }, function (error) {
-            $scope.showAlert("Template", 'error', "Failed to create new template.");
+            $scope.showAlert("Template", 'error', "Failed to get all templates.");
         });
     }
 
@@ -143,6 +189,10 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
             $scope.TemplateCategory = "Card";
         } else if ($stateParams.templateType == "attachments") {
             $scope.TemplateCategory = "Attachment";
+        } else if ($stateParams.templateType == "quickreplies") {
+            $scope.TemplateCategory = "Quick Reply";
+        } else if ($stateParams.templateType == "buttonlists") {
+            $scope.TemplateCategory = "Button List";
         }
         var obj = $scope.getTemplateTypes($scope.TemplateCategory.toLowerCase());
         $scope.TemplateTypes = obj.types;
