@@ -9,6 +9,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
     $scope.currentSessionID = null;
     var authToken = authService.GetToken();
     $scope.selectedBUnit = "ALL";
+    $scope.filterMode = "FromID";
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
