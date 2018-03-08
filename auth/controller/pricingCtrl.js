@@ -88,12 +88,11 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
                     if (!result) {
                         $scope.showMessage("Package Buy", "Please Contact System Administrator.", 'error');
                         return;
-
                     }
                     else {
                         // loginService.clearCookie();
                         //$state.go('login');
-                        $scope.showMessage("Package Buy", "Package upgrade was done successfully.", 'Success');
+                        $scope.showMessage("Package Buy", "Package upgrade was done successfully.", 'success');
 
                         /** Kasun_Wijeratne_19_FEB_2018
 						 * --------------------------------*/
@@ -108,6 +107,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 									if (issuccess) {
 										veeryNotification.disconnectFromServer();
 										$rootScope.freshUser = false;
+										$rootScope.guidePhase1Closure = false;
 										SE.disconnect();
 										$state.go('login');
 									} else {
