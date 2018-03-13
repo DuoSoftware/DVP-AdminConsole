@@ -133,6 +133,8 @@ var baseUrls = {
     'botplatformUrl': 'https://smoothbotdev.plus.smoothflow.io/fb/DBF/API/v1/platform/',//Bot Platform URL
     'templateAPIUrl': 'https://smoothbotservicesdev.plus.smoothflow.io/DBF/API/1.0.0.0/ViewService/',//View service API URL
     'integrationAPIUrl':"https://smoothbotservicesdev.plus.smoothflow.io/DBF/API/v1/IntegrationService/",//Integration service API URL
+    'getworkflowAPIUrl':"https://smoothflow.io/payapi/getWorkflowData/getWorkFlows/",
+    'setupaiAPTUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap"
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1034,7 +1036,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 data: {
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
-                }    
+                }   
+             }).state('console.botsetupai', {
+                url: "/setupai",
+                templateUrl: "chatbot/views/chatbotSetupAI.html",
+                controller: "setupAIController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }        
             }).state('console.zohousers', {
                 url: "/zoho/users",
                 templateUrl: "zoho/views/zohoUsers.html",
