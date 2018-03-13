@@ -112,7 +112,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 										$state.go('login');
 									} else {
 										$scope.showMessage("Logout", "Something went wrong. Please logout manually", 'error');
-										return;
+										return -1;
 									}
 								});
 							}
@@ -120,7 +120,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 						}, 1200);
 						/** --------------------------------
 						 * Kasun_Wijeratne_19_FEB_2018 */
-						return;
+						return -1;
                     }
                 });
             }
