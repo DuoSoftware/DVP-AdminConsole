@@ -6,7 +6,9 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                           loginService,
                                           config, $base64, $auth) {
 
-    $scope.CheckLogin = function () {
+	$rootScope.copyrightYear = new Date().getFullYear();
+
+	$scope.CheckLogin = function () {
         if ($auth.isAuthenticated()) {
 
             loginService.getUserNavigation(function (isnavigation) {

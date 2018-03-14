@@ -5530,6 +5530,27 @@ ul.row-option > li.delete:focus {
 }
 
 /*dashboard  UI update */
+
+.dash-number-block{
+    float: left;
+    text-align: center;
+    display: inline-block;
+    width: 50%;
+}
+
+.dash-number-block label.in, .dash-number-block label.out{
+    display: block;
+    margin: 0;
+}
+
+.dash-number-block label.in{
+    color: skyblue;
+}
+
+.dash-number-block label.out{
+    color: #FFC107;
+}
+
 .card-dashboard {
     width: 100%;
     min-height: 140px;
