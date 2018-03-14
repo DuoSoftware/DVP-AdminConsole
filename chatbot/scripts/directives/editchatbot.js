@@ -41,12 +41,13 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 scope.editMode = !scope.editMode;
             };
             scope.editbotappdetails = function (botapp) {
+                debugger
                 scope.botappedit = !scope.botappedit;
                 scope.selectedBot = botapp;
             };
             // bot details update method
             scope.modifyBotDetails = function (bot) {
-                delete bot._id;
+                //delete bot._id;
                 chatbotService.UpdateChatbot(bot).then(function (response) {
                     if (response) {
                         scope.showAlert("ChatBot", 'Bot Update Successfully.', "success");
@@ -175,8 +176,9 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
             //update bot app
             scope.updatebotapp = function (botapp) {
+                debugger
                 var id = botapp._id;
-                delete botapp._id;
+                // delete botapp._id;
                 botappconfigService.UpdateBotApp(botapp, id).then(function (response) {
                     if (response.data.IsSuccess) {
                         scope.botappedit = false;

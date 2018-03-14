@@ -129,10 +129,10 @@ var baseUrls = {
     'integrationapi': 'http://localhost:4334/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
     'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',
     'contactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/', //contacts.app1.veery.cloud
-    'botAPIUrl': 'https://smoothbotservicesdev.plus.smoothflow.io/DBF/API/1.0.0.0/BotService/',//Bot API URL
-    'botplatformUrl': 'https://smoothbotdev.plus.smoothflow.io/fb/DBF/API/v1/platform/',//Bot Platform URL
-    'templateAPIUrl': 'https://smoothbotservicesdev.plus.smoothflow.io/DBF/API/1.0.0.0/ViewService/',//View service API URL
-    'integrationAPIUrl':"https://smoothbotservicesdev.plus.smoothflow.io/DBF/API/v1/IntegrationService/",//Integration service API URL
+    'botAPIUrl': 'https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotService/',//Bot API URL
+    'botplatformUrl': 'https://smoothbot.plus.smoothflow.io/fb/DBF/API/v1/platform/',//Bot Platform URL
+    'templateAPIUrl': 'https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ViewService/',//View service API URL
+    'integrationAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/IntegrationService/",//Integration service API URL
     'getworkflowAPIUrl':"https://smoothflow.io/payapi/getWorkflowData/getWorkFlows/",
     'setupaiAPTUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap"
 };
