@@ -20,7 +20,7 @@ mainApp.factory("socialConnectorService", function ($http,baseUrls) {
     var createMailAccount = function (postData) {
         return $http({
             method: 'POST',
-            url: baseUrls.socialConnectorUrl+"Email",
+            url: baseUrls.mailSenderUrl+"Email",
             data:postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -34,7 +34,7 @@ mainApp.factory("socialConnectorService", function ($http,baseUrls) {
     var getEmailAccounts = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.socialConnectorUrl+"Emails"
+            url: baseUrls.mailSenderUrl+"Emails"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;

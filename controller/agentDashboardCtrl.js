@@ -26,8 +26,8 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             borderColor: '#fff',
             show: true
         },
-        series: {fill: true, shadowSize: 0, color: "#63a5a2"},
-        color: {color: '#63a5a2'},
+        series: {fill: true, shadowSize: 0, color: "#ee407d"},
+        color: {color: '#ee407d'},
         legend: {
             container: '#legend',
             show: true
@@ -89,8 +89,8 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
 
     var bindDataToChart = function () {
         var data = [
-            {color: '#db4114', data: data1, label: "Created", lines: {show: true}},
-            {color: '#63a5a2', data: data2, label: "Resolved", lines: {show: true}, points: {show: true}}
+            {color: '#6a3390', data: data1, label: "Created", lines: {show: true}},
+            {color: '#ee407d', data: data2, label: "Resolved", lines: {show: true}, points: {show: true}}
         ];
         chart = $.plot($("#createVsResolved"), data, createVsResolvedChartOptions);
         /*var axes = chart.getAxes();

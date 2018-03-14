@@ -47,7 +47,7 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                loginService.isCheckResponse(err);
+                return null;
             })
         };
 
@@ -400,7 +400,7 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                loginService.isCheckResponse(err);
+                return null;
             });
         };
 

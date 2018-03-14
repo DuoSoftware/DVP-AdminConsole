@@ -665,6 +665,10 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
         $scope.StartTimer();
     };
 
+	$scope.maxHeight = true;
+	$scope.updateOVPanel = function () {
+		$scope.maxHeight = !$scope.maxHeight;
+	}
     $scope.BusinessUnitUsers = [];
     $scope.agentSummaryGridOptions = {
         enableFiltering: true,
@@ -809,7 +813,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                 enableSorting: true,
                 width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.StaffedTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
-            },
+            }
 
         ],
         data: [{test: "loading"}],
@@ -859,7 +863,9 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
 							selectedAgentRowPos != undefined &&
 							selectedAgentChartPos != undefined){
 
-							$('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 162));
+                        	var deductval = 0;
+                        	$scope.maxHeight ? deductval = 184 : deductval = 82;
+							$('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - deductval));
 							window.scrollTo(0, selectedAgentRowPos.top - 90);
 							count += 1;
 

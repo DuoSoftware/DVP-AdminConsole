@@ -1,6 +1,6 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller('FileEditController', function ($scope, $filter, FileUploader, fileService,$anchorScroll)
+app.controller('FileEditController', function ($scope, $filter, FileUploader, fileService,userProfileApiAccess,$anchorScroll)
 {
     $anchorScroll();
     $scope.file = {};
@@ -11,6 +11,104 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
 
     // FILTERS
 
+    $scope.showError = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
+    $scope.showInfo = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'info',
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.availableKb=0;
+    $scope.usedSize=0;
+    $scope.allocatedSpace=0;
+    $scope.usedPtg=0;
+
+    /*function bytesToSize(kbs) {
+
+     var bytes = parseInt(kbs)*1024;
+     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+     if (bytes == 0) return 'n/a';
+     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+     if (i == 0) return bytes + ' ' + sizes[i];
+     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+     };
+
+     function setToKbs(size,type) {
+
+     var kbSize=0;
+
+     switch(type)
+     {
+     case "MB" : kbSize = size*1024; break;
+     case "GB" : kbSize = size*Math.pow(1024,2); break;
+     case "TB" : kbSize = size*Math.pow(1024,3); break;
+     default : size*1024; break;
+     }
+
+     return kbSize;
+
+     };*/
+
+    function getUsedSpaceInAllocatedStorageFormat(size,type) {
+
+        var usdSize=0;
+
+        switch(type)
+        {
+            case "MB" : usdSize = size/1024; break;
+            case "GB" : usdSize = size/Math.pow(1024,2); break;
+            case "TB" : usdSize = size/Math.pow(1024,3); break;
+            default : size/1024; break;
+        }
+
+        return usdSize.toFixed(2);
+
+    }
+
+
+    $scope.loadFileStorageDetails = function () {
+
+        fileService.getStorageDetails().then(function (resStore) {
+
+            if(resStore.spaceLimit && resStore.spaceUnit && resStore.currTotal)
+            {
+                $scope.allocatedSpace=resStore.spaceLimit +" "+ resStore.spaceUnit;
+                /*$scope.limitInKb = setToKbs(resStore.spaceLimit,resStore.spaceUnit);*/
+                $scope.usedSize=getUsedSpaceInAllocatedStorageFormat(resStore.currTotal,resStore.spaceUnit);
+                $scope.usedSizeWithType=$scope.usedSize+" "+resStore.spaceUnit;
+                $scope.usedPtg  =(($scope.usedSize/resStore.spaceLimit)*100).toFixed(1);
+                /* parseInt((parseInt(resStore.currTotal)/$scope.limitInKb)*100);*/
+
+                $('#storage-bar').css('width', $scope.usedPtg+'%').attr('aria-valuenow', $scope.usedPtg);
+                /*$('.progress-bar').addClass('progress-bar-striped bg-success progress-bar-animated');*/
+                /*usedSize = bytesToSize(parseInt(resStore.currTotal));
+                 availableSize = bytesToSize(limitInKb - parseInt(resStore.currTotal));*/
+
+            }
+
+
+        },function (errStore) {
+            $scope.showInfo("Info","Storage details not found");
+        })
+    };
+
+
+
+
+    $scope.loadFileStorageDetails();
+
     uploader.filters.push({
         name: 'customFilter',
         fn: function (item /*{File|FileLikeObject}*/, options) {
@@ -18,15 +116,59 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
         }
     });
 
+    $scope.UploadSize=0;
+    $scope.getUploadSize = function () {
+        fileService.getUploadSize().then(function (resSize) {
+            $scope.UploadSize=resSize;
+        },function (errRes) {
+
+        });
+    }
+    $scope.getUploadSize();
     //uploader.formData.push({'DuoType' : 'fax'});
 
     // CALLBACKS
 
+    $scope.disblUpload = false;
+
+    $scope.checkReadyToUploadAll = function () {
+
+        if(uploader.queue.filter(function( obj ) {return obj.readyToUpload == false;}).length>0)
+        {
+            $scope.disblUpload = true;
+        }
+        else {
+            $scope.disblUpload = false;
+        }
+
+
+
+    };
+
+    $scope.removeItemFromQueue = function (item) {
+        uploader.queue = uploader.queue.filter(function( obj ) {return obj != item;});
+        $scope.checkReadyToUploadAll();
+
+    }
+
+    $scope.disbleAllUpload=false;
     uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
         console.info('onWhenAddingFileFailed', item, filter, options);
     };
     uploader.onAfterAddingFile = function (fileItem) {
         console.info('onAfterAddingFile', fileItem);
+        if($scope.UploadSize !=0 && $scope.UploadSize<(parseInt(fileItem.file.size)/1024))
+        {
+            fileItem.readyToUpload=false;
+            $scope.disbleAllUpload=true;
+        }
+        else
+        {
+            fileItem.readyToUpload=true;
+        }
+
+        $scope.checkReadyToUploadAll();
+
 
     };
     uploader.onAfterAddingAll = function (addedFileItems) {
@@ -57,6 +199,11 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
     };
     uploader.onErrorItem = function (fileItem, response, status, headers) {
         console.info('onErrorItem', fileItem, response, status, headers);
+        if(response && response.Exception)
+        {
+            $scope.showError("Error in uploading file",response.Exception.Message);
+        }
+
     };
     uploader.onCancelItem = function (fileItem, response, status, headers) {
         console.info('onCancelItem', fileItem, response, status, headers);
@@ -67,25 +214,61 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');
+        $scope.loadFileStorageDetails();
     };
 
     console.info('uploader', uploader);
 
     $scope.file = {};
-    $scope.file.Category = {};
+    $scope.file.Category = undefined;
     $scope.loadFileService = function () {
-        fileService.GetCatagories().then(function (response) {
 
-            $scope.Categorys = $filter('filter')(response, {Owner: "user"});
-            if ($scope.Categorys) {
-                if ($scope.Categorys.length > 0) {
-                    $scope.file.Category = $scope.Categorys[0].Category;
-                }
+        $scope.Categorys=[];
+        userProfileApiAccess.getMyProfile().then(function (resProf) {
+            if(resProf)
+            {
+                $scope.allowedCatagories=resProf.Result.allowed_file_categories;
+                fileService.GetCatagories().then(function (response) {
+
+                    angular.forEach(response,function (item) {
+
+                        angular.forEach($scope.allowedCatagories,function (allowItem) {
+                            if(item.Category === allowItem)
+                            {
+                                $scope.Categorys.push(item);
+                            }
+                        });
+
+
+                    });
+
+
+
+                }, function (error) {
+                    console.info("GetCatagories err" + error);
+                });
+
+
+
             }
-        }, function (error) {
-            console.info("GetCatagories err" + error);
+        },function (errProf) {
 
         });
+
+
+
+        /*fileService.GetCatagories().then(function (response) {
+
+         $scope.Categorys = $filter('filter')(response, {Owner: "user"});
+         if ($scope.Categorys) {
+         if ($scope.Categorys.length > 0) {
+         $scope.file.Category = $scope.Categorys[0].Category;
+         }
+         }
+         }, function (error) {
+         console.info("GetCatagories err" + error);
+
+         });*/
     };
 
     $scope.loadFileService();
@@ -210,6 +393,98 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     var categoryObj = {
         categoryList:[]
     };
+
+
+    $scope.availableKb=0;
+    $scope.usedSize=0;
+    $scope.allocatedSpace=0;
+    $scope.usedPtg=0;
+
+    /*function bytesToSize(kbs) {
+
+        var bytes = parseInt(kbs)*1024;
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return 'n/a';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        if (i == 0) return bytes + ' ' + sizes[i];
+        return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+    };
+
+    function setToKbs(size,type) {
+
+        var kbSize=0;
+
+        switch(type)
+        {
+            case "MB" : kbSize = size*1024; break;
+            case "GB" : kbSize = size*Math.pow(1024,2); break;
+            case "TB" : kbSize = size*Math.pow(1024,3); break;
+            default : size*1024; break;
+        }
+
+        return kbSize;
+
+    };*/
+
+    function getUsedSpaceInAllocatedStorageFormat(size,type) {
+
+        var usdSize=0;
+
+        switch(type)
+        {
+            case "MB" : usdSize = size/1024; break;
+            case "GB" : usdSize = size/Math.pow(1024,2); break;
+            case "TB" : usdSize = size/Math.pow(1024,3); break;
+            default : size/1024; break;
+        }
+
+        return usdSize.toFixed(2);
+
+    }
+
+    $scope.showInfo = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'info',
+            styling: 'bootstrap3'
+        });
+    };
+
+
+    $scope.loadFileStorageDetails = function () {
+
+        fileService.getStorageDetails().then(function (resStore) {
+
+            if(resStore.spaceLimit && resStore.spaceUnit && resStore.currTotal)
+            {
+                $scope.allocatedSpace=resStore.spaceLimit +" "+ resStore.spaceUnit;
+                /*$scope.limitInKb = setToKbs(resStore.spaceLimit,resStore.spaceUnit);*/
+                $scope.usedSize=getUsedSpaceInAllocatedStorageFormat(resStore.currTotal,resStore.spaceUnit);
+                $scope.usedSizeWithType=$scope.usedSize+" "+resStore.spaceUnit;
+                $scope.usedPtg  =(($scope.usedSize/resStore.spaceLimit)*100).toFixed(1);
+                /* parseInt((parseInt(resStore.currTotal)/$scope.limitInKb)*100);*/
+
+                $('.progress-bar').css('width', $scope.usedPtg+'%').attr('aria-valuenow', $scope.usedPtg);
+                /*$('.progress-bar').addClass('progress-bar-striped bg-success progress-bar-animated');*/
+                /*usedSize = bytesToSize(parseInt(resStore.currTotal));
+                availableSize = bytesToSize(limitInKb - parseInt(resStore.currTotal));*/
+
+            }
+
+
+        },function (errStore) {
+            $scope.showInfo("Info","No storage details found");
+        })
+    };
+
+
+
+
+    $scope.loadFileStorageDetails();
+
+
     $scope.loadFileList = function (pageSize, currentPage) {
         $scope.files = [];
         $scope.noDataToshow = false;
@@ -222,20 +497,20 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
 
         fileService.getAvailableCategoryFiles(pageSize, currentPage,categoryObj).then(function (response) {
-         $scope.files = response;
-         $scope.noDataToshow = response ? (response.length == 0) : true;
-         $scope.isLoading = false;
-         }, function (err) {
-         $scope.isLoading = false;
-         });
-
-        /*fileService.GetFiles(pageSize, currentPage).then(function (response) {
             $scope.files = response;
             $scope.noDataToshow = response ? (response.length == 0) : true;
             $scope.isLoading = false;
         }, function (err) {
             $scope.isLoading = false;
-        });*/
+        });
+
+        /*fileService.GetFiles(pageSize, currentPage).then(function (response) {
+         $scope.files = response;
+         $scope.noDataToshow = response ? (response.length == 0) : true;
+         $scope.isLoading = false;
+         }, function (err) {
+         $scope.isLoading = false;
+         });*/
 
 
     };
@@ -312,6 +587,16 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             title: tittle,
             text: content,
             type: 'success',
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.showAlert = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'info',
             styling: 'bootstrap3'
         });
     };
@@ -481,7 +766,11 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             $scope.isLoading = false;
         });
     };
+
+
 });
+
+
 
 app.controller('SidebarController', function ($scope, sidebar) {
         $scope.sidebar = sidebar;
@@ -523,7 +812,7 @@ app.directive('onErrorSrc', function () {
 });
 
 
-app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInstance, baseUrls, file,$auth) {
+app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInstance, baseUrls, file,$auth,authService) {
 
     $scope.selectedFile = file;
 
@@ -536,6 +825,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInst
     };
 
     var urlTemp = baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename;
+    var urlTempWithAuth = baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename+"?Authorization="+authService.TokenWithoutBearer();
 
     if(file.ObjCategory === 'CONVERSATION')
     {
@@ -595,7 +885,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInst
             preload: "auto",
             sources: [
                 {
-                    src: $sce.trustAsResourceUrl(urlTemp),
+                    src: $sce.trustAsResourceUrl(urlTempWithAuth),
                     type: file.FileStructure
                 }
             ],

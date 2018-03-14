@@ -1,7 +1,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var callSummaryCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, baseUrls,$anchorScroll) {
+    var callSummaryCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, baseUrls,$anchorScroll, filterDateRangeValidation) {
 
         $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
@@ -208,7 +208,15 @@
 
 
         $scope.getHourlySummaryCSVDownload = function () {
-            if (checkCSVGenerateAllowedHour()) {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.obj2.startDay, $scope.obj2.endDay) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
+			 if (checkCSVGenerateAllowedHour()) {
                 if ($scope.DownloadButtonName === 'CSV') {
                     $scope.cancelDownload = false;
                     $scope.buttonClass = 'fa fa-spinner fa-spin';
@@ -259,6 +267,21 @@
         };
 
         $scope.getDailySummaryCSVDownload = function () {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			var sd = new Date($scope.obj2.startDay);
+			var ed = new Date($scope.obj2.endDay);
+			var msd = moment(sd);
+			var med = moment(ed);
+			if(sd && ed){
+				var dif = med.diff(msd, 'days');
+				if(dif > 31){
+					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+					return -1;
+				}
+			}
+			/**  ----------------------------------------
+			 Kasun_Wijeratne_5_MARCH_2018 */
             if (checkCSVGenerateAllowedDay()) {
                 if ($scope.DownloadButtonNameDaily === 'CSV') {
                     $scope.cancelDownloadDaily = false;

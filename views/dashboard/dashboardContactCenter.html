@@ -11,13 +11,23 @@
                             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                 <div class="d1-header-widget ">
                                     <div class="d1-h-w-count d1-h-lg">
-                                        {{total.callsInb}}/{{total.callsOutb}}
+                                        <i class="fa fa-arrow-down color-blue-300" style="transform: rotate(45deg);font-size: 20px;"></i>{{total.callsInb}} | <i class="fa fa-arrow-up color-blue-300" style="transform: rotate(45deg);font-size: 20px;"></i>{{total.callsOutb}}
                                     </div>
+                                    <!--<div class="d1-h-w-count d1-h-lg">-->
+                                        <!--<span class="dash-number-block">-->
+                                            <!--<label class="in">In</label>-->
+                                            <!--{{total.callsInb}}-->
+                                        <!--</span>-->
+                                        <!--<span class="dash-number-block">-->
+                                            <!--<label class="out">Out</label>-->
+                                            <!--{{total.callsOutb}}-->
+                                        <!--</span>-->
+                                    <!--</div>-->
                                     <div class="d1-h-w-header d1-h-tile">
-                                        TOTAL CALL
+                                        TOTAL CALLS
                                     </div>
                                     <div class="d1-h-w-sub-title d1-sub-tile-sm color-blue-300">
-                                        Inblound/Outbound
+                                    Inbound | Outbound
                                     </div>
                                     <div class="d-top-icon">
                                         <i class="fa fa-phone color-blue-300"></i>
@@ -98,13 +108,23 @@
                             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                 <div class="d1-header-widget">
                                     <div class="d1-h-w-count d1-h-lg">
-                                        {{total.onGoingInb}}/{{total.onGoingOutb}}
+                                        {{total.onGoingInb}} | {{total.onGoingOutb}}
                                     </div>
+                                    <!--<div class="d1-h-w-count d1-h-lg">-->
+                                        <!--<span class="dash-number-block">-->
+                                            <!--<label class="in">In</label>-->
+                                            <!--{{total.onGoingInb}}-->
+                                        <!--</span>-->
+                                        <!--<span class="dash-number-block">-->
+                                            <!--<label class="out">Out</label>-->
+                                            <!--{{total.onGoingOutb}}-->
+                                        <!--</span>-->
+                                    <!--</div>-->
                                     <div class="d1-h-w-header d1-h-tile">
                                         ONGOING
                                     </div>
                                     <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-200">
-                                        Inbound /Outbound
+                                        Inbound | Outbound
                                     </div>
                                     <div class="d-top-icon">
                                         <i class="fa fa-lightbulb-o color-light-blue-200"></i>
@@ -121,17 +141,21 @@
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <div class="x_panel">
-                                            <p class="d1-c-header">CENTER STATUS <small class="d1-c-sub-header">Total calls received for last 5 min</small></p>
-                                            <div class="d1-call-s-wrp" style="height:250px">
-                                                <flot id="callHit" dataset="dataSetAll"
-                                                      options="myChartOptions"></flot>
+                                            <div class="x_title">
+                                                <h2>CENTER STATUS <small class="d1-c-sub-header">Total calls received for last 5 min</small></h2>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                                <div class="d1-call-s-wrp" style="height:250px">
+                                                    <flot id="callHit" dataset="dataSetAll"
+                                                          options="myChartOptions"></flot>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <div class="x_panel">
-                                            <div class="x_title d1-grading-header-text">
+                                            <div class="x_title">
                                                 <h2>QUEUED <small>{{queues.length}}</small></h2>
                                                 <div class="clearfix"></div>
                                             </div>
@@ -189,13 +213,16 @@
                                     <div class="col-lg-3 col-md-6 col-xs-12 " style="cursor: pointer"  ng-click="carouselAutoplay(0);">
                                         <div class="row">
                                             <div  class="d1-sumry-count-wrp "
-                                                  ng-class={'available-bg':agentCurrentState=='available'}>
+                                                  ng-class={'available-bg':agentCurrentState=='inbound'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='inbound'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
                                                     <div class="d1-header available-text">
                                                         {{StatusList.AvailableProfile.length}}
                                                     </div>
                                                     <div class="d1-a-status available-text">
-                                                        Available
+                                                        InBound
                                                     </div>
                                                 </div>
 
@@ -206,6 +233,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp  "
                                                  ng-class={'reserved-bg':agentCurrentState=='reserved'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='reserved'">
+
+                                                </div>
                                                 <div class="d1-summary-body ">
 
                                                     <div class="d1-header reserved-text">
@@ -223,6 +253,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'connected-bg':agentCurrentState=='connected'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='connected'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
                                                     <div class="d1-header connected-text">
                                                         {{StatusList.ConnectedProfile.length}}
@@ -239,6 +272,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'after-work-bg':agentCurrentState=='afterwork'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='afterwork'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
                                                     <div class="d1-header after-work-text">
                                                         {{StatusList.AfterWorkProfile.length}}
@@ -256,6 +292,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'break-bg':agentCurrentState=='break'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='break'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header break-text">
@@ -273,13 +312,16 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'outbound-bg':agentCurrentState=='outbound'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='outbound'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header outbound-text">
                                                         {{StatusList.OutboundProfile.length}}
                                                     </div>
                                                     <div class="d1-a-status outbound-text">
-                                                        Outbound
+                                                        OutBound
                                                     </div>
                                                 </div>
 
@@ -290,6 +332,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'suspended-bg':agentCurrentState=='suspended'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='suspended'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header suspended-text">
@@ -307,6 +352,9 @@
                                         <div class="row">
                                             <div class="d1-sumry-count-wrp "
                                                  ng-class={'other-bg':agentCurrentState=='other'}>
+                                                <div class="fa fa-check 2x set-marked" ng-show="stoppedState && agentCurrentState=='other'">
+
+                                                </div>
                                                 <div class="d1-summary-body">
 
                                                     <div class="d1-header other-text">

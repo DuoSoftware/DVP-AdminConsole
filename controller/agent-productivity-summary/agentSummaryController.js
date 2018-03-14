@@ -5,22 +5,32 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll,uiGridConstants ) {
+mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll,uiGridConstants, filterDateRangeValidation ) {
 
     $anchorScroll();
-    $scope.startDate = moment().add(-1, 'd').format("YYYY-MM-DD");
-    $scope.endDate = moment().add(-1, 'd').format("YYYY-MM-DD");
+    $scope.startDate = moment().format("YYYY-MM-DD");
+    $scope.endDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;
     $scope.agentSummaryList = [];
     $scope.Agents = [];
 
-    $(function () {
-        $("#startDate").datepicker({maxDate: "-1D" });
-    });
+	$scope.onDateChange = function () {
 
-    $(function () {
-        $("#endDate").datepicker({maxDate: "-1D" });
-    });
+		if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
+			$scope.dateValid = true;
+		}
+		else {
+			$scope.dateValid = false;
+		}
+	};
+
+    // $(function () {
+    //     $("#startDate").datepicker({maxDate: "-1D" });
+    // });
+	//
+    // $(function () {
+    //     $("#endDate").datepicker({maxDate: "-1D" });
+    // });
 
     $scope.total = {
         StaffTime: 0,
@@ -139,19 +149,6 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
 
 
 //    $scope.dtOptions = {paging: false, searching: false, info: false, order: [2, 'asc']};
-
-
-    $scope.onDateChange = function () {
-        $scope.startDate = moment($scope.startDate).format("YYYY-MM-DD");
-        $scope.endDate = moment($scope.endDate).format("YYYY-MM-DD");
-
-        if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-            $scope.dateValid = true;
-        }
-        else {
-            $scope.dateValid = false;
-        }
-    };
 
     $scope.getAgentSummary = function () {
         $scope.isTableLoading = 0;
@@ -314,6 +311,14 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
     $scope.disableDownload = false;
 
     $scope.getAgentSummaryCSV = function () {
+		/** Kasun_Wijeratne_5_MARCH_2018
+		 * ----------------------------------------*/
+		if(filterDateRangeValidation.validateDateRange($scope.startDate, $scope.endDate) == false){
+			$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+			return -1;
+		}
+		/** ----------------------------------------
+		 * Kasun_Wijeratne_5_MARCH_2018*/
         $scope.disableDownload = true;
         $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();

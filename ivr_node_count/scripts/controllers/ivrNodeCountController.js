@@ -35,8 +35,8 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     var d = new Date();
     d.setDate(d.getDate() - 1);
     $scope.fileSerach = {};
-    $scope.fileSerach.StartTime = d;
-    $scope.fileSerach.EndTime = new Date();
+    $scope.fileSerach.StartTime = moment().format("YYYY-MM-DD");
+    $scope.fileSerach.EndTime = moment().format("YYYY-MM-DD");
     // search end
 
     var showAlert = function (tittle, type, content) {
@@ -93,6 +93,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     $scope.isLoading = false;
 
     $scope.LoadNodeData = function () {
+    	debugger;
         if (!$scope.application) {
             showAlert("IVR", "error", "Please Select Application");
             return

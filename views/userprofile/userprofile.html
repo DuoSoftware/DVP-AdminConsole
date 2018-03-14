@@ -31,6 +31,7 @@
         </div>
         <div class="x_panel p-0">
             <div class="profile-header">
+                <i class="fa fa-arrow-circle-left fa-3x  banner-icon" ng-click="clickDirective.goUsers()"></i>
                 <div class="cover-image">
                     <img src="assets/images/profile-background/wallhaven-391750.jpg"/>
                 </div>
@@ -323,7 +324,6 @@
                                                 <!--ng-model="CurrentProfile.address.country">-->
 
                                                 <select ng-disabled="!isEditState" class="select2_single form-control"
-                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="country" ng-model="CurrentProfile.address.country">
                                                     <option ng-repeat="country in countryList" value="{{country.name}}">
@@ -389,7 +389,6 @@
                                             <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                                 <label>Locale</label>
                                                 <select ng-disabled="!isEditState" class="select2_single form-control"
-                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="contactType" ng-model="CurrentProfile.locale">
                                                     <option ng-repeat="locale in languages" value="{{locale.code}}">
@@ -472,6 +471,39 @@
                                     </div>
                                 </div>
 
+                                <!-- Resource info -->
+
+                                <div class="profile-details-wrap">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <label><h4>Resource Information</h4></label>
+                                        </div>
+
+
+                                        <div ng-show="resourceAvailableToMap" class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
+                                             style="margin-right: 20px;">
+                                            <label>Active Resource</label>
+                                            <input ng-disabled="true" type="text" class="form-control"
+                                                   ng-model="activeResourceAccount" style="opacity: 1;color: rgb(0, 0, 0);
+                                            text-align: center;font-weight: bold;padding: 5px;border-radius: 10px;
+                                            background-color: rgb(135, 206, 250);"/>
+
+
+                                        </div>
+                                        <div ng-show="!resourceAvailableToMap" class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
+                                             style="margin-right: 20px;">
+                                            <label>
+                                                <small>Map To  Resource</small>
+                                            </label>
+                                            <checkbox ng-disabled="!isEditState" class="btn-success" ng-model="CurrentProfile.mapToResource"
+                                                      ng-init="CurrentProfile.mapToResource=false"></checkbox>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
                                 <!-- veery account info -->
 
                                 <div class="profile-details-wrap">
@@ -526,10 +558,10 @@
 
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="row">
-                                        <div ng-disabled="!isEditState" class="profile-details-btn-wrap">
-                                            <a class="btn btn-primary" ng-click="saveProfile()">
+                                        <div class="profile-details-btn-wrap">
+                                            <button class="btn btn-primary" ng-disabled="!isEditState" ng-click="saveProfile()">
                                                 Save Profile
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

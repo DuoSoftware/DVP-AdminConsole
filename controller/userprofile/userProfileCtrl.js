@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userProfileCtrl = function ($scope, $stateParams, $filter, $uibModal, userProfileApiAccess, sipUserApiHandler, loginService, authService, jwtHelper) {
+    var userProfileCtrl = function ($scope, $stateParams, $filter, $uibModal, userProfileApiAccess, sipUserApiHandler, loginService, authService, jwtHelper, resourceService) {
 
 
         $scope.tenant = 0;
@@ -519,6 +519,7 @@
             $scope.CurrentTab = 'Info';
 
             loadProfile($stateParams.username);
+            //loadProfile($scope.CurrentProfile.username);
             loadSipUsers();
 
         };
@@ -671,6 +672,7 @@
 
         $scope.saveProfile = function () {
 
+            $scope.isEditState = false;
             var filteredUsers = $scope.sipUserList.filter(function (item) {
                 if (item.id == $scope.selectedSipUser.id) {
                     return true;
@@ -698,14 +700,58 @@
             }
             userProfileApiAccess.updateProfile($scope.CurrentProfile.username, $scope.CurrentProfile).then(function (data) {
                 if (data.IsSuccess) {
-                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
+
                     if (curUser) {
                         curUser.GuRefId = $scope.CurrentProfile._id;
 
                         sipUserApiHandler.updateUser(curUser);
                     }
                     $scope.isEditState = false;
-                    resetPage();
+
+                    if($scope.CurrentProfile.mapToResource){
+
+                        resourceService.SaveResource({ResourceName: $scope.CurrentProfile.username}).then(function (response) {
+                            if (response.IsSuccess) {
+
+                                resourceService.SetResourceToProfile($scope.CurrentProfile.username, response.Result.ResourceId).then(function (mappingStatus) {
+                                    if (mappingStatus) {
+                                        $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                                        $scope.showAlert("Map To Resource", "info", "Resource " + response.Result.ResourceName + " Successfully Save.");
+                                        resetPage();
+                                    }
+                                    else {
+                                        $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                                        $scope.showAlert("Map To Resource", "warn", "Resource " + response.Result.ResourceName + " Save Successfully Without Mapping to Profile.");
+                                        resetPage();
+                                    }
+                                }, function (error) {
+                                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                                    $scope.showAlert("Map To Resource", "error", "Fail To Map Resource with Profile.");
+                                    resetPage();
+                                });
+                            }
+                            else {
+                                if (response.CustomMessage == "invalid Resource Name.") {
+                                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                                    $scope.showAlert("Map To Resource", "error", "Invalid Resource Name.");
+                                    resetPage();
+                                }else{
+                                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                                    resetPage();
+                                }
+                            }
+
+                        }, function (error) {
+                            $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                            $scope.showAlert('Map To Resource', 'error', 'Failed to map user to resource');
+                            resetPage();
+                        });
+
+                    }else {
+
+                        $scope.showAlert('Success', 'success', 'User profile updated successfully');
+                        resetPage();
+                    }
                 }
                 else {
                     var errMsg = data.CustomMessage;
@@ -751,6 +797,8 @@
             userProfileApiAccess.getProfileByName(username).then(function (data) {
                 if (data.IsSuccess) {
                     $scope.CurrentProfile = data.Result;
+
+                    $scope.checkAvailability();
 
                     if (data.Result) {
                         if (data.Result.address) {
@@ -919,6 +967,25 @@
 
         loadProfile($stateParams.username);
         loadSipUsers();
+
+
+        //Map Resource To User
+
+        $scope.resourceAvailableToMap = false;
+        $scope.checkAvailability = function () {
+            resourceService.ResourceIsExists($stateParams.username).then(function (resResponse) {
+                if(!resResponse.IsSuccess) {
+                    $scope.resourceAvailableToMap = false;
+                }else {
+                    $scope.resourceAvailableToMap = true;
+                    $scope.activeResourceAccount = "Resource: "+ $scope.CurrentProfile.resourceid
+                }
+            }, function (error) {
+                $scope.resourceAvailableToMap = false;
+                $scope.showAlert("Map To Resource", "error", "Check resource availability failed");
+            });
+        };
+
 
 
     };

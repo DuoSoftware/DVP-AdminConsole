@@ -61,6 +61,14 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-9">
+                            <div class="form-group" >
+                                <label class="control-label">Overwrite Sender</label>
+                                <input type="text" class="form-control " name="fromOverwrite"
+                                       ng-model="emailConfig.fromOverwrite"
+                                       placeholder="Overwrite Sender">
+                            </div>
+                        </div>
                         <div class="col-md-10 col-sm-10 col-xs-10 form-group has-feedback">
                             <div class="form-group"
                                  ng-class="{ 'has-error': addNewTicketForm.tags.$invalid && addNewTicketForm.tags.$dirty }">
@@ -133,6 +141,7 @@
                                 <th tabindex="1" class="column-title">Priority</th>
                                 <th tabindex="2" class="column-title selectedTpcs">Type</th>
                                 <th tabindex="3" class="column-title selectedTpcs">Tags</th>
+                                <th tabindex="3" class="column-title selectedTpcs">Overwrite Sender</th>
                             </tr>
                             </thead>
 
@@ -152,6 +161,7 @@
                                         </tbody>
                                     </table>
                                 </td>
+                                <td class="valAlgn">{{mail.fromOverwrite}}</td>
                             </tr>
 
                             </tbody>
