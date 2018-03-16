@@ -459,7 +459,9 @@
 
         $scope.sipUserList = [];
 
-        $scope.selectedSipUser = {};
+        $scope.selectedSipUser = {
+        	id: ""
+		};
 
         $scope.displayVeeryContact = '';
 
@@ -499,7 +501,9 @@
         var resetPage = function () {
             $scope.sipUserList = [];
 
-            $scope.selectedSipUser = {};
+            $scope.selectedSipUser = {
+            	id: ""
+			};
 
             $scope.displayVeeryContact = '';
 

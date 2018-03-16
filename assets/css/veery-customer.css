@@ -5891,12 +5891,12 @@ ul.row-option > li.delete:focus {
 /*top icon */
 .d-top-icon {
     position: absolute;
-    right: 0px;
-    top: 20px;
+    right: 5px;
+    top: 30px;
 }
 
 .d-top-icon > i {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 .d1-body-white-wrp {
