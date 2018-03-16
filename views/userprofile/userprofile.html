@@ -512,7 +512,6 @@
                                             <label><h4>Veery Account Information</h4></label>
                                         </div>
 
-
                                         <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
                                              style="margin-right: 20px;">
                                             <label>Active Account</label>
@@ -520,22 +519,35 @@
                                                    ng-model="displayVeeryContact" style="opacity: 1;color: rgb(0, 0, 0);
                                             text-align: center;font-weight: bold;padding: 5px;border-radius: 10px;
                                             background-color: rgb(135, 206, 250);"/>
-
-
                                         </div>
 
                                         <div class="col-md-5 col-sm-5 col-xs-6 form-group has-feedback">
                                             <label>SIP Account</label>
-                                            <select ng-disabled="!isEditState" class="select2_single form-control"
-                                                    tabindex="-1" ng-disabled="!sipUserList || sipUserList.length === 0"
-                                                    aria-hidden="true"
+
+                                            <input
+                                                    ng-disabled="!isEditState || !sipUserList || sipUserList.length === 0"
+                                                    type="text"
                                                     id="sipAcc"
-                                                    name="sipAcc" ng-model="selectedSipUser.id"
-                                                    ng-model-options="{trackBy: '$value'}">
-                                                <option ng-repeat="user in sipUserList" value="{{user.id}}">
-                                                    {{user.SipUsername}}
-                                                </option>
-                                            </select>
+                                                    name="sipAcc"
+                                                    class="form-control"
+                                                    ng-model="selectedSipUser.id"
+                                                    data-html="1"
+                                                    data-auto-select="true"
+                                                    data-animation="am-flip-x"
+                                                    bs-options="user.id as user.SipUsername for user in sipUserList"
+                                                    placeholder="Type in account name"
+                                                    bs-typeahead >
+
+                                            <!--<select ng-disabled="!isEditState" class="select2_single form-control"-->
+                                                    <!--tabindex="-1" ng-disabled="!sipUserList || sipUserList.length === 0"-->
+                                                    <!--aria-hidden="true"-->
+                                                    <!--id="sipAcc"-->
+                                                    <!--name="sipAcc" ng-model="selectedSipUser.id"-->
+                                                    <!--ng-model-options="{trackBy: '$value'}">-->
+                                                <!--<option ng-repeat="user in sipUserList" value="{{user.id}}">-->
+                                                    <!--{{user.SipUsername}}-->
+                                                <!--</option>-->
+                                            <!--</select>-->
                                         </div>
 
                                         <div class="clearfix"></div>
