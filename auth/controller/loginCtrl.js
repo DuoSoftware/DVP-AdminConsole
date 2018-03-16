@@ -6,7 +6,9 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                           loginService,
                                           config, $base64, $auth) {
 
-    $scope.CheckLogin = function () {
+	$rootScope.copyrightYear = new Date().getFullYear();
+
+	$scope.CheckLogin = function () {
         if ($auth.isAuthenticated()) {
 
             loginService.getUserNavigation(function (isnavigation) {
@@ -126,12 +128,12 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
 									/** Kasun_Wijeratne_5_MARCH_2018
 									 * ----------------------------------------
-									 * User validation for Dev or Live goes here
+									 * User validation for Dev/Live goes here
 									 * ----------------------------------------*/
 									$rootScope.isLive = true;
-
 									/** ----------------------------------------
 									 * Kasun_Wijeratne_5_MARCH_2018*/
+
 									$state.go('console');
 								}
                                 //else

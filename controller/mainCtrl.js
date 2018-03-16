@@ -9,9 +9,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     // check adminconsole is focus or not.
     angular.element($window).bind('focus', function () {
-
     }).bind('blur', function () {
-
     });
 
 
@@ -646,6 +644,21 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goZohoUser: function () {
             $state.go('console.zohousers')
+        },
+        goChatbot: function () {
+            $state.go('console.chatbots')
+        },
+        goChatbotTemplates: function (templateType) {
+            $state.go('console.bottemplates', {templateType: templateType})
+        },
+        goChatbotAutomations: function () {
+            $state.go('console.botautomations')
+        },
+        goChatbotIntegration: function () {
+            $state.go('console.botintegration')
+        },
+        goChatbotSetupAI: function () {
+            $state.go('console.botsetupai')
         },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')

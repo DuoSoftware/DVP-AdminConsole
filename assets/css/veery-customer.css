@@ -1153,12 +1153,22 @@ ul.top_profiles li:nth-child(odd) {
 
 ul.top-profile-shadow li {
     background: #fff;
+/*    border-radius: 0 3px 3px 0;
+/**!    border-radius: 3px;*/
+    /*margin: 15px 15px 0 0!important;*/
+    margin: 0!important;
+    padding: 0!important;
+    /*border-left: solid 5px;*/
+}
+
+ul.top-profile-shadow li>div{
+    position: relative;
+    margin: 15px 15px 1px 3px!important;
+    padding: 0 5px 3px 5px;
     -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
-/*    border-radius: 0 3px 3px 0;
-*/    border-radius: 3px;
-    margin: 15px 15px 0 0!important;
-    /*border-left: solid 5px;*/
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
 }
 
 /*ul.top-profile-shadow li.suspended {
@@ -3565,13 +3575,22 @@ tags-input .tags.focused {
     /*background: #2ba89c;*/
     background: #6a348d;
     text-align: center;
-    padding-top: 7px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 4px;
+    padding-top: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 2px;
     color: #fff;
     top: -5px;
     right: -5px;
+    position: relative;
+    font-size: 15px;
+}
+
+ul.top-profile-shadow li .profile_thumb img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
     position: relative;
 }
 
@@ -5511,6 +5530,27 @@ ul.row-option > li.delete:focus {
 }
 
 /*dashboard  UI update */
+
+.dash-number-block{
+    float: left;
+    text-align: center;
+    display: inline-block;
+    width: 50%;
+}
+
+.dash-number-block label.in, .dash-number-block label.out{
+    display: block;
+    margin: 0;
+}
+
+.dash-number-block label.in{
+    color: skyblue;
+}
+
+.dash-number-block label.out{
+    color: #FFC107;
+}
+
 .card-dashboard {
     width: 100%;
     min-height: 140px;
@@ -5851,12 +5891,12 @@ ul.row-option > li.delete:focus {
 /*top icon */
 .d-top-icon {
     position: absolute;
-    right: 0px;
-    top: 20px;
+    right: 5px;
+    top: 30px;
 }
 
 .d-top-icon > i {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 .d1-body-white-wrp {
@@ -6957,7 +6997,7 @@ ul.newsticker {
 .ccp-chat-footer {
     background: #fff;
     padding-top: 10px;
-    height: 100px;
+    height: 70px;
     border-radius: 5px;
     -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
         -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);

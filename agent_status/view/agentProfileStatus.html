@@ -59,7 +59,7 @@
             <h2>Suspended <b class="profile-status-right">{{filtered1.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view clearfix">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event suspended"
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event suspended"
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -68,29 +68,31 @@
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in filtered1 = (StatusList.SuspendedProfile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <div class="media-body">
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -105,7 +107,7 @@
             <h2>Available <b class="profile-status-right">{{filtered2.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event "
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -115,33 +117,34 @@
                                                'break':resource.other=='Break'}"
 
                     ng-repeat="resource in filtered2 = ( StatusList.AvailableProfile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <div class="media-body">
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 15 }}{{resource.resourceName.length > 15 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </li>
             </ul>
         </div>
@@ -152,38 +155,40 @@
             <h2>Connected <b class="profile-status-right">{{filtered3.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event "
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                               'break':resource.other=='Break'}"
+                    'available':resource.slotState=='Available',
+                    'connected':resource.slotState=='Connected',
+                    'afterWork':resource.slotState=='AfterWork',
+                    'outbound':resource.slotState=='Outbound',
+                    'suspended':resource.slotState=='Suspended',
+                    'break':resource.other=='Break'}"
                     ng-repeat="resource in filtered3 = (StatusList.ConnectedProfile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <div class="media-body">
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -197,7 +202,7 @@
             <h2>Outbound <b class="profile-status-right">{{filtered4.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event "
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -206,29 +211,31 @@
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in filtered4 = (StatusList.OutboundProfile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <div class="media-body">
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -242,7 +249,7 @@
             <h2>After Work <b class="profile-status-right">{{filtered5.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event "
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -251,34 +258,36 @@
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in filtered5 = (StatusList.AfterWorkProfile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <a ng-show="resource.freezeExceeded"
-                       class="error-txt"
-                       href="javascript:void(0)">
-                        After Work Exceeded.....
-                    </a>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <a ng-show="resource.freezeExceeded"
+                           class="error-txt"
+                           href="javascript:void(0)">
+                            After Work Exceeded.....
                         </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                        <div class="media-body">
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -293,7 +302,7 @@
             <h2>Reserved <b class="profile-status-right">{{filtered6.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event "
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -302,29 +311,31 @@
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in filtered6 = (StatusList.ReservedProfile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <div class="media-body">
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -339,7 +350,7 @@
             <h2>Break <b class="profile-status-right">{{filtered7.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event "
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -348,33 +359,35 @@
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in filtered7 = (StatusList.BreakProfile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a ng-show="resource.breakExceeded" style=" color: #cc1e2d;background: transparent;" class="error-txt"
-                           href="javascript:void(0)">
-                            Break Exceeded.....
-                        </a>
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <div class="media-body">
+                            <a ng-show="resource.breakExceeded" style=" color: #cc1e2d;background: transparent;" class="error-txt"
+                               href="javascript:void(0)">
+                                Break Exceeded.....
+                            </a>
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -388,7 +401,7 @@
         <div class="x_panel x_bordered leftbordered other">
             <h2> Other <b class="profile-status-right">{{filtered8.length}}</b></h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-12 media event "
+                <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
@@ -398,29 +411,31 @@
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in filtered8 = (StatusList.profile | filter: filterResList)">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="assets/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
-                            {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
-                            <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                                <i ng-if="resource.slotMode=='Offline'"
-                                   class="main-icon-2-telephone-4 offline"></i>
+                    <div>
+                        <div class="profile-status-dah"></div>
+                        <div class="pull-left border-aero profile_thumb">
+                            <img src="assets/images/defaultProfile.png"
+                                 ng-src="{{resource.avatar}}"/>
+                        </div>
+                        <div class="media-body">
+                            <a class="title" href="javascript:void(0)" title="{{resource.resourceName}}">
+                                {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
+                            </a>
+                            <!--<p>{{resource.LastReservedTime}} </p>-->
+                            <p>
+                                <!--<time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>-->
+                                <last-reserved user-name="{{resource.resourceName}}" last-reserved-time="resource.LastReservedTimeT"></last-reserved>
+                            </p>
+                            <div class="s-state">
+                                {{resource.slotState}}
+                                <div class="s-mode">
+                                    <i ng-if="resource.slotMode=='Inbound'"
+                                       class="main-icon-2-telephone-7 inbound"></i>
+                                    <i ng-if="resource.slotMode=='Outbound'"
+                                       class="main-icon-2-telephone-6 outbound"></i>
+                                    <i ng-if="resource.slotMode=='Offline'"
+                                       class="main-icon-2-telephone-4 offline"></i>
+                                </div>
                             </div>
                         </div>
                     </div>

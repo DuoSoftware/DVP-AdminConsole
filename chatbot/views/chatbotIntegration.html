@@ -1,0 +1,201 @@
+<div class="row">
+
+    <div class="col-md-12 col-sm-6 col-xs-12">
+
+        <!-- Bot list -->
+        <div class="x_panel bg-light-gray animated fadeIn">
+            <div class="x_title border-0">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h2 class="font-robot font-300 text-uppercase font-15">New Integration</h2>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="tile-stats m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+                            <div class="row no-gutters">
+                                <div class="col-12 col-md-6 form-group has-feedback">
+                                    <input type="text" class="form-control width-100 has-feedback-left" ng-model="integration.name" placeholder="Name*">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                                <div class="col-12 col-md-6 form-group has-feedback">
+                                    <select class="form-control width-100 has-feedback-left" ng-model="integration.method" placeholder="Method*" >
+                                        <option value="" selected disabled>Method*</option>
+                                        <option value="POST" ng-value="POST">POST</option>
+                                        <option value="GET" ng-value="GET"> GET</option>
+                                    </select> 
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="row no-gutters">
+                                <div class="col-12 col-md-6 has-feedback">
+                                    <input type="text" class="form-control width-100 has-feedback-left" ng-model="integration.url" placeholder="Url*">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="row no-gutters">
+                               <h3 style="margin: 10px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Url Params</h3>
+                               <div class="col-12 col-md-6">
+                                    <div ng-repeat="field in urlParamsArray track by $index">
+                                    <div class="col-sm-5"><input type="text" class="form-control" ng-model='field.key' placeholder="key"></div>
+                                    <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div> 
+                                    <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='deleteUrlParams(field,$index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
+                                    
+                                    </div>
+                                    <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addUrlParams()">Add</button></div>    
+                                </div> 
+                            </div>
+                            <div class="row no-gutters">
+                               <h3 style="margin: 10px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Headers</h3>
+                               <div class="col-12 col-md-6">
+                                    <div ng-repeat="field in headersArray track by $index">
+                                    <div class="col-sm-5"><input type="text" class="form-control" ng-model='field.key' placeholder="key"></div>
+                                    <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div> 
+                                    <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='deleteHeader($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
+                                    
+                                    </div>
+                                    <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addCheckHeaders()">Add</button></div>    
+                                </div> 
+                            </div>
+                            <div class="row no-gutters">
+                                <h3 style="margin: 0px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Body</h3>
+                                <div class="col-12 col-md-6 form-group">
+                                    <textarea ng-model="integration.body" class="form-control width-100" style="height:150px"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row no-gutters">
+                                <h3 style="margin: 0px 11px -13px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Response</h3>
+                                <div class="col-12 col-md-6 form-group has-feedback">
+                                    
+                                    <div class="s-panel qa-section ng-scope">
+                                        <h3>Success</h3>
+                                        <!-- s-panel body wrapper -->
+                                        <div class="s-panel-body">
+                                            <form name="frmNewSection" novalidate="" class="ng-dirty ng-valid-parse ng-valid ng-valid-required" style="">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control width-100  ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" ng-model="integration.response.success.http_code" name="Http Code*" required="" id="sectionName" placeholder="Http Code*" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control width-100 ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" ng-model="integration.response.success.out_message_field" name="sectionDesc" required="" id="sectionDesc" placeholder="Bind Data Field" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <select class="form-control width-100" ng-model="integration.response.success.fieldCheckCondition" placeholder="Check Condition" >
+                                                        <option value="" selected disabled>Check Condition*</option>
+                                                        <option value="and" ng-value="and">and</option>
+                                                        <option value="or" ng-value="or">or</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div>
+                                                    <div>
+                                                        <div ng-repeat="field in successCheckFieldsArray track by $index">
+                                                        <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.name' placeholder="name"></div>
+                                                        <!-- <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.type' placeholder="type"></div> -->
+                                                        <div class="col-sm-4">
+                                                        <select class="form-control" ng-model="field.type" placeholder="" >
+                                                            <option value="" selected disabled>Type</option>
+                                                            <option value="boolean" ng-value="boolean">boolean</option>
+                                                            <option value="string" ng-value="string">string</option>
+                                                            <option value="number" ng-value="number">number</option>
+                                                        </select>
+                                                        </div>
+                                                        <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div>  
+                                                        <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='successDeleteCheckFields($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
+                                                        </div>
+                                                        <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addSuccessCheckFields()">Add check field</button></div>    
+                                                    </div> 
+                                                </div>
+                                            </form> 
+                                        </div>
+                                    </div>
+                              
+                                </div>
+                                 <div class="col-12 col-md-6 form-group has-feedback">
+                                      <div class="s-panel qa-section ng-scope">
+                                        <h3>Error</h3>
+                                        <!-- s-panel body wrapper -->
+                                        <div class="s-panel-body">
+                                            <form name="frmNewSection" novalidate="" class="ng-dirty ng-valid-parse ng-valid ng-valid-required" style="">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control width-100  ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" ng-model="integration.response.error.http_code" name="sectionName" required="" id="sectionName" placeholder="Http Code*" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control width-100 ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" ng-model="integration.response.error.out_message_field" name="sectionDesc" required="" id="sectionDesc" placeholder="Bind Data Field">
+                                                </div>
+                                                <div class="form-group">
+                                                    <select class="form-control width-100" ng-model="integration.response.error.fieldCheckCondition" placeholder="Check Condition" >
+                                                        <option value="" selected disabled>Check Condition*</option>
+                                                        <option value="and" ng-value="and">and</option>
+                                                        <option value="or" ng-value="or">or</option>
+                                                    </select>
+                                                </div>
+                                                <div >
+                                                    <div>
+                                                        <div ng-repeat="field in errorCheckFieldsArray track by $index">
+                                                        <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.name' placeholder="name"></div>
+                                                        <!-- <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.type' placeholder="type"></div> -->
+                                                        <div class="col-sm-4">
+                                                        <select class="form-control" ng-model="field.type" placeholder="" >
+                                                            <option value="" selected disabled>Type</option>
+                                                            <option value="boolean" ng-value="boolean">boolean</option>
+                                                            <option value="string" ng-value="string">string</option>
+                                                            <option value="number" ng-value="number">number</option>
+                                                        </select>
+                                                        </div>
+                                                        <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div>  
+                                                        <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='errordeleteCheckFields($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
+                                                        </div>
+                                                        <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addErrorCheckFields()">Add check field</button></div>    
+                                                    </div>
+                                                </div>
+                                            </form> 
+                                        </div>
+                                        <!-- s-panel btn wrapper -->
+                                    </div>
+                                 </div>
+                             
+                                
+                            </div>
+                            <div>
+                                <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <button type="button" class="btn btn-success btn-block  btn- pull-left" ng-click="save()">
+                                        {{buttonName}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- end -->
+
+        <!-- view Bot List and Edit -->
+
+        <div class="x_panel">
+            <div class="x_content">
+                <ul class="list-unstyled">
+                    <li ng-repeat="template in allintegration | filterBy: ['name']: searchCriteria" style="border-bottom: 1px solid #efefef;" >
+                        <!-- <editachatbot bot="bot" update-application="deleteIntegration(bot)" reloadpage="reloadPage()">
+                        </editachatbot> -->
+                        <editintegration template="template" template-type="TemplateCategory" update-integration="updateIntegration(template)"
+                            delete-integration="deleteIntegration(template)" template-Types="TemplateTypes"></editintegration>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- end -->
+    </div>
+
+</div>
