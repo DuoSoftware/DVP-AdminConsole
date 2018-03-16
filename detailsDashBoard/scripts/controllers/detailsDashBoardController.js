@@ -136,7 +136,8 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
     //subscribe services
     subscribeServices.subscribeDashboard('detaildashboard', function (event) {
         console.debug(event);
-        if (event && event.Message && event.Message.businessUnit && ((ShareData.BusinessUnit.toLowerCase() === 'all') || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+        if (event && event.Message && event.Message.businessUnit
+            && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
             switch (event.roomName) {
                 case 'QUEUE:QueueDetail':
                     if (event.Message) {
