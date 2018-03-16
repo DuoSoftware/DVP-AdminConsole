@@ -1038,6 +1038,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
                 }
+	     }).state('console.botautomations', {
+               url: "/automations",
+               templateUrl: "chatbot/views/chatbotAutomations.html",
+               controller: "setupAIController",
+	       data: {
+		  requireLogin: true,
+	          navigation: "ZOHO_CRM"
+	       }   		
             }).state('console.botintegration', {
                 url: "/integration",
                 templateUrl: "chatbot/views/chatbotIntegration.html",
