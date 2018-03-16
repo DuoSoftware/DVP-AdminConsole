@@ -209,6 +209,7 @@
                         $scope.DownloadButtonName = 'CSV';
                         $scope.cancelDownload = true;
                         $scope.buttonClass = 'fa fa-file-text';
+                        $scope.showAlert('CDR Download', 'warn', 'No CDR Records found for downloading');
                     }
 
                 }).catch(function (err) {
