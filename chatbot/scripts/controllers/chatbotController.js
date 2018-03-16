@@ -8,6 +8,7 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
         var bot = {
             "name": newBot.name,           
             "screen_name": newBot.name,
+            "description": newBot.description,
             "status": true,
             "company":-1,
             "tenant":-1,
