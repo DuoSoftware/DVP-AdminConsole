@@ -18,6 +18,17 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             scope.editMode = false;
             scope.botappedit = false;
 
+            scope.copyBotID = function (cardID) {
+                var id = cardID;
+                window.getSelection().empty();
+                var copyField = document.getElementById(id);
+                var range = document.createRange();
+                range.selectNode(copyField);
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                scope.showAlert("Bot ID", 'Bot ID copied to clipboard.', "success");
+            }
+
             scope.editbotdetails = function () {
                 $(".sortable").sortable({
 
@@ -159,12 +170,15 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                     "bot_id": scope.bot._id,
                     "app": botapp.app,
                     "order": 0,
-                    "config": {}
+                    "config": {
+                        "Securitykey": "<key>"
+                    }
                 }
                 botappconfigService.SavenewBotApp(newbotapp).then(function (response) {
                     if (response.data.IsSuccess) {
                         scope.getallBotApps(scope.bot._id);
                         scope.botappedit = false;
+                        scope.showAlert("Bot Apps", 'Added new Bot app.', "success");
                     } else {
                         scope.showAlert("Bot Apps", 'Fail To Save Bot Apps.', "error");
                     }
@@ -227,12 +241,13 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 whitelistconfigService.GetAllWhitelist(scope.bot._id).then(function (response) {
                     if (response.data.IsSuccess) {
                         scope.urllist = response.data.Result;
-                    } else {
-                        scope.showAlert("white list", 'error', "Fail To Load Url.");
                     }
+                    //  else {
+                    //     scope.showAlert("white list", 'error', "Fail To Load Url.");
+                    // }
 
                 }, function (error) {
-                    scope.showAlert("white list", 'error', "Fail To Load Url.");
+                    scope.showAlert("White list", 'error', "Fail To Load Url.");
                 });
             }
             //add facebook whitelist
@@ -247,16 +262,16 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                             scope.url = "";
                             scope.getwhitelisturl(scope.bot._id);
                         } else {
-                            scope.showAlert("white list", 'Fail To Added Url.', "error");
+                            scope.showAlert("White list", 'Fail To Added Url.', "error");
                         }
 
                     }, function (error) {
-                        scope.showAlert("white list", 'Fail To Added Url.', "error");
+                        scope.showAlert("White list", 'Fail To Added Url.', "error");
                     });
-                } else { scope.showAlert("white list", 'Already added to list', "error"); }
+                } else { scope.showAlert("White list", 'Already added to list', "error"); }
 
             }
-             //Delete facebook whitelist
+            //Delete facebook whitelist
             scope.deleteurl = function (url) {
 
                 scope.showConfirm("Delete URL", "Delete", "ok", "cancel", "Do you want to delete " + url, function (obj) {
@@ -269,11 +284,11 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
                             scope.getwhitelisturl(scope.bot._id);
                         } else {
-                            scope.showAlert("white list", 'Fail To Delete Url.', "error");
+                            scope.showAlert("White list", 'Fail To Delete Url.', "error");
                         }
 
                     }, function (error) {
-                        scope.showAlert("white list", 'Fail To Delete Url.', "error");
+                        scope.showAlert("White list", 'Fail To Delete Url.', "error");
                     });
 
                 }, function () {

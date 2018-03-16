@@ -6,7 +6,9 @@
                     <h2 class=" font-300">
                         <a ng-hide="editMode">Name : {{bot.name}}</a>
                     </h2>
-                    <span>{{bot.description}}</span>
+                    <span ng-hide="editMode">{{bot.description}}</span>
+                    <br>
+                    <span ng-hide="editMode">Last updated at {{bot.updated_at}}</span>
                 </div>
                 <div class="col-md-3 ">
                     <div class="pull-right user-option-wrap" ng-show="!editMode">
@@ -20,6 +22,13 @@
 
                         </h3>
                     </div>
+                </div>
+                <div class="col-md-12 col-sm-3 col-xs-12 form-group ">
+                    <label class="form-control-static">Bot ID</label>
+                    <p>
+                        <input type="text" ng-readonly="true" ng-model="bot._id" id="{{bot._id}}">
+                        <input type="button" value="Copy" ng-click="copyBotID(bot._id)">
+                    </p>
                 </div>
             </div>
         </div>
@@ -242,103 +251,97 @@
                                                             <i class="fa fa-trash-o"></i>
                                                         </small>
                                                     </div>
+                                                    <div class="row no-gutters">
+                                                        <div ng-show="botappedit">
+                                                            <div ng-if="selectedBot.app=='APIAI'" style="padding-left: 23px;">
+                                                                <div class="panel panel-default col-lg-12">
+                                                                    <div class="panel-heading">
+                                                                        <div class="row">
+                                                                            <div class="col-md-9">
+                                                                                <h4>{{selectedBot.app}} </h4>
+                                                                            </div>
+                                                                            <div class="col-md-3 ">
+                                                                                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                                                                    Update
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="panel-body">
+                                                                        <div class="col-6 col-md-4 form-group has-feedback">
+                                                                            <label>Client Access Token</label>
+                                                                            <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.CLIENT_ACCESS_TOKEN" placeholder="Client Access Token">
+                                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div ng-if="selectedBot.app=='Smoothflow'" style="padding-left: 23px;">
+                                                                <div class="panel panel-default col-lg-12">
+                                                                    <div class="panel-heading">
+                                                                        <div class="row">
+                                                                            <div class="col-md-9">
+                                                                                <h4>{{selectedBot.app}} </h4>
+                                                                            </div>
+                                                                            <div class="col-md-3 ">
+                                                                                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                                                                    Update
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="panel-body">
+                                                                        <!-- <div class="col-6 col-md-4 form-group has-feedback"> -->
+                                                                        <div class="col-6 col-md-4 form-group has-feedback">
+                                                                            <label>Security key</label>
+                                                                            <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.Securitykey" placeholder="Security key">
+                                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                        </div>
+                                                                        <!-- <div class="col-6 col-md-4 form-group has-feedback">
+                                                                                <label>Host</label>
+                                                                                <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.host" placeholder="Host">
+                                                                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                            </div>
+                                                                            <div class="col-6 col-md-4 form-group has-feedback">
+                                                                                <label>Params</label>
+                                                                                <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.params" placeholder="Params">
+                                                                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                            </div> -->
+                                                                        <!-- </div> -->
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div ng-if="selectedBot.app=='ARDS'" style="padding-left: 23px;">
+                                                                <div class="panel panel-default col-lg-12">
+                                                                    <div class="panel-heading">
+                                                                        <div class="row">
+                                                                            <div class="col-md-9">
+                                                                                <h4>{{selectedBot.app}} </h4>
+                                                                            </div>
+                                                                            <div class="col-md-3 ">
+                                                                                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                                                                    Update
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="panel-body">
+                                                                        <div class="col-6 col-md-4 form-group has-feedback">
+                                                                            <label>Inputs</label>
+                                                                            <input type="text" class="form-control has-feedback-left" placeholder="Inputs">
+                                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                             </li>
-                                            <!-- </div> -->
-                                            <div class="row no-gutters">
-                                                <div ng-show="botappedit">
-                                                    <div ng-if="selectedBot.app=='apiai'" style="padding-left: 23px;">
-                                                        <div class="panel panel-default col-lg-12">
-                                                            <div class="panel-heading">
-                                                                <div class="row">
-                                                                    <div class="col-md-9">
-                                                                        <h4>{{selectedBot.app}} </h4>
-                                                                    </div>
-                                                                    <div class="col-md-3 ">
-                                                                        <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
-                                                                            Update
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel-body">
-                                                                <div class="col-6 col-md-4 form-group has-feedback">
-                                                                    <label>Client Access Token</label>
-                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.CLIENT_ACCESS_TOKEN" placeholder="Client Access Token">
-                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                    <div ng-if="selectedBot.app=='Smoothflow'" style="padding-left: 23px;">
-                                                        <div class="panel panel-default col-lg-12">
-                                                            <div class="panel-heading">
-                                                                <div class="row">
-                                                                    <div class="col-md-9">
-                                                                        <h4>{{selectedBot.app}} </h4>
-                                                                    </div>
-                                                                    <div class="col-md-3 ">
-                                                                        <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
-                                                                            Update
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel-body">
-                                                                <!-- <div class="col-6 col-md-4 form-group has-feedback"> -->
-                                                                <div class="col-6 col-md-4 form-group has-feedback">
-                                                                    <label>Security key</label>
-                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.Securitykey" placeholder="Security key">
-                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                                </div>
-                                                                <!-- <div class="col-6 col-md-4 form-group has-feedback">
-                                                                    <label>Host</label>
-                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.host" placeholder="Host">
-                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                                </div>
-                                                                <div class="col-6 col-md-4 form-group has-feedback">
-                                                                    <label>Params</label>
-                                                                    <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.params" placeholder="Params">
-                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                                </div> -->
-                                                                <!-- </div> -->
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div ng-if="selectedBot.app=='ards'" style="padding-left: 23px;">
-                                                        <div class="panel panel-default col-lg-12">
-                                                            <div class="panel-heading">
-                                                                <div class="row">
-                                                                    <div class="col-md-9">
-                                                                        <h4>{{selectedBot.app}} </h4>
-                                                                    </div>
-                                                                    <div class="col-md-3 ">
-                                                                        <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
-                                                                            Update
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel-body">
-                                                                <div class="col-6 col-md-4 form-group has-feedback">
-                                                                    <label>Inputs</label>
-                                                                    <input type="text" class="form-control has-feedback-left" placeholder="Inputs">
-                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-
-
 
                                             <!-- <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>SmoothFlow</li>
                                         <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>ARDS</li> -->
