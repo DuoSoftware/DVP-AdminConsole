@@ -1,90 +1,69 @@
-/**
- * Created by Divani on 01/26/2018.
- */
+<div class="row">
 
-'use strict';
-mainApp.factory("setupAIService", function ($http, $log, $filter, authService, baseUrls, $auth) 
-{
-    var tenantID = $auth.getPayload().companyName;
-    var getToken = $auth.getToken();
+    <div class="col-md-12 col-sm-6 col-xs-12">
 
-    var createSetupAI = function (setup) {
-        return $http({
-            method: 'POST',
-            url: baseUrls.setupaiAPTUrl,
-            data: setup
-        }).then(function (response) {
-            if (response.data && response.data.IsSuccess) {
-                return response;
-            } else {
-                return response;
-            }
-        });
-    };
+        <!-- Bot list -->
+        <div class="x_panel bg-light-gray animated fadeIn">
+            <div class="x_title border-0">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h2 class="font-robot font-300 text-uppercase font-15">New Setup AI</h2>
+                </div>
 
-    var updateSetupAI = function (setup) {
-        console.log(setup);
-        return $http({
-            method: 'PUT',
-            url: baseUrls.setupaiAPTUrl + "/" + setup._id,
-            data: setup
-        }).then(function (response) {
-            if (response.data && response.data.IsSuccess) {
-                return response;
-            } else {
-                return response;
-            }
-        });
-    };
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="tile-stats m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+                            <div class="row no-gutters">
+                                <div class="col-12 col-md-6 form-group has-feedback">
+                                    <label>If User Says Somthing Similar To:*</label>
+                                    <tags-input class="form-control" ng-model="setupAI.events">
+                                    </tags-input>
+                                </div>
+                                <div class="col-12 col-md-6 form-group has-feedback">
+                                    <label>Work Flow Name*</label>
+                                    <select class="form-control has-feedback-left" placeholder="Work Flow Name*" 
+                                    ng-model="setupAI.workFlowName" ng-options="x.Name as x.DisplayName for x in workFlowNames"></select>
+                                </div>
+                               
+                            </div>
 
-    var deleteSetupAI = function (setup) {
-        console.log(setup);
-        return $http({
-            method: 'DELETE',
-            url: baseUrls.setupaiAPTUrl + "/" + setup._id,
-        }).then(function (response) {
-            if (response.data && response.data.IsSuccess) {
-                return response;
-            } else {
-                return response;
-            }
-        });
-    };
+                            <div class="row no-gutters">
+                                <div class="col-6 col-md-4 form-group has-feedback">
+                                    <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="createSetupAI(setupAI)">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- end -->
 
-    var getAllSetupAI = function () {
-        return $http({
-            method: 'GET',
-            url: baseUrls.setupaiAPTUrl + "s/"
-        }).then(function (response) {
-            console.log(response);
-            if (response.data && response.data.IsSuccess) {
-                return response;
-            } else {
-                return response;
-            }
-        });
-    };
+        <!-- view Bot List and Edit -->
+        <div class="x_panel">
+            <div class="x_content">
+                <ul class="list-unstyled">
+                    <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria" style="border-bottom: 1px solid #efefef;" >
+                        <editsetupai setupai="setupai" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)"
+                            delete-setupai="deleteSetupai(setupai)" setupai-Types="TemplateTypes">
+                        </editsetupai>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-    var getWorkFlow = function () {
-        return $http({
-            method: 'GET',      
-            url: baseUrls.getworkflowAPIUrl + tenantID +".dev.smoothflow.io",
-        }).then(function (response) {
-            console.log(response);
-            if (response.data && response.data.IsSuccess) {
-                return response;
 
-            } else {
-                return response;
-            }
-        });
-    };
+        <!-- end -->
+    </div>
 
-    return {
-        CreateSetupAI: createSetupAI,
-        UpdateSetupAI: updateSetupAI,
-        DeleteSetupAI: deleteSetupAI,
-        GetAllSetupAI: getAllSetupAI,
-        GetWorkFlow:getWorkFlow
-    }
-});
+</div>
