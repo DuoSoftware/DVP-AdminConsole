@@ -113,7 +113,20 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 });
             }
 
-            scope.updateNavigation = function (navigationData) {
+			/** Kasun_Wijeratne_16_MARCH_2018
+			 * ------------------------------------------------------------------------------------*/
+			// function selectAll(status) {
+			// 	if(status){
+			// 		angular.forEach(scope.selectedConsole.consoleNavigation, function (branch) {
+			// 			branch
+			// 		}
+			// 	}
+			// }
+			/**------------------------------------------------------------------------------------
+			 * Kasun_Wijeratne_16_MARCH_2018 */
+
+
+			 scope.updateNavigation = function (navigationData) {
                 try {
                     var editedMenus = {};
                     editedMenus = {
