@@ -1022,6 +1022,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
                 }
+            }).state('console.bot-details', {
+                url: "/bot-details",
+                templateUrl: "chatbot/views/chatbot-details.html",
+                controller: "chatbotController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }
             }).state('console.bottemplates', {
                 url: "/templates/:templateType",
                 templateUrl: "chatbot/views/chatbotTemlplates.html",
@@ -1030,15 +1038,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
                 }
-            }).state('console.botautomations', {
-                url: "/automations",
-                templateUrl: "chatbot/views/chatbotAutomations.html",
-                controller: "setupAIController",
-                data: {
-                    requireLogin: true,
-                    navigation: "ZOHO_CRM"
-                }   
-             }).state('console.botintegration', {
+            }).state('console.botintegration', {
                 url: "/integration",
                 templateUrl: "chatbot/views/chatbotIntegration.html",
                 controller: "chatBotIntegrationController",
