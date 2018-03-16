@@ -5192,7 +5192,7 @@ ul.verticle_bars li {
     border-color: rgba(52, 73, 94, 0.88);
 }
 .ui-pnotify-container .ui-pnotify-title, .ui-pnotify-icon span {
-    color: rgba(256, 256, 256, 0.8);
+    color: rgba(242, 244, 248, 1);
 }
 
 .brighttheme-notice .ui-pnotify-title{
@@ -5880,3 +5880,87 @@ ul.notifications {
     background: transparent!important;
     border: none!important;
 }
+
+
+/************Bot CSS*************/
+
+.bot-card {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 15px;
+
+    box-shadow: -6px 0px 30px 0 rgba(228, 230, 231, 1), -1px 0px 20px 0 rgba(228, 230, 231, 1);
+}
+
+.card-title {
+    border-bottom: 1px solid #E6E6E6;
+}
+
+.card-search {
+    margin-bottom: 0;
+}
+
+.card-search i {
+    float: left;
+    line-height: 3;
+}
+
+.card-search--form {
+    float: right;
+    margin-top: -6px;
+}
+
+.card-search  .form-control{
+    border:none !important;
+    max-width: 400px;
+    padding: 0 0 0 10px;
+    float: left;
+    min-width: 220px;
+    background-color: transparent;
+}
+
+.card-search span {
+    float: left;
+}
+
+.card-search .input-group {
+    display: block;
+    float: right;
+    margin-bottom: 0;
+}
+
+.card-title--btn-add {
+    float: right;
+    background: #EF3F7D;
+    color: #ffffff; 
+    border-radius: 5px;
+    text-align: center;
+    text-transform: capitalize;
+    margin: -6px 0 0;
+}
+
+.card-title--btn-add:hover {
+    background-color: #000000;
+    color:#ffffff;
+}
+
+.card-add .collapsing {
+    margin-top:20px;
+    padding: 0 15px;
+    float: left;
+    width: 100%;
+}
+
+.card-add .collapse {
+    margin-top:20px;
+    padding: 0 15px;
+    float: left;
+    width: 100%;
+
+    border-top: 1px solid #E6E6E6;
+}
+
+.card-create-bot .form-control {
+    width: 100%;
+}
+
