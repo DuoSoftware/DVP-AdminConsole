@@ -68,56 +68,22 @@ mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService
 
         },
 
-        controller: function($scope, $state) { 
+        controller: function($scope, $state, setupAIService) { 
 
-                 $scope.workFlowNames=[
-                {
-                
-                    "DateTime": "2018-02-16T10:10:27.660Z",
-                    "Description": "CargillsFlowV2",
-                    "DisplayName": "CargillsFlowV2",
-                    "ID": "",
-                    "Name": "kalanaduocargillsflowv2",
-                    "UserName": "kalana@duosoftware.com",
-                    "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLWU4NjQxNg",
-                    "comment": null,
-                    "version": "1"
-                },
-                {
-                    
-                    "DateTime": "2017-10-26T12:54:15.913Z",
-                    "Description": "1",
-                    "DisplayName": "wf17",
-                    "ID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTA2ZmNmYQ",
-                    "Name": "kalanaduo_wf17",
-                    "UserName": "kalana@duosoftware.com",
-                    "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLWJjMDhiZg",
-                    "comment": "1",
-                    "version": "1"
-                },
-                {
-                    "DateTime": "2017-10-06T04:24:56.611Z",
-                    "Description": "1",
-                    "DisplayName": "wf12",
-                    "ID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTA2ZWQ1Nw",
-                    "Name": "kalanaduo_wf12",
-                    "UserName": "kalana@duosoftware.com",
-                    "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTlmMjJiZg",
-                    "comment": "1",
-                    "version": "1"
-                },
-                {
-                    "DateTime": "2017-11-17T05:52:32.337Z",
-                    "Description": "18",
-                    "DisplayName": "wf18",
-                    "ID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTAyYmEzNw",
-                    "Name": "kalanaduowf18",
-                    "UserName": "kalana@duosoftware.com",
-                    "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTMwODIxYg",
-                    "comment": "1",
-                    "version": "1"
+                $scope.getWorkflows = function(){
+                    setupAIService.GetWorkFlow().then(function (response) {
+                        if (response.data.IsSuccess) {
+                            $scope.workFlowNames = response.data.Result;
+                            console.log($scope.workFlowNames);
+                        } else {
+                            $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
+                        }
+
+                    }, function (error) {
+                        $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
+                    });  
                 }
-                ];
+                $scope.getWorkflows();
 
 
                 $scope.closeTemplate = function () {
