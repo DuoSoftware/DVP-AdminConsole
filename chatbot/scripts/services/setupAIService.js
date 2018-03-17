@@ -3,7 +3,10 @@
  */
 
 'use strict';
-mainApp.factory("setupAIService", function ($http, $log, $filter, authService, baseUrls) {
+mainApp.factory("setupAIService", function ($http, $log, $filter, authService, baseUrls, $auth) 
+{
+    var tenantID = $auth.getPayload().companyName;
+    var getToken = $auth.getToken();
 
     var createSetupAI = function (setup) {
         return $http({
@@ -62,25 +65,27 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
         });
     };
 
-    // var getWorkFlow = function () {
-    //     return $http({
-    //         method: 'GET',
-    //         url: baseUrls.getworkflowAPIUrl + tenantID,
-    //         data: setup
-    //     }).then(function (response) {
-    //         if (response.data && response.data.IsSuccess) {
-    //             return response;
-    //         } else {
-    //             return response;
-    //         }
-    //     });
-    // };
+    var getWorkFlow = function () {
+        return $http({
+            method: 'GET',      
+            url: baseUrls.getworkflowAPIUrl + tenantID +".dev.smoothflow.io",
+        }).then(function (response) {
+            console.log(response.status);
+            debugger;
+            if (response.status === 200) {
+                return response;
+
+            } else {
+                return response;
+            }
+        });
+    };
 
     return {
         CreateSetupAI: createSetupAI,
         UpdateSetupAI: updateSetupAI,
         DeleteSetupAI: deleteSetupAI,
         GetAllSetupAI: getAllSetupAI,
-        // GetWorkFlow:getWorkFlow
+        GetWorkFlow:getWorkFlow
     }
 });
