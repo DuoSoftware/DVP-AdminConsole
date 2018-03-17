@@ -62,8 +62,9 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
     $scope.getWorkflows = function(){
         setupAIService.GetWorkFlow().then(function (response) {
-            if (response.data.IsSuccess) {
-                $scope.workFlowNames = response.data.Result;
+            console.log(response);
+            if (response.data !==0 ) {
+                $scope.workFlowNames = response.data;
                 console.log($scope.workFlowNames);
             } else {
                 $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
