@@ -7,7 +7,7 @@ mainApp.directive("workflow", function ($filter, $uibModal, appBackendService) {
         restrict: "EAA",
         scope: {
             wfdata: "=",
-            'editWf': '&',
+            'editwf': '&',
         },
 
         templateUrl: 'chatbot/views/partials/workflow.html',
@@ -20,7 +20,7 @@ mainApp.directive("workflow", function ($filter, $uibModal, appBackendService) {
 
             scope.editWorkflow = function(data){
                 debugger
-                scope.editWF(data);
+                scope.editwf(data);
             }
 
         }
