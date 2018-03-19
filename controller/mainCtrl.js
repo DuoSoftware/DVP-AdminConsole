@@ -397,6 +397,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		if(Object.keys(result).length
 			> 5){
 			$rootScope.allUsers = true;
+			$state.go('console.dashboard');
 		}else{
 			$rootScope.freshUser = true;
 			$rootScope.allUsers = false;

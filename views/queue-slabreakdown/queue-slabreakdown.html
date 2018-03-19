@@ -14,7 +14,7 @@
             <div class="x_content" ng-if="!showFilter">
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <label>Summary Date</label>
-                    <input type="text" class="form-control" ng-model="qDate" ng-change="onDateChange()"
+                    <input type="text" class="form-control" ng-model="param.qDate" ng-change="onDateChange()"
                            name="summarytDate"
                            datepicker>
                 </div>
@@ -37,7 +37,7 @@
                     <button type="button" class="btn btn-success"
                         csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)']"
                         csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average']"
-                        ng-csv="getProcessedSlaCSVDownload()" filename="SLA_BreakDown_{{qDate}}.csv">CSV <i class="fa fa-download"></i></button>
+                        ng-csv="getProcessedSlaCSVDownload()" filename="SLA_BreakDown_{{param.qDate}}.csv">CSV <i class="fa fa-download"></i></button>
                 </div>
             </div>
         </div>

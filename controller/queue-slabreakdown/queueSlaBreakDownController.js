@@ -5,7 +5,9 @@
 mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $state, $q, queueSummaryBackendService, loginService,$anchorScroll) {
 
     $anchorScroll();
-    $scope.qDate = moment().format("YYYY-MM-DD");
+    $scope.param = {
+        qDate: moment().format("YYYY-MM-DD")
+    };
     $scope.dateValid = true;
     $scope.queueSummaryList = [];
     $scope.dailiySummaryList = [];
@@ -20,7 +22,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         $scope.dailySLAbreakObj = [];
         $scope.isTableLoading = 0;
         // get daily summary data
-        queueSummaryBackendService.getQueueDailySlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueDailySlaBreakDown($scope.param.qDate).then(function (response) {
             if (response && response.data && response.data.Result) {
                 $scope.isTableLoading = 1;
                 $scope.dailiySummaryList = response.data.Result;
@@ -72,7 +74,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
 
 
     $scope.onDateChange = function () {
-        if (moment($scope.qDate, "YYYY-MM-DD").isValid()) {
+        if (moment($scope.param.qDate, "YYYY-MM-DD").isValid()) {
             $scope.dateValid = true;
         }
         else {
@@ -85,7 +87,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         if ($scope.searchOption == 'hourly') {
             $scope.queueSummaryList = [];
             $scope.isTableLoading = 0;
-            queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
+            queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
                 if (!response.data.IsSuccess) {
                     $scope.isTableLoading = 2;
                     console.log("Queue Summary loading failed ", response.data.Exception);
@@ -108,7 +110,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     $scope.getQueueDailySummary = function () {
         $scope.dailyQueueSummaryList = [];
         $scope.isTableLoading = 0;
-        queueSummaryBackendService.getQueueSlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueSlaBreakDown($scope.param.qDate).then(function (response) {
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
             }
@@ -129,7 +131,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         var deferred = $q.defer();
 
         var queueSummaryListForCsv = [];
-        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
 
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
