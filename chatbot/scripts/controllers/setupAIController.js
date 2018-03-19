@@ -7,13 +7,19 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
     $scope.setupAI = {
         "workFlowName": "",
-        "events":[] ,
+        "events": [],
         "enable": true
     };
 
+    $scope.createNewAutomation = function () {
+        var url = "https://smoothflow.io/app/";
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
+
     // $scope.workFlowNames=[
     // {
-       
+
     //     "DateTime": "2018-02-16T10:10:27.660Z",
     //     "Description": "CargillsFlowV2",
     //     "DisplayName": "CargillsFlowV2",
@@ -25,7 +31,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     //     "version": "1"
     // },
     // {
-        
+
     //     "DateTime": "2017-10-26T12:54:15.913Z",
     //     "Description": "1",
     //     "DisplayName": "wf17",
@@ -60,10 +66,11 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     // }
     // ];
 
-    $scope.getWorkflows = function(){
+    $scope.getWorkflows = function () {
         setupAIService.GetWorkFlow().then(function (response) {
-            if (response.data.IsSuccess) {
-                $scope.workFlowNames = response.data.Result;
+            console.log(response);
+            if (response.data !== 0) {
+                $scope.workFlowNames = response.data;
                 console.log($scope.workFlowNames);
             } else {
                 $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
@@ -71,41 +78,41 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
         }, function (error) {
             $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
-        });  
+        });
     }
     $scope.getWorkflows();
 
     $scope.createSetupAI = function (setup) {
 
-    console.log(setup);
-    $scope.setup = setup;
-    $scope.events = [];
-    for (var i = 0; i < setup.events.length; i++) {
-        for(var key in setup.events[i]) {
+        console.log(setup);
+        $scope.setup = setup;
+        $scope.events = [];
+        for (var i = 0; i < setup.events.length; i++) {
+            for (var key in setup.events[i]) {
                 $scope.events.push(setup.events[i][key]);
-                console.log($scope.events);    
-        }
-      
-    }
-    $scope.setup.events = [];
-    $scope.setupai={};
-    $scope.setupai.enable=$scope.setup.enable;
-    $scope.setupai.workFlowName = $scope.setup.workFlowName;
-    $scope.setupai.events = $scope.events;
+                console.log($scope.events);
+            }
 
-    console.log($scope.setupai);
-    setupAIService.CreateSetupAI($scope.setupai).then(function (response) {
-        if (response.data.IsSuccess) {
-            $scope.showAlert("Setup AI", 'success', "Setup AI Created Successfully.");
-            $scope.reloadPage();
-        } else {
+        }
+        $scope.setup.events = [];
+        $scope.setupai = {};
+        $scope.setupai.enable = $scope.setup.enable;
+        $scope.setupai.workFlowName = $scope.setup.workFlowName;
+        $scope.setupai.events = $scope.events;
+
+        console.log($scope.setupai);
+        setupAIService.CreateSetupAI($scope.setupai).then(function (response) {
+            if (response.data.IsSuccess) {
+                $scope.showAlert("Setup AI", 'success', "Setup AI Created Successfully.");
+                $scope.reloadPage();
+            } else {
+                $scope.showAlert("Setup AI", 'error', "Fail To Create Setup AI.");
+            }
+
+        }, function (error) {
             $scope.showAlert("Setup AI", 'error', "Fail To Create Setup AI.");
-        }
 
-    }, function (error) {
-        $scope.showAlert("Setup AI", 'error', "Fail To Create Setup AI.");
-
-    });
+        });
 
     };
 
@@ -115,15 +122,15 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
                 $scope.allsetupai = response.data.Result;
                 console.log($scope.allsetupai);
 
-            // console.log($scope.allsetupai);
-            // for (var i=0; i<$scope.allsetupai.length; i++) {
-            //     for (var j=0; j<$scope.workFlowNames.length; j++) {
-            //         if($scope.allsetupai[i].workFlowName === $scope.workFlowNames[j].Name){
-            //             $scope.workFlowNames.splice(j, 1);
-            //         }
-                
-            //     }
-            // }
+                // console.log($scope.allsetupai);
+                // for (var i=0; i<$scope.allsetupai.length; i++) {
+                //     for (var j=0; j<$scope.workFlowNames.length; j++) {
+                //         if($scope.allsetupai[i].workFlowName === $scope.workFlowNames[j].Name){
+                //             $scope.workFlowNames.splice(j, 1);
+                //         }
+
+                //     }
+                // }
 
             } else {
                 $scope.showAlert("Setup AI", 'error', "Fail To load setup ai.");
@@ -131,7 +138,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
         }, function (error) {
             $scope.showAlert("Set up AI", 'error', "Fail To load setup ai.");
-        });  
+        });
     }
     $scope.getAllSetupAi();
 
@@ -152,25 +159,25 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
     // for (var index = 0; index < array.length; index++) {
     //     var element = array[index];
-        
+
     // }
 
-    
+
 
     $scope.updateSetupai = function (setup) {
         console.log(setup);
         $scope.setup = setup;
         $scope.events = [];
         for (var i = 0; i < setup.events.length; i++) {
-            for(var key in setup.events[i]) {
-                    $scope.events.push(setup.events[i][key]);
-                    console.log($scope.events);    
+            for (var key in setup.events[i]) {
+                $scope.events.push(setup.events[i][key]);
+                console.log($scope.events);
             }
-        
+
         }
         $scope.setup.events = [];
-        $scope.setupai={};
-        $scope.setupai.enable=$scope.setup.enable;
+        $scope.setupai = {};
+        $scope.setupai.enable = $scope.setup.enable;
         $scope.setupai.workFlowName = $scope.setup.workFlowName;
         $scope.setupai.events = $scope.events;
         $scope.setupai.company = $scope.setup.company;
@@ -180,7 +187,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
         console.log($scope.setupai);
         setupAIService.UpdateSetupAI($scope.setupai).then(function (response) {
-           if (response.data && response.data.IsSuccess) {
+            if (response.data && response.data.IsSuccess) {
                 $scope.showAlert("Setup AI", 'success', "Setup AI updated successfully.");
                 $scope.getAllSetupAi();
             } else {
@@ -189,10 +196,10 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
         }, function (error) {
             $scope.showAlert("Setup AI", 'error', "Fail To update setup ai.");
-        });  
+        });
     }
 
-    $scope.deleteSetupai = function(setup){
+    $scope.deleteSetupai = function (setup) {
         setupAIService.DeleteSetupAI(setup).then(function (response) {
             console.log(response._id);
             if (response.data && response.data.IsSuccess) {

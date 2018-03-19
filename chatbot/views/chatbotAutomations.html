@@ -2,49 +2,37 @@
 
     <div class="col-md-12 col-sm-6 col-xs-12">
 
-        <!-- Bot list -->
-        <div class="x_panel bg-light-gray animated fadeIn">
-            <div class="x_title border-0">
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    <h2 class="font-robot font-300 text-uppercase font-15">My Automations</h2>
+        <div class="x_panel animated fadeIn bot-card">
+            <div class="x_title card-title">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <h2 class="font-robot font-300">My Automations</h2>
                 </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
-                    <div class="input-group">
-                        <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
+                <div class="col-md-4 col-sm-12 col-xs-12 form-group top_search card-search">
+                    <div class="card-search--form">
+                        <i class="fa fa-search"></i>
+                        <div class="input-group">
+                            <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for...">
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-12">
-                    <div class="row no-gutters">
-                        <div class="col-6 col-md-4 form-group has-feedback">
-
-                        </div>
-                        <div class="col-6 col-md-4 form-group has-feedback">
-
-                        </div>
-                        <div class="col-6 col-md-4 form-group has-feedback">
-                            <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="createNewAutomation()">
-                                New Automation
-                            </button>
-                        </div>
-                    </div>
+                
+                <div class="card-add">
+                    <button type="button" class="btn card-title--btn-add card-btn" ng-click="createNewAutomation()">
+                        New Automation
+                    </button>
                 </div>
                 <div class="clearfix"></div>
             </div>
-        </div>
         <!-- end -->
+        </div>
 
         <!-- view Bot List and Edit -->
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria" style="border-bottom: 1px solid #efefef;">
-                        <editsetupai setupai="setupai" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)" delete-setupai="deleteSetupai(setupai)"
-                            setupai-Types="TemplateTypes">
-                        </editsetupai>
+                    <li ng-repeat="workflow in workFlowNames | filterBy: ['DisplayName']: searchCriteria" style="border-bottom: 1px solid #efefef;">
+                        <workflow wfdata="workflow" edit-wf="createNewAutomation()"></workflow>
                     </li>
                 </ul>
             </div>

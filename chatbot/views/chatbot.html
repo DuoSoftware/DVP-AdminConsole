@@ -6,7 +6,7 @@
         <div class="x_panel animated fadeIn bot-card">
             <div class="x_title card-title">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <h2 class="font-robot font-300">New Bot</h2>
+                    <h2 class="font-robot font-300">My Bot</h2>
                 </div>
 
                 <div class="col-md-5 col-sm-5 col-xs-5 form-group top_search card-search">
@@ -21,9 +21,9 @@
                 </div>
                 
                 <div class="card-add">
-                    <button type="button" class="btn card-title--btn-add" data-toggle="collapse" data-target="#addNewBotCollapse">Add New</button>
+                    <button type="button" class="btn card-title--btn-add card-btn" data-toggle="collapse" data-target="#addNewBotCollapse">Add New</button>
                     <div id="addNewBotCollapse" class="collapse">
-                        <form class="form-horizontal form-label-left input_mask card-create-bot" style="padding: 15px;">
+                        <form class="form-horizontal form-label-left input_mask card-create-bot">
                             <div class="row no-gutters">
                                 <div class="col-12 col-sm-6 col-md-6 form-group">
                                     <input type="text" class="form-control has-feedback-left" ng-model="newBot.name" placeholder="Bot Name">
@@ -35,7 +35,7 @@
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
-                                <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="CreateNewBot(newBot)">
+                                <button type="button" class="btn btn-success btn-block card-btn btn-add-bot pull-right" ng-click="CreateNewBot(newBot)">
                                     Add Bot
                                 </button>
                             </div>
@@ -58,9 +58,6 @@
 
                 </ul>
             </div>
-
-
-        <!-- end -->
         </div>
         <!-- end -->
     </div>

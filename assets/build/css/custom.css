@@ -250,7 +250,7 @@
 
 body .container.body .right_col {
     /*background: #F7F7F7;*/
-    background: #eee;
+    background: #F2F4F8;
 }
 
 .nav-md .container.body .right_col {
@@ -5931,29 +5931,20 @@ ul.notifications {
 
 .card-title--btn-add {
     float: right;
-    background: #EF3F7D;
-    color: #ffffff; 
-    border-radius: 5px;
-    text-align: center;
-    text-transform: capitalize;
     margin: -6px 0 0;
 }
 
-.card-title--btn-add:hover {
-    background-color: #000000;
-    color:#ffffff;
-}
+
 
 .card-add .collapsing {
     margin-top:20px;
-    padding: 0 15px;
     float: left;
     width: 100%;
 }
 
 .card-add .collapse {
     margin-top:20px;
-    padding: 0 15px;
+    padding: 20px 0;
     float: left;
     width: 100%;
 
@@ -5964,3 +5955,29 @@ ul.notifications {
     width: 100%;
 }
 
+.card-create-bot {
+    padding: 15px;
+}
+
+.btn-add-bot {
+    float: right;
+    
+}
+
+.card-btn {
+    background: #EF3F7D !important;
+    color: #ffffff; 
+    border-radius: 5px;
+    text-align: center;
+    text-transform: capitalize;
+    margin-right: 11px;
+    width: auto;
+}
+
+.card-btn:hover {
+    background-color: #000000 !important;
+    color:#ffffff;
+}
+.btn {
+    padding: 8px 20px;
+}
