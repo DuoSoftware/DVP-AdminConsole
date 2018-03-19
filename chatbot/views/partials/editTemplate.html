@@ -42,39 +42,35 @@
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-groupk" style="margin-bottom: 15px;">
                                 <label>{{templateCategory}} Name</label>
-                                <input type="text" class="form-control has-feedback-left" ng-model="template.name" placeholder="{{templateCategory}} Name">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <input type="text" class="form-control " ng-model="template.name" placeholder="{{templateCategory}} Name">
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group" style="margin-bottom: 15px;">
                                 <label>Description</label>
                                 <input type="text" class="form-control has-feedback-left" ng-model="template.description" placeholder="Description">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group" style="margin-bottom: 15px;">
                                 <label>{{templateCategory}} Type</label>
                                 <select class="form-control has-feedback-left" ng-model="template.type" ng-options="x.Value as x.Key for x in templateTypes">
                                 </select>
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group" style="margin-bottom: 15px;">
                                 <label>{{templateCategory}} Content Type</label>
                                 <select class="form-control has-feedback-left" ng-model="template.contentType" ng-options="x.Value as x.Key for x in templateContentTypes">
                                 </select>
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="margin-bottom: 15px;">
                                 <label>{{templateCategory}}s</label>
                                 <div class="row">
                                     <div class="card" ng-repeat="item in template.items">
                                         <cardtemplate card="item" template-type="templateCategory"></cardtemplate>
-                                        <a class="font-robot font-300 " ng-click="removeCard($index)">
-                                            <i class="fa fa-times"></i> Remove {{templateCategory}}
+                                        <a class="edit-card--btn-circle edit-card--remove font-robot font-300 " ng-click="removeCard($index)">
+                                            <i class="fa fa-times"></i> <!--Remove {{templateCategory}}-->
                                         </a>
                                     </div>
                                     <div class="card">

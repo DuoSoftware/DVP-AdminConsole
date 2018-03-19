@@ -1,17 +1,19 @@
 <div>
     <div ng-show="mode == 'view'">
         <input type="button" value="{{button.title}}">
-        <input type="button" value="Edit" ng-click="changeMode('edit')">
+        <div class="edit-card--btn-circle edit-card--edit" ng-click="changeMode('edit')">
+            <i class="fa fa-pencil"></i>
+        </div>
     </div>
     <div ng-show="mode == 'new'">
         <a class="font-robot font-300 " ng-click="newButton()">
-            <i class="fa fa-plus"></i> New
+            <i class="fa fa-plus"></i> New skfjlskfksflksj
         </a>
     </div>
-    <div ng-show="mode == 'edit'">
-        <input type="text" placeholder="Title" ng-model="button.title">
-        <input type="text" placeholder="Message" ng-model="button.payload.message">
-        <select placeholder="Select Type" ng-model="button.type">
+    <div class="top40" ng-show="mode == 'edit'">
+        <input class="form-control" type="text" placeholder="Title" ng-model="button.title">
+        <input class="form-control" type="text" placeholder="Message" ng-model="button.payload.message">
+        <select class="form-control" placeholder="Select Type" ng-model="button.type">
             <option value="" disabled selected>Select Type</option>
             <option value="web_url">Web URL</option>
             <option value="postback">Postback</option>
@@ -22,8 +24,8 @@
             <option value="account_unlink">Account Unlink</option>
             <option value="game_play">Game Play</option>
         </select>
-        <input type="url" placeholder="Url" ng-model="button.other_data.url">
-        <input type="button" value="Done" ng-click="changeMode('view')">
+        <input class="form-control" type="url" placeholder="Url" ng-model="button.other_data.url">
+        <input type="button" value="Done" ng-click="changeMode('view')" class="btn card-btn pull-right">
     </div>
 
 </div>
