@@ -5944,6 +5944,7 @@ ul.notifications {
 
 .card-add .collapse {
     margin-top:20px;
+    padding: 20px 0;
     float: left;
     width: 100%;
 
@@ -5969,7 +5970,7 @@ ul.notifications {
     border-radius: 5px;
     text-align: center;
     text-transform: capitalize;
-    margin-right: 4px;
+    margin-right: 11px;
     width: auto;
 }
 
