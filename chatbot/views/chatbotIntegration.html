@@ -3,77 +3,86 @@
     <div class="col-md-12 col-sm-6 col-xs-12">
 
         <!-- Bot list -->
-        <div class="x_panel bg-light-gray animated fadeIn">
-            <div class="x_title border-0">
+        <div class="x_panel animated fadeIn bot-card">
+            <div class="x_title card-title">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <h2 class="font-robot font-300 text-uppercase font-15">New Integration</h2>
+                    <h2 class="font-robot font-300">Integration</h2>
                 </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
-                    <div class="input-group">
-                        <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
+                <div class="col-md-5 col-sm-5 col-xs-5 form-group top_search card-search">
+                    <div class="card-search--form">
+                        <i class="fa fa-search"></i>
+                        <div class="input-group">
+                            <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for...">
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-12">
-                    <div class="tile-stats m-top15">
+
+                <div class="card-add">
+                    <button type="button" class="btn card-title--btn-add card-btn" data-toggle="collapse" data-target="#addNewBotCollapse">Add New</button>
+                    <div id="addNewBotCollapse" class="collapse">
                         <form class="form-horizontal form-label-left input_mask">
-                            <div class="row no-gutters">
-                                <div class="col-12 col-md-6 form-group has-feedback">
-                                    <input type="text" class="form-control width-100 has-feedback-left" ng-model="integration.name" placeholder="Name*">
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                                <div class="col-12 col-md-6 form-group has-feedback">
-                                    <select class="form-control width-100 has-feedback-left" ng-model="integration.method" placeholder="Method*" >
-                                        <option value="" selected disabled>Method*</option>
-                                        <option value="POST" ng-value="POST">POST</option>
-                                        <option value="GET" ng-value="GET"> GET</option>
-                                    </select> 
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                </div>
+                            <div class="col-12 col-md-3 form-group">
+                                <input type="text" class="form-control width-100" ng-model="integration.name" placeholder="Name*">
                             </div>
-                            <div class="row no-gutters">
-                                <div class="col-12 col-md-6 has-feedback">
-                                    <input type="text" class="form-control width-100 has-feedback-left" ng-model="integration.url" placeholder="Url*">
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                </div>
+                        
+                            <div class="col-12 col-md-3 form-group">
+                                <select class="form-control width-100" ng-model="integration.method" placeholder="Method*" >
+                                    <option value="" selected disabled>Method*</option>
+                                    <option value="POST" ng-value="POST">POST</option>
+                                    <option value="GET" ng-value="GET"> GET</option>
+                                </select> 
                             </div>
-                            <div class="row no-gutters">
-                               <h3 style="margin: 10px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Url Params</h3>
-                               <div class="col-12 col-md-6">
+
+                            <div class="col-12 col-md-6 form-group">
+                                <input type="text" class="form-control width-100" ng-model="integration.url" placeholder="Url*">
+                            </div>
+
+                            <div class="col-md-6 col-xs-12 col-sm-12 card-form--subform">
+                               <h3 class="card-form--subtitle">Url Params</h3>
+                                <div class="row">
                                     <div ng-repeat="field in urlParamsArray track by $index">
-                                    <div class="col-sm-5"><input type="text" class="form-control" ng-model='field.key' placeholder="key"></div>
-                                    <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div> 
-                                    <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='deleteUrlParams(field,$index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
-                                    
+                                        <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.key' placeholder="key"></div>
+                                        <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div> 
+                                            <div class="col-sm-1">
+                                            <h3 ng-hide="$index==0">
+                                                <small ng-click='deleteUrlParams(field,$index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small>
+                                            </h3> 
+                                        </div>
                                     </div>
-                                    <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addUrlParams()">Add</button></div>    
-                                </div> 
-                            </div>
-                            <div class="row no-gutters">
-                               <h3 style="margin: 10px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Headers</h3>
-                               <div class="col-12 col-md-6">
-                                    <div ng-repeat="field in headersArray track by $index">
-                                    <div class="col-sm-5"><input type="text" class="form-control" ng-model='field.key' placeholder="key"></div>
-                                    <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div> 
-                                    <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='deleteHeader($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
-                                    
-                                    </div>
-                                    <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addCheckHeaders()">Add</button></div>    
-                                </div> 
-                            </div>
-                            <div class="row no-gutters">
-                                <h3 style="margin: 0px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Body</h3>
-                                <div class="col-12 col-md-6 form-group">
-                                    <textarea ng-model="integration.body" class="form-control width-100" style="height:150px"></textarea>
+
+                                   <button type="button" class="btn card-btn pull-right" ng-click="addUrlParams()">Add Params</button>                                
                                 </div>
                             </div>
 
-                            <div class="row no-gutters">
-                                <h3 style="margin: 0px 11px -13px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Response</h3>
-                                <div class="col-12 col-md-6 form-group has-feedback">
+                            <div class="col-md-6 col-xs-12 col-sm-12">
+                                <div class="card-form--subform">
+                                    <h3 class="card-form--subtitle">Headers</h3>
+                                    <div class="row">
+                                        <div ng-repeat="field in headersArray track by $index">
+                                            <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.key' placeholder="key"></div>
+                                            <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div> 
+                                            <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='deleteHeader($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>                    
+                                        </div>
+                                        <button class="btn card-btn pull-right" type="button" ng-click="addCheckHeaders()">Add Headers</button> 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xs-12 col-sm-12 c">
+                                <div class="ard-form--subform">
+                                    <h3 class="card-form--subtitle">Body</h3>
+                                    <div class="">
+                                        <textarea ng-model="integration.body" class="form-control width-100" style="height:150px"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xs-12 col-sm-12">
+                                <div class="card-form--subform">
+                                    <h3 class="card-form--subtitle">Response</h3>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 form-group has-feedback">
                                     
                                     <div class="s-panel qa-section ng-scope">
                                         <h3>Success</h3>
@@ -96,21 +105,22 @@
                                                 
                                                 <div>
                                                     <div>
-                                                        <div ng-repeat="field in successCheckFieldsArray track by $index">
-                                                        <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.name' placeholder="name"></div>
-                                                        <!-- <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.type' placeholder="type"></div> -->
-                                                        <div class="col-sm-4">
-                                                        <select class="form-control" ng-model="field.type" placeholder="" >
-                                                            <option value="" selected disabled>Type</option>
-                                                            <option value="boolean" ng-value="boolean">boolean</option>
-                                                            <option value="string" ng-value="string">string</option>
-                                                            <option value="number" ng-value="number">number</option>
-                                                        </select>
+                                                        <div class="row" ng-repeat="field in successCheckFieldsArray track by $index">
+                                                            <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.name' placeholder="name"></div>
+                                                            <!-- <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.type' placeholder="type"></div> -->
+                                                            <div class="col-sm-4">
+                                                            <select class="form-control" ng-model="field.type" placeholder="" >
+                                                                <option value="" selected disabled>Type</option>
+                                                                <option value="boolean" ng-value="boolean">boolean</option>
+                                                                <option value="string" ng-value="string">string</option>
+                                                                <option value="number" ng-value="number">number</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div>  
+                                                            <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='successDeleteCheckFields($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
+
+                                                            <button class="btn card-btn pull-right" type="button" ng-click="addSuccessCheckFields()">Add check field</button>  
                                                         </div>
-                                                        <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div>  
-                                                        <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='successDeleteCheckFields($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
-                                                        </div>
-                                                        <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addSuccessCheckFields()">Add check field</button></div>    
                                                     </div> 
                                                 </div>
                                             </form> 
@@ -139,41 +149,41 @@
                                                 </div>
                                                 <div >
                                                     <div>
-                                                        <div ng-repeat="field in errorCheckFieldsArray track by $index">
-                                                        <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.name' placeholder="name"></div>
-                                                        <!-- <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.type' placeholder="type"></div> -->
-                                                        <div class="col-sm-4">
-                                                        <select class="form-control" ng-model="field.type" placeholder="" >
-                                                            <option value="" selected disabled>Type</option>
-                                                            <option value="boolean" ng-value="boolean">boolean</option>
-                                                            <option value="string" ng-value="string">string</option>
-                                                            <option value="number" ng-value="number">number</option>
-                                                        </select>
-                                                        </div>
-                                                        <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div>  
-                                                        <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='errordeleteCheckFields($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
-                                                        </div>
-                                                        <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addErrorCheckFields()">Add check field</button></div>    
+                                                        <div class="row" ng-repeat="field in errorCheckFieldsArray track by $index">
+                                                            <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.name' placeholder="name"></div>
+                                                            <!-- <div class="col-sm-3"><input type="text" class="form-control" ng-model='field.type' placeholder="type"></div> -->
+                                                            <div class="col-sm-4">
+                                                            <select class="form-control" ng-model="field.type" placeholder="" >
+                                                                <option value="" selected disabled>Type</option>
+                                                                <option value="boolean" ng-value="boolean">boolean</option>
+                                                                <option value="string" ng-value="string">string</option>
+                                                                <option value="number" ng-value="number">number</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="col-sm-4"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div>  
+                                                            <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='errordeleteCheckFields($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
+
+                                                            <button class="btn card-btn pull-right" type="button" ng-click="addErrorCheckFields()">Add check field</button>  
+                                                        </div>  
                                                     </div>
                                                 </div>
                                             </form> 
                                         </div>
                                         <!-- s-panel btn wrapper -->
                                     </div>
-                                 </div>
+                                    </div>
+                                </div>
+                            </div>
                              
                                 
                             </div>
-                            <div>
-                                <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <button type="button" class="btn btn-success btn-block  btn- pull-left" ng-click="save()">
-                                        {{buttonName}}
-                                    </button>
-                                </div>
-                            </div>
+                            <button type="button" class="btn card-btn pull-right" ng-click="save()">
+                                {{buttonName}}
+                            </button>
                         </form>
                     </div>
                 </div>
+
                 <div class="clearfix"></div>
             </div>
         </div>

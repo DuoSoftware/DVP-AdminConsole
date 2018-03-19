@@ -5981,3 +5981,19 @@ ul.notifications {
 .btn {
     padding: 8px 20px;
 }
+
+.card-form--subtitle {
+    margin: 0px 0px 10px;
+    color: #000;
+    font-size: 14px;
+    border-bottom: 1px solid #E6E6E6;
+    padding: 0 0 10px;
+}
+
+.card-form--subform {
+
+    background: #F2F4F8;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
