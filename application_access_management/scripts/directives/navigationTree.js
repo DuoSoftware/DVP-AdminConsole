@@ -34,9 +34,10 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 angular.forEach(resource.actions, function (action) {
                     id++;
                     var child = addChild(item1, id, action);
-                    if (items&&items.length > 0 && items[0].menuAction) {
-                        var menuItems = $filter('filter')(items[0].menuAction, {scope: resource.scopeName},true);
-                        child.isSelected = menuItems[0][action];
+                    if (items && items.length > 0 && items[0].menuAction) {
+                        var menuItems = $filter('filter')(items[0].menuAction, {scope: resource.scopeName}, true);
+                        if (menuItems[0])
+                            child.isSelected = menuItems[0][action];
                     }
                     optionSelected = optionSelected && child.isSelected;
                 });
@@ -83,7 +84,6 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
             });
 
 
-
             /*scope.vm.expandAll(scope.vm.data);*/
 
             function newItem(id, name) {
@@ -113,20 +113,20 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 });
             }
 
-			/** Kasun_Wijeratne_16_MARCH_2018
-			 * ------------------------------------------------------------------------------------*/
-			// function selectAll(status) {
-			// 	if(status){
-			// 		angular.forEach(scope.selectedConsole.consoleNavigation, function (branch) {
-			// 			branch
-			// 		}
-			// 	}
-			// }
-			/**------------------------------------------------------------------------------------
-			 * Kasun_Wijeratne_16_MARCH_2018 */
+            /** Kasun_Wijeratne_16_MARCH_2018
+             * ------------------------------------------------------------------------------------*/
+            // function selectAll(status) {
+            // 	if(status){
+            // 		angular.forEach(scope.selectedConsole.consoleNavigation, function (branch) {
+            // 			branch
+            // 		}
+            // 	}
+            // }
+            /**------------------------------------------------------------------------------------
+             * Kasun_Wijeratne_16_MARCH_2018 */
 
 
-			 scope.updateNavigation = function (navigationData) {
+            scope.updateNavigation = function (navigationData) {
                 try {
                     var editedMenus = {};
                     editedMenus = {
@@ -160,12 +160,11 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                                 scope.showAlert("Info", "Info", "ok", navigationData.name + " Successfully Updated.")
                             }
                             else {
-                                if(response.CustomMessage)
-                                {
-                                    scope.showError("Error",  response.CustomMessage);
+                                if (response.CustomMessage) {
+                                    scope.showError("Error", response.CustomMessage);
                                 }
                                 else {
-                                    scope.showError("Error",  navigationData.name + " Failed To Update.");
+                                    scope.showError("Error", navigationData.name + " Failed To Update.");
                                 }
 
                             }
@@ -180,19 +179,17 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                                 scope.showAlert("Info", "Info", "ok", navigationData.name + " Permissions Successfully Remove.")
                             }
                             else {
-                                if(response.CustomMessage)
-                                {
+                                if (response.CustomMessage) {
                                     scope.showError("Error", response.CustomMessage);
                                 }
-                                else
-                                {
+                                else {
                                     scope.showError("Error", navigationData.name + " Fail To Update.");
                                 }
 
                             }
 
                         }, function (error) {
-                            scope.showError("Error"," Failed to Remove Permissions[" + navigationData.name + "]");
+                            scope.showError("Error", " Failed to Remove Permissions[" + navigationData.name + "]");
                         });
                     }
                 }
