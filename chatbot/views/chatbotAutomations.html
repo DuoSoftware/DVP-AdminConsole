@@ -41,10 +41,8 @@
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria" style="border-bottom: 1px solid #efefef;">
-                        <editsetupai setupai="setupai" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)" delete-setupai="deleteSetupai(setupai)"
-                            setupai-Types="TemplateTypes">
-                        </editsetupai>
+                    <li ng-repeat="workflow in workFlowNames | filterBy: ['DisplayName']: searchCriteria" style="border-bottom: 1px solid #efefef;">
+                        <workflow wfdata="workflow" edit-wf="createNewAutomation()"></workflow>
                     </li>
                 </ul>
             </div>
