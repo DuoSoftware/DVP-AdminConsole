@@ -71,7 +71,7 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
             url: baseUrls.getworkflowAPIUrl + tenantID +".dev.smoothflow.io",
         }).then(function (response) {
             console.log(response.status);
-            debugger;
+            //debugger;
             if (response.status === 200) {
                 return response;
 
