@@ -81,11 +81,29 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
         });
     };
 
+    var setWorkFlowForText = function(workflowfortext){
+        return $http({
+            method: 'POST',      
+            url: baseUrls.getworkflowfortextAPIUrl,
+            data: workflowfortext,
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.status === 200) {
+                return response;
+
+            } else {
+                return response;
+            }
+        });
+    };
+
     return {
         CreateSetupAI: createSetupAI,
         UpdateSetupAI: updateSetupAI,
         DeleteSetupAI: deleteSetupAI,
         GetAllSetupAI: getAllSetupAI,
-        GetWorkFlow:getWorkFlow
+        GetWorkFlow:getWorkFlow,
+        SetWorkFlowForText: setWorkFlowForText
     }
 });

@@ -4,6 +4,10 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     console.log("Setup AI controller is up!");
 
     $scope.buttonName = "SAVE";
+    $scope.checkData = false;
+    $scope.notFound = false;
+    $scope.checkWorkFlowMatching = false;
+    $scope.notMatchingKeyWord= false;
 
     $scope.setupAI = {
         "workFlowName": "",
@@ -17,54 +21,55 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         win.focus();
     }
 
-    // $scope.workFlowNames=[
-    // {
+    $scope.testWorkFlowForText = {
+        "message":""
+    }
 
-    //     "DateTime": "2018-02-16T10:10:27.660Z",
-    //     "Description": "CargillsFlowV2",
-    //     "DisplayName": "CargillsFlowV2",
-    //     "ID": "",
-    //     "Name": "kalanaduocargillsflowv2",
-    //     "UserName": "kalana@duosoftware.com",
-    //     "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLWU4NjQxNg",
-    //     "comment": null,
-    //     "version": "1"
-    // },
-    // {
+    $scope.getworkflowfortextAPIUrl = function(workflowfortext){
+        console.log(workflowfortext);
+        $scope.checkWorkFlowMatching = true;
+        setupAIService.SetWorkFlowForText(workflowfortext).then(function (response) {
+            console.log(response);
+            $scope.checkWorkFlowMatching = false;
+            if (response.data.Result !== 0) {
+                debugger;
+                $scope.testWorkForText = response.data;
+                console.log($scope.testWorkForText);
+                
+                if(response.data.CustomMessage=="No Matching Workflow"){
+                    debugger;
+                    //ai coudn't found any matching work flow
+                    $scope.checkWorkFlowMatching = false;
+                    $scope.checkData = false;
+                    $scope.notFound = true;
+                    $scope.notMatchingKeyWord= true;
+                    console.log('ai could not found any matching work flow');
+                }
+                else{
+                    debugger;
+                    $scope.checkWorkFlowMatching = false;
+                    $scope.checkData = true;
+                    $scope.notFound = false;
+                    $scope.notMatchingKeyWord= false;
+                    $scope.showAlert("WorkFlow For Text", 'success', response.data.CustomMessage);
+                }
+                
+            } else {
+                $scope.checkData = false;
+                $scope.notFound = false;
+                $scope.checkWorkFlowMatching = false;
+                $scope.notMatchingKeyWord= false;
+                $scope.showAlert("WorkFlow For Text", 'error', "Fail To config workFlow for text.");
+            }
 
-    //     "DateTime": "2017-10-26T12:54:15.913Z",
-    //     "Description": "1",
-    //     "DisplayName": "wf17",
-    //     "ID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTA2ZmNmYQ",
-    //     "Name": "kalanaduo_wf17",
-    //     "UserName": "kalana@duosoftware.com",
-    //     "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLWJjMDhiZg",
-    //     "comment": "1",
-    //     "version": "1"
-    // },
-    // {
-    //     "DateTime": "2017-10-06T04:24:56.611Z",
-    //     "Description": "1",
-    //     "DisplayName": "wf12",
-    //     "ID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTA2ZWQ1Nw",
-    //     "Name": "kalanaduo_wf12",
-    //     "UserName": "kalana@duosoftware.com",
-    //     "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTlmMjJiZg",
-    //     "comment": "1",
-    //     "version": "1"
-    // },
-    // {
-    //     "DateTime": "2017-11-17T05:52:32.337Z",
-    //     "Description": "18",
-    //     "DisplayName": "wf18",
-    //     "ID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTAyYmEzNw",
-    //     "Name": "kalanaduowf18",
-    //     "UserName": "kalana@duosoftware.com",
-    //     "WFID": "a2FsYW5hZHVvLmRldi5zbW9vdGhmbG93LmlvLTMwODIxYg",
-    //     "comment": "1",
-    //     "version": "1"
-    // }
-    // ];
+        }, function (error) {
+            $scope.checkData = false;
+            $scope.notFound = false;
+            $scope.checkWorkFlowMatching = false;
+            $scope.notMatchingKeyWord= false;
+            $scope.showAlert("WorkFlow For Text", 'error', "Fail To config workFlow for text.");
+        });
+    }
 
     $scope.getWorkflows = function () {
         setupAIService.GetWorkFlow().then(function (response) {
@@ -72,6 +77,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
             if (response.data !== 0) {
                 $scope.workFlowNames = response.data;
                 console.log($scope.workFlowNames);
+                
             } else {
                 $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
             }
