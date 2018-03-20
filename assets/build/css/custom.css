@@ -5934,7 +5934,9 @@ ul.notifications {
     margin: -6px 0 0;
 }
 
-
+.card-add {
+    background: #fafafa;
+}
 
 .card-add .collapsing {
     margin-top:20px;
@@ -6005,8 +6007,152 @@ ul.notifications {
     background-color: #ffffff;
     padding: 15px;
     border-radius: 8px;
+    overflow: hidden;
 }
 
 .card-tab--headering {
-    background-color: red;
+    background-color: ;
+}
+
+.card-tab .card-inner .nav-tabs {
+    background-color: #ffffff;
+    box-shadow: 0px 3px 5px 0 rgba(228, 230, 231, 1);
+    margin: 0px;
+    padding: 0px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+
+}
+
+.card-tab .nav-tabs li {
+    margin-bottom: -2px;
+}
+
+.card-tab .card-subcard .nav-tabs li {
+    margin-bottom: 0px;
+}
+.card-tab .nav-tabs li a:hover{
+    border-bottom: none !important;
+}
+
+.card-tab .nav-tabs > li.active > a, .card-tab .nav-tabs > li.active > a:focus, .card-tab .nav-tabs > li.active > a:hover {
+    color: #ffffff;
+    cursor: default;
+    background-color: #ee407d;
+    border: none !important;
+    border-bottom: none !important;
+}
+
+.card-tab .nav-tabs > li.active > a:after {
+    content: "";
+    height: 2px;
+    background-color: #ee407d;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.card-tab .nav-tabs li a:hover:after{
+    content: "";
+    height: 2px;
+    background-color: #ee407d;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.card-tab .nav-tabs li a {
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.card-tab--subcard {
+    padding: 15px;
+}
+
+.card-tab .card-inner .card-tab--subcard .nav-tabs {
+    box-shadow: none;
+    margin: 0 0 20px;
+}
+
+.card-tab .card-tab--subcard .nav-tabs > li.active > a, .card-tab .card-tab--subcard .nav-tabs > li.active > a:focus, .card-tab .card-tab--subcard .card-tab .nav-tabs > li.active > a:hover {
+    color: #ee407d;
+    background-color: transparent;
+}
+
+.edit-card-image {
+    margin: 0!important;
+    overflow: hidden;
+    height: 150px;
+    position: relative;
+}
+
+.card-tab--subcard-form {
+    padding: 15px;
+    border-radius: 8px;
+    background: #F2F4F8;
+    margin: 20px 0;
+    display: table;
+    width: 100%;
+}
+
+.edit-card-description {
+    margin: 10px 0;
+}
+
+.edit-card-image>center{
+    width: 100%;
+    height: 340px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.edit-card-image>center>img{
+    width: 100%;
+    height: auto!important;
+}
+
+.subcard-title {
+    border-bottom: 1px solid #E6E6E6;
+    padding: 10px;
+    margin: 0 0 20px
+}
+
+.btn-circle {
+    background-color: #FBDDEA;
+    color: #EE407D;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 2.4;
+    cursor: pointer;
+}
+
+.btn-circle:hover {
+    background-color: #EE407D;
+    color: #ffffff;
+}
+
+.card-tab--list ul{
+    padding:0;
+}
+
+.card-tab--list .btn-circle{
+    display: inline-block;
+}
+
+.card-tab--list ul li {
+    padding: 8px 15px;
+    line-height: 2.4;
+}
+
+.card-tab--list ul li:nth-of-type(odd) {
+    background-color: #F2F4F8;
+    border-radius: 5px; 
 }

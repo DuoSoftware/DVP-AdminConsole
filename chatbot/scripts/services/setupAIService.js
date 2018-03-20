@@ -3,8 +3,7 @@
  */
 
 'use strict';
-mainApp.factory("setupAIService", function ($http, $log, $filter, authService, baseUrls, $auth) 
-{
+mainApp.factory("setupAIService", function ($http, $log, $filter, authService, baseUrls, $auth) {
     var tenantID = $auth.getPayload().companyName;
     var getToken = $auth.getToken();
 
@@ -67,11 +66,28 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
 
     var getWorkFlow = function () {
         return $http({
-            method: 'GET',      
-            url: baseUrls.getworkflowAPIUrl + tenantID +".dev.smoothflow.io",
+            method: 'GET',
+            url: baseUrls.payapiUrl + "getWorkFlows/" + tenantID + ".smoothflow.io",
         }).then(function (response) {
             console.log(response.status);
             //debugger;
+            if (response.status === 200) {
+                return response;
+
+            } else {
+                return response;
+            }
+        });
+    };
+
+    var setWorkFlowForText = function (workflowfortext) {
+        return $http({
+            method: 'POST',
+            url: baseUrls.getworkflowfortextAPIUrl,
+            data: workflowfortext,
+        }).then(function (response) {
+            console.log(response);
+
             if (response.status === 200) {
                 return response;
 
@@ -86,6 +102,7 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
         UpdateSetupAI: updateSetupAI,
         DeleteSetupAI: deleteSetupAI,
         GetAllSetupAI: getAllSetupAI,
-        GetWorkFlow:getWorkFlow
+        GetWorkFlow: getWorkFlow,
+        SetWorkFlowForText: setWorkFlowForText
     }
 });

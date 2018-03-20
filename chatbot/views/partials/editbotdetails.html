@@ -79,9 +79,17 @@
                                             <h2 class="card-tab--subcard-title font-robot font-300 ">FaceBook Integrations</h2>
 
                                             <div class="card-tab--subcard-form">
-                                                <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                                <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
                                                     <label>Verification Token</label>
-                                                    <input type="text" class="form-control" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <input type="text" class=" form-control" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <input readonly type="text" class="col-md-6 form-control" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group">
                                                     <label>Page ID</label>
@@ -95,7 +103,7 @@
                                                     <label>App Secret</label>
                                                     <input type="text" class="form-control" ng-model="bot.channel_facebook.app_secret" placeholder="Facebook App Secret">
                                                 </div>
-                                                <div class="col-md-8 col-sm-6 col-xs-12 form-group">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
                                                     <label>Page Token</label>
                                                     <input type="text" class="form-control" ng-model="bot.channel_facebook.page_token" placeholder="Facebook Page Token">
                                                 </div>
