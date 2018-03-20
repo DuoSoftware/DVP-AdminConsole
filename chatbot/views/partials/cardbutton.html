@@ -1,13 +1,13 @@
 <div>
     <div ng-show="mode == 'view'">
-        <input type="button" value="{{button.title}}">
+        <input type="button" value="{{button.title}}" class="card-lable-new">
         <div class="edit-card--btn-circle edit-card--edit" ng-click="changeMode('edit')">
             <i class="fa fa-pencil"></i>
         </div>
     </div>
     <div ng-show="mode == 'new'">
-        <a class="font-robot font-300 " ng-click="newButton()">
-            <i class="fa fa-plus"></i> New skfjlskfksflksj
+        <a class="font-robot font-300 btn-small" ng-click="newButton()">
+            <i class="fa fa-plus"></i> New
         </a>
     </div>
     <div class="top40" ng-show="mode == 'edit'">

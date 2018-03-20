@@ -1,3 +1,7 @@
+.new-card .btn-small {
+    margin-top :0;
+}
+
 .card {
     background-color: #ffffff;
     padding: 15px;
@@ -14,6 +18,8 @@
     margin: 10px 0;
     position: relative;
     border-radius: 8px;
+    float: left;
+    width: 100%;
 }
 
 tags-input .tags{
@@ -80,4 +86,11 @@ tags-input .tags{
 .btn-small:hover {
     background-color: #EE407D;
     color: #ffffff;
+}
+
+.card-lable-new {
+    background: transparent;
+    border: none;
+    padding: 0;
+    line-height: 2.1;
 }

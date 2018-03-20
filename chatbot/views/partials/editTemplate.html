@@ -27,8 +27,8 @@
         </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12 edit-main-wrap" ng-show="editMode">
-            <div class="application-edit">
-                <div class="col-sm-12">
+            <div class="row application-edit">
+                <div class="application-edit--title col-sm-12">
                     <div class="col-sm-6">
                         <h2 class="font-robot font-300 text-uppercase font-15">Edit {{templateCategory}}: {{template.name}}</h2>
                     </div>
@@ -73,8 +73,8 @@
                                             <i class="fa fa-times"></i> <!--Remove {{templateCategory}}-->
                                         </a>
                                     </div>
-                                    <div class="card">
-                                        <a class="font-robot font-300 " ng-click="addNewCard(template)">
+                                    <div class="card new-card">
+                                        <a class="font-robot font-300 btn-small" ng-click="addNewCard(template)">
                                             <i class="fa fa-plus"></i> New {{templateCategory}}
                                         </a>
                                     </div>

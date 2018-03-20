@@ -2138,18 +2138,20 @@ ul > li.presentation > a {
 }
 
 .edit-close > i {
-    background: #f8b01d;
-    color: #fff;
-    border-radius: 50%;
-    width: 30px;
+    background-color: #FBDDEA;
+    color: #EE407D;
     height: 30px;
-    padding: 7px 5px 6px 9px;
-    font-size: 15px;
+    width: 30px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 2.4;
     cursor: pointer;
+    margin-right: -10px;
 }
 
 .edit-close > i:hover {
-    background: #2ba89c;
+    background-color: #EE407D;
+    color: #ffffff;
 }
 
 .edit-main-wrap {
@@ -2161,6 +2163,9 @@ ul > li.presentation > a {
     box-shadow: none;
 }
 
+.application-edit--title {
+    border-bottom: 1px solid #E6E6E6;
+}
 /*******
 .edit-main-wrap {
     background: #fff;

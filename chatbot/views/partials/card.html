@@ -18,8 +18,8 @@
         </div>
     </div>
 
-    <div ng-show="mode=='new'">
-        <a class="font-robot font-300 " ng-click="editCard()">
+    <div ng-show="mode=='new'" class="new-card">
+        <a class="font-robot font-300 btn-small" ng-click="editCard()">
             <i class="fa fa-plus"></i> New
         </a>
     </div>
@@ -38,6 +38,6 @@
             <i class="fa fa-plus"></i> New Button
         </a>
         <hr>
-        <input type="button" value="Done" ng-click="changeMode('view')" class="btn card-btn pull-right/>
+        <input type="button" value="Done" ng-click="changeMode('view')" class="btn card-btn pull-right"/>
     </div>
 </div>
