@@ -31,26 +31,35 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         setupAIService.SetWorkFlowForText(workflowfortext).then(function (response) {
             console.log(response);
             $scope.checkWorkFlowMatching = false;
-            if (response.data.Result !== 0) {
-                debugger;
+            console.log(response.status);
+            if (response.status == 200) {
                 $scope.testWorkForText = response.data;
                 console.log($scope.testWorkForText);
                 
-                if(response.data.CustomMessage=="No Matching Workflow"){
-                    debugger;
+                if(response.data.IsSuccess==false){
+                 
                     //ai coudn't found any matching work flow
                     $scope.checkWorkFlowMatching = false;
                     $scope.checkData = false;
                     $scope.notFound = true;
-                    $scope.notMatchingKeyWord= true;
+                    if(response.data.Result.aiResolution.entities.length !==0 ){
+                         $scope.notMatchingKeyWord= true;
+                        
+                    }
+                    else{
+                        $scope.notMatchingKeyWord= false;
+                       
+                    }
+                   
                     console.log('ai could not found any matching work flow');
                 }
                 else{
-                    debugger;
+                
                     $scope.checkWorkFlowMatching = false;
                     $scope.checkData = true;
                     $scope.notFound = false;
                     $scope.notMatchingKeyWord= false;
+                    
                     $scope.showAlert("WorkFlow For Text", 'success', response.data.CustomMessage);
                 }
                 
@@ -59,6 +68,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
                 $scope.notFound = false;
                 $scope.checkWorkFlowMatching = false;
                 $scope.notMatchingKeyWord= false;
+          
                 $scope.showAlert("WorkFlow For Text", 'error', "Fail To config workFlow for text.");
             }
 
@@ -110,7 +120,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         setupAIService.CreateSetupAI($scope.setupai).then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.showAlert("Setup AI", 'success', "Setup AI Created Successfully.");
-                $scope.reloadPage();
+                $scope.getAllSetupAi();
             } else {
                 $scope.showAlert("Setup AI", 'error', "Fail To Create Setup AI.");
             }
@@ -147,28 +157,6 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         });
     }
     $scope.getAllSetupAi();
-
-    // $scope.getAllworkflow = function () {
-    //     setupAIService.GetWorkFlow().then(function (response) {
-    //         if (response.data.IsSuccess) {
-    //             $scope.allworkflow= response.data.Result;
-    //             console.log($scope.allworkflow);
-    //         } else {
-    //             $scope.showAlert("Work Flow", 'error', "Fail To load work flow.");
-    //         }
-
-    //     }, function (error) {
-    //         $scope.showAlert("Work Flow", 'error', "Fail To load work flow.");
-    //     });  
-    // }
-    // $scope.getAllworkflow();
-
-    // for (var index = 0; index < array.length; index++) {
-    //     var element = array[index];
-
-    // }
-
-
 
     $scope.updateSetupai = function (setup) {
         console.log(setup);

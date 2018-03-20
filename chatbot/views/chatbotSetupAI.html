@@ -57,6 +57,15 @@
             
                                         <textarea required name="setTestWorkFlowForText.message" type="text" class="form-control" ng-model="testWorkFlowForText.message" placeholder="Check your sample sentences through our AI..."></textarea>
                                     </div>
+
+                                    <div style="padding: 6px;">
+                                        <span>Entity Analysis inspects the given text for known entities (proper nouns such as public figures, landmarks, etc.), and returns information about those entities</span>
+                                    </div>
+
+                                    <button type="submit" ng-disabled="setTestWorkFlowForText.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
+                                        Analyze
+                                    </button>  
+
                                     <div class="col-12 col-sm-6 col-md-12" ng-if="checkWorkFlowMatching == false">
                                         <div ng-show="notFound" style="padding: 6px;">
                                             <span style="color:red">{{testWorkForText.CustomMessage}}</span>
@@ -67,6 +76,8 @@
                                                 <tr>
                                                 <th scope="col">Matching Work Flow Name</th>
                                                 <th scope="col">Matching Key Words</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Salience(%)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -76,13 +87,24 @@
                                                         <span>{{test.name}}</span>
                                                     </div>
                                                 </td>
+                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                        <span>{{test.type}}</span>
+                                                    </div>
+                                                </td>
+                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                        <span>{{test.salience * 100}}</span>
+                                                    </div>
+                                                </td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> 
+
                                         <table class="table" ng-show="notMatchingKeyWord">
                                             <thead>
                                                 <tr>
                                                 <th scope="col">Non Matching Keywords Found</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Salience(%)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -91,13 +113,19 @@
                                                         <span>{{test.name}}</span>
                                                     </div>
                                                 </td>
+                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                        <span>{{test.type}}</span>
+                                                    </div>
+                                                </td>
+                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                        <span>{{test.salience * 100}} </span>
+                                                    </div>
+                                                </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <button type="submit" ng-disabled="setTestWorkFlowForText.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
-                                        Analyze
-                                    </button>  
+                                  
                                 </div> 
                             </form> 
                         </div>
