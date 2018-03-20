@@ -5963,6 +5963,9 @@ ul.notifications {
     float: right;
     
 }
+.card-add .card-btn {
+    margin-right: 0;
+}
 
 .card-btn {
     background: #EF3F7D !important;
@@ -5970,7 +5973,7 @@ ul.notifications {
     border-radius: 5px;
     text-align: center;
     text-transform: capitalize;
-    margin-right: 0px;
+    margin-right: 10px;
     width: auto;
 }
 
@@ -5996,4 +5999,14 @@ ul.notifications {
     padding: 15px;
     border-radius: 5px;
     margin: 15px 0;
+}
+
+.card-tab {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.card-tab--headering {
+    background-color: red;
 }
