@@ -9,7 +9,7 @@
                     <h2 class="font-robot font-300">Setup AI</h2>
                 </div>
 
-                 <div class="col-md-4 col-sm-12 col-xs-12 form-group top_search card-search">
+                <div class="col-md-4 col-sm-12 col-xs-12 form-group top_search card-search">
                     <div class="card-search--form">
                         <i class="fa fa-search"></i>
                         <div class="input-group">
@@ -26,6 +26,16 @@
                         <div class="collapse indent" id="addNewSetUp">
                             <form name="createSetupai" ng-submit="createSetupAI(setupAI)" class="form-horizontal form-label-left input_mask card-create-bot">
                                 <div class="row no-gutters">
+
+                                    <div class="col-12 col-sm-6 col-md-6 form-group">
+                                        <input type="text" class="form-control has-feedback-left" ng-model="setupAI.ruleName" placeholder="Rule Name">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 col-md-6 form-group">
+                                        <input type="text" class="form-control has-feedback-left" ng-model="setupAI.description" placeholder="Rule Description">
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
                                     <div class="col-12 col-sm-6 col-md-6 form-group">
                                         <label>If User Says Somthing Similar To:*</label>
                                         <tags-input class="form-control" name="createSetupai.events" ng-model="setupAI.events" required></tags-input>
@@ -33,8 +43,8 @@
 
                                     <div class="col-12 col-sm-6 col-md-6 form-group">
                                         <label>Work Flow Name*</label>
-                                        <select class="form-control" name="createSetupai.workFlowName" placeholder="Work Flow Name*" 
-                                        ng-model="setupAI.workFlowName" ng-options="x.Name as x.DisplayName for x in workFlowNames" required>
+                                        <select class="form-control" name="createSetupai.workFlowName" placeholder="Work Flow Name*" ng-model="setupAI.workFlowName"
+                                            ng-options="x.Name as x.DisplayName for x in workFlowNames" required>
                                         </select>
                                     </div>
 
@@ -49,22 +59,24 @@
                             <form name="setTestWorkFlowForText" ng-submit="getworkflowfortextAPIUrl(testWorkFlowForText)" class="form-horizontal form-label-left input_mask card-create-bot">
                                 <div class="row no-gutters">
                                     <div class="col-12 col-sm-6 col-md-12 form-group">
-                                  
+
                                         <label>Analyze Text</label>
                                         <button style="background-color:#fff; border:none;" ng-if="checkWorkFlowMatching == true">
-                                            <i  class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+                                            <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
                                         </button>
-            
-                                        <textarea required name="setTestWorkFlowForText.message" type="text" class="form-control" ng-model="testWorkFlowForText.message" placeholder="Check your sample sentences through our AI..."></textarea>
+
+                                        <textarea required name="setTestWorkFlowForText.message" type="text" class="form-control" ng-model="testWorkFlowForText.message"
+                                            placeholder="Check your sample sentences through our AI..."></textarea>
                                     </div>
 
                                     <div style="padding: 6px;">
-                                        <span>Entity Analysis inspects the given text for known entities (proper nouns such as public figures, landmarks, etc.), and returns information about those entities</span>
+                                        <span>Entity Analysis inspects the given text for known entities (proper nouns such as
+                                            public figures, landmarks, etc.), and returns information about those entities</span>
                                     </div>
 
                                     <button type="submit" ng-disabled="setTestWorkFlowForText.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
                                         Analyze
-                                    </button>  
+                                    </button>
 
                                     <div class="col-12 col-sm-6 col-md-12" ng-if="checkWorkFlowMatching == false">
                                         <div ng-show="notFound" style="padding: 6px;">
@@ -74,85 +86,91 @@
                                         <table class="table" ng-show="checkData">
                                             <thead>
                                                 <tr>
-                                                <th scope="col">Matching Work Flow Name</th>
-                                                <th scope="col">Matching Key Words</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Salience(%)</th>
+                                                    <th scope="col">Matching Work Flow Name</th>
+                                                    <th scope="col">Matching Key Words</th>
+                                                    <th scope="col">Type</th>
+                                                    <th scope="col">Salience(%)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                <td>{{testWorkForText.Result.flowName}}</td>
-                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                        <span>{{test.name}}</span>
-                                                    </div>
-                                                </td>
-                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                        <span>{{test.type}}</span>
-                                                    </div>
-                                                </td>
-                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                        <span>{{test.salience * 100}}</span>
-                                                    </div>
-                                                </td>
+                                                    <td>{{testWorkForText.Result.flowName}}</td>
+                                                    <td>
+                                                        <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                            <span>{{test.name}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                            <span>{{test.type}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                            <span>{{test.salience * 100}}</span>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
-                                        </table> 
+                                        </table>
 
                                         <table class="table" ng-show="notMatchingKeyWord">
                                             <thead>
                                                 <tr>
-                                                <th scope="col">Non Matching Keywords Found</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Salience(%)</th>
+                                                    <th scope="col">Non Matching Keywords Found</th>
+                                                    <th scope="col">Type</th>
+                                                    <th scope="col">Salience(%)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                        <span>{{test.name}}</span>
-                                                    </div>
-                                                </td>
-                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                        <span>{{test.type}}</span>
-                                                    </div>
-                                                </td>
-                                                <td> <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                        <span>{{test.salience * 100}} </span>
-                                                    </div>
-                                                </td>
+                                                    <td>
+                                                        <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                            <span>{{test.name}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                            <span>{{test.type}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
+                                                            <span>{{test.salience * 100}} </span>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                  
-                                </div> 
-                            </form> 
+
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
 
                 <script type="text/javascript">
                     var $myGroup = $('#card-add-group');
-                $myGroup.on('show.bs.collapse','.collapse', function() {
-                    $myGroup.find('.collapse.in').collapse('hide');
-                });
+                    $myGroup.on('show.bs.collapse', '.collapse', function () {
+                        $myGroup.find('.collapse.in').collapse('hide');
+                    });
                 </script>
-                
+
                 <div class="clearfix"></div>
             </div>
         </div>
         <!-- end -->
 
-        
+
 
         <!-- view Bot List and Edit -->
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria" style="border-bottom: 1px solid #efefef;" >
-                        <editsetupai setupai="setupai" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)"
-                            delete-setupai="deleteSetupai(setupai)" setupai-Types="TemplateTypes">
+                    <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria | orderBy:'-created_at'" style="border-bottom: 1px solid #efefef;">
+                        <editsetupai setupai="setupai" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)" delete-setupai="deleteSetupai(setupai)"
+                            setupai-Types="TemplateTypes">
                         </editsetupai>
                     </li>
                 </ul>

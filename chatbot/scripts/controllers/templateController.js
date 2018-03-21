@@ -169,9 +169,20 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
         $scope.templateList = [];
         category = category.replace(/ /g, "");
         templateService.GetAllTemplates(category).then(function (response) {
-            console.log(response);
+            //debugger
             if (response.data && response.data.IsSuccess) {
+                var prefix = "";
+                if(category == "Card"){
+                    prefix = "DBF_card_";
+                } else if(category == "Attachment"){
+                    prefix = "DBF_attachment_";
+                }else if(category == "QuickReply"){
+                    prefix = "DBF_quickreply_";
+                }else if(category == "ButtonList"){
+                    prefix = "DBF_button_";
+                }
                 angular.forEach(response.data.Result, function (item) {
+                    item.prefix = prefix + item._id;
                     $scope.templateList.push(item);
                 });
             } else {

@@ -112,6 +112,8 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         }
         $scope.setup.events = [];
         $scope.setupai = {};
+        $scope.setupai.ruleName = $scope.setup.ruleName;
+        $scope.setupai.description = $scope.setup.description;
         $scope.setupai.enable = $scope.setup.enable;
         $scope.setupai.workFlowName = $scope.setup.workFlowName;
         $scope.setupai.events = $scope.events;
