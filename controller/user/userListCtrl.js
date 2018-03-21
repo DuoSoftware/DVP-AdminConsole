@@ -4,7 +4,11 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService, resourceService) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService, resourceService, $rootScope) {
+
+    	$scope.runSIPUserSave = function () {
+			$rootScope.$broadcast('SIPUserUploadOn');
+		}
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -186,8 +190,24 @@
             });
         };
 
-        $scope.addNewUser = function () {
-            userProfileApiAccess.addUser($scope.newUser).then(function (data) {
+        $scope.addNewUser = function (isSIP, sipExt) {
+			/** Kasun_Wijeratne_21_MARCH_2018
+			 * This function has been modified to receive "isSIP" and "sipEct" parameters when creating a user with "Create SIP user" enabled.
+			 * isSIP = bool
+			 * siExt = SIP extension
+			 * --------------------------------------------------------------*/
+			if(isSIP) {
+				$scope.newUser.veeryaccount = {
+					"contact": sipExt+"@duo.media1.veery.cloud",
+					"display": sipExt,
+					"verified": true,
+					"type": "sip"
+				};
+			}
+			/**--------------------------------------------------------------
+			 * Kasun_Wijeratne_21_MARCH_2018 - ENDs
+			 */
+			userProfileApiAccess.addUser($scope.newUser).then(function (data) {
                 if (data.IsSuccess) {
 
                     //Map Resource To User
@@ -259,6 +279,11 @@
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
+
+		$scope.activeCreateUserTab = 0;
+        $scope.addNewSIPUser = function (direction) {
+			direction == 'up' ? $scope.activeCreateUserTab++ : $scope.activeCreateUserTab--;
+		}
 
         loadUsers();
         loadUserGroups();
@@ -570,7 +595,7 @@
         };
         $scope.hiddenNewGroupDIV = function () {
             $('#crateNewGroupWrapper').animate({
-                bottom: "-95"
+                bottom: "-200"
             }, 300);
         };
 

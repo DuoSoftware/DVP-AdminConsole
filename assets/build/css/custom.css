@@ -1853,6 +1853,9 @@ ul.msg_list li a .message {
 
 .dropdown-menu > li > a {
     color: #5A738E;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
     /*color: #fff;*/
 }
 
@@ -2477,8 +2480,12 @@ a.star {
 }
 
 .mail_list .right {
-    width: 90%;
+    width: 95%;
     float: left;
+}
+
+.mail_list h2 {
+    color: #000;
 }
 
 .mail_list h3 {
