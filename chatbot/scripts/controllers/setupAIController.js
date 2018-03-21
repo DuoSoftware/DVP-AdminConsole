@@ -98,6 +98,13 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     }
     $scope.getWorkflows();
 
+    $scope.checkTextForEnter = function(event){
+        if (event.which === 13){
+            $scope.getworkflowfortextAPIUrl($scope.testWorkFlowForText);
+            event.preventdefault();
+        }
+    }
+
     $scope.createSetupAI = function (setup) {
 
         console.log(setup);

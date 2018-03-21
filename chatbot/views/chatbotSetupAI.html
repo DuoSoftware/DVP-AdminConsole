@@ -66,12 +66,14 @@
                                         </button>
 
                                         <textarea required name="setTestWorkFlowForText.message" type="text" class="form-control" ng-model="testWorkFlowForText.message"
-                                            placeholder="Check your sample sentences through our AI..."></textarea>
+                                            placeholder="Check your sample sentences through our AI..." ng-keypress="checkTextForEnter($event)"></textarea>
                                     </div>
 
                                     <div style="padding: 6px;">
-                                        <span>Entity Analysis inspects the given text for known entities (proper nouns such as
-                                            public figures, landmarks, etc.), and returns information about those entities</span>
+                                        <span>
+                                            <span style="color:red">Note:- </span>Entity Analysis inspects the given text for known entities (proper
+                                            nouns such as public figures, landmarks, etc.), and returns information about
+                                            those entities</span>
                                     </div>
 
                                     <button type="submit" ng-disabled="setTestWorkFlowForText.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
