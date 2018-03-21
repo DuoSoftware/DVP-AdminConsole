@@ -346,8 +346,8 @@
                 <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
                     <p>
-                        <input type="text" ng-readonly="true" ng-model="'DBF_card_'+template._id" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                        <input type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template._id)">
                     </p>
                 </div>
             </div>
@@ -366,8 +366,8 @@
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
                     <p>
-                        <input type="text" ng-readonly="true" ng-model="'DBF_attachment_'+template._id" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                        <input type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template._id)">
                     </p>
                 </div>
             </div>
@@ -386,8 +386,8 @@
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
                     <p>
-                        <input type="text" ng-readonly="true" ng-model="'DBF_quickreply_'+template._id" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                        <input type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template._id)">
                     </p>
                 </div>
             </div>
@@ -406,8 +406,8 @@
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
                     <p>
-                        <input type="text" ng-readonly="true" ng-model="'DBF_button_'+template._id" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="copyCardID(template._id)">
+                        <input type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template._id)">
                     </p>
                 </div>
             </div>

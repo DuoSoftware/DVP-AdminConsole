@@ -61,15 +61,21 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
                 scope.template.items.push(scope.getTemplateItemObject(scope.templateCategory));
             }
 
-            scope.copyCardID = function (cardID) {
+            scope.copyTemplateID = function (cardID) {
+                debugger
                 var id = cardID;
-                window.getSelection().empty();
-                var copyField = document.getElementById(id);
-                var range = document.createRange();
-                range.selectNode(copyField);
-                window.getSelection().addRange(range);
-                document.execCommand('copy');
-                scope.showAlert("Card ID", 'Card ID copied to clipboard.', "success");
+
+                var copyText = document.getElementById(id);
+                copyText.select();
+                document.execCommand("Copy");
+
+                // window.getSelection().empty();
+                // var copyField = document.getElementById(id);
+                // var range = document.createRange();
+                // range.selectNode(copyField);
+                // window.getSelection().addRange(range);
+                // document.execCommand('copy');
+                scope.showAlert("Template ID", 'Template ID copied to clipboard.', "success");
             }
 
             scope.removeTemplate = function (item) {
