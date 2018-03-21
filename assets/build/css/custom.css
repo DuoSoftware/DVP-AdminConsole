@@ -6005,7 +6005,6 @@ ul.notifications {
 
 .card-tab {
     background-color: #ffffff;
-    padding: 15px;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -6155,4 +6154,18 @@ ul.notifications {
 .card-tab--list ul li:nth-of-type(odd) {
     background-color: #F2F4F8;
     border-radius: 5px; 
+}
+
+.copy-form .card-btn {
+    background-color: #FBDDEA !important;
+    color: #EE407D;
+    border-radius: 0 15px 15px 0;
+    margin: 0 0 0 2px;
+}
+
+.copy-form .form-control{
+    width: calc(100% - 60px) !important;
+    float: left;
+    max-width: 450px;
+    border-radius: 5px 0 0 5px !important;
 }

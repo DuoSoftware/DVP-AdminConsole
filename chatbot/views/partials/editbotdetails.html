@@ -25,10 +25,10 @@
                 </div>
                 <div class="col-md-12 col-sm-3 col-xs-12 form-group " ng-show="!editMode">
                     <label class="form-control-static">Bot ID</label>
-                    <p>
-                        <input type="text" ng-readonly="true" ng-model="bot._id" id="{{bot._id}}">
-                        <input type="button" value="Copy" ng-click="copyBotID(bot._id)">
-                    </p>
+                    <div class="copy-form">
+                        <input type="text" ng-readonly="true" ng-model="bot._id" id="{{bot._id}}" class="form-control">
+                        <input type="button" value="Copy" ng-click="copyBotID(bot._id)" class="btn card-btn btn-copy">
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,13 +50,11 @@
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
                                 <label>Bot Name</label>
-                                <input type="text" class="form-control has-feedback-left" ng-model="bot.name" placeholder="Bot Name">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <input type="text" class="form-control" ng-model="bot.name" placeholder="Bot Name">
                             </div>
-                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="margin-bottom: 15px;">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="margin-bottom: 15px;">
                                 <label>Description</label>
-                                <input type="text" class="form-control has-feedback-left" ng-model="bot.description" placeholder="Description">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <input type="text" class="form-control" ng-model="bot.description" placeholder="Description">
                             </div>
                             <div class="row no-gutters">
                                 <div class="col-6 col-md-8"></div>
@@ -79,33 +77,49 @@
                                             <h2 class="card-tab--subcard-title font-robot font-300 ">FaceBook Integrations</h2>
 
                                             <div class="card-tab--subcard-form">
-                                                <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
+                                                <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                                     <label>Verification Token</label>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <input type="text" class=" form-control" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <input readonly type="text" class="col-md-6 form-control" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
-                                                        </div>
+                                                    <div class="copy-form">
+                                                        <input readonly type="text" class="col-md-6 form-control" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
+                                                        <input type="button" value="Copy" ng-click="" class="btn card-btn btn-copy">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group">
                                                     <label>Page ID</label>
-                                                    <input type="text" class="form-control" ng-model="bot.channel_facebook.page_id" placeholder="Facebook Page ID">
+                                                    <div class="copy-form">
+                                                        <input type="text" class="form-control" ng-model="bot.channel_facebook.page_id" placeholder="Facebook Page ID">
+                                                        <button type="button" ng-click="" class="btn card-btn btn-copy">
+                                                            <i class="fa fa-question"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group">
                                                     <label>App ID</label>
-                                                    <input type="text" class="form-control" ng-model="bot.channel_facebook.app_id" placeholder="Facebook App ID">
+                                                    <div class="copy-form">
+                                                        <input type="text" class="form-control" ng-model="bot.channel_facebook.app_id" placeholder="Facebook App ID">
+                                                        <button type="button" ng-click="" class="btn card-btn btn-copy">
+                                                            <i class="fa fa-question"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group">
                                                     <label>App Secret</label>
-                                                    <input type="text" class="form-control" ng-model="bot.channel_facebook.app_secret" placeholder="Facebook App Secret">
+                                                    <div class="copy-form">
+                                                        <input type="text" class="form-control" ng-model="bot.channel_facebook.app_id" placeholder="Facebook App ID">
+                                                        <button type="button" ng-click="" class="btn card-btn btn-copy">
+                                                            <i class="fa fa-question"></i>
+                                                        </button>
+                                                    </div>
+
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                                <div class="col-md-4 col-sm-6 col-xs-12 form-group">
                                                     <label>Page Token</label>
-                                                    <input type="text" class="form-control" ng-model="bot.channel_facebook.page_token" placeholder="Facebook Page Token">
+                                                    <div class="copy-form">
+                                                        <input type="text" class="form-control" ng-model="bot.channel_facebook.page_token" placeholder="Facebook Page Token">
+                                                        <button type="button" ng-click="" class="btn card-btn btn-copy">
+                                                            <i class="fa fa-question"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card-tab--subcard-form">
