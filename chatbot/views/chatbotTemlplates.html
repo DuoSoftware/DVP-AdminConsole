@@ -144,7 +144,7 @@
             <!-- view application users -->
             <div class="x_content">
                 <ul class="list-unstyled timeline">
-                    <li ng-repeat="template in templateList | filterBy: ['name']: searchCriteria">
+                    <li ng-repeat="template in templateList | filterBy: ['name']: searchCriteria | orderBy:'-created_at'">
                         <edittemplate template="template" template-category="TemplateCategory" update-template="updateTemplate(template,TemplateCategory)"
                             delete-template="deleteTemplate(template,TemplateCategory)" template-types="TemplateTypes" template-content-types="TemplateContentTypes"></edittemplate>
                     </li>

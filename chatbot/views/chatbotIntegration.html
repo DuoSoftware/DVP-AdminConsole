@@ -194,7 +194,7 @@
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="template in allintegration | filterBy: ['name']: searchCriteria" style="border-bottom: 1px solid #efefef;" >
+                    <li ng-repeat="template in allintegration | filterBy: ['name']: searchCriteria | orderBy:'-created_at'" style="border-bottom: 1px solid #efefef;" >
                         <!-- <editachatbot bot="bot" update-application="deleteIntegration(bot)" reloadpage="reloadPage()">
                         </editachatbot> -->
                         <editintegration template="template" template-type="TemplateCategory" update-integration="updateIntegration(template)"

@@ -150,7 +150,7 @@
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria" style="border-bottom: 1px solid #efefef;" >
+                    <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria | orderBy:'-created_at'" style="border-bottom: 1px solid #efefef;" >
                         <editsetupai setupai="setupai" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)"
                             delete-setupai="deleteSetupai(setupai)" setupai-Types="TemplateTypes">
                         </editsetupai>
