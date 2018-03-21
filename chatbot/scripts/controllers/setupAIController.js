@@ -1,4 +1,4 @@
-mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $state, setupAIService) {
+mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $state, setupAIService, $auth) {
     $anchorScroll();
 
     console.log("Setup AI controller is up!");
@@ -7,7 +7,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     $scope.checkData = false;
     $scope.notFound = false;
     $scope.checkWorkFlowMatching = false;
-    $scope.notMatchingKeyWord= false;
+    $scope.notMatchingKeyWord = false;
 
     $scope.setupAI = {
         "workFlowName": "",
@@ -16,16 +16,18 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     };
 
     $scope.createNewAutomation = function () {
-        var url = "https://smoothflow.io/app/";
+        debugger
+        var profile = $auth.getPayload();
+        var url = "https://" + profile.companyName + ".smoothflow.io/app/";
         var win = window.open(url, '_blank');
         win.focus();
     }
 
     $scope.testWorkFlowForText = {
-        "message":""
+        "message": ""
     }
 
-    $scope.getworkflowfortextAPIUrl = function(workflowfortext){
+    $scope.getworkflowfortextAPIUrl = function (workflowfortext) {
         console.log(workflowfortext);
         $scope.checkWorkFlowMatching = true;
         setupAIService.SetWorkFlowForText(workflowfortext).then(function (response) {
@@ -35,40 +37,40 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
             if (response.status == 200) {
                 $scope.testWorkForText = response.data;
                 console.log($scope.testWorkForText);
-                
-                if(response.data.IsSuccess==false){
-                 
+
+                if (response.data.IsSuccess == false) {
+
                     //ai coudn't found any matching work flow
                     $scope.checkWorkFlowMatching = false;
                     $scope.checkData = false;
                     $scope.notFound = true;
-                    if(response.data.Result.aiResolution.entities.length !==0 ){
-                         $scope.notMatchingKeyWord= true;
-                        
+                    if (response.data.Result.aiResolution.entities.length !== 0) {
+                        $scope.notMatchingKeyWord = true;
+
                     }
-                    else{
-                        $scope.notMatchingKeyWord= false;
-                       
+                    else {
+                        $scope.notMatchingKeyWord = false;
+
                     }
-                   
+
                     console.log('ai could not found any matching work flow');
                 }
-                else{
-                
+                else {
+
                     $scope.checkWorkFlowMatching = false;
                     $scope.checkData = true;
                     $scope.notFound = false;
-                    $scope.notMatchingKeyWord= false;
-                    
+                    $scope.notMatchingKeyWord = false;
+
                     $scope.showAlert("WorkFlow For Text", 'success', response.data.CustomMessage);
                 }
-                
+
             } else {
                 $scope.checkData = false;
                 $scope.notFound = false;
                 $scope.checkWorkFlowMatching = false;
-                $scope.notMatchingKeyWord= false;
-          
+                $scope.notMatchingKeyWord = false;
+
                 $scope.showAlert("WorkFlow For Text", 'error', "Fail To config workFlow for text.");
             }
 
@@ -76,7 +78,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
             $scope.checkData = false;
             $scope.notFound = false;
             $scope.checkWorkFlowMatching = false;
-            $scope.notMatchingKeyWord= false;
+            $scope.notMatchingKeyWord = false;
             $scope.showAlert("WorkFlow For Text", 'error', "Fail To config workFlow for text.");
         });
     }
@@ -87,7 +89,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
             if (response.data !== 0) {
                 $scope.workFlowNames = response.data;
                 console.log($scope.workFlowNames);
-                
+
             } else {
                 $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
             }
@@ -98,8 +100,8 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     }
     $scope.getWorkflows();
 
-    $scope.checkTextForEnter = function(event){
-        if (event.which === 13){
+    $scope.checkTextForEnter = function (event) {
+        if (event.which === 13) {
             $scope.getworkflowfortextAPIUrl($scope.testWorkFlowForText);
             event.preventdefault();
         }
