@@ -23,26 +23,37 @@
                 <div class="card-add">
                     <button type="button" class="btn card-title--btn-add card-btn" ng-click="showNewCardForm=true" data-toggle="collapse" data-target="#addNewBotCollapse"  ng-hide="showNewCardForm" >Add New
                     </button>
-
-                    <div data-toggle="collapse" data-target="#addNewBotCollapse"  ng-click="showNewCardForm=false" class="btn card-title--btn-add card-btn card-btn-close"><i class="fa fa-times"></i></div>
-                        
                     <div id="addNewBotCollapse" ng-show="showNewCardForm" class="collapse">
-                        
-                        <form class="form-horizontal form-label-left input_mask card-create-bot">
-                            <div class="row no-gutters">
-                                <div class="col-12 col-sm-6 col-md-6 form-group">
-                                    <input type="text" class="form-control" ng-model="newBot.name" placeholder="Bot Name">
-                                </div>
 
-                                <div class="col-12 col-sm-6 col-md-6 form-group">
-                                    <input type="text" class="form-control" ng-model="newBot.description" placeholder="Bot Description">
+                        <div class="subcard">
+                            <div class="col-sm-12 subcard-title ">
+                                <div class="col-sm-6">
+                                    <h2 class="font-robot font-300 font-15">Create New Bot</h2>
                                 </div>
-
-                                <button type="button" class="btn btn-success btn-block card-btn btn-add-bot pull-right padding-right10" ng-click="CreateNewBot(newBot)">
-                                    Add Bot
-                                </button>
+                                <div class="col-sm-6">
+                                    <div data-toggle="collapse" data-target="#addNewBotCollapse"  ng-click="showNewCardForm=false" class="btn-circle pull-right">
+                                        <i class="fa fa-times"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
+
+                            
+                            <form class="form-horizontal form-label-left input_mask card-create-bot">
+                                <div class="row no-gutters">
+                                    <div class="col-12 col-sm-6 col-md-6 form-group">
+                                        <input type="text" class="form-control" ng-model="newBot.name" placeholder="Bot Name">
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 col-md-6 form-group">
+                                        <input type="text" class="form-control" ng-model="newBot.description" placeholder="Bot Description">
+                                    </div>
+
+                                    <button type="button" class="btn btn-success btn-block card-btn btn-add-bot pull-right padding-right10" ng-click="CreateNewBot(newBot)">
+                                        Add Bot
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="clearfix"></div>

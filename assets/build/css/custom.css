@@ -6140,6 +6140,13 @@ ul.notifications {
     right: 0;
 }
 
+.subcard {
+    background: #F2F4F8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
 .subcard-title {
     border-bottom: 1px solid #E6E6E6;
     padding: 10px;
