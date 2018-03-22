@@ -43,7 +43,7 @@
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <div class="col-12 col-md-6 form-group has-feedback">
-                                    <select class="form-control width-100 has-feedback-left" ng-model="integrate.method" placeholder="Method*" >
+                                    <select class="form-control width-100 has-feedback-left" ng-model="integrate.method" placeholder="Method*" ng-change="setbody(integration.method)">
                                         <option value="" selected disabled>Method*</option>
                                         <option value="POST" ng-value="POST">POST</option>
                                         <option value="GET" ng-value="GET"> GET</option>
@@ -55,6 +55,7 @@
                                 <div class="col-12 col-md-6 has-feedback">
                                     <input type="text" class="form-control width-100 has-feedback-left" ng-model="integrate.url" placeholder="Url*">
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
                                 </div>
                             </div>
                      
@@ -77,16 +78,17 @@
                                     <div class="col-sm-5"><input type="text" class="form-control" ng-model='field.key' placeholder="key"></div>
                                     <div class="col-sm-6"><input type="text" class="form-control" ng-model='field.value' placeholder="value"></div> 
                                     <div class="col-sm-1"><h3 ng-hide="$index==0"><small ng-click='deleteHeader($index)' style='cursor: pointer'><i class='fa fa-trash-o'></i></small></h3> </div>
-                                    
+            
                                     </div>
                                     <div class="col-sm-4" style="padding-bottom: 10px;"><button class="btn btn-default" type="button" ng-click="addCheckHeaders()">Add</button></div>    
                                 </div> 
                             </div>
                             <div class="row no-gutters">
-                                <h3 style="margin: 0px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;">Body</h3>
+                                <h3 style="margin: 0px 11px 4px;color: #000;font-size: 14px; border-bottom: 1px solid #fbfbfb;" ng-disabled="bodyDisabled">Body</h3>
                                 <div class="col-12 col-md-6 form-group">
                                     <textarea ng-model="integrate.body" class="form-control width-100" style="height:150px"></textarea>
                                 </div>
+                                <div ng-show="errorMsg"><span style="color:red; font-size:12px;" >Enter valid json</span></div>
                             </div>
 
                             <div class="row no-gutters">

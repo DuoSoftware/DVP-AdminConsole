@@ -103,24 +103,49 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
 
         },
 
-        controller: function($scope, $state) { 
+        controller: function($scope, $state, botintegrationService, $window) { 
+
+                $scope.bodyDisabled= false; 
+                $scope.errorMsg = false;
 
                 $scope.closeTemplate = function () {
                     $scope.editMode = false;
-                    $scope.reloadPage();
+                    // $scope.getAllIntegrations();
+                    $state.reload();
                 };
 
+                $scope.getAllIntegrations = function () {
+                    botintegrationService.GetAllIntegrations().then(function (response) {
+                        if (response.data.IsSuccess) {
+                            $scope.allintegration = response.data.Result;
+                            console.log($scope.allintegration);
+                        } else {
+                            $scope.showAlert("Integration", 'error', "Fail To load integration.");
+                        }
 
-                $scope.reloadPage = function () {
-                        $state.reload();
-                };
+                    }, function (error) {
+                        $scope.showAlert("Integration", 'error', "Fail To load integration.");
+                    });  
+                }
+                $scope.getAllIntegrations();
 
-                $scope.editTemplate = function (template) {
-                  
+                $scope.setbody = function(type){
+                    if(type === "POST"){
+                        $scope.bodyDisabled = false; 
+                    }
+                    else{
+                        $scope.bodyDisabled = true; 
+                        $scope.integration.body = "";
+                    }
+                }
+             
+
+                $scope.editTemplate = function (temp) {
+                    $scope.integrate = {};
+                    console.log(temp);
                     $scope.editMode = true;
-                    console.log(template);
-                    $scope.integrate = template;
-   
+                    $scope.integrate= temp;
+                    console.log($scope.integrate);
                     $scope.integrate.body = JSON.stringify($scope.integrate.body);
                     console.log($scope.integrate.body);
 
@@ -145,7 +170,7 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
                         $scope.integrate.url_params = [{key:"",value:""}];
                     }
                     else{
-                        // var obj = {binara: 'jkshdjkfhasdf',prasad: '123131231'};
+                       
                         console.log($scope.integrate.url_params);
                         var yy = Object.keys($scope.integrate.url_params);
                         var arry = yy.map(function(y) {
@@ -222,22 +247,22 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
 
                 function addCheckHeaders(){
             
-                    $scope.template.headers.push({});
+                    $scope.integrate.headers.push({});
                 }
 
                 function addErrorCheckFields(){
                 
-                    $scope.template.response.error.check_fields.push({});
+                    $scope.integrate.response.error.check_fields.push({});
                 }
 
                 function addUrlParams(){
         
-                    $scope.template.url_params.push({});
+                    $scope.integrate.url_params.push({});
                 }
 
                 function addSuccessCheckFields(){
 
-                    $scope.template.response.success.check_fields.push({});
+                    $scope.integrate.response.success.check_fields.push({});
                 }
         }
 
