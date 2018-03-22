@@ -110,8 +110,8 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
 
                 $scope.closeTemplate = function () {
                     $scope.editMode = false;
-                    // $scope.getAllIntegrations();
-                    $state.reload();
+                    //$scope.getAllIntegrations();
+                    //$state.reload();
                 };
 
                 $scope.getAllIntegrations = function () {
