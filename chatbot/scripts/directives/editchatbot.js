@@ -1,7 +1,7 @@
 /**
  * Created by lakmini on 26/01/2018.
  */
-mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService, botappconfigService, whitelistconfigService) {
+mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService, botappconfigService, whitelistconfigService, $auth, baseUrls) {
 
     return {
         restrict: "EAA",
@@ -34,6 +34,13 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 scope.showAlert("Bot ID", 'Bot ID copied to clipboard.', "success");
             }
 
+            scope.generateCallBackURL = function (botid) {
+                debugger
+                var companyDetails = $auth.getPayload();
+                var URL = baseUrls.botFrameworkFacebookConnector + "/DBF/API/1.0.0.0/tenant/" + companyDetails.tenant + "/company/" + companyDetails.company + "/bot/" + botid;
+                scope.generatedCallbackURL = URL;
+            }
+
             scope.editbotdetails = function () {
                 $(".sortable").sortable({
 
@@ -52,6 +59,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                     }
                 });
                 $(".sortable").disableSelection();
+                scope.generateCallBackURL(scope.bot._id);
                 scope.getallBotApps(scope.bot._id);
                 scope.getwhitelisturl(scope.bot._id);
                 scope.editMode = !scope.editMode;

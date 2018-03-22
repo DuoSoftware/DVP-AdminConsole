@@ -71,7 +71,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <uib-tabset class="card-tab" active="0">
                             <uib-tabset class="card-inner" active="0">
-                                <uib-tab  class="card-tab--headering" index="0" heading="Integrations">
+                                <uib-tab class="card-tab--headering" index="0" heading="Integrations">
                                     <uib-tabset class="card-tab--subcard" active="0">
                                         <uib-tab index="0" heading="Facebook">
                                             <h2 class="card-tab--subcard-title font-robot font-300 ">FaceBook Integrations</h2>
@@ -81,6 +81,13 @@
                                                     <label>Verification Token</label>
                                                     <div class="copy-form">
                                                         <input readonly type="text" class="col-md-6 form-control" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
+                                                        <input type="button" value="Copy" ng-click="" class="btn card-btn btn-copy">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                                    <label>Callback URL</label>
+                                                    <div class="copy-form">
+                                                        <input readonly type="text" class="col-md-6 form-control" ng-model="generatedCallbackURL" placeholder="Facebook Callback URL">
                                                         <input type="button" value="Copy" ng-click="" class="btn card-btn btn-copy">
                                                     </div>
                                                 </div>
@@ -123,31 +130,31 @@
                                                 </div>
                                             </div>
                                             <div class="card-tab--subcard-form">
-                                                        <h4 class="subcard-title ">White List</h4>
-                                                        <div>
-                                                            <form name="Whitelist">
-                                                                <!-- <div class="col-md-9"> -->
-                                                                <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
-                                                                    <!-- <label>Url</label> -->
-                                                                    <input type="text" class="form-control has-feedback-left" name="url" ng-pattern="/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/"
-                                                                        ng-model="url" placeholder="White-List Url" required>
-                                                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                                                </div>
-                                                                <!-- </div> -->
-                                                                <div class="col-md-3 ">
-                                                                    <button type="button" class="btn card-btn" ng-disabled="Whitelist.url.$invalid" ng-click="addnewurl(url)">
-                                                                        Add List
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                            <ul class="list-group">
-                                                                <li class="list-group-item" style="background-color: #efefef;" ng-repeat="url in urllist">{{url}}
-                                                                    <small ng-disabled="true" ng-click="deleteurl(url)" style="cursor: pointer;font-size: 21px;float: right;">
-                                                                        <i class="fa fa-trash-o"></i>
-                                                                    </small>
+                                                <h4 class="subcard-title ">White List</h4>
+                                                <div>
+                                                    <form name="Whitelist">
+                                                        <!-- <div class="col-md-9"> -->
+                                                        <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
+                                                            <!-- <label>Url</label> -->
+                                                            <input type="text" class="form-control has-feedback-left" name="url" ng-pattern="/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/"
+                                                                ng-model="url" placeholder="White-List Url" required>
+                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <!-- </div> -->
+                                                        <div class="col-md-3 ">
+                                                            <button type="button" class="btn card-btn" ng-disabled="Whitelist.url.$invalid" ng-click="addnewurl(url)">
+                                                                Add List
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item" style="background-color: #efefef;" ng-repeat="url in urllist">{{url}}
+                                                            <small ng-disabled="true" ng-click="deleteurl(url)" style="cursor: pointer;font-size: 21px;float: right;">
+                                                                <i class="fa fa-trash-o"></i>
+                                                            </small>
 
-                                                                </li>
-                                                                <!-- <li class="list-group-item">Deleted
+                                                        </li>
+                                                        <!-- <li class="list-group-item">Deleted
                                                                     <small ng-disabled="true" ng-click="" style="cursor: pointer;font-size: 21px;float: right;">
                                                                         <i class="fa fa-trash-o"></i>
                                                                     </small>
@@ -157,9 +164,9 @@
                                                                         <i class="fa fa-trash-o"></i>
                                                                     </small>
                                                                 </li> -->
-                                                            </ul>
-                                                        </div>
-                                                    </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                             <!-- <div class="row no-gutters">
                                                     <div class="col-6 col-md-8 form-group has-feedback">
                                                         <label>Page Token</label>
@@ -251,9 +258,9 @@
                                                                         </div>
 
                                                                         <div class="col-md-12 form-group">
-                                                                                <label>Client Access Token</label>
-                                                                                <input type="text" class="form-control" ng-model="selectedBot.config.CLIENT_ACCESS_TOKEN" placeholder="Client Access Token">
-                                                                            </div>
+                                                                            <label>Client Access Token</label>
+                                                                            <input type="text" class="form-control" ng-model="selectedBot.config.CLIENT_ACCESS_TOKEN" placeholder="Client Access Token">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div ng-if="selectedBot.app=='smoothflow'">
@@ -264,7 +271,7 @@
                                                                             </div>
                                                                             <div class="col-md-3 ">
                                                                                 <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
-                                                                                        Update
+                                                                                    Update
                                                                                 </button>
                                                                             </div>
                                                                         </div>
@@ -283,15 +290,15 @@
                                                                             </div>
                                                                             <div class="col-md-3 ">
                                                                                 <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
-                                                                                        Update
+                                                                                    Update
                                                                                 </button>
                                                                             </div>
                                                                         </div>
 
                                                                         <div class="col-md-12 form-group">
-                                                                            
-                                                                                <label>Inputs</label>
-                                                                                <input type="text" class="form-control has-feedback-left" placeholder="Inputs">
+
+                                                                            <label>Inputs</label>
+                                                                            <input type="text" class="form-control has-feedback-left" placeholder="Inputs">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -309,7 +316,7 @@
 
                                     </div>
 
-                                    
+
                                 </uib-tab>
                                 <!-- <uib-tab index="2" heading="White-list">
 

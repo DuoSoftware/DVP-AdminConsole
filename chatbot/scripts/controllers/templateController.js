@@ -10,7 +10,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
             case "card": {
                 returnTypes = [
                     { "Key": "Select Type", "Value": "select" },
-                    { "Key": "Generic", "Value": "generic" },
+                    { "Key": "Carousel", "Value": "generic" },
                     { "Key": "List", "Value": "list" }
                 ];
                 returnContentTypes = [
