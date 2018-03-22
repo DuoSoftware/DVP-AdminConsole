@@ -5983,6 +5983,13 @@ ul.notifications {
     background-color: #000000 !important;
     color:#ffffff;
 }
+
+.card-btn-close {
+    border-radius: 50%;
+    position: relative;
+    top:-65PX;
+    right: 15px;
+}
 .btn {
     padding: 8px 20px;
 }
