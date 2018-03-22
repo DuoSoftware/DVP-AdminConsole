@@ -20,12 +20,17 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
             scope.copyBotID = function (cardID) {
                 var id = cardID;
-                window.getSelection().empty();
-                var copyField = document.getElementById(id);
-                var range = document.createRange();
-                range.selectNode(copyField);
-                window.getSelection().addRange(range);
-                document.execCommand('copy');
+
+                var copyText = document.getElementById(id);
+                copyText.select();
+                document.execCommand("Copy");
+
+                // window.getSelection().empty();
+                // var copyField = document.getElementById(id);
+                // var range = document.createRange();
+                // range.selectNode(copyField);
+                // window.getSelection().addRange(range);
+                // document.execCommand('copy');
                 scope.showAlert("Bot ID", 'Bot ID copied to clipboard.', "success");
             }
 
