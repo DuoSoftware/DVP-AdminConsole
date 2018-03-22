@@ -11,7 +11,7 @@
         </div>
         <div class="edit-card-description">{{card.sub_title}}</div>
 
-        <input type="button" ng-repeat="button in card.buttons" value="{{button.title}}" />
+        <input type="button" ng-repeat="button in card.buttons" value="{{button.title}}" class="btn-small" />
         <!--<input type="button" value="Edit" >-->
         <div class="edit-card--btn-circle edit-card--edit" ng-click="changeMode('edit')">
             <i class="fa fa-pencil"></i>

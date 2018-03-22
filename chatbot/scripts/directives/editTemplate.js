@@ -61,7 +61,7 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
                 scope.template.items.push(scope.getTemplateItemObject(scope.templateCategory));
             }
 
-            scope.copyTemplateID = function (cardID) {
+            scope.copyTemplateID = function (cardID, type) {
                 debugger
                 var id = cardID;
 
@@ -75,7 +75,7 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
                 // range.selectNode(copyField);
                 // window.getSelection().addRange(range);
                 // document.execCommand('copy');
-                scope.showAlert("Template ID", 'Template ID copied to clipboard.', "success");
+                scope.showAlert(type, type + ' ID was successfully copied into the Clipboard.', "success");
             }
 
             scope.removeTemplate = function (item) {
