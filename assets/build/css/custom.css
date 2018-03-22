@@ -5939,6 +5939,8 @@ ul.notifications {
 .card-title--btn-add {
     float: right;
     margin: -6px 0 0;
+    z-index: 1;
+    position: relative;
 }
 
 .card-add {
@@ -5993,10 +5995,12 @@ ul.notifications {
 
 .card-btn-close {
     border-radius: 50%;
-    position: relative;
-    top:-65PX;
+    position: absolute;
+    top: 20px;
     right: 15px;
+    z-index: 0;
 }
+
 .btn {
     padding: 8px 20px;
 }
