@@ -35,7 +35,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             }
 
             scope.generateCallBackURL = function (botid) {
-                debugger
+                //debugger
                 var companyDetails = $auth.getPayload();
                 var URL = baseUrls.botFrameworkFacebookConnector + "/DBF/API/1.0.0.0/tenant/" + companyDetails.tenant + "/company/" + companyDetails.company + "/bot/" + botid;
                 scope.generatedCallbackURL = URL;
@@ -65,7 +65,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 scope.editMode = !scope.editMode;
             };
             scope.editbotappdetails = function (botapp) {
-                debugger
+                //debugger
                 scope.botappedit = !scope.botappedit;
                 scope.selectedBot = botapp;
             };
@@ -203,7 +203,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
             //update bot app
             scope.updatebotapp = function (botapp) {
-                debugger
+                //debugger
                 var id = botapp._id;
                 // delete botapp._id;
                 botappconfigService.UpdateBotApp(botapp, id).then(function (response) {
@@ -252,12 +252,14 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             //get facebook whitelist
             scope.getwhitelisturl = function (botid) {
                 whitelistconfigService.GetAllWhitelist(scope.bot._id).then(function (response) {
+                    //debugger
                     if (response.data.IsSuccess) {
                         scope.urllist = response.data.Result;
                     }
-                    //  else {
-                    //     scope.showAlert("white list", 'error', "Fail To Load Url.");
-                    // }
+                    else {
+                        scope.showAlert("White List", 'error', response.data.Exception.Message);
+                        scope.urllist = [];
+                    }
 
                 }, function (error) {
                     scope.showAlert("White list", 'error', "Fail To Load Url.");
@@ -265,7 +267,6 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             }
             //add facebook whitelist
             scope.addnewurl = function (url) {
-
                 var isvalid = scope.urllist.findIndex(x => x == url);
                 if (isvalid == -1) {
                     scope.urllist.push(url);
