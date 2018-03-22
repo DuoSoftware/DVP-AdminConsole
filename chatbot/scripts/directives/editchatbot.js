@@ -236,7 +236,8 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             };
             //Delete bot app 
             scope.deletebotapp = function (bot) {
-                botappconfigService.DeleteBotApp(botapp._id).then(function (response) {
+                debugger
+                botappconfigService.DeleteBotApp(bot._id).then(function (response) {
                     if (response.data.IsSuccess) {
 
                         scope.getallBotApps(scope.bot._id);
