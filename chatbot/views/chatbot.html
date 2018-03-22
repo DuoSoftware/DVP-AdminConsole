@@ -24,9 +24,10 @@
                     <button type="button" class="btn card-title--btn-add card-btn" ng-click="showNewCardForm=true" data-toggle="collapse" data-target="#addNewBotCollapse"  ng-hide="showNewCardForm" >Add New
                     </button>
 
+                    <div data-toggle="collapse" data-target="#addNewBotCollapse"  ng-click="showNewCardForm=false" class="btn card-title--btn-add card-btn card-btn-close"><i class="fa fa-times"></i></div>
                         
                     <div id="addNewBotCollapse" ng-show="showNewCardForm" class="collapse">
-                        <div data-toggle="collapse" data-target="#addNewBotCollapse"  ng-click="showNewCardForm=false" class="btn card-title--btn-add card-btn card-btn-close"><i class="fa fa-times"></i></div>
+                        
                         <form class="form-horizontal form-label-left input_mask card-create-bot">
                             <div class="row no-gutters">
                                 <div class="col-12 col-sm-6 col-md-6 form-group">
