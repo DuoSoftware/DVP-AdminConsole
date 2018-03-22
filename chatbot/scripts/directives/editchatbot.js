@@ -18,7 +18,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             scope.editMode = false;
             scope.botappedit = false;
 
-            scope.copyBotID = function (cardID) {
+            scope.copytoClipboard = function (cardID, type, message) {
                 var id = cardID;
 
                 var copyText = document.getElementById(id);
@@ -31,7 +31,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 // range.selectNode(copyField);
                 // window.getSelection().addRange(range);
                 // document.execCommand('copy');
-                scope.showAlert("Bot ID", 'Bot ID copied to clipboard.', "success");
+                scope.showAlert(type, message, "success");
             }
 
             scope.generateCallBackURL = function (botid) {
