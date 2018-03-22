@@ -9,7 +9,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             bot: "=",
             allbots: "=",
             'updatebot': '&',
-            'getAllBots': '&'
+            'getall': '&'
         },
 
         templateUrl: 'chatbot/views/partials/editbotdetails.html',
@@ -84,7 +84,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                     chatbotService.DeleteChatbot(bot).then(function (response) {
                         if (response.data.IsSuccess) {
                             scope.showAlert("ChatBot", 'Bot Delete Successfully.', "success");
-                            scope.getAllBots();
+                            scope.getall();
                         } else {
                             scope.showAlert("ChatBot", 'Fail To Delete Bot.', "error");
                         }

@@ -54,7 +54,7 @@
             <div class="x_content">
                 <ul class="list-unstyled">
                     <li ng-repeat="bot in allbots | filterBy: ['name']: searchCriteria | orderBy:'-created_at'">
-                        <editachatbot bot="bot" updatebot="" getAllBots="getAllBots()">
+                        <editachatbot bot="bot" updatebot="" getall="getAllBots()">
                         </editachatbot>
                     </li>
 
