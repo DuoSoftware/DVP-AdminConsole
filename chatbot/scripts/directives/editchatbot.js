@@ -257,7 +257,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                         scope.urllist = response.data.Result;
                     }
                     else {
-                        scope.showAlert("White List", 'error', response.data.Exception.Message);
+                        scope.showAlert("White List",response.data.Exception.Message ,'error');
                         scope.urllist = [];
                     }
 
@@ -269,11 +269,11 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             scope.addnewurl = function (url) {
                 var isvalid = scope.urllist.findIndex(x => x == url);
                 if (isvalid == -1) {
-                    scope.urllist.push(url);
                     var jsonurl = { "urls": scope.urllist };
                     whitelistconfigService.AddWhitelist(jsonurl, scope.bot._id).then(function (response) {
                         if (response.data.IsSuccess) {
                             scope.url = "";
+                            //scope.urllist.push(url);
                             scope.getwhitelisturl(scope.bot._id);
                         } else {
                             scope.showAlert("White list", 'Fail To Added Url.', "error");

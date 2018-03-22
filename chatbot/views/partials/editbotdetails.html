@@ -27,7 +27,8 @@
                     <label class="form-control-static">Bot ID</label>
                     <div class="copy-form">
                         <input type="text" ng-readonly="true" ng-model="bot._id" id="{{bot._id}}" class="form-control">
-                        <input type="button" value="Copy" ng-click="copytoClipboard(bot._id,'Bot ID','Bot ID successfully copied into the Clipboard.')" class="btn card-btn btn-copy">
+                        <input type="button" value="Copy" ng-click="copytoClipboard(bot._id,'Bot ID','Bot ID successfully copied into the Clipboard.')"
+                            class="btn card-btn btn-copy">
                     </div>
                 </div>
             </div>
@@ -80,15 +81,18 @@
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                                     <label>Verification Token</label>
                                                     <div class="copy-form">
-                                                        <input readonly type="text" class="col-md-6 form-control" id="verificationfield" ng-model="bot.channel_facebook.verification_token" placeholder="Facebook Verification Token">
-                                                        <input type="button" value="Copy" ng-click="copytoClipboard('verificationfield','Verification Token','Verification Token successfully copied into the Clipboard.')" class="btn card-btn btn-copy">
+                                                        <input readonly type="text" class="col-md-6 form-control" id="verificationfield" ng-model="bot.channel_facebook.verification_token"
+                                                            placeholder="Facebook Verification Token">
+                                                        <input type="button" value="Copy" ng-click="copytoClipboard('verificationfield','Verification Token','Verification Token successfully copied into the Clipboard.')"
+                                                            class="btn card-btn btn-copy">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                                     <label>Callback URL</label>
                                                     <div class="copy-form">
                                                         <input readonly type="text" class="col-md-6 form-control" id="callbackurlfield" ng-model="generatedCallbackURL" placeholder="Facebook Callback URL">
-                                                        <input type="button" value="Copy" ng-click="copytoClipboard('callbackurlfield','Callback URL','Callback URL successfully copied into the Clipboard.')" class="btn card-btn btn-copy">
+                                                        <input type="button" value="Copy" ng-click="copytoClipboard('callbackurlfield','Callback URL','Callback URL successfully copied into the Clipboard.')"
+                                                            class="btn card-btn btn-copy">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group">
@@ -143,7 +147,7 @@
                                                         <!-- </div> -->
                                                         <div class="col-md-3 ">
                                                             <button type="button" class="btn card-btn" ng-disabled="Whitelist.url.$invalid" ng-click="addnewurl(url)">
-                                                                Add List
+                                                                Add to List
                                                             </button>
                                                         </div>
                                                     </form>
