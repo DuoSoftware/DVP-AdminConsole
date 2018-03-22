@@ -41,7 +41,11 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
                 scope.editBUnit=false;
             };
             scope.updateBusinessUnit = function () {
-                userProfileApiAccess.updateBusinessUnit(scope.unit.unitName,scope.unit).then(function (resUpdate) {
+
+                var obj={
+                    description:scope.unit.description
+                }
+                userProfileApiAccess.updateBusinessUnit(scope.unit.unitName,obj).then(function (resUpdate) {
                     if(resUpdate.IsSuccess)
                     {
                         scope.showAlert("Update Business Unit","Successfully updated Business Unit","success");
@@ -127,6 +131,19 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
 
             };
 
+            scope.onHUserChipAdd = function (hUser) {
+
+                scope.addHeadUserToBUnit(scope.unit.unitName,hUser._id);
+
+            };
+            scope.onHUserChipDelete = function (hUser) {
+
+
+                scope.removeHeadUserToBUnit(scope.unit.unitName,hUser._id);
+
+
+            };
+
             scope.updateGroupBUnit = function (bUnit,group,isAdd) {
 
 
@@ -153,7 +170,21 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
 
 
 
-            }
+            };
+            scope.addHeadUserToBUnit = function (bUnit,hUser) {
+                userProfileApiAccess.addHeadUserToBUnit(bUnit,hUser).then(function (resHeadUser) {
+                    scope.showAlert('Head User', ' Head user Added to BusinessUnit : '+bUnit, 'success');
+                },function (errHeadUSer) {
+                    scope.showAlert('Head User', 'Cannot add Head user to BusinessUnit : '+bUnit, 'error');
+                });
+            };
+            scope.removeHeadUserToBUnit = function (bUnit,hUser) {
+                userProfileApiAccess.removeHeadUserToBUnit(bUnit,hUser).then(function (resHeadUser) {
+                    scope.showAlert('Head User', ' Head user removed from BusinessUnit : '+bUnit, 'success');
+                },function (errHeadUSer) {
+                    scope.showAlert('Head User', 'Cannot add remove user from BusinessUnit : '+bUnit, 'error');
+                });
+            };
 
 
         }
