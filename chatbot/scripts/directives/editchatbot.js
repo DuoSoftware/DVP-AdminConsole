@@ -307,6 +307,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             scope.addnewurl = function (url) {
                 var isvalid = scope.urllist.findIndex(x => x == url);
                 if (isvalid == -1) {
+                    scope.urllist.push(url);
                     var jsonurl = { "urls": scope.urllist };
                     whitelistconfigService.AddWhitelist(jsonurl, scope.bot._id).then(function (response) {
                         if (response.data.IsSuccess) {
