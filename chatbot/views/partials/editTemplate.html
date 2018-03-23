@@ -199,12 +199,12 @@
                                 <div class="row">
                                     <div class="card" ng-repeat="item in template.items">
                                         <quickreplytemplate card="item" template-type="templateCategory"></quickreplytemplate>
-                                        <a class="font-robot font-300 " ng-click="removeCard($index)">
-                                            <i class="fa fa-times"></i> Remove {{templateCategory}}
+                                        <a class="edit-card--btn-circle edit-card--remove font-robot font-300" ng-click="removeCard($index)">
+                                            <i class="fa fa-times"></i>
                                         </a>
                                     </div>
-                                    <div class="card">
-                                        <a class="font-robot font-300 " ng-click="addNewCard(template)">
+                                    <div class="card new-card">
+                                        <a class="font-robot font-300 btn-small" ng-click="addNewCard(template)">
                                             <i class="fa fa-plus"></i> New {{templateCategory}}
                                         </a>
                                     </div>
