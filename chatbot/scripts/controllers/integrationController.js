@@ -66,6 +66,7 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
 
     $scope.setbody = function(type){
         if(type === "POST"){
+            $scope.integration.body = "";
             $scope.bodyDisabled = false; 
         }
         else{
@@ -130,6 +131,12 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         }
     }
 
+    $scope.createIntegration = function (integrate) {
+
+       
+
+    }
+
     function save(){
        for (var i = 0; i < $scope.headersArray.length; i++) {
         console.log($scope.headersArray[i]);
@@ -167,22 +174,20 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         $scope.integration.response.error.check_fields = $scope.errorCheckFieldsArray;
 
         var body = {};
+            
         body = $scope.integration.body;
         console.log(body);
-        if(body !== ""){
+           if(body !== ""){
             debugger;
             try {
-            var obj = JSON.parse(body);
-            if (obj && typeof obj === "object") {
-                return obj;
-            }
+                obj = JSON.parse(body);
+                $scope.errorMsg = false;
             }
             catch (e) { 
                 $scope.errorMsg = true;
                 $scope.showAlert("Not Valid JSON", 'error', "Enter valid JSON formatte.");
+                return;
             }
-
-            return false;
         }
         else{
             $scope.errorMsg = false;
@@ -193,16 +198,11 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         $scope.integration.body = obj;
         console.log($scope.integration);
 
-        $scope.createIntegration($scope.integration);
-        
-    }
-
-    $scope.createIntegration = function (integrate) {
-
-        botintegrationService.CreateIntegration(integrate).then(function (response) {
+        botintegrationService.CreateIntegration($scope.integration).then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.showAlert("Integration", 'success', "Integration Created Successfully.");
                  $scope.getAllIntegrations();
+                 $scope.integration = {};
 
             } else {
                 $scope.showAlert("Integration", 'error', "Fail To Create Integration.");
@@ -212,8 +212,10 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
             $scope.showAlert("Integration", 'error', "Fail To Create Integration.");
 
         });
-
+        
     };
+
+   
 
     //Get all integrations
     $scope.getAllIntegrations = function () {
@@ -256,21 +258,18 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         if(body !== ""){
             debugger;
             try {
-            var obj = JSON.parse(body);
-            if (obj && typeof obj === "object") {
-                return obj;
-            }
+                obj = JSON.parse(body);
+                $scope.errorMsg = false;
             }
             catch (e) { 
                 $scope.errorMsg = true;
                 $scope.showAlert("Not Valid JSON", 'error', "Enter valid JSON formatte.");
+                return;
             }
-
-            return false;
         }
         else{
             $scope.errorMsg = false;
-            var obj = {};
+            obj = {};
         }
 
 
