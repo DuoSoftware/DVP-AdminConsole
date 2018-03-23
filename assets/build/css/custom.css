@@ -5939,7 +5939,7 @@ ul.notifications {
 
 .card-title--btn-add {
     float: right;
-    margin: 0;
+    margin: 0 0 0 6px;
     z-index: 1;
     position: relative;
 }
@@ -6141,6 +6141,13 @@ ul.notifications {
     margin: auto;
     left: 0;
     right: 0;
+}
+
+.form-control .tags {
+    width: 100% !important;
+    border: none;
+    box-shadow: none !important;
+    margin: 0;
 }
 
 .subcard {
