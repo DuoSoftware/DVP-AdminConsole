@@ -273,7 +273,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     subscribeServices.SubscribeCallStatus('main', function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
-                var userObj = $scope.users.filhter(function (item) {
+                var userObj = $scope.users.filter(function (item) {
                     return key == item.username;
                 });
                 if (Array.isArray(userObj)) {
