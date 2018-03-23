@@ -332,6 +332,22 @@
                 return resp.data;
             })
         };
+        var addHeadUserToBUnit = function (unitname,hUser) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit/'+unitname+'/Head/'+hUser
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+        var removeHeadUserToBUnit = function (unitname,hUser) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit/'+unitname+'/Head/'+hUser
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
 
@@ -368,7 +384,9 @@
             addAccessFields:addAccessFields,
             getBusinessUnitsWithGroups:getBusinessUnitsWithGroups,
             getExternalUserFields:getExternalUserFields,
-            addGroupsToBUnit:addGroupsToBUnit
+            addGroupsToBUnit:addGroupsToBUnit,
+            addHeadUserToBUnit:addHeadUserToBUnit,
+            removeHeadUserToBUnit:removeHeadUserToBUnit
         };
     };
 

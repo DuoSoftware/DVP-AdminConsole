@@ -10,6 +10,7 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
         code = code.replace(/=/g, '');
         return code;
     }
+    
     //Create New Bot
     $scope.CreateNewBot = function (newBot) {
 
@@ -45,7 +46,7 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
         chatbotService.CreateChatbot(bot).then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.showAlert("ChatBot", 'success', "Bot Created Successfully.");
-                $scope.showAlert("Next Step", 'info', "Now you may configure \""+newBot.name+"\" with your Integration settings");
+                $scope.showAlert("Next Step", 'info', "Now you may configure \"" + newBot.name + "\" with your Integration settings");
                 $scope.newBot = {};
                 $scope.getAllBots();
             } else {

@@ -17,7 +17,7 @@
                         <div ng-disabled="true" ng-click="removeTemplate(template)" class="btn-circle">
                             <i class="fa fa-times"></i>
                         </div>
-                            <!-- <small ng-disabled="true" ng-click="showConig(application.id)" style="cursor: pointer"><i
+                        <!-- <small ng-disabled="true" ng-click="showConig(application.id)" style="cursor: pointer"><i
                                     class="fa fa-cog"></i></small> -->
                     </div>
                 </div>
@@ -315,7 +315,7 @@
         </div>
         <div ng-hide="editMode">
 
-            <div ng-show="templateCategory == 'Card'">
+            <div ng-if="templateCategory == 'Card'">
                 <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                     <label class="form-control-static">Description</label>
                     <p>{{template.description}} </p>
@@ -339,13 +339,13 @@
                 <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
                     <div class="copy-form">
-                        <input class="form-control" type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="" class="btn card-btn btn-copy">
+                        <input class="form-control" type="text" ng-readonly="true" ng-model="template.prefix" id="{{template.inputID}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template.inputID,templateCategory)" class="btn card-btn btn-copy">
                     </div>
                 </div>
             </div>
 
-            <div ng-show="templateCategory == 'Attachment'">
+            <div ng-if="templateCategory == 'Attachment'">
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">Description</label>
                     <p>{{template.description}} </p>
@@ -358,14 +358,14 @@
 
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
-                    <p>
-                        <input type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="copyTemplateID(template._id)">
-                    </p>
+                    <div class="copy-form">
+                        <input class="form-control" type="text" ng-readonly="true" ng-model="template.prefix" id="{{template.inputID}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template.inputID,templateCategory)" class="btn card-btn btn-copy">
+                    </div>
                 </div>
             </div>
 
-            <div ng-show="templateCategory == 'Quick Reply'">
+            <div ng-if="templateCategory == 'Quick Reply'">
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">Description</label>
                     <p>{{template.description}} </p>
@@ -378,14 +378,14 @@
 
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
-                    <p>
-                        <input type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="copyTemplateID(template._id)">
-                    </p>
+                    <div class="copy-form">
+                        <input class="form-control" type="text" ng-readonly="true" ng-model="template.prefix" id="{{template.inputID}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template.inputID,templateCategory)" class="btn card-btn btn-copy">
+                    </div>
                 </div>
             </div>
 
-            <div ng-show="templateCategory == 'Button List'">
+            <div ng-if="templateCategory == 'Button List'">
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">Description</label>
                     <p>{{template.description}} </p>
@@ -398,10 +398,10 @@
 
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} ID</label>
-                    <p>
-                        <input type="text" ng-readonly="true" ng-model="template.prefix" id="{{template._id}}">
-                        <input type="button" value="Copy" ng-click="copyTemplateID(template._id)">
-                    </p>
+                    <div class="copy-form">
+                        <input class="form-control" type="text" ng-readonly="true" ng-model="template.prefix" id="{{template.inputID}}">
+                        <input type="button" value="Copy" ng-click="copyTemplateID(template.inputID,templateCategory)" class="btn card-btn btn-copy">
+                    </div>
                 </div>
             </div>
 

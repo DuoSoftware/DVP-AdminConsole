@@ -10,7 +10,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
             case "card": {
                 returnTypes = [
                     { "Key": "Select Type", "Value": "select" },
-                    { "Key": "Generic", "Value": "generic" },
+                    { "Key": "Carousel", "Value": "generic" },
                     { "Key": "List", "Value": "list" }
                 ];
                 returnContentTypes = [
@@ -52,6 +52,14 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
 
     $scope.navigateToUI = function (location) {
         $state.go(location)
+    }
+
+    $scope.createuuid = function () {
+        var uuid = Math.floor((1 + Math.random()) * 0x1000000).toString(8).substring(1);
+        var hostname = window.location.hostname;
+        var code = window.btoa(hostname + "-" + uuid)
+        code = code.replace(/=/g, '');
+        return code;
     }
 
     $scope.newTemplateSchema = function () {
@@ -172,16 +180,17 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
             //debugger
             if (response.data && response.data.IsSuccess) {
                 var prefix = "";
-                if(category == "Card"){
+                if (category == "Card") {
                     prefix = "DBF_card_";
-                } else if(category == "Attachment"){
+                } else if (category == "Attachment") {
                     prefix = "DBF_attachment_";
-                }else if(category == "QuickReply"){
+                } else if (category == "QuickReply") {
                     prefix = "DBF_quickreply_";
-                }else if(category == "ButtonList"){
+                } else if (category == "ButtonList") {
                     prefix = "DBF_button_";
                 }
                 angular.forEach(response.data.Result, function (item) {
+                    item.inputID = $scope.createuuid();
                     item.prefix = prefix + item._id;
                     $scope.templateList.push(item);
                 });

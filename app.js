@@ -136,7 +136,8 @@ var baseUrls = {
     'integrationAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/IntegrationService/",//Integration service API URL
     'payapiUrl':"https://smoothflow.io/payapi/getWorkflowData/",
     'setupaiAPTUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap",
-    'getworkflowfortextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/GetWorkflowForText"
+    'getworkflowfortextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/GetWorkflowForText",
+    'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb"
 };
 
 mainApp.constant('baseUrls', baseUrls);

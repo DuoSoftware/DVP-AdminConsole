@@ -1,7 +1,7 @@
 /**
  * Created by lakmini on 26/01/2018.
  */
-mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService, botappconfigService, whitelistconfigService) {
+mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService, botappconfigService, whitelistconfigService, $auth, baseUrls) {
 
     return {
         restrict: "EAA",
@@ -9,7 +9,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             bot: "=",
             allbots: "=",
             'updatebot': '&',
-            'getAllBots': '&'
+            'getall': '&'
         },
 
         templateUrl: 'chatbot/views/partials/editbotdetails.html',
@@ -18,7 +18,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             scope.editMode = false;
             scope.botappedit = false;
 
-            scope.copyBotID = function (cardID) {
+            scope.copytoClipboard = function (cardID, type, message) {
                 var id = cardID;
 
                 var copyText = document.getElementById(id);
@@ -31,7 +31,14 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 // range.selectNode(copyField);
                 // window.getSelection().addRange(range);
                 // document.execCommand('copy');
-                scope.showAlert("Bot ID", 'Bot ID copied to clipboard.', "success");
+                scope.showAlert(type, message, "success");
+            }
+
+            scope.generateCallBackURL = function (botid) {
+                //debugger
+                var companyDetails = $auth.getPayload();
+                var URL = baseUrls.botFrameworkFacebookConnector + "/DBF/API/1.0.0.0/tenant/" + companyDetails.tenant + "/company/" + companyDetails.company + "/bot/" + botid;
+                scope.generatedCallbackURL = URL;
             }
 
             scope.editbotdetails = function () {
@@ -52,12 +59,13 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                     }
                 });
                 $(".sortable").disableSelection();
+                scope.generateCallBackURL(scope.bot._id);
                 scope.getallBotApps(scope.bot._id);
                 scope.getwhitelisturl(scope.bot._id);
                 scope.editMode = !scope.editMode;
             };
             scope.editbotappdetails = function (botapp) {
-                debugger
+                //debugger
                 scope.botappedit = !scope.botappedit;
                 scope.selectedBot = botapp;
             };
@@ -84,7 +92,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                     chatbotService.DeleteChatbot(bot).then(function (response) {
                         if (response.data.IsSuccess) {
                             scope.showAlert("ChatBot", 'Bot Delete Successfully.', "success");
-                            scope.getAllBots();
+                            scope.getall();
                         } else {
                             scope.showAlert("ChatBot", 'Fail To Delete Bot.', "error");
                         }
@@ -195,7 +203,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
             //update bot app
             scope.updatebotapp = function (botapp) {
-                debugger
+                //debugger
                 var id = botapp._id;
                 // delete botapp._id;
                 botappconfigService.UpdateBotApp(botapp, id).then(function (response) {
@@ -228,7 +236,8 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             };
             //Delete bot app 
             scope.deletebotapp = function (bot) {
-                botappconfigService.DeleteBotApp(botapp._id).then(function (response) {
+                debugger
+                botappconfigService.DeleteBotApp(bot._id).then(function (response) {
                     if (response.data.IsSuccess) {
 
                         scope.getallBotApps(scope.bot._id);
@@ -244,12 +253,14 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             //get facebook whitelist
             scope.getwhitelisturl = function (botid) {
                 whitelistconfigService.GetAllWhitelist(scope.bot._id).then(function (response) {
+                    //debugger
                     if (response.data.IsSuccess) {
                         scope.urllist = response.data.Result;
                     }
-                    //  else {
-                    //     scope.showAlert("white list", 'error', "Fail To Load Url.");
-                    // }
+                    else {
+                        scope.showAlert("White List",response.data.Exception.Message ,'error');
+                        scope.urllist = [];
+                    }
 
                 }, function (error) {
                     scope.showAlert("White list", 'error', "Fail To Load Url.");
@@ -257,14 +268,13 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
             }
             //add facebook whitelist
             scope.addnewurl = function (url) {
-
                 var isvalid = scope.urllist.findIndex(x => x == url);
                 if (isvalid == -1) {
-                    scope.urllist.push(url);
                     var jsonurl = { "urls": scope.urllist };
                     whitelistconfigService.AddWhitelist(jsonurl, scope.bot._id).then(function (response) {
                         if (response.data.IsSuccess) {
                             scope.url = "";
+                            //scope.urllist.push(url);
                             scope.getwhitelisturl(scope.bot._id);
                         } else {
                             scope.showAlert("White list", 'Fail To Added Url.', "error");

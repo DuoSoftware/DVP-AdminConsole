@@ -4,6 +4,7 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
     console.log("integration controller is up!");
 
     $scope.buttonName = "SAVE";
+    $scope.bodyDisabled = false; 
    
 
     $scope.integration = {
@@ -62,7 +63,16 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
     $scope.urlParamsArray = [{key:"",value:""}];
     $scope.successCheckFieldsArray = [{name:"",type:"",value:""}];
     $scope.errorCheckFieldsArray = [{name:"",type:"",value:""}];
-    
+
+    $scope.setbody = function(type){
+        if(type === "POST"){
+            $scope.bodyDisabled = false; 
+        }
+        else{
+            $scope.bodyDisabled = true; 
+            $scope.integration.body = "";
+        }
+    }
 
     function addCheckHeaders(){
     
@@ -142,21 +152,45 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         $scope.integration.url_params = url_params;
         }
         console.log($scope.successCheckFieldsArray);
-        if($scope.successCheckFieldsArray[0].name==="" || $scope.successCheckFieldsArray.length===0){
-            $scope.successCheckFieldsArray = [];
+
+        if($scope.successCheckFieldsArray.length===0){
+            // if($scope.successCheckFieldsArray[0].name===""){
+                 $scope.successCheckFieldsArray = [];
+            // }
         }
-        if($scope.errorCheckFieldsArray[0].name==="" || $scope.errorCheckFieldsArray.length===0){
+        //$scope.errorCheckFieldsArray[0].name==="" 
+        if($scope.errorCheckFieldsArray.length===0){
             $scope.errorCheckFieldsArray = [];
         }
+
         $scope.integration.response.success.check_fields = $scope.successCheckFieldsArray;
         $scope.integration.response.error.check_fields = $scope.errorCheckFieldsArray;
 
         var body = {};
-        body= $scope.integration.body;
-        obj = JSON.parse(body);
+        body = $scope.integration.body;
+        console.log(body);
+        if(body !== ""){
+            debugger;
+            try {
+            var obj = JSON.parse(body);
+            if (obj && typeof obj === "object") {
+                return obj;
+            }
+            }
+            catch (e) { 
+                $scope.errorMsg = true;
+                $scope.showAlert("Not Valid JSON", 'error', "Enter valid JSON formatte.");
+            }
+
+            return false;
+        }
+        else{
+            $scope.errorMsg = false;
+            var obj = {};
+        }
+       
         console.log(obj);
         $scope.integration.body = obj;
-        // $scope.integration.body =JSON.parse(JSON.stringify($scope.integration.body));
         console.log($scope.integration);
 
         $scope.createIntegration($scope.integration);
@@ -168,7 +202,7 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         botintegrationService.CreateIntegration(integrate).then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.showAlert("Integration", 'success', "Integration Created Successfully.");
-                $scope.reloadPage();
+                 $scope.getAllIntegrations();
 
             } else {
                 $scope.showAlert("Integration", 'error', "Fail To Create Integration.");
@@ -213,12 +247,33 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
     }
 
     $scope.updateIntegration = function (template) {
-        alert('update');
+        debugger;
         console.log(template);
+        
 
         var body = {};
         body= template.body;
-        obj = JSON.parse(body);
+        if(body !== ""){
+            debugger;
+            try {
+            var obj = JSON.parse(body);
+            if (obj && typeof obj === "object") {
+                return obj;
+            }
+            }
+            catch (e) { 
+                $scope.errorMsg = true;
+                $scope.showAlert("Not Valid JSON", 'error', "Enter valid JSON formatte.");
+            }
+
+            return false;
+        }
+        else{
+            $scope.errorMsg = false;
+            var obj = {};
+        }
+
+
         console.log(obj);
         template.body = obj;
         console.log(template.body);
