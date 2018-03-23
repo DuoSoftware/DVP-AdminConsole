@@ -1253,7 +1253,7 @@ h2 {
 }
 
 .x_title h2 {
-    margin: 5px 0 6px;
+    margin: 10px 0 6px;
     float: left;
     display: block;
     text-overflow: ellipsis;
@@ -5901,6 +5901,7 @@ ul.notifications {
 
 .card-title {
     border-bottom: 1px solid #E6E6E6;
+    min-height: 50px;
 }
 
 .card-search {
@@ -5914,7 +5915,7 @@ ul.notifications {
 
 .card-search--form {
     float: right;
-    margin-top: -6px;
+    margin-top: 0px;
 }
 
 .card-search  .form-control{
@@ -5938,7 +5939,7 @@ ul.notifications {
 
 .card-title--btn-add {
     float: right;
-    margin: -6px 0 0;
+    margin: 0;
     z-index: 1;
     position: relative;
 }
@@ -6231,4 +6232,9 @@ ul.notifications {
     float: left;
     max-width: 450px;
     border-radius: 5px 0 0 5px !important;
+}
+
+.user-option-wrap .btn-circle {
+    float: left;
+    margin: 6px 0 0 6px;
 }
