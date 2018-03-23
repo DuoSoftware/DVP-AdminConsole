@@ -273,7 +273,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     subscribeServices.SubscribeCallStatus('main', function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
-                var userObj = $scope.users.filter(function (item) {
+                var userObj = $scope.users.filhter(function (item) {
                     return key == item.username;
                 });
                 if (Array.isArray(userObj)) {
@@ -394,12 +394,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     loginService.getNavigationAccess(function (result) {
 
     	// Kasun_Wijeratne_14_JAN_2018
-		if(Object.keys(result).length
-			> 5){
+		if(Object.keys(result).length > 5){
 			$rootScope.allUsers = true;
+			// $state.go('console.dashboard');
 		}else{
-			$rootScope.freshUser = true;
-			$rootScope.allUsers = false;
+			if(Object.keys(result).length != 0){
+				$rootScope.freshUser = true;
+				$rootScope.allUsers = false;
+			}
 		}
     	// Kasun_Wijeratne_14_JAN_2018 - END
 
@@ -644,6 +646,21 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goZohoUser: function () {
             $state.go('console.zohousers')
+        },
+        goChatbot: function () {
+            $state.go('console.chatbots')
+        },
+        goChatbotTemplates: function (templateType) {
+            $state.go('console.bottemplates', {templateType: templateType})
+        },
+        goChatbotAutomations: function () {
+            $state.go('console.botautomations')
+        },
+        goChatbotIntegration: function () {
+            $state.go('console.botintegration')
+        },
+        goChatbotSetupAI: function () {
+            $state.go('console.botsetupai')
         },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')

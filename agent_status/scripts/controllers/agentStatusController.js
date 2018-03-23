@@ -667,18 +667,24 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                                 $scope.profile = [];
 
-                                angular.forEach(resp.profile, function(prof)
+                                if ($scope.filterType == "ALL" && resp.profile.length == 0) {
+                                    angular.copy($scope.availableProfile, $scope.profile);
+                                }
+                                else
                                 {
-                                    for(i = 0; i < $scope.availableProfile.length; i++)
+                                    angular.forEach(resp.profile, function(prof)
                                     {
-                                        if($scope.availableProfile[i].ResourceId === prof.ResourceId)
+                                        for(i = 0; i < $scope.availableProfile.length; i++)
                                         {
-                                            $scope.profile.push($scope.availableProfile[i]);
-                                            break;
-                                        }
+                                            if($scope.availableProfile[i].ResourceId === prof.ResourceId)
+                                            {
+                                                $scope.profile.push($scope.availableProfile[i]);
+                                                break;
+                                            }
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }
 
                                 $scope.agentMode = resp.agentMode;
                                 $scope.filterType = resp.filterType;

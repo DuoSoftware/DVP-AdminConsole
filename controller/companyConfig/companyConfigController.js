@@ -1171,6 +1171,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
 
 
+
     $scope.updateGroupsOfBUnit = function (groupId,unitName,item,isAdd) {
 
 

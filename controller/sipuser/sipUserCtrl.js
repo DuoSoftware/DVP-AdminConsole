@@ -6,14 +6,18 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var sipUserCtrl = function ($scope, sipUserApiHandler, loginService) {
+    var sipUserCtrl = function ($scope, sipUserApiHandler, loginService, $rootScope) {
+
+		$rootScope.$on('SIPUserUploadOn', function () {
+			$scope.onSavePressed();
+		});
 
         //User List Operations
         $scope.viewDivState = -1;
 
         $scope.canCancelNewUser = false;
 
-        $scope.FormState = '';
+        $scope.FormState = 'New';
         $scope.SipUsernameDisplay = '';
 
         //0 view | 1 edit | 2 new
@@ -38,7 +42,7 @@
                     if ($scope.sipUsrList.length > 0) {
                         $scope.FormState = 'New';
                         $scope.SipUsernameDisplay = $scope.sipUsrList[0].SipUsername;
-                        $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
+                        //$scope.onEditPressed($scope.sipUsrList[0].SipUsername);
                     }
 
                     if ($scope.sipUsrList.length == 0) {
@@ -179,7 +183,7 @@
                             })
                         }
 
-
+						$rootScope.$broadcast('SIPUserSaveSuccess');
                     }
                     else {
                         $scope.showAlert('Error', 'error', 'Error updating user');
@@ -373,13 +377,13 @@
                 $scope.SipUsernameDisplay = 'NEW SIP USER';
             }
             else {
-                if ($scope.sipUsrList.length > 0) {
+                if ($scope.sipUsrList && $scope.sipUsrList.length > 0) {
                     $scope.FormState = 'New';
                     $scope.SipUsernameDisplay = $scope.sipUsrList[0].SipUsername;
                     $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
                 }
 
-                if ($scope.sipUsrList.length == 0) {
+                if ($scope.sipUsrList && $scope.sipUsrList.length == 0) {
                     $scope.FormState = 'Cancel';
                     $scope.SipUsernameDisplay = 'NEW SIP USER';
                 }

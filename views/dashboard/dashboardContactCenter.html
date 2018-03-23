@@ -10,9 +10,7 @@
                             <!-- TOTAL CALL -->
                             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                 <div class="d1-header-widget ">
-                                    <div class="d1-h-w-count d1-h-lg">
-                                        <i class="fa fa-arrow-down color-blue-300" style="transform: rotate(45deg);font-size: 20px;"></i>{{total.callsInb}} | <i class="fa fa-arrow-up color-blue-300" style="transform: rotate(45deg);font-size: 20px;"></i>{{total.callsOutb}}
-                                    </div>
+                                    <div class="d1-h-w-count d1-h-lg" style="font-size: 24px">{{total.callsInb}} | {{total.callsOutb}}</div>
                                     <!--<div class="d1-h-w-count d1-h-lg">-->
                                         <!--<span class="dash-number-block">-->
                                             <!--<label class="in">In</label>-->
@@ -26,8 +24,8 @@
                                     <div class="d1-h-w-header d1-h-tile">
                                         TOTAL CALLS
                                     </div>
-                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-blue-300">
-                                    Inbound | Outbound
+                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-200">
+                                        Inbound <span style="color: #fff">|</span> <span style="color: #FFC107">Outbound</span>
                                     </div>
                                     <div class="d-top-icon">
                                         <i class="fa fa-phone color-blue-300"></i>
@@ -60,11 +58,11 @@
                                     <div class="d1-h-w-header d1-h-tile">
                                         Q ANSWERED
                                     </div>
-                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-red-500">
+                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-green-300">
                                         Total queued answered
                                     </div>
                                     <div class="d-top-icon">
-                                        <i class="fa fa-smile-o color-red-500"></i>
+                                        <i class="fa fa-smile-o color-green-300"></i>
                                     </div>
 
 
@@ -79,16 +77,16 @@
                                     <div class="d1-h-w-header d1-h-tile">
                                         Q DROPPED
                                     </div>
-                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-400">
+                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-red-500">
                                         Total queued dropped
                                     </div>
                                     <div class="d-top-icon">
-                                        <i class="fa fa fa-frown-o color-light-blue-400"></i>
+                                        <i class="fa fa fa-frown-o color-red-500"></i>
                                     </div>
                                 </div>
                             </div>
                             <!--  WAITING -->
-                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="border-left: solid 1px #eee">
                                 <div class="d1-header-widget  ">
                                     <div class="d1-h-w-count d1-h-lg">
                                         {{total.waiting}}
@@ -96,20 +94,18 @@
                                     <div class="d1-h-w-header d1-h-tile">
                                         WAITING
                                     </div>
-                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-green-300">
+                                    <div class="d1-h-w-sub-title d1-sub-tile-sm color-blue-900">
                                         Current waiting
                                     </div>
                                     <div class="d-top-icon">
-                                        <i class="fa fa-clock-o color-green-300"></i>
+                                        <i class="fa fa-clock-o color-blue-900"></i>
                                     </div>
                                 </div>
                             </div>
                             <!--  Ongoing -->
                             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                 <div class="d1-header-widget">
-                                    <div class="d1-h-w-count d1-h-lg">
-                                        {{total.onGoingInb}} | {{total.onGoingOutb}}
-                                    </div>
+                                    <div class="d1-h-w-count d1-h-lg" style="font-size: 24px">{{total.onGoingInb}} | {{total.onGoingOutb}}</div>
                                     <!--<div class="d1-h-w-count d1-h-lg">-->
                                         <!--<span class="dash-number-block">-->
                                             <!--<label class="in">In</label>-->
@@ -124,7 +120,7 @@
                                         ONGOING
                                     </div>
                                     <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-200">
-                                        Inbound | Outbound
+                                        Inbound <span style="color: #fff">|</span> <span style="color: #FFC107">Outbound</span>
                                     </div>
                                     <div class="d-top-icon">
                                         <i class="fa fa-lightbulb-o color-light-blue-200"></i>

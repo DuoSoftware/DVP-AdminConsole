@@ -544,8 +544,7 @@
                                 </li>
 
                                 <li ng-show="accessNavigation.CAMPAIGNMANAGER || accessNavigation.CAMPAIGN_MONITOR || accessNavigation.CAMPAIGN_NUMBER_BASE || accessNavigation.CAMPAIGN_DNCLIST">
-                                    <a
-                                            class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign
+                                    <a class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign
                                         <span
                                                 class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -571,6 +570,8 @@
                                 </li>
 
 
+
+
                                 <li ng-show="accessNavigation.ZOHO_CRM || accessNavigation.ZOHO_CRM_USERS">
                                     <a
                                             class="font-robot font-300 "><i class="fa fa-slideshare"></i> CRM
@@ -586,6 +587,47 @@
                                                                                                  ng-click="clickDirective.goZohoUser();">Users</a>
                                                 </li>
                                             </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                                <li ng-show="accessNavigation.ZOHO_CRM">
+                                    <a class="font-robot font-300 ">
+                                        <i class="fa fa-user-secret"></i> Chatbot
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
+                                    <ul class="nav child_menu">
+                                        <li ng-show="accessNavigation.ZOHO_CRM">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goChatbot()">My Bots</a>
+                                        </li>
+                                        <li>
+                                            <a>Templates
+                                                <span class="fa fa-chevron-down"></span>
+                                            </a>
+                                            <ul class="nav child_menu">
+                                                <li ng-show="accessNavigation.ZOHO_CRM">
+                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotTemplates('cards')">Cards</a>
+                                                </li>
+                                                <li ng-show="accessNavigation.ZOHO_CRM">
+                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotTemplates('attachments')">Attachments</a>
+                                                </li>
+                                                <li ng-show="accessNavigation.ZOHO_CRM">
+                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotTemplates('quickreplies')">Quick Replies</a>
+                                                </li>
+                                                <li ng-show="accessNavigation.ZOHO_CRM">
+                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotTemplates('buttonlists')">Button Lists</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goChatbotIntegration()">Integrations</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goChatbotAutomations()">Automations</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goChatbotSetupAI()">Setup AI</a>
                                         </li>
                                     </ul>
                                 </li>

@@ -4,7 +4,23 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService, resourceService) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService, resourceService, $rootScope) {
+
+		/** Kasun_Wijeratne_21_MARCH_2018
+		 * --------------------------------------------------------------*/
+    	$scope.newUserView = false;
+    	$scope.toggleNewUserView = function () {
+			$scope.newUserView = !$scope.newUserView;
+		};
+		$scope.runSIPUserSave = function () {
+			$rootScope.$broadcast('SIPUserUploadOn');
+		}
+		$rootScope.$on('SIPUserSaveSuccess', function () {
+			$scope.activeCreateUserTab = 0;
+			$scope.newUserView = false;
+		});
+		/** --------------------------------------------------------------
+		 * Kasun_Wijeratne_21_MARCH_2018*/
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -186,8 +202,31 @@
             });
         };
 
-        $scope.addNewUser = function () {
-            userProfileApiAccess.addUser($scope.newUser).then(function (data) {
+		$scope.isUserSaving = false;
+		$scope.addNewUser = function (isSIP, sipExt) {
+			/** Kasun_Wijeratne_21_MARCH_2018
+			 * This function has been modified to receive "isSIP" and "sipEct" parameters when creating a user with "Create SIP user" enabled.
+			 * isSIP = bool
+			 * siExt = SIP extension
+			 * --------------------------------------------------------------*/
+			if(isSIP) {
+				$scope.newUser.veeryaccount = {
+					"contact": sipExt+"@duo.media1.veery.cloud",
+					"display": sipExt,
+					"verified": true,
+					"type": "sip"
+				};
+			}
+			/**--------------------------------------------------------------
+			 * Kasun_Wijeratne_21_MARCH_2018 - ENDs
+			 */
+			$scope.isUserSaving = true;
+			$scope.sipUserFromUser = {
+				SipUsername :"",
+				mail :"",
+				Password : ""
+			};
+			userProfileApiAccess.addUser($scope.newUser).then(function (data) {
                 if (data.IsSuccess) {
 
                     //Map Resource To User
@@ -203,38 +242,71 @@
                                         $scope.showAlert("Map To Resource", "warn", "Resource " + response.Result.ResourceName + " Save Successfully Without Mapping to Profile.");
                                     }
                                     $scope.showAlert('Success', 'info', 'User added');
+									if(isSIP){
+										$scope.activeCreateUserTab = 1;
+										$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+										$scope.sipUserFromUser.Password = $scope.newUser.password;
+									}
                                     resetForm();
                                     loadUsers();
+									$scope.isUserSaving = false;
                                 }, function (error) {
                                     $scope.showAlert("Map To Resource", "error", "Fail To Map Resource with Profile.");
                                     $scope.showAlert('Success', 'info', 'User added');
+									if(isSIP){
+										$scope.activeCreateUserTab = 1;
+										$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+										$scope.sipUserFromUser.Password = $scope.newUser.password;
+										$scope.sipUserFromUser.Email = $scope.newUser.mail;
+									}
                                     resetForm();
                                     loadUsers();
-                                });
+									$scope.isUserSaving = false;
+								});
                             }
                             else {
                                 if (response.CustomMessage == "invalid Resource Name.") {
                                     $scope.showAlert("Map To Resource", "error", "Invalid Resource Name.");
                                 }
                                 $scope.showAlert('Success', 'info', 'User added');
+								if(isSIP){
+									$scope.activeCreateUserTab = 1;
+									$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+									$scope.sipUserFromUser.Password = $scope.newUser.password;
+									$scope.sipUserFromUser.Email = $scope.newUser.mail;
+								}
                                 resetForm();
                                 loadUsers();
-
+								$scope.isUserSaving = false;
                             }
 
                         }, function (error) {
                             $scope.showAlert('Map To Resource', 'error', 'Failed to map user to resource');
                             $scope.showAlert('Success', 'info', 'User added');
+							if(isSIP){
+								$scope.activeCreateUserTab = 1;
+								$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+								$scope.sipUserFromUser.Password = $scope.newUser.password;
+								$scope.sipUserFromUser.Email = $scope.newUser.mail;
+							}
                             resetForm();
                             loadUsers();
-                        });
+							$scope.isUserSaving = false;
+						});
 
                     } else {
 
                         $scope.showAlert('Success', 'info', 'User added');
+						if(isSIP){
+							$scope.activeCreateUserTab = 1;
+							$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+							$scope.sipUserFromUser.Password = $scope.newUser.password;
+							$scope.sipUserFromUser.Email = $scope.newUser.mail;
+						}
                         resetForm();
                         loadUsers();
-                    }
+						$scope.isUserSaving = false;
+					}
 
 
                 }
@@ -248,7 +320,8 @@
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
-                }
+					$scope.isUserSaving = false;
+				}
 
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -257,8 +330,14 @@
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
-            });
+				$scope.isUserSaving = false;
+			});
         };
+
+		$scope.activeCreateUserTab = 0;
+        $scope.addNewSIPUser = function (direction) {
+			direction == 'up' ? $scope.activeCreateUserTab++ : $scope.activeCreateUserTab--;
+		}
 
         loadUsers();
         loadUserGroups();
@@ -570,7 +649,7 @@
         };
         $scope.hiddenNewGroupDIV = function () {
             $('#crateNewGroupWrapper').animate({
-                bottom: "-95"
+                bottom: "-200"
             }, 300);
         };
 
