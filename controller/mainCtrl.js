@@ -394,13 +394,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     loginService.getNavigationAccess(function (result) {
 
     	// Kasun_Wijeratne_14_JAN_2018
-		if(Object.keys(result).length
-			> 5){
+		if(Object.keys(result).length > 5){
 			$rootScope.allUsers = true;
 			// $state.go('console.dashboard');
 		}else{
-			$rootScope.freshUser = true;
-			$rootScope.allUsers = false;
+			if(Object.keys(result).length != 0){
+				$rootScope.freshUser = true;
+				$rootScope.allUsers = false;
+			}
 		}
     	// Kasun_Wijeratne_14_JAN_2018 - END
 
