@@ -5962,6 +5962,15 @@ ul.notifications {
     border-top: 1px solid #E6E6E6;
 }
 
+.card-add .collapse .card-btn {
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.card-add .collapse .subcard {
+    margin-bottom: 0;
+}
+
 .card-create-bot .form-control {
     width: 100%;
 }
@@ -5993,13 +6002,6 @@ ul.notifications {
     color:#ffffff;
 }
 
-.card-btn-close {
-    border-radius: 50%;
-    position: absolute;
-    top: 20px;
-    right: 15px;
-    z-index: 0;
-}
 
 .btn {
     padding: 8px 20px;
@@ -6145,6 +6147,8 @@ ul.notifications {
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 15px;
+    float: left;
+    width: 100%;
 }
 
 .subcard-title {
@@ -6167,6 +6171,34 @@ ul.notifications {
 .btn-circle:hover {
     background-color: #EE407D;
     color: #ffffff;
+}
+
+.multiplerow-inline-form .form-inline{
+    width: calc(100% - 38px);
+    float: left;
+}
+
+.multiplerow-inline-form .form-inline input{
+    width: calc(50% - 10px);
+}
+
+.multiplerow-inline-form--sm .form-inline .form-control{
+    width: calc(33.3333% - 10px);
+}
+
+.multiplerow-inline-form .form-inline .form-control + .form-control {
+    margin-left: 11px
+}
+
+.multiplerow-inline-form  .inline-button {
+    float: left;
+    padding-top: 6px;
+    margin-left: 8px;float: left;
+    padding-top:10px;
+}
+
+.card-add .collapse .multiplerow-inline-form-btn {
+    margin-right: 40px;
 }
 
 .card-tab--list ul{

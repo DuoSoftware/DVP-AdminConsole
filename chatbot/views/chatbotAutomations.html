@@ -5,7 +5,7 @@
         <div class="x_panel animated fadeIn bot-card">
             <div class="x_title card-title">
                 <div class="col-md-6 col-sm-12 col-xs-12">
-                    <h2 class="font-robot font-300">My Automations</h2>
+                    <h2 class="font-robot">My Automations</h2>
                 </div>
 
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group top_search card-search">
@@ -25,10 +25,7 @@
                 <div class="clearfix"></div>
             </div>
         <!-- end -->
-        </div>
 
-        <!-- view Bot List and Edit -->
-        <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled">
                     <li ng-repeat="workflow in workFlowNames | filterBy: ['DisplayName']: searchCriteria | orderBy:'-DateTime'" style="border-bottom: 1px solid #efefef;">
@@ -37,8 +34,6 @@
                 </ul>
             </div>
         </div>
-
-
         <!-- end -->
     </div>
 

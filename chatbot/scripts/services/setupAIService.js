@@ -80,6 +80,22 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
         });
     };
 
+    var deleteWorkFlow = function (id, wfid) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.payapiUrl + "deleteWorkFlow/" + id + "/" + wfid
+        }).then(function (response) {
+            console.log(response.status);
+            //debugger;
+            if (response.status === 200) {
+                return response;
+
+            } else {
+                return response;
+            }
+        });
+    };
+
     var setWorkFlowForText = function (workflowfortext) {
         return $http({
             method: 'POST',
@@ -103,6 +119,7 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
         DeleteSetupAI: deleteSetupAI,
         GetAllSetupAI: getAllSetupAI,
         GetWorkFlow: getWorkFlow,
+        DeleteWorkFlow: deleteWorkFlow,
         SetWorkFlowForText: setWorkFlowForText
     }
 });

@@ -22,10 +22,10 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6 col-sm-6 text-right">
-                            <button type="button" class="btn card-title--btn-add card-btn" data-toggle="collapse" data-target="#createNewUser" style="margin: 0">Create User</button>
+                            <button type="button" class="btn card-title--btn-add card-btn" style="margin: 0" ng-show="!newUserView" ng-click="toggleNewUserView()">Create User</button>
                         </div>
                     </div>
-                    <div class="x_content collapse" id="createNewUser" style="background: #f5f5f5">
+                    <div class="x_content" id="createNewUser" style="background: #f5f5f5" ng-show="newUserView">
                         <uib-tabset active="activeCreateUserTab" class="hidden-tab-header">
                             <uib-tab index="0">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -34,7 +34,7 @@
                                             <h2 class="font-robot font-300 text-uppercase font-15">Create new User</h2>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-lg-6">
-                                            <div class="edit-card--btn-circle" data-toggle="collapse" data-target="#createNewUser" style="float: right">
+                                            <div class="edit-card--btn-circle" style="float: right" ng-click="toggleNewUserView()">
                                                 <i class="fa fa-close"></i>
                                             </div>
                                         </div>
@@ -131,10 +131,10 @@
                                     </div>
                                     <div class="clearfix text-right">
                                         <div class="divider"></div>
-                                        <button ng-if="newUser.createSIPUser" class="btn btn-default" ng-click="addNewSIPUser('up')"
+                                        <button ng-if="newUser.createSIPUser" class="btn btn-success" ng-click="addNewUser(true, basicConfig.Extension)"
                                                 ng-disabled="!(newUser.password && newUser.name &&
                                          newUser.mail && newUser.phone && newUser.role) || invalidUserPassword">
-                                            Next >
+                                            {{isUserSaving ? "Saving User.." : "Continue"}}
                                         </button>
                                         <button ng-if="!newUser.createSIPUser" class="btn btn-success" ng-click="addNewUser()"
                                                 ng-disabled="!(newUser.password && newUser.name &&
@@ -165,8 +165,8 @@
                                                     <h3><label for="NewsipUserName">Sip Username *</label></h3>
                                                     <p>
                                                         <input class="form-control" id="NewsipUserName" name="sipUsrName"
-                                                               ng-init="basicConfig.SipUsername = newUser.firstname.toLowerCase()"
                                                                ng-model="basicConfig.SipUsername"
+                                                               ng-init="basicConfig.SipUsername = sipUserFromUser.SipUsername"
                                                                ng-trim="true"
                                                                ng-pattern="/^[a-z0-9]*$/"
                                                                ng-model-options="{ updateOn: 'blur' }">
@@ -176,7 +176,7 @@
                                                 <div class="col-md-6 animated fadeIn">
                                                     <h3><label for="newPassword">Password *</label></h3>
                                                     <p><input type="password" class="form-control" id="newPassword"
-                                                              ng-init="basicConfig.Password = newUser.password"
+                                                              ng-init="basicConfig.Password = sipUserFromUser.Password"
                                                               ng-model="basicConfig.Password"></p>
                                                 </div>
                                             </div>
@@ -210,6 +210,7 @@
                                                 <div class="col-md-8 animated fadeIn">
                                                     <h3><label for="newEmail">Email Address</label></h3>
                                                     <p><input type="text" class="form-control "
+                                                              ng-init="basicConfig.EmailAddress = sipUserFromUser.Email"
                                                               id="newEmail"
                                                               name="email"
                                                               placeholder="Email Address"
@@ -226,21 +227,24 @@
                                             <!-- domain | context -->
                                             <div class="col-lg-12">
                                                 <div class="col-md-6 animated fadeIn">
-                                                    <h3><label for="newDomain">Domain</label></h3>
+                                                    <h3><label for="newDomain">Domain *</label></h3>
                                                     <p><select class="select2_single form-control " tabindex="-1"
                                                                aria-hidden="true"
                                                                id="newDomain"
+                                                               required
                                                                placeholder="Domain name"
-                                                               name="domain" ng-model="basicConfig.CloudEndUserId"
+                                                               name="domain"
+                                                               ng-model="basicConfig.CloudEndUserId"
                                                                ng-model-options="{trackBy: '$value'}">
-                                                        <option ng-repeat="eu in endUserList" value="{{eu.id}}">{{eu.Domain}}</option>
+                                                        <option ng-repeat="eu in endUserList" value="{{eu.id}}" ng-selected="$index==0">{{eu.Domain}}</option>
                                                     </select></p>
                                                 </div>
 
                                                 <div class="col-md-6 animated fadeIn">
-                                                    <h3><label for="newContext">Context</label></h3>
+                                                    <h3><label for="newContext">Context *</label></h3>
                                                     <p><select class="select2_single form-control" tabindex="-1"
                                                                aria-hidden="true"
+                                                               required
                                                                id="newContext"
                                                                name="context" ng-model="basicConfig.ContextId"
                                                                ng-model-options="{trackBy: '$value'}">
@@ -329,9 +333,9 @@
                                             </button>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback text-right">
-                                            <button class="btn btn-success" ng-click="addNewUser(true, basicConfig.Extension); runSIPUserSave()"
+                                            <button class="btn btn-success" ng-click="onSavePressed()"
                                                     ng-disabled="!basicConfig.SipUsername || !sipUserConfForm.$valid">
-                                                Submit
+                                                Create SIP user
                                             </button>
                                         </div>
                                     </div>
@@ -339,6 +343,7 @@
                             </uib-tab>
                         </uib-tabset>
                     </div>
+                    <div class="divider clearfix" style="margin-bottom: 20px"></div>
                     <!-- view user details -->
                     <div class="x_content col-md-12 col-sm-12 col-xs-12">
                         <ul class="list-unstyled msg_list">

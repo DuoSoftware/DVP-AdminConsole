@@ -183,7 +183,7 @@
                             })
                         }
 
-
+						$rootScope.$broadcast('SIPUserSaveSuccess');
                     }
                     else {
                         $scope.showAlert('Error', 'error', 'Error updating user');

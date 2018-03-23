@@ -835,12 +835,12 @@ a {
     padding-left: 5px;
 }
 
-.form-control {
+body .form-control {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
     height: 40px;
-    width: 100% !important;
+    width: 100%;
     color: #555;
     border: 1px solid #e4bdff!important;
     border-radius: 5px !important;
