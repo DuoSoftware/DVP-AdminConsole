@@ -14,9 +14,11 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
         templateUrl: 'chatbot/views/partials/editbotdetails.html',
         link: function (scope) {
-
+            debugger;
             scope.editMode = false;
             scope.botappedit = false;
+            // scope.botappeditApiai =false;
+            // scope.botappeditSmooth = false;
 
             scope.copytoClipboard = function (cardID, type, message) {
                 var id = cardID;
@@ -41,9 +43,17 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 scope.generatedCallbackURL = URL;
             }
 
-            scope.editbotdetails = function () {
-                $(".sortable").sortable({
+            $( ".sortable" ).sortable({
+                update: function( event, ui ) {
+                    console.log(event);
+                    console.log(ui);
+                }
+            });
 
+            scope.editbotdetails = function () {
+                debugger;
+                $(".sortable").sortable({
+                    
                     stop: function (event, ui) {
                         scope.order = [];
                         $(".sortable li").each(function (i, el) {
@@ -53,25 +63,28 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                             delete OrderedBots._id;
                             scope.order.push(OrderedBots);
                         })
-
-                        scope.updatebotapps(scope.order);
-
+                        scope.updatebotappsOrder(scope.order);
                     }
-                });
+                    
+                });                
+                debugger;
                 $(".sortable").disableSelection();
                 scope.generateCallBackURL(scope.bot._id);
                 scope.getallBotApps(scope.bot._id);
                 scope.getwhitelisturl(scope.bot._id);
                 scope.editMode = !scope.editMode;
             };
+          
             scope.editbotappdetails = function (botapp) {
-                //debugger
-                scope.botappedit = !scope.botappedit;
+                debugger
+                console.log(botapp);
+                
                 scope.selectedBot = botapp;
             };
             // bot details update method
             scope.modifyBotDetails = function (bot) {
                 //delete bot._id;
+                debugger;
                 chatbotService.UpdateChatbot(bot).then(function (response) {
                     if (response) {
                         scope.showAlert("ChatBot", 'Bot Update Successfully.', "success");
@@ -190,7 +203,10 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 botappconfigService.SavenewBotApp(newbotapp).then(function (response) {
                     if (response.data.IsSuccess) {
                         scope.getallBotApps(scope.bot._id);
-                        scope.botappedit = false;
+                        // scope.botappedit = false;
+                        scope.botappeditApiai =false;
+                        scope.botappeditSmooth = false
+                        
                         scope.showAlert("Bot Apps", 'Added new Bot app.', "success");
                     } else {
                         scope.showAlert("Bot Apps", 'Fail To Save Bot Apps.', "error");
@@ -203,12 +219,15 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
             //update bot app
             scope.updatebotapp = function (botapp) {
+                console.log(botapp);
                 //debugger
                 var id = botapp._id;
                 // delete botapp._id;
                 botappconfigService.UpdateBotApp(botapp, id).then(function (response) {
                     if (response.data.IsSuccess) {
-                        scope.botappedit = false;
+                        // scope.botappedit = false;
+                        scope.botappeditApiai =false;
+                        scope.botappeditSmooth = false;
                         scope.showAlert("Bot Apps", 'Bot App Updated Successfully.', "success");
                     } else {
                         scope.showAlert("Bot Apps", 'Fail To Update Bot Apps.', "error");
@@ -221,11 +240,29 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
             //update bot apps 
             scope.updatebotapps = function (botapps) {
+                debugger
                 botappconfigService.UpdateBotApps(botapps).then(function (response) {
                     if (response.data.IsSuccess) {
 
                         scope.getallBotApps(scope.bot._id);
                         scope.showAlert("Bot Apps", 'Bot App Updated Successfully.', "success");
+                    } else {
+                        scope.showAlert("Bot Apps", 'Fail To Update Bot Apps.', "error");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Bot Apps", 'Fail To Update Bot Apps.', "error");
+                });
+            };
+            
+            //update bot apps order
+            scope.updatebotappsOrder = function (botapps) {
+                debugger
+                botappconfigService.UpdateBotApps(botapps).then(function (response) {
+                    if (response.data.IsSuccess) {
+
+                        // scope.getallBotApps(scope.bot._id);
+                        //scope.showAlert("Bot Apps", 'Bot App Updated Successfully.', "success");
                     } else {
                         scope.showAlert("Bot Apps", 'Fail To Update Bot Apps.', "error");
                     }

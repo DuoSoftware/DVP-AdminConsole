@@ -234,40 +234,47 @@
                                             <ul class="sortable" id="bot._id">
                                                 <!-- <div class="col-lg-12"> -->
                                                 <li class="ui-state-default" ng-repeat="item in slectedConfig | orderBy : 'order'" id={{item}}>
-                                                    <div class="row">
+                                                    <div class="row layer-draggable" ng-mousedown="init()">
                                                         <div class="col-md-11">
                                                             <span class="ui-icon ui-icon-arrowthick-2-n-s"> {{item.app}}</span>
                                                         </div>
                                                         <div class="col-md-1">
-                                                            <div class="btn-circle" ng-disabled="true" ng-click="editbotappdetails(item)" style="cursor: pointer">
+                                                            <div class="btn-circle" ng-disabled="true" ng-click="botappedit = !botappedit; editbotappdetails(item);" style="cursor: pointer">
                                                                 <i class="fa fa-edit"></i>
                                                             </div>
                                                             <div class="btn-circle" ng-disabled="true" ng-click="deletebotapp(item)" style="cursor: pointer">
                                                                 <i class="fa fa-trash-o"></i>
                                                             </div>
                                                         </div>
+                                
                                                         <div class="col-md-12">
                                                             <div ng-show="botappedit">
-                                                                <div ng-if="selectedBot.app=='apiai'">
+                                                                <div >
                                                                     <div class="card-tab--subcard-form">
-                                                                        <div class="subcard-title ">
+                                                                        <div class="subcard-title " style="padding:0 !important;">
                                                                             <div class="col-md-9">
-                                                                                <h4>{{selectedBot.app}} </h4>
+                                                                                <h4>{{item.app}} </h4>
                                                                             </div>
                                                                             <div class="col-md-3 ">
-                                                                                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(selectedBot)">
+                                                                                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updatebotapp(item)">
                                                                                     Update
                                                                                 </button>
                                                                             </div>
                                                                         </div>
-
-                                                                        <div class="col-md-12 form-group">
-                                                                            <label>Client Access Token</label>
-                                                                            <input type="text" class="form-control" ng-model="selectedBot.config.CLIENT_ACCESS_TOKEN" placeholder="Client Access Token">
+                                                                        <div ng-repeat="(key,value) in item.config">
+                                                                           
+                                                                            <div class="col-md-12 form-group">
+                                                                                <label>{{key}}</label>
+                                                                                <input type="text" class="form-control" ng-model="item.config[key]">
+                                                                            </div>
                                                                         </div>
+                                                                        
                                                                     </div>
                                                                 </div>
-                                                                <div ng-if="selectedBot.app=='smoothflow'">
+                                                         
+                                                         
+                                                                <!-- <div ng-show="item.app=='Smoothflow'" ng-if="selectedBot.app=='Smoothflow'">
+                                
                                                                     <div class="card-tab--subcard-form">
                                                                         <div class="subcard-title ">
                                                                             <div class="col-md-9">
@@ -285,9 +292,10 @@
                                                                             <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.Securitykey" placeholder="Security key">
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div ng-if="selectedBot.app=='ARDS'">
-                                                                    <div class="card-tab--subcard-form">
+                                                                </div> -->
+                                                            
+                                                                <!-- <div ng-show="item.app=='ARDS'" ng-if="selectedBot.app=='ARDS'">
+                                                                    <div class="card-tab-subcard-form">
                                                                         <div class="subcard-title ">
                                                                             <div class="col-md-9">
                                                                                 <h4>{{selectedBot.app}} </h4>
@@ -302,11 +310,11 @@
                                                                         <div class="col-md-12 form-group">
 
                                                                             <label>Inputs</label>
-                                                                            <input type="text" class="form-control has-feedback-left" placeholder="Inputs">
+                                                                            <input type="text" class="form-control has-feedback-left" ng-model="selectedBot.config.Securitykey" placeholder="Inputs">
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
+                                                                </div>  -->
+                                                            </div> 
                                                         </div>
                                                     </div>
 

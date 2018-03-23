@@ -273,7 +273,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     subscribeServices.SubscribeCallStatus('main', function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
-                var userObj = $scope.users.filter(function (item) {
+                var userObj = $scope.users.filhter(function (item) {
                     return key == item.username;
                 });
                 if (Array.isArray(userObj)) {
@@ -397,7 +397,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 		if(Object.keys(result).length
 			> 5){
 			$rootScope.allUsers = true;
-			$state.go('console.dashboard');
+			// $state.go('console.dashboard');
 		}else{
 			$rootScope.freshUser = true;
 			$rootScope.allUsers = false;
