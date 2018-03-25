@@ -262,11 +262,14 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
     $scope.updateIntegration = function (template) {
         debugger;
         console.log(template);
-
-
+        
+        if(template.body === undefined){
+            template.body = "";
+        }
         var body = {};
-        body = template.body;
-        if (body !== "") {
+        body= template.body;
+        console.log(body);
+        if(body !== ""){
             debugger;
             try {
                 obj = JSON.parse(body);
@@ -280,7 +283,7 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         }
         else {
             $scope.errorMsg = false;
-            obj = {};
+            var obj = {};
         }
 
 
@@ -302,17 +305,17 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
 
         }
 
-        for (var j = 0; j < template.url_params.length; j++) {
-            console.log(template.url_params[j]);
-            editurl_params[template.url_params[j].key] = template.url_params[j].value;
-            console.log(editurl_params);
-            if (template.url_params[j].key === "") {
-                editurl_params = {};
-            }
-
-            // template.url_params = {};
-
-        }
+    //    for (var j = 0; j < template.url_params.length; j++) {
+    //         console.log(template.url_params[j]);
+    //         editurl_params[template.url_params[j].key] = template.url_params[j].value;
+    //         console.log(editurl_params);
+    //         if(template.url_params[j].key === ""){
+    //         editurl_params ={};
+    //         } 
+           
+    //     }
+        
+        console.log(template.url_params);
         template.headers = editheaders;
         template.url_params = editurl_params;
 

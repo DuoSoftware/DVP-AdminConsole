@@ -113,11 +113,20 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
             $scope.bodyDisabled = false;
             $scope.errorMsg = false;
 
-            $scope.closeTemplate = function () {
-                $scope.editMode = false;
-                //$scope.getAllIntegrations();
-                //$state.reload();
-            };
+                $scope.closeTemplate = function () {
+                    $scope.editMode = false;
+                    $scope.getAllIntegrations();
+                    //$state.reload();
+                };
+
+                $scope.getAllIntegrations = function () {
+                    botintegrationService.GetAllIntegrations().then(function (response) {
+                        if (response.data.IsSuccess) {
+                            $scope.allintegration = response.data.Result;
+                            console.log($scope.allintegration);
+                        } else {
+                            $scope.showAlert("Integration", 'error', "Fail To load integration.");
+                        }
 
             $scope.getAllIntegrations = function () {
                 botintegrationService.GetAllIntegrations().then(function (response) {
@@ -144,31 +153,90 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
                 }
             }
 
+                $scope.editTemplate = function (temp) {
+                    $scope.integrate = {};
+                    console.log(temp);
+                   
+                    $scope.editMode = true;
+                    $scope.integrate= temp;
+                    console.log($scope.integrate);
 
-            $scope.editTemplate = function (temp) {
-                $scope.integrate = {};
-                console.log(temp);
-                $scope.editMode = true;
-                $scope.integrate = temp;
-                console.log($scope.integrate);
-                $scope.integrate.body = JSON.stringify($scope.integrate.body);
-                console.log($scope.integrate.body);
+                    //body 
+                    debugger; 
+                    if($scope.integrate.method === "POST"){
+                        $scope.bodyDisabled = false; 
+                    }
+                    else{
+                        $scope.bodyDisabled = true; 
+                    }
 
-                if ($scope.integrate.headers === {} || $scope.integrate.headers === undefined) {
-                    $scope.integrate.headers = [{ key: "", value: "" }];
-                }
-                else {
+                    //is jsonStringfy
+                     
+                    try {
+                        $scope.integrate.body = JSON.parse($scope.integrate.body);
+                        $scope.integrate.body = JSON.stringify($scope.integrate.body);
+                    }
+                    catch (e) { 
+                        $scope.integrate.body = JSON.stringify($scope.integrate.body);
+                    }
+                    console.log($scope.integrate.body);
+
                     console.log($scope.integrate.headers);
-                    var xx = Object.keys($scope.integrate.headers);
-                    var arr = xx.map(function (x) {
-                        var o = {};
-                        o['key'] = x;
-                        o['value'] = $scope.integrate.headers[x];
-                        return o;
-                    })
-                    $scope.integrate.headers = [];
-                    $scope.integrate.headers = arr;
-                }
+                   
+                    if($scope.integrate.headers === {} || $scope.integrate.headers === undefined){
+                        $scope.integrate.headers = [];
+                        $scope.integrate.headers = [{key:"",value:""}];
+                        // $scope.integrate.headers = {};
+                      
+                        // $scope.integrate.headers[key] = $scope.integrate.headers[key];
+                        // $scope.integrate.headers[key] = "";
+                        // console.log($scope.integrate.headers);
+                    }
+                    else{
+                        if(Array.isArray($scope.integrate.headers)){
+                            $scope.integrate.headers = $scope.integrate.headers;
+                        }
+                        else{
+                            console.log($scope.integrate.headers);
+                            var xx = Object.keys($scope.integrate.headers);
+                            var arr = xx.map(function(x) {
+                                var o = {}; 
+                                o['key'] = x;
+                                o['value'] = $scope.integrate.headers[x];
+                                return o;
+                            })
+                            $scope.integrate.headers = [];
+                            $scope.integrate.headers = arr;
+
+                        }
+                      
+                    }
+                   
+                    
+                    if($scope.integrate.url_params.length === {} || $scope.integrate.url_params === undefined){
+                        $scope.integrate.url_params = [];
+                        $scope.integrate.url_params = [{key:"",value:""}];
+                        // $scope.integrate.url_params = {};
+                        // $scope.integrate.url_params[key] = $scope.integrate.url_params[key];
+                        // $scope.integrate.url_params[key] = "";
+                    }
+                    else{
+                        if(Array.isArray($scope.integrate.url_params)){
+                            $scope.integrate.url_params = $scope.integrate.url_params;
+                        }
+                        else{
+                            console.log($scope.integrate.url_params);
+                            var yy = Object.keys($scope.integrate.url_params);
+                            var arry = yy.map(function(y) {
+                                var o = {}; 
+                                o['key'] = y;
+                                o['value'] = $scope.integrate.url_params[y];
+                                return o;
+                            })
+                            $scope.integrate.url_params = [];
+                            $scope.integrate.url_params = arry;
+                        }
+                       
 
 
                 if ($scope.integrate.url_params === {} || $scope.integrate.url_params === undefined) {
@@ -209,16 +277,41 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
                     if (j == index) {
                         $scope.integrate.url_params.splice(j, 1);
                     }
-                }
+                };
+    
+    $scope.deleteUrlParams = deleteUrlParams;
+    $scope.deleteHeader = deleteHeader;
+    $scope.successDeleteCheckFields = successDeleteCheckFields;
+    $scope.errordeleteCheckFields = errordeleteCheckFields;
+                
+    function deleteUrlParams(index){
+        // console.log(prop); 
+        // delete $scope.integrate.url_params[prop];
+        // console.log($scope.integrate.url_params);
+        for (var j = $scope.integrate.url_params.length - 1; j >= 0; j--) {
+            if (j == index) {
+                $scope.integrate.url_params.splice(j, 1);
             }
 
-            function deleteHeader(index) {
-                console.log(index);
-                for (var k = $scope.integrate.headers.length - 1; k >= 0; k--) {
-                    if (k == index) {
-                        $scope.integrate.headers.splice(k, 1);
-                    }
-                }
+    $scope.setbody = function(type){
+        if(type === "POST"){
+            $scope.bodyDisabled = false; 
+            // $scope.integration.body = "";
+        }
+        else{
+            $scope.bodyDisabled = true; 
+            // $scope.integration.body = "";
+        }
+    }
+
+    function deleteHeader(index){
+        // console.log(prop); 
+        // delete $scope.integrate.headers[prop];
+        // console.log($scope.integrate.headers);
+        console.log(index);
+        for (var k = $scope.integrate.headers.length - 1; k >= 0; k--) {
+            if (k == index) {
+                $scope.integrate.headers.splice(k, 1);
             }
 
             function successDeleteCheckFields(index) {
@@ -239,37 +332,41 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
             }
 
 
-            console.log($scope.integrate);
+    console.log($scope.integrate);
 
+    $scope.addSuccessCheckFields = addSuccessCheckFields;
+    $scope.addErrorCheckFields = addErrorCheckFields;
+    $scope.addCheckHeaders = addCheckHeaders;
+    $scope.addUrlParams = addUrlParams;
 
-            $scope.addSuccessCheckFields = addSuccessCheckFields;
-            $scope.addErrorCheckFields = addErrorCheckFields;
-            $scope.addCheckHeaders = addCheckHeaders;
-            $scope.addUrlParams = addUrlParams;
+    function addCheckHeaders(){
+        $scope.integrate.headers.push({});
+        //  var key = "",
+        //  value="";
+        // console.log($scope.integrate.headers);
+        // $scope.integrate.headers[key] = $scope.integrate.headers[key];
+        // $scope.integrate.headers[key] = "";
+        // console.log($scope.integrate.headers);
+    }
 
-            // var headers={};
-            // var url_params={};
+    function addUrlParams(){
+        $scope.integrate.url_params.push({});
+        // var key = "",
+        //  value="";
+        // $scope.integrate.url_params[key] = $scope.integrate.url_params[key];
+        // $scope.integrate.url_params[key] = "";
+        // console.log($scope.integrate.url_params);
+    }
 
-            function addCheckHeaders() {
+    function addErrorCheckFields(){
+        $scope.integrate.response.error.check_fields.push({});
+    }
 
-                $scope.integrate.headers.push({});
-            }
+    function addSuccessCheckFields(){
+        $scope.integrate.response.success.check_fields.push({});
+    }
 
-            function addErrorCheckFields() {
-
-                $scope.integrate.response.error.check_fields.push({});
-            }
-
-            function addUrlParams() {
-
-                $scope.integrate.url_params.push({});
-            }
-
-            function addSuccessCheckFields() {
-
-                $scope.integrate.response.success.check_fields.push({});
-            }
-        }
+    }
 
     }
 });
