@@ -305,15 +305,15 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
 
         }
 
-    //    for (var j = 0; j < template.url_params.length; j++) {
-    //         console.log(template.url_params[j]);
-    //         editurl_params[template.url_params[j].key] = template.url_params[j].value;
-    //         console.log(editurl_params);
-    //         if(template.url_params[j].key === ""){
-    //         editurl_params ={};
-    //         } 
+       for (var j = 0; j < template.url_params.length; j++) {
+            console.log(template.url_params[j]);
+            editurl_params[template.url_params[j].key] = template.url_params[j].value;
+            console.log(editurl_params);
+            if(template.url_params[j].key === ""){
+            editurl_params ={};
+            } 
            
-    //     }
+        }
         
         console.log(template.url_params);
         template.headers = editheaders;

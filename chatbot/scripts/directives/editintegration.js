@@ -19,7 +19,7 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
 
             scope.templateType = scope.templateType;
 
-            scope.getSelectedTemplateType = function () {
+            scope.getSelectedTemplateType = function(){
                 angular.for
             }
             scope.selectedTemplateType = scope.getSelectedTemplateType(scope.templateType);
@@ -40,21 +40,16 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
                 });
             }
 
-            scope.copytoClipboard = function (cardID, type) {
-                debugger
+            scope.copyCardID = function (cardID) {
+
                 var id = cardID;
-
-                var copyText = document.getElementById(id);
-                copyText.select();
-                document.execCommand("Copy");
-
-                // window.getSelection().empty();
-                // var copyField = document.getElementById(id);
-                // var range = document.createRange();
-                // range.selectNode(copyField);
-                // window.getSelection().addRange(range);
-                // document.execCommand('copy');
-                scope.showAlert(type, type + ' ID was successfully copied into the Clipboard.', "success");
+                window.getSelection().empty();
+                var copyField = document.getElementById(id);
+                var range = document.createRange();
+                range.selectNode(copyField);
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                scope.showAlert("Card ID", 'Card ID copied to clipboard.', "success");
             }
 
             scope.removeTemplate = function (item) {
@@ -108,10 +103,10 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
 
         },
 
-        controller: function ($scope, $state, botintegrationService, $window) {
+        controller: function($scope, $state, botintegrationService, $window) { 
 
-            $scope.bodyDisabled = false;
-            $scope.errorMsg = false;
+                $scope.bodyDisabled= false; 
+                $scope.errorMsg = false;
 
                 $scope.closeTemplate = function () {
                     $scope.editMode = false;
@@ -128,30 +123,11 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
                             $scope.showAlert("Integration", 'error', "Fail To load integration.");
                         }
 
-            $scope.getAllIntegrations = function () {
-                botintegrationService.GetAllIntegrations().then(function (response) {
-                    if (response.data.IsSuccess) {
-                        $scope.allintegration = response.data.Result;
-                        console.log($scope.allintegration);
-                    } else {
+                    }, function (error) {
                         $scope.showAlert("Integration", 'error', "Fail To load integration.");
-                    }
-
-                }, function (error) {
-                    $scope.showAlert("Integration", 'error', "Fail To load integration.");
-                });
-            }
-            $scope.getAllIntegrations();
-
-            $scope.setbody = function (type) {
-                if (type === "POST") {
-                    $scope.bodyDisabled = false;
+                    });  
                 }
-                else {
-                    $scope.bodyDisabled = true;
-                    $scope.integration.body = "";
-                }
-            }
+                $scope.getAllIntegrations();
 
                 $scope.editTemplate = function (temp) {
                     $scope.integrate = {};
@@ -213,7 +189,7 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
                     }
                    
                     
-                    if($scope.integrate.url_params.length === {} || $scope.integrate.url_params === undefined){
+                    if($scope.integrate.url_params === {} || $scope.integrate.url_params === undefined){
                         $scope.integrate.url_params = [];
                         $scope.integrate.url_params = [{key:"",value:""}];
                         // $scope.integrate.url_params = {};
@@ -238,44 +214,14 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
                         }
                        
 
+                    }
 
-                if ($scope.integrate.url_params === {} || $scope.integrate.url_params === undefined) {
-                    $scope.integrate.url_params = [{ key: "", value: "" }];
-                }
-                else {
-
-                    console.log($scope.integrate.url_params);
-                    var yy = Object.keys($scope.integrate.url_params);
-                    var arry = yy.map(function (y) {
-                        var o = {};
-                        o['key'] = y;
-                        o['value'] = $scope.integrate.url_params[y];
-                        return o;
-                    })
-                    $scope.integrate.url_params = [];
-                    $scope.integrate.url_params = arry;
-
-                }
-
-                if ($scope.integrate.response.success.check_fields.length === 0) {
-                    $scope.integrate.response.success.check_fields = [{ name: "", type: "", value: "" }];
-                }
-
-                if ($scope.integrate.response.error.check_fields.length === 0) {
-                    $scope.integrate.response.error.check_fields = [{ name: "", type: "", value: "" }];
-                }
-            };
-
-            $scope.deleteUrlParams = deleteUrlParams;
-            $scope.deleteHeader = deleteHeader;
-            $scope.successDeleteCheckFields = successDeleteCheckFields;
-            $scope.errordeleteCheckFields = errordeleteCheckFields;
-
-            function deleteUrlParams(index) {
-                console.log(index);
-                for (var j = $scope.integrate.url_params.length - 1; j >= 0; j--) {
-                    if (j == index) {
-                        $scope.integrate.url_params.splice(j, 1);
+                    if($scope.integrate.response.success.check_fields.length === 0){
+                        $scope.integrate.response.success.check_fields = [{name:"",type:"",value:""}];
+                    }
+                
+                    if($scope.integrate.response.error.check_fields.length === 0){
+                        $scope.integrate.response.error.check_fields = [{name:"",type:"",value:""}];
                     }
                 };
     
@@ -292,6 +238,8 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
             if (j == index) {
                 $scope.integrate.url_params.splice(j, 1);
             }
+        }
+    }
 
     $scope.setbody = function(type){
         if(type === "POST"){
@@ -313,23 +261,25 @@ mainApp.directive("editintegration", function ($filter, $uibModal, appBackendSer
             if (k == index) {
                 $scope.integrate.headers.splice(k, 1);
             }
+        }
+    }
 
-            function successDeleteCheckFields(index) {
-                console.log(index);
-                for (var m = $scope.integrate.response.success.check_fields.length - 1; m >= 0; m--) {
-                    if (m == index) {
-                        $scope.integrate.response.success.check_fields.splice(m, 1);
-                    }
-                }
+    function successDeleteCheckFields(index){
+        console.log(index);
+        for (var m = $scope.integrate.response.success.check_fields.length - 1; m >= 0; m--) {
+            if (m == index) {
+                $scope.integrate.response.success.check_fields.splice(m, 1);
             }
+        }
+    }
 
-            function errordeleteCheckFields(index) {
-                for (var n = $scope.integrate.response.error.check_fields.length - 1; n >= 0; n--) {
-                    if (n == index) {
-                        $scope.integrate.response.error.check_fields.splice(n, 1);
-                    }
-                }
+    function errordeleteCheckFields(index){
+        for (var n = $scope.integrate.response.error.check_fields.length - 1; n >= 0; n--) {
+            if (n == index) {
+                $scope.integrate.response.error.check_fields.splice(n, 1);
             }
+        }
+    }
 
 
     console.log($scope.integrate);
