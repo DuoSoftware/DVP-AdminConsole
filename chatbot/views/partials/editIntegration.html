@@ -9,14 +9,13 @@
                 </div>
                 <div class="col-md-3 ">
                     <div class="pull-right user-option-wrap" ng-show="!editMode">
-                        <h3>
-                            <small ng-disabled="true" ng-click="editTemplate(template)" style="cursor: pointer">
-                                <i class="fa fa-edit"></i>
-                            </small>
-                            <small ng-disabled="true" ng-click="removeTemplate(template)" style="cursor: pointer">
+                        <div ng-disabled="true" ng-click="editTemplate(template)" class="btn-circle">
+                            <i class="fa fa-edit"></i>
+                        </div>
+
+                        <div ng-disabled="true" ng-click="removeTemplate(template)" class="btn-circle">
                                 <i class="fa fa-trash-o"></i>
-                            </small>
-                        </h3>
+                        </div>
                     </div>
                 </div>
             </div>
