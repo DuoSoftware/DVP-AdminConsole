@@ -53,7 +53,14 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
             };
 
             scope.removeCard = function (index) {
-                scope.template.items.splice(index, 1);
+                var item = scope.template.items[index];
+                scope.showConfirm("Delete Card", "Delete", "ok", "cancel", "Are you sure you want to delete \"" + item.title + "\" Card?", function (obj) {
+                    scope.$apply(function () {
+                        scope.template.items.splice(index, 1);
+                    });
+                }, function () {
+
+                }, item);
             }
 
             scope.addNewCard = function () {

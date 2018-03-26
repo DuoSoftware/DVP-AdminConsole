@@ -33,7 +33,15 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
             }
 
             scope.removeButton = function (index) {
-                scope.card.buttons.splice(index,1);
+                var item = scope.card.buttons[index];
+                scope.showConfirm("Delete Button", "Delete", "ok", "cancel", "Are you sure you want to delete \"" + item.title + "\" Button", function (obj) {
+                    scope.$apply(function () {
+                        scope.card.buttons.splice(index, 1);
+                    });
+
+                }, function () {
+
+                }, item);
             }
 
             // scope.getnewCardObject = function () {
