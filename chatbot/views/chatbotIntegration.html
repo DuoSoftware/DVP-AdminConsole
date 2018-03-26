@@ -17,15 +17,14 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card-add">
-                    <button type="button" class="btn card-title--btn-add card-btn" ng-click="showNewCardForm=true" data-toggle="collapse" ng-hide="showNewCardForm" data-target="#addNewIntCollapse">Add New</button>
+                    <button type="button" class="btn card-title--btn-add card-btn" ng-click="openNewIntegration()" data-toggle="collapse" ng-show="showNewCardForm == false" data-target="#addNewIntCollapse">Add New</button>
 
-                    <div id="addNewIntCollapse" ng-show="showNewCardForm" class="collapse">
+                    <div id="addNewIntCollapse" ng-if="showNewCardForm == true" class="collapse">
                         <div class="subcard">
                             <div class="col-sm-12 subcard-title ">
                                 <h2 class="font-robot font-300 font-15">Create New Integration</h2>
-                                <div data-toggle="collapse" data-target="#addNewIntCollapse"  ng-click="showNewCardForm=false" class="btn-circle pull-right">
+                                <div data-toggle="collapse" data-target="#addNewIntCollapse"  ng-click="closeNewIntegration()" class="btn-circle pull-right">
                                     <i class="fa fa-times"></i>
                                 </div>
                             </div>

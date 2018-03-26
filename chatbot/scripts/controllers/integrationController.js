@@ -5,7 +5,7 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
 
     $scope.buttonName = "SAVE";
     $scope.bodyDisabled = false;
-
+    $scope.showNewCardForm = false;
 
     $scope.integration = {
         "name": "",
@@ -56,9 +56,16 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
     $scope.errordeleteCheckFields = errordeleteCheckFields;
     $scope.save = save;
 
+    $scope.openNewIntegration = function(){
+        $scope.showNewCardForm = true;
+    }
+    $scope.closeNewIntegration = function(){
+        $scope.showNewCardForm = false;
+    }
+
     var headers = {};
     var url_params = {};
-
+    
     $scope.headersArray = [{ key: "", value: "" }];
     $scope.urlParamsArray = [{ key: "", value: "" }];
     $scope.successCheckFieldsArray = [{ name: "", type: "", value: "" }];
@@ -131,12 +138,6 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         }
     }
 
-    $scope.createIntegration = function (integrate) {
-
-
-
-    }
-
     function save() {
         for (var i = 0; i < $scope.headersArray.length; i++) {
             console.log($scope.headersArray[i]);
@@ -202,7 +203,11 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
             if (response.data.IsSuccess) {
                 $scope.showAlert("Integration", 'success', "Integration Created Successfully.");
                 $scope.getAllIntegrations();
+                debugger;
                 $scope.integration = {};
+                $scope.headersArray = [{ key: "", value: "" }];
+                $scope.urlParamsArray = [{ key: "", value: "" }];
+                $scope.showNewCardForm = false;
 
             } else {
                 $scope.showAlert("Integration", 'error', "Fail To Create Integration.");
