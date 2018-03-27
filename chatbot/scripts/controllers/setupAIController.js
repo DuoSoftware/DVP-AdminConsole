@@ -187,6 +187,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     $scope.getAllSetupAi();
 
     $scope.updateSetupai = function (setup) {
+        debugger
         console.log(setup);
         $scope.setup = setup;
         $scope.events = [];
@@ -204,6 +205,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         $scope.setupai.events = $scope.events;
         $scope.setupai.company = $scope.setup.company;
         $scope.setupai.tenant = $scope.setup.tenant;
+        $scope.setupai.botAppId = $scope.setup.botAppId;
         $scope.setupai._id = $scope.setup._id;
         $scope.setupai.__v = $scope.setup.__v;
 
