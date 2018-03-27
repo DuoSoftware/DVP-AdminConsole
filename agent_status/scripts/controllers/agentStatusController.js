@@ -53,7 +53,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.productivity = response;
             $scope.isLoading = true;
             calculateProductivity();
-            $scope.SaveReportQueryFilter();
+
             deferred.resolve(true);
         }, function (error) {
             $log.debug("productivity err");
