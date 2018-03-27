@@ -9,6 +9,7 @@ mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService
             setupai: "=",
             setupaiType: "=",
             setupaiTypes: "=",
+            botlist: "=",
             'updateSetupai': '&',
             'deleteSetupai': '&'
         },
@@ -16,6 +17,9 @@ mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService
         templateUrl: 'chatbot/views/partials/editSetupAI.html',
 
         link: function (scope) {
+
+            debugger
+            console.log(scope.setupai);
 
             scope.removeSetupai = function (item) {
 
@@ -68,48 +72,62 @@ mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService
 
         },
 
-        controller: function($scope, $state, setupAIService) { 
+        controller: function ($scope, $state, setupAIService, chatbotService) {
 
-                $scope.getWorkflows = function(){
-                    setupAIService.GetWorkFlow().then(function (response) {
-                        if (response.data !==0 ) {
-                            $scope.workFlowNames = response.data;
-                            console.log($scope.workFlowNames);
-                        } else {
-                            $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
-                        }
+            // $scope.getAllBots = function () {
+            //     chatbotService.GetAllChatbots().then(function (response) {
+            //         if (response.data.IsSuccess) {
+            //             $scope.allbots = response.data.Result;
+            //         } else {
+            //             $scope.showAlert("ChatBot", 'error', "Fail To load Bots.");
+            //         }
 
-                    }, function (error) {
+            //     }, function (error) {
+            //         $scope.showAlert("ChatBot", 'error', "Fail To load Bots.");
+            //     });
+            // };
+            // $scope.getAllBots();
+
+            $scope.getWorkflows = function () {
+                setupAIService.GetWorkFlow().then(function (response) {
+                    if (response.data !== 0) {
+                        $scope.workFlowNames = response.data;
+                        console.log($scope.workFlowNames);
+                    } else {
                         $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
-                    });  
-                }
-                $scope.getWorkflows();
+                    }
 
-                $scope.getAllSetupAi = function () {
-                        setupAIService.GetAllSetupAI().then(function (response) {
-                        if (response.data.IsSuccess) {
-                            // $scope.allsetupai = response.data.Result;
-                            // console.log($scope.allsetupai);
+                }, function (error) {
+                    $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
+                });
+            }
+            $scope.getWorkflows();
 
-                        } else {
-                            $scope.showAlert("Setup AI", 'error', "Fail To load setup ai.");
-                        }
+            // $scope.getAllSetupAi = function () {
+            //     setupAIService.GetAllSetupAI().then(function (response) {
+            //         if (response.data.IsSuccess) {
+            //             // $scope.allsetupai = response.data.Result;
+            //             // console.log($scope.allsetupai);
 
-                    }, function (error) {
-                        $scope.showAlert("Set up AI", 'error', "Fail To load setup ai.");
-                    });
-                }
+            //         } else {
+            //             $scope.showAlert("Setup AI", 'error', "Fail To load setup ai.");
+            //         }
+
+            //     }, function (error) {
+            //         $scope.showAlert("Set up AI", 'error', "Fail To load setup ai.");
+            //     });
+            // }
+            // $scope.getAllSetupAi();
+
+            $scope.closeTemplate = function () {
+                $scope.editMode = false;
                 $scope.getAllSetupAi();
+            };
 
-                $scope.closeTemplate = function () {
-                    $scope.editMode = false;
-                    $scope.getAllSetupAi();
-                };
-
-                $scope.editSetupai = function (setupai) {
-                  console.log(setupai);
-                    $scope.editMode = true;
-                };
+            $scope.editSetupai = function (setupai) {
+                console.log(setupai);
+                $scope.editMode = true;
+            };
         }
     }
 });

@@ -16,7 +16,7 @@
                             <i class="fa fa-pencil"></i>
                         </div>
                         <div ng-disabled="true" ng-click="removeSetupai(setupai)" class="btn-circle">
-                                <i class="fa fa-trash-o"></i>
+                            <i class="fa fa-trash-o"></i>
                         </div>
                     </div>
                 </div>
@@ -39,14 +39,19 @@
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="row no-gutters">
-                                <div class="col-12 col-md-6 form-group has-feedback">
+                                <div class="col-6 col-md-3 form-group has-feedback">
                                     <label>If User Says Somthing Similar To:*</label>
                                     <tags-input class="form-control width-100" ng-model="setupai.events">
                                     </tags-input>
                                 </div>
-                                <div class="col-12 col-md-6 form-group has-feedback">
+                                <div class="col-3 col-md-3 form-group has-feedback">
                                     <label>Work Flow Name*</label>
                                     <select class="form-control has-feedback-left" placeholder="Work Flow Name*" ng-model="setupai.workFlowName" ng-options="x.Name as x.DisplayName for x in workFlowNames"></select>
+                                </div>
+                                <div class="col-3 col-md-3 form-group has-feedback">
+                                    <label>Bot ID*</label>
+                                    <select class="form-control" name="setupai.botAppId" placeholder="Bot ID*" ng-model="setupAI.botAppId" ng-options="x._id as x.screen_name for x in botlist">
+                                    </select>
                                 </div>
 
                             </div>

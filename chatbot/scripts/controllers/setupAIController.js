@@ -1,4 +1,4 @@
-mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $state, setupAIService, $auth) {
+mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $state, setupAIService, $auth, chatbotService) {
     $anchorScroll();
 
     console.log("Setup AI controller is up!");
@@ -83,6 +83,22 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         });
     }
 
+    //Get All Bots
+    $scope.getAllBots = function () {
+        chatbotService.GetAllChatbots().then(function (response) {
+            if (response.data.IsSuccess) {
+                $scope.allbots = response.data.Result;
+                //$scope.allbots = temp.Result;
+            } else {
+                $scope.showAlert("ChatBot", 'error', "Fail To load Bots.");
+            }
+
+        }, function (error) {
+            $scope.showAlert("ChatBot", 'error', "Fail To load Bots.");
+        });
+    };
+    $scope.getAllBots();
+
     $scope.getWorkflows = function () {
         setupAIService.GetWorkFlow().then(function (response) {
             console.log(response);
@@ -126,6 +142,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
         $scope.setupai.enable = $scope.setup.enable;
         $scope.setupai.workFlowName = $scope.setup.workFlowName;
         $scope.setupai.events = $scope.events;
+        $scope.setupai.botAppId = $scope.setup.botAppId;
 
         console.log($scope.setupai);
         setupAIService.CreateSetupAI($scope.setupai).then(function (response) {
