@@ -1033,7 +1033,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
                     //agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")
-                    if (response[i] &&(response[i].BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all")) {
+                    if ((response[i] && response[i].BusinessUnit && response[i].BusinessUnit.toLowerCase()) === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all") {
                         var profile = {
                             name: '',
                             slotState: null,
