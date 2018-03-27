@@ -14,7 +14,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
         templateUrl: 'chatbot/views/partials/editbotdetails.html',
         link: function (scope) {
-            debugger;
+            //debugger;
             scope.editMode = false;
             scope.botappedit = false;
             // scope.botappeditApiai =false;

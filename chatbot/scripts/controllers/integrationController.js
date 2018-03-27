@@ -5,7 +5,7 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
 
     $scope.buttonName = "SAVE";
     $scope.bodyDisabled = false;
-
+    $scope.showNewCardForm = false;
 
     $scope.integration = {
         "name": "",
@@ -56,9 +56,16 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
     $scope.errordeleteCheckFields = errordeleteCheckFields;
     $scope.save = save;
 
+    $scope.openNewIntegration = function(){
+        $scope.showNewCardForm = true;
+    }
+    $scope.closeNewIntegration = function(){
+        $scope.showNewCardForm = false;
+    }
+
     var headers = {};
     var url_params = {};
-
+    
     $scope.headersArray = [{ key: "", value: "" }];
     $scope.urlParamsArray = [{ key: "", value: "" }];
     $scope.successCheckFieldsArray = [{ name: "", type: "", value: "" }];
@@ -131,12 +138,6 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         }
     }
 
-    $scope.createIntegration = function (integrate) {
-
-
-
-    }
-
     function save() {
         for (var i = 0; i < $scope.headersArray.length; i++) {
             console.log($scope.headersArray[i]);
@@ -202,7 +203,11 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
             if (response.data.IsSuccess) {
                 $scope.showAlert("Integration", 'success', "Integration Created Successfully.");
                 $scope.getAllIntegrations();
+                debugger;
                 $scope.integration = {};
+                $scope.headersArray = [{ key: "", value: "" }];
+                $scope.urlParamsArray = [{ key: "", value: "" }];
+                $scope.showNewCardForm = false;
 
             } else {
                 $scope.showAlert("Integration", 'error', "Fail To Create Integration.");
@@ -262,11 +267,14 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
     $scope.updateIntegration = function (template) {
         debugger;
         console.log(template);
-
-
+        
+        if(template.body === undefined){
+            template.body = "";
+        }
         var body = {};
-        body = template.body;
-        if (body !== "") {
+        body= template.body;
+        console.log(body);
+        if(body !== ""){
             debugger;
             try {
                 obj = JSON.parse(body);
@@ -280,7 +288,7 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
         }
         else {
             $scope.errorMsg = false;
-            obj = {};
+            var obj = {};
         }
 
 
@@ -302,17 +310,17 @@ mainApp.controller('chatBotIntegrationController', function ($scope, $q, $anchor
 
         }
 
-        for (var j = 0; j < template.url_params.length; j++) {
+       for (var j = 0; j < template.url_params.length; j++) {
             console.log(template.url_params[j]);
             editurl_params[template.url_params[j].key] = template.url_params[j].value;
             console.log(editurl_params);
-            if (template.url_params[j].key === "") {
-                editurl_params = {};
-            }
-
-            // template.url_params = {};
-
+            if(template.url_params[j].key === ""){
+            editurl_params ={};
+            } 
+           
         }
+        
+        console.log(template.url_params);
         template.headers = editheaders;
         template.url_params = editurl_params;
 

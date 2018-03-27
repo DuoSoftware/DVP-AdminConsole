@@ -123,7 +123,7 @@
 
 
                     if (data.Result && data.Result.Extension) {
-                        $scope.basicConfig.Extension = data.Result.SipUsername;
+                        $scope.basicConfig.Extension = data.Result.Extension.Extension;
                     }
 
                 }

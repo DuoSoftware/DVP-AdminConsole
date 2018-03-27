@@ -12,15 +12,12 @@
                 </div>
                 <div class="col-md-3 ">
                     <div class="pull-right user-option-wrap" ng-show="!editMode">
-                        <h3>
-                            <small ng-disabled="true" ng-click="editbotdetails()" style="cursor: pointer">
-                                <i class="fa fa-edit"></i>
-                            </small>
-                            <small ng-disabled="true" ng-click="deleteBot(bot)" style="cursor: pointer">
+                        <div ng-disabled="true" ng-click="editbotdetails()" class="btn-circle">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                        <div ng-disabled="true" ng-click="deleteBot(bot)" class="btn-circle">
                                 <i class="fa fa-trash-o"></i>
-                            </small>
-
-                        </h3>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-3 col-xs-12 form-group " ng-show="!editMode">

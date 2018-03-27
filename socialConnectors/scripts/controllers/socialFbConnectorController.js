@@ -23,6 +23,7 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
 
         FB.AppEvents.logPageView();*/
 
+        
         FB.init({
             appId: '1653017581444883',
             cookie: true,
