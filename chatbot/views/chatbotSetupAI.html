@@ -19,16 +19,16 @@
                 </div>
 
                 <div id="card-add-group" class="card-add">
-                    <button class="btn card-title--btn-add card-btn" ng-click="showNewCardForm=true" ng-hide="showNewCardForm" data-toggle="collapse"
-                        data-target="#addNewSetUp" data-parent="#card-add-group">Add Setup</button>
-                    <button class="btn card-title--btn-add card-btn" ng-click="showNewCardTest=true" ng-hide="showNewCardTest" data-toggle="collapse"
-                        data-target="#test" data-parent="#card-add-group">Test</button>
+                    <button class="btn card-title--btn-add card-btn" ng-click="showNewCardForm=true" data-toggle="collapse" data-target="#addNewSetUp"
+                        data-parent="#card-add-group">New Rule</button>
+                    <button class="btn card-title--btn-add card-btn" ng-click="showNewCardTest=true" data-toggle="collapse" data-target="#test"
+                        data-parent="#card-add-group">Test</button>
 
                     <div class="accordion-group">
                         <div class="collapse indent" ng-show="showNewCardForm" id="addNewSetUp">
                             <div class="subcard">
                                 <div class="col-sm-12 subcard-title ">
-                                    <h2 class="font-robot font-300 font-15">Create New Setup AI</h2>
+                                    <h2 class="font-robot font-300 font-15">Create New AI Rule</h2>
                                     <div data-toggle="collapse" data-target="#addNewSetUp" ng-click="showNewCardForm=false" class="btn-circle pull-right">
                                         <i class="fa fa-times"></i>
                                     </div>
@@ -65,7 +65,7 @@
                                         </div>
 
                                         <button type="submit" ng-disabled="createSetupai.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
-                                            Add Setup
+                                            Add Rule
                                         </button>
                                     </div>
                                 </form>
@@ -74,7 +74,7 @@
                         <div class="collapse indent" id="test">
                             <div class="subcard">
                                 <div class="col-sm-12 subcard-title ">
-                                    <h2 class="font-robot font-300 font-15">Create New</h2>
+                                    <h2 class="font-robot font-300 font-15">Analyse Text</h2>
                                     <div data-toggle="collapse" data-target="#test" ng-click="showNewCardTest=false" class="btn-circle pull-right">
                                         <i class="fa fa-times"></i>
                                     </div>
@@ -84,7 +84,7 @@
                                     <div class="row no-gutters">
                                         <div class="col-12 col-sm-6 col-md-12 form-group">
 
-                                            <label>Analyze Text</label>
+                                            <label>Text</label>
                                             <button style="background-color:#fff; border:none;" ng-if="checkWorkFlowMatching == true">
                                                 <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
                                             </button>
@@ -191,8 +191,8 @@
             <div class="x_content">
                 <ul class="list-unstyled">
                     <li ng-repeat="setupai in allsetupai | filterBy: ['workFlowName']: searchCriteria | orderBy:'-created_at'" style="border-bottom: 1px solid #efefef;">
-                        <editsetupai setupai="setupai" botlist="allbots" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)" delete-setupai="deleteSetupai(setupai)"
-                            setupai-Types="TemplateTypes">
+                        <editsetupai setupai="setupai" botlist="allbots" setupai-type="TemplateCategory" update-setupai="updateSetupai(setupai)"
+                            delete-setupai="deleteSetupai(setupai)" setupai-Types="TemplateTypes">
                         </editsetupai>
                     </li>
                 </ul>
