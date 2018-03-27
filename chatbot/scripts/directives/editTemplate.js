@@ -53,7 +53,14 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
             };
 
             scope.removeCard = function (index) {
-                scope.template.items.splice(index, 1);
+                var item = scope.template.items[index];
+                scope.showConfirm("Delete Card", "Delete", "ok", "cancel", "Are you sure you want to delete \"" + item.title + "\" Card?", function (obj) {
+                    scope.$apply(function () {
+                        scope.template.items.splice(index, 1);
+                    });
+                }, function () {
+
+                }, item);
             }
 
             scope.addNewCard = function () {
@@ -61,15 +68,21 @@ mainApp.directive("edittemplate", function ($filter, $uibModal, appBackendServic
                 scope.template.items.push(scope.getTemplateItemObject(scope.templateCategory));
             }
 
-            scope.copyCardID = function (cardID) {
+            scope.copyTemplateID = function (cardID, type) {
+                debugger
                 var id = cardID;
-                window.getSelection().empty();
-                var copyField = document.getElementById(id);
-                var range = document.createRange();
-                range.selectNode(copyField);
-                window.getSelection().addRange(range);
-                document.execCommand('copy');
-                scope.showAlert("Card ID", 'Card ID copied to clipboard.', "success");
+
+                var copyText = document.getElementById(id);
+                copyText.select();
+                document.execCommand("Copy");
+
+                // window.getSelection().empty();
+                // var copyField = document.getElementById(id);
+                // var range = document.createRange();
+                // range.selectNode(copyField);
+                // window.getSelection().addRange(range);
+                // document.execCommand('copy');
+                scope.showAlert(type, type + ' ID was successfully copied into the Clipboard.', "success");
             }
 
             scope.removeTemplate = function (item) {

@@ -835,12 +835,12 @@ a {
     padding-left: 5px;
 }
 
-.form-control {
+body .form-control {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
     height: 40px;
-    width: 100% !important;
+    width: 100%;
     color: #555;
     border: 1px solid #e4bdff!important;
     border-radius: 5px !important;
@@ -1691,8 +1691,8 @@ a.thumbnaildrag:hover {
 }
 
 .user-wrap :hover {
-    background: #fbfbfb;
-    border-radius: 5px;
+    /*background: #fbfbfb;*/
+    /*border-radius: 5px;*/
 }
 
 .hover-none :hover {
@@ -1950,7 +1950,7 @@ small > i {
 }
 
 .embed-wrap {
-    background: #114858;
+    background: #a474c5;
     padding: 2px 7px 3px 7px;
     border-radius: 4px;
     color: #f7f7f7;
@@ -2254,7 +2254,7 @@ ul.widget_profile_box li .profile_img {
 .height-agent-status > .x_content{
     padding: 0;
     margin: 0;
-}   
+}
 
 /*Reserved*/
 
@@ -4049,8 +4049,11 @@ ul.stats-overview.ticket-summary > .hidden-phone > .value {
 }
 
 .active-btn {
-    background: #114858 !important;
-    color: #ffffff!important;
+    /*background: #114858 !important;*/
+    /*color: #ffffff!important;*/
+
+    background: #ffdeeb !important;
+    color: #ce2460!important;
 }
 
 .active-btn:active,
@@ -4766,7 +4769,7 @@ tags-input .tags {
 
 .user-group-list {
     width: 100%;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
     border-right: 1px solid #efefef;
     min-height: 600px;
     overflow: hidden;
@@ -4774,7 +4777,7 @@ tags-input .tags {
 
 .group-member-list {
     width: 100%;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
 }
 
 .user-group-list > .header,
@@ -4796,15 +4799,11 @@ tags-input .tags {
     padding-right: 15px;
 }
 
-.group-member-list > .header {
-    padding-left: 20px;
-}
-
 .user-group-list > .header > h5,
 .group-member-list > .header > h5 {
     margin-bottom: 10px;
     text-transform: uppercase;
-    color: #e0e0e0;
+    color: #aaa;
 }
 
 .group-wrapper {
@@ -4826,7 +4825,7 @@ tags-input .tags {
     display: block;
     margin-top: 5px;
     margin-bottom: 6px;
-    padding: 5px 5px 5px 5px;
+    padding: 0 10px;
     cursor: pointer;
 }
 
@@ -4841,11 +4840,27 @@ tags-input .tags {
 .group-img {
     width: 60px;
     height: 60px;
-    background: rgba(251, 249, 249, 0.62);
+    background: #f6f6f6;
     text-align: center;
     overflow: hidden;
     border-radius: 50%;
-    padding-top: 7px;
+    margin: 5px 10px;
+    position: relative;
+    padding: 10px 0;
+}
+
+.group-img i.fa{
+    font-size: 30px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 34px;
+    height: 31px;
+    opacity: 0.4;
+    color: #984bce;
 }
 
 .group-img > img {
@@ -4853,8 +4868,14 @@ tags-input .tags {
     height: 40px;
 }
 
+.group-status{
+    /*display: inline-block;*/
+    width: 108px;
+    padding: 20px 0px;
+}
+
 .group-desc {
-    padding-top: 10px;
+    /*padding-top: 10px;*/
 }
 
 .group-desc > h5 {
@@ -4923,6 +4944,8 @@ tags-input .tags {
     margin: 0;
     padding: 0;
     list-style: none;
+    /*display: inline-block;*/
+    width: calc(100% - 200px);
 }
 
 .group-inline-des > li {
@@ -4952,7 +4975,7 @@ tags-input .tags {
     position: absolute;
     width: 98%;
     min-height: 88px;
-    bottom: -95px;
+    bottom: -200px;
     left: 0;
     background: #fcfbfb;
     border: 1px solid #efefef;
@@ -9082,4 +9105,50 @@ circle {
 }
 .ng-valid-pattern + .invalInput{
     display: none;
+}
+
+.hidden-tab-header>.nav-tabs{
+    display: none!important;
+}
+
+.switch {
+    height: 27px!important;
+    width: 75px!important;
+    top: 0!important;
+}
+.switch small{
+    width: 25px!important;
+    height: 25px!important;
+    top: 1px!important;
+    left: 1px!important;
+}
+.switch.checked small{
+    left: 49px!important;
+}
+.switch .off, .switch .on{
+    top: 20%!important;
+    font-size: 12px!important;
+}
+.switch .off{
+    right: 7%!important;
+}
+
+/*.x_panel .iconed-status-pill-header{*/
+     /*font-size: 14px;*/
+     /*padding: 0 10px;*/
+     /*border-left: solid 1px #bbb;*/
+     /*margin-left: 5px;*/
+     /*color: #aaa;*/
+/*}*/
+
+.x_panel .iconed-status-pill-header{
+     display: inline-block;
+     padding: 5px 15px;
+     border-radius: 15px;
+     background: #eee;
+     color: #6a3390;
+}
+
+.x_panel .iconed-status-pill-header> b> i.fa{
+    color: #aaa;
 }

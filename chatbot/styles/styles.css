@@ -81,6 +81,9 @@ tags-input .tags{
     padding: 6px 12px;
     margin-top:20px;
     display: table;
+    float: left;
+    border: none;
+    margin-right: 5px;
 }
 
 .btn-small:hover {

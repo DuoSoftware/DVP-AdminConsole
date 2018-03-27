@@ -85,15 +85,25 @@ mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService
                 }
                 $scope.getWorkflows();
 
+                $scope.getAllSetupAi = function () {
+                        setupAIService.GetAllSetupAI().then(function (response) {
+                        if (response.data.IsSuccess) {
+                            // $scope.allsetupai = response.data.Result;
+                            // console.log($scope.allsetupai);
+
+                        } else {
+                            $scope.showAlert("Setup AI", 'error', "Fail To load setup ai.");
+                        }
+
+                    }, function (error) {
+                        $scope.showAlert("Set up AI", 'error', "Fail To load setup ai.");
+                    });
+                }
+                $scope.getAllSetupAi();
 
                 $scope.closeTemplate = function () {
                     $scope.editMode = false;
-                    $scope.reloadPage();
-                };
-
-
-                $scope.reloadPage = function () {
-                        $state.reload();
+                    $scope.getAllSetupAi();
                 };
 
                 $scope.editSetupai = function (setupai) {

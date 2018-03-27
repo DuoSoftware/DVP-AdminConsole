@@ -1253,7 +1253,7 @@ h2 {
 }
 
 .x_title h2 {
-    margin: 5px 0 6px;
+    margin: 10px 0 6px;
     float: left;
     display: block;
     text-overflow: ellipsis;
@@ -1853,6 +1853,9 @@ ul.msg_list li a .message {
 
 .dropdown-menu > li > a {
     color: #5A738E;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
     /*color: #fff;*/
 }
 
@@ -2477,8 +2480,12 @@ a.star {
 }
 
 .mail_list .right {
-    width: 90%;
+    width: 95%;
     float: left;
+}
+
+.mail_list h2 {
+    color: #000;
 }
 
 .mail_list h3 {
@@ -5894,6 +5901,7 @@ ul.notifications {
 
 .card-title {
     border-bottom: 1px solid #E6E6E6;
+    min-height: 50px;
 }
 
 .card-search {
@@ -5907,7 +5915,7 @@ ul.notifications {
 
 .card-search--form {
     float: right;
-    margin-top: -6px;
+    margin-top: 0px;
 }
 
 .card-search  .form-control{
@@ -5931,10 +5939,14 @@ ul.notifications {
 
 .card-title--btn-add {
     float: right;
-    margin: -6px 0 0;
+    margin: 0 0 0 6px;
+    z-index: 1;
+    position: relative;
 }
 
-
+.card-add {
+    background: #fafafa;
+}
 
 .card-add .collapsing {
     margin-top:20px;
@@ -5951,6 +5963,15 @@ ul.notifications {
     border-top: 1px solid #E6E6E6;
 }
 
+.card-add .collapse .card-btn {
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.card-add .collapse .subcard {
+    margin-bottom: 0;
+}
+
 .card-create-bot .form-control {
     width: 100%;
 }
@@ -5963,6 +5984,9 @@ ul.notifications {
     float: right;
     
 }
+.card-add .card-btn {
+    margin-right: 0;
+}
 
 .card-btn {
     background: #EF3F7D !important;
@@ -5970,7 +5994,7 @@ ul.notifications {
     border-radius: 5px;
     text-align: center;
     text-transform: capitalize;
-    margin-right: 0px;
+    margin-right: 10px;
     width: auto;
 }
 
@@ -5978,6 +6002,8 @@ ul.notifications {
     background-color: #000000 !important;
     color:#ffffff;
 }
+
+
 .btn {
     padding: 8px 20px;
 }
@@ -5996,4 +6022,226 @@ ul.notifications {
     padding: 15px;
     border-radius: 5px;
     margin: 15px 0;
+}
+
+.card-tab {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-tab--headering {
+    background-color: ;
+}
+
+.card-tab .card-inner .nav-tabs {
+    background-color: #ffffff;
+    box-shadow: 0px 3px 5px 0 rgba(228, 230, 231, 1);
+    margin: 0px;
+    padding: 0px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+
+}
+
+.card-tab .nav-tabs li {
+    margin-bottom: -2px;
+}
+
+.card-tab .card-subcard .nav-tabs li {
+    margin-bottom: 0px;
+}
+.card-tab .nav-tabs li a:hover{
+    border-bottom: none !important;
+}
+
+.card-tab .nav-tabs > li.active > a, .card-tab .nav-tabs > li.active > a:focus, .card-tab .nav-tabs > li.active > a:hover {
+    color: #ffffff;
+    cursor: default;
+    background-color: #ee407d;
+    border: none !important;
+    border-bottom: none !important;
+}
+
+.card-tab .nav-tabs > li.active > a:after {
+    content: "";
+    height: 2px;
+    background-color: #ee407d;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.card-tab .nav-tabs li a:hover:after{
+    content: "";
+    height: 2px;
+    background-color: #ee407d;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.card-tab .nav-tabs li a {
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.card-tab--subcard {
+    padding: 15px;
+}
+
+.card-tab .card-inner .card-tab--subcard .nav-tabs {
+    box-shadow: none;
+    margin: 0 0 20px;
+}
+
+.card-tab .card-tab--subcard .nav-tabs > li.active > a, .card-tab .card-tab--subcard .nav-tabs > li.active > a:focus, .card-tab .card-tab--subcard .card-tab .nav-tabs > li.active > a:hover {
+    color: #ee407d;
+    background-color: transparent;
+}
+
+.edit-card-image {
+    margin: 0!important;
+    overflow: hidden;
+    height: 150px;
+    position: relative;
+}
+
+.card-tab--subcard-form {
+    padding: 15px;
+    border-radius: 8px;
+    background: #F2F4F8;
+    margin: 20px 0;
+    display: table;
+    width: 100%;
+}
+
+.edit-card-description {
+    margin: 10px 0;
+}
+
+.edit-card-image>center{
+    /*width: 100%;*/
+    /*height: 340px;*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*bottom: 0;*/
+    /*margin: auto;*/
+}
+
+.edit-card-image>center>img{
+    width: 100%;
+    height: auto!important;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.form-control .tags {
+    width: 100% !important;
+    border: none;
+    box-shadow: none !important;
+    margin: 0;
+}
+
+.subcard {
+    background: #F2F4F8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    float: left;
+    width: 100%;
+}
+
+.subcard-title {
+    border-bottom: 1px solid #E6E6E6;
+    padding: 10px;
+    margin: 0 0 20px
+}
+
+.btn-circle {
+    background-color: #FBDDEA;
+    color: #EE407D;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 2.4;
+    cursor: pointer;
+}
+
+.btn-circle:hover {
+    background-color: #EE407D;
+    color: #ffffff;
+}
+
+.multiplerow-inline-form .form-inline{
+    width: calc(100% - 38px);
+    float: left;
+}
+
+.multiplerow-inline-form .form-inline input{
+    width: calc(50% - 10px);
+}
+
+.multiplerow-inline-form--sm .form-inline .form-control{
+    width: calc(33.3333% - 10px);
+}
+
+.multiplerow-inline-form .form-inline .form-control + .form-control {
+    margin-left: 11px
+}
+
+.multiplerow-inline-form  .inline-button {
+    float: left;
+    padding-top: 6px;
+    margin-left: 8px;float: left;
+    padding-top:10px;
+}
+
+.card-add .collapse .multiplerow-inline-form-btn {
+    margin-right: 40px;
+}
+
+.card-tab--list ul{
+    padding:0;
+}
+
+.card-tab--list .btn-circle{
+    display: inline-block;
+}
+
+.card-tab--list ul li {
+    padding: 8px 15px;
+    line-height: 2.4;
+}
+
+.card-tab--list ul li:nth-of-type(odd) {
+    background-color: #F2F4F8;
+    border-radius: 5px; 
+}
+
+.copy-form .card-btn {
+    background-color: #FBDDEA !important;
+    color: #EE407D;
+    border-radius: 0 15px 15px 0;
+    margin: 0 0 0 2px;
+}
+
+.copy-form .form-control{
+    width: calc(100% - 60px) !important;
+    float: left;
+    max-width: 450px;
+    border-radius: 5px 0 0 5px !important;
+}
+
+.user-option-wrap .btn-circle {
+    float: left;
+    margin: 6px 0 0 6px;
 }
