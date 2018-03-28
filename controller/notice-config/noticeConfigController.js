@@ -87,12 +87,13 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
                 if(response.IsSuccess && response.Result)
                 {
                     $scope.newNotice.attachments=[];
-                    var attachmentObj = {
-                        id:response.Result._id,
-                        file_type:response.Result.type
-                    }
-                    $scope.newNotice.attachments.push(attachmentObj);
-                    $scope.showAlert("Notice","Attachment saved successfully","success");
+                    /*var attachmentObj = {
+                        id:response.Result._id/!*,
+                        file_type:response.Result.type*!/
+                    }*/
+                    $scope.newNotice.attachments.push(response.Result._id);
+                    //$scope.showAlert("Notice","Attachment saved successfully","success");
+                    cnsole.log("Notice attchment uploaded");
                     $scope.noticeHandler();
 
 
