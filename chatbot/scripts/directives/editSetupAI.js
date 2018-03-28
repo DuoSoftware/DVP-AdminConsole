@@ -10,7 +10,7 @@ mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService
             setupaiType: "=",
             setupaiTypes: "=",
             botlist: "=",
-            'updateSetupai': '&',
+            'updaterule': '&',
             'deleteSetupai': '&'
         },
 

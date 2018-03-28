@@ -39,7 +39,7 @@
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="row no-gutters">
-                                <div class="col-6 col-md-3 form-group has-feedback">
+                                <div class="col-6 col-md-6 form-group has-feedback">
                                     <label>If User Says Somthing Similar To:*</label>
                                     <tags-input class="form-control width-100" ng-model="setupai.events">
                                     </tags-input>
@@ -50,14 +50,14 @@
                                 </div>
                                 <div class="col-3 col-md-3 form-group has-feedback">
                                     <label>Bot ID*</label>
-                                    <select class="form-control" name="setupai.botAppId" placeholder="Bot ID*" ng-model="setupAI.botAppId" ng-options="x._id as x.screen_name for x in botlist">
+                                    <select class="form-control" name="setupai.botAppId" placeholder="Bot ID*" ng-model="setupai.botAppId" ng-options="x._id as x.screen_name for x in botlist">
                                     </select>
                                 </div>
 
                             </div>
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updateSetupai(setupai)">
+                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updaterule(setupai)">
                                         Update
                                     </button>
                                 </div>
