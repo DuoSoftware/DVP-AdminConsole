@@ -97,3 +97,9 @@ tags-input .tags{
     padding: 0;
     line-height: 2.1;
 }
+.taggedclassA{
+    color: green !important;
+}
+.taggedclassB{
+    color: red !important;
+}

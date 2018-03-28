@@ -63,10 +63,11 @@
                                                 required>
                                             </select>
                                         </div>
-
+                                        <div class="col-12 col-sm-12 col-md-12 form-group">
                                         <button type="submit" ng-disabled="createSetupai.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
                                             Add Rule
                                         </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -104,6 +105,19 @@
                                             Analyze
                                         </button>
 
+                                        
+                                        <div class="col-12 col-sm-6 col-md-12" ng-show="checkData">
+                                            <div layout="row" >
+                                                <span style="color:green">GREEN:</span>
+                                                <span>Available key word</span>
+                                            </div>
+                                            <div layout="row" >
+                                                <span style="color:red">RED:</span>
+                                                <span>Not available key word</span>
+                                            </div>
+                                            
+                                        </div>
+                                        </br></br>
                                         <div class="col-12 col-sm-6 col-md-12" ng-if="checkWorkFlowMatching == false">
                                             <div ng-show="notFound" style="padding: 6px;">
                                                 <span style="color:red">{{testWorkForText.CustomMessage}}</span>
@@ -123,7 +137,7 @@
                                                         <td>{{testWorkForText.Result.flowName}}</td>
                                                         <td>
                                                             <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                                <span>{{test.name}}</span>
+                                                                 <span ng-class="{'taggedclassA': test.tagged == true , 'taggedclassB': test.tagged == false}">{{test.name}}</span>
                                                             </div>
                                                         </td>
                                                         <td>
