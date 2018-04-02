@@ -644,13 +644,13 @@
         //create new group
         $scope.createNewGroup = function () {
             $('#crateNewGroupWrapper').animate({
-                bottom: "-5"
+                top: "0"
             }, 500);
         };
         $scope.hiddenNewGroupDIV = function () {
             $('#crateNewGroupWrapper').animate({
-                bottom: "-200"
-            }, 300);
+                top: "-200px"
+            }, 500);
         };
 
 
@@ -658,8 +658,8 @@
             $anchorScroll();
             $scope.isOpen = true;
             $('#crateNewGroupMemberWrapper').animate({
-                bottom: "-5"
-            }, 200);
+                top: "0"
+            }, 500);
             $('#fixedCreateNew').animate({
                 opacity: 1,
                 "z-index": 1
@@ -680,8 +680,8 @@
 
         $scope.hiddenNewGroupMember = function () {
             $('#crateNewGroupMemberWrapper').animate({
-                bottom: "-95"
-            }, 200);
+                top: "-200px"
+            }, 500);
 
             $('#fixedCreateNew').animate({
                 opacity: 0,

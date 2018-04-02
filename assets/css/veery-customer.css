@@ -4973,9 +4973,10 @@ tags-input .tags {
 
 .new-group-wrapper {
     position: absolute;
-    width: 98%;
+    width: 100%;
     min-height: 88px;
-    bottom: -200px;
+    /*bottom: -200px;*/
+    top: -200px;
     left: 0;
     background: #fcfbfb;
     border: 1px solid #efefef;
@@ -4983,7 +4984,7 @@ tags-input .tags {
 }
 
 .new-group-wrapper.new-group-member {
-    left: 13px;
+    /*left: 13px;*/
 }
 
 /*confirm notify STYLE */
