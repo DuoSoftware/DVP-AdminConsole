@@ -193,6 +193,7 @@ mainApp.controller('templateController', function ($scope, $q, $anchorScroll, ch
                     item.inputID = $scope.createuuid();
                     item.prefix = prefix + item._id;
                     $scope.templateList.push(item);
+                    console.log(item);
                 });
             } else {
                 $scope.showAlert("Template", 'error', "Failed to get all templates.");
