@@ -149,6 +149,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
             if (response.data.IsSuccess) {
                 $scope.showAlert("Setup AI", 'success', "Setup AI Created Successfully.");
                 $scope.getAllSetupAi();
+                $scope.editMode = false;
             } else {
                 $scope.showAlert("Setup AI", 'error', "Fail To Create Setup AI.");
             }
@@ -238,7 +239,85 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
 
     }
 
+
+    $scope.createAiModel={};
+
+    $scope.closeModal = function(){
+        $scope.editMode = false;
+        $scope.createAiModel = {};
+    }
+    $scope.showCreateModel = false;
+    $scope.train = function(trainDetails){
+        $scope.editMode = !$scope.editMode;
+        $scope.createAiModel.events = [];
+        console.log($scope.testWorkForText.Result.allKeyWords);
+        if($scope.testWorkForText.Result.flowName == "NotFound"){
+            $scope.modalName = "Create AI";
+            $scope.showCreateModel = true;
+            $scope.createAiModel.events.push(trainDetails.name);
+        }
+        else{
+            $scope.modalName = "Edit AI"
+            $scope.createAiModel.workFlowName = $scope.testWorkForText.Result.flowName;
+            // $scope.createAiModel.botAppId = $scope.testWorkForText.Result.id;
+            $scope.showCreateModel = false;
+            debugger;
+            if(trainDetails.tagged == false){
+                $scope.createAiModel.events=[];
+                 $scope.createAiModel.events= angular.copy($scope.testWorkForText.Result.allKeyWords);
+                 $scope.createAiModel.events.push(trainDetails.name);
+
+                for(var i = $scope.createAiModel.events.length-1; i--;){
+                    if ($scope.createAiModel.events[i] === trainDetails.name) 
+                    $scope.createAiModel.events.splice(i, 1);
+                }
+                console.log($scope.createAiModel.events);
+            }
+            else{
+                 $scope.createAiModel.events= angular.copy($scope.testWorkForText.Result.allKeyWords);
+            }
+            $scope.createAiModel._id=$scope.testWorkForText.Result.id;
+
+        }
+        console.log($scope.createAiModel.events);
+     
+        console.log(trainDetails);
+    }
+
+    $scope.updateTrainModelData = function(setup){
+        $scope.setup = setup;
+        $scope.events = [];
+        for (var i = 0; i < setup.events.length; i++) {
+            for (var key in setup.events[i]) {
+                $scope.events.push(setup.events[i][key]);
+                console.log($scope.events);
+            }
+
+        }
+        $scope.setup.events = [];
+        $scope.setupai = {};
+        $scope.setupai.workFlowName = $scope.setup.workFlowName;
+        $scope.setupai.events = $scope.events;
+        $scope.setupai._id = $scope.setup._id;
+
+        console.log($scope.setupai);
+        setupAIService.UpdateSetupAI($scope.setupai).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                $scope.showAlert("Setup AI", 'success', "Setup AI updated successfully.");
+                $scope.getAllSetupAi();
+                $scope.editMode = false;
+                $scope.notMatchingKeyWord = false;
+                $scope.checkData = false;
+            } else {
+                $scope.showAlert("Setup AI", 'error', "Failed to update setup ai.");
+            }
+
+        }, function (error) {
+            $scope.showAlert("Setup AI", 'error', "Fail To update setup ai.");
+        });
+    }
     $scope.reloadPage = function () {
+        
         $state.reload();
     };
 

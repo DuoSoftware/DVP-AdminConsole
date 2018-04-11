@@ -27,7 +27,7 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
                     payload: {
                         message: ""
                     },
-                    title: "<new>",
+                    title: "<Button Name>",
                     type: "postback"
                 });
             }

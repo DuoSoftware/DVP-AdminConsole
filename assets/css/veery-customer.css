@@ -4651,9 +4651,9 @@ tags-input .tags {
 }
 
 .progress-bar {
-    color: #bababa;
+    color: #000;
     font-weight: normal!important;
-    background-color: #6a3390;
+    /* background-color: #6a3390; */
 }
 
 .progress-camp-upload > div > b {
