@@ -6,7 +6,7 @@
         <div class="x_panel animated fadeIn bot-card">
             <div class="x_title card-title">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <h2 class="font-robot">Setup AI</h2>
+                    <h2 class="font-robot">AI</h2>
                 </div>
 
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group top_search card-search">
@@ -22,7 +22,7 @@
                     <button class="btn card-title--btn-add card-btn" ng-click="showNewCardForm=true" data-toggle="collapse" data-target="#addNewSetUp"
                         data-parent="#card-add-group">New Rule</button>
                     <button class="btn card-title--btn-add card-btn" ng-click="showNewCardTest=true" data-toggle="collapse" data-target="#test"
-                        data-parent="#card-add-group">Test</button>
+                        data-parent="#card-add-group">Train</button>
 
                     <div class="accordion-group">
                         <div class="collapse indent" ng-show="showNewCardForm" id="addNewSetUp">
@@ -37,17 +37,17 @@
                                     <div class="row no-gutters">
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
-                                            <input type="text" class="form-control has-feedback-left" ng-model="setupAI.ruleName" placeholder="Rule Name">
-                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                            <input type="text" class="form-control" ng-model="setupAI.ruleName" placeholder="Rule Name">
+                                            
                                         </div>
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
-                                            <input type="text" class="form-control has-feedback-left" ng-model="setupAI.description" placeholder="Rule Description">
-                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                            <input type="text" class="form-control" ng-model="setupAI.description" placeholder="Rule Description">
+                                            
                                         </div>
-                                        <div class="col-12 col-sm-6 col-md-6 form-group">
+                                        <div class="col-12 col-sm-12 col-md-12 form-group">
                                             <label>If User Says Somthing Similar To:*</label>
-                                            <tags-input class="form-control" name="createSetupai.events" ng-model="setupAI.events" required></tags-input>
+                                            <tags-input class="form-control" style="height:100% !important;" name="createSetupai.events" ng-model="setupAI.events" required></tags-input>
                                         </div>
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
@@ -94,7 +94,7 @@
                                                 placeholder="Check your sample sentences through our AI..." ng-keypress="checkTextForEnter($event)"></textarea>
                                         </div>
 
-                                        <div style="padding: 6px;">
+                                        <div style="padding-left: 10px;padding-bottom: 10px;">
                                             <span>
                                                 <span style="color:red">Note:- </span>Entity Analysis inspects the given text for known entities
                                                 (proper nouns such as public figures, landmarks, etc.), and returns information
@@ -107,28 +107,27 @@
                                         </button>
 
                                         
-                                        <div class="col-12 col-sm-6 col-md-12" ng-show="checkData">
+                                        <div class="col-12 col-sm-6 col-md-12" ng-show="checkData || notMatchingKeyWord" style="padding-top:10px; padding-bottom: 10px;" >
                                             <div layout="row" >
                                                 <span style="color:green">GREEN:</span>
-                                                <span>Available key word</span>
+                                                <span>Already trained key word</span>
                                             </div>
                                             <div layout="row" >
                                                 <span style="color:red">RED:</span>
-                                                <span>Not available key word</span>
-                                        </div>
-                                            
-                                        </div>
-                                        </br></br>
-                                        <div class="col-12 col-sm-6 col-md-12" ng-if="checkWorkFlowMatching == false">
-                                            <div ng-show="notFound" style="padding: 6px;">
-                                                <span style="color:red">{{testWorkForText.CustomMessage}}</span>
+                                                <span>Untrained key word</span>
                                             </div>
+                                        </div>
+                                        
+                                        <div class="col-12 col-sm-6 col-md-12" ng-if="checkWorkFlowMatching == false">
+                                            <!-- <div ng-show="notFound" style="padding-left: 6px;">
+                                                <span style="color:red">{{testWorkForText.CustomMessage}}</span>
+                                            </div> -->
 
                                             <table class="table" ng-show="checkData">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Matching Work Flow Name</th>
-                                                        <th scope="col">Matching Key Words</th>
+                                                        <th scope="col">Work Flow Name</th>
+                                                        <th scope="col">Key Words</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Salience(%)</th>
                                                         <th>Train</th> 
@@ -165,7 +164,8 @@
                                             <table class="table" ng-show="notMatchingKeyWord">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Non Matching Keywords Found</th>
+                                                        <th scope="col">Work Flow Name</th>
+                                                        <th scope="col">Key Words</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Salience(%)</th>
                                                         <th>Train</th>
@@ -173,11 +173,13 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
+                                                        <td> <span>{{testWorkForText.CustomMessage}}</span></td>
                                                         <td>
                                                             <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                                <span ng-class="{'taggedclassA': test.tagged == true , 'taggedclassB': test.tagged == false}">{{test.name}}</span>
+                                                                <span class="taggedclassB">{{test.name}}</span>
                                                             </div>
                                                         </td>
+
                                                         <td>
                                                             <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
                                                                 <span>{{test.type}}</span>

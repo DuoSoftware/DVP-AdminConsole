@@ -5096,7 +5096,7 @@ fieldset {
 }
 
 .progress-bar-success {
-    background-color: #6a3390;
+    /* background-color: #6a3390; */
 }
 
 .progress_summary .progress {

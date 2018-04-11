@@ -1457,7 +1457,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
     $scope.checkDisable = function (sub,field) {
-        if((sub.action =='require' || sub.action =='editable') && field.isRequired)
+        if(sub.action =='require'  && field.isRequired)
         {
             return true;
         }

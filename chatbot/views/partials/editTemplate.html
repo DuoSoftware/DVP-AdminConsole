@@ -320,15 +320,21 @@
                     <label class="form-control-static">Description</label>
                     <p>{{template.description}} </p>
                 </div>
-
+                
                 <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                     <label class="form-control-static">{{templateCategory}} Type</label>
-                    <p>{{template.type}} </p>
+                    <!-- <p>{{template.contentType}} </p> -->
+                    <p ng-repeat="type in templateTypes | filter:{ Value: template.type}">
+                       {{type.Key}}
+                    </p>
                 </div>
-
+                
                 <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                     <label class="form-control-static">Content Type</label>
-                    <p>{{template.contentType}} </p>
+                    <!-- <p>{{template.contentType}} </p> -->
+                    <p ng-repeat="type in templateContentTypes | filter:{ Value: template.contentType}">
+                       {{type.Key}}
+                    </p>
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
