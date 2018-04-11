@@ -37,17 +37,17 @@
                                     <div class="row no-gutters">
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
-                                            <input type="text" class="form-control has-feedback-left" ng-model="setupAI.ruleName" placeholder="Rule Name">
-                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                            <input type="text" class="form-control" ng-model="setupAI.ruleName" placeholder="Rule Name">
+                                            
                                         </div>
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
-                                            <input type="text" class="form-control has-feedback-left" ng-model="setupAI.description" placeholder="Rule Description">
-                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                            <input type="text" class="form-control" ng-model="setupAI.description" placeholder="Rule Description">
+                                            
                                         </div>
-                                        <div class="col-12 col-sm-6 col-md-6 form-group">
+                                        <div class="col-12 col-sm-12 col-md-12 form-group">
                                             <label>If User Says Somthing Similar To:*</label>
-                                            <tags-input class="form-control" name="createSetupai.events" ng-model="setupAI.events" required></tags-input>
+                                            <tags-input class="form-control" style="height:100% !important;" name="createSetupai.events" ng-model="setupAI.events" required></tags-input>
                                         </div>
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
