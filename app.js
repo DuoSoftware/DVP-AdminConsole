@@ -88,7 +88,7 @@ mainApp.config(function (scrollableTabsetConfigProvider) {
 //resourceservice.app1.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
-    'UserServiceBaseUrl': 'https://userservice.plus.smoothflow.io/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app1.veery.cloud/',
@@ -108,7 +108,7 @@ var baseUrls = {
     'socialConnectorUrl': 'http://socialconnector.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'mailSenderUrl': 'http://mailsender.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'notification': 'http://notificationservice.app1.veery.cloud/',//notificationservice.app1.veery.cloud
-    'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'cdrProcessor': 'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app1.veery.cloud/DVP/API/1.0.0.0/',
     'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app1.veery.cloud/DVP/API/1.0.0.0/',
