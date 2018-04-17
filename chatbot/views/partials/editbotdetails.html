@@ -204,12 +204,6 @@
                                 </uib-tab>
                                 <uib-tab index="1" heading="Config">
                                     <div class="card-tab--subcard">
-                                        <!-- <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-
-                                            <input type="text" class="form-control has-feedback-left" ng-model="items.app" placeholder="New Bot App">
-                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                        </div> -->
-
                                         <h2 class="card-tab--subcard-title font-robot font-300 ">New Bot Apps</h2>
                                         <div class="card-tab--subcard-form">
                                             <div class="col-md-10">
@@ -217,7 +211,7 @@
                                                     <option value="" selected disabled>Select App</option>
                                                     <option value='apiai'>Apiai</option>
                                                     <option value='smoothflow'>Smoothflow</option>
-                                                    <option value='ARDS'>ARDS</option>
+                                                    <option value='ARDS' disabled>ARDS (coming soon)</option>
                                                 </select>
                                             </div>
                                             <div class=" col-md-2">
@@ -325,6 +319,82 @@
 
                                     </div>
 
+
+                                </uib-tab>
+                                <uib-tab index="2" heading="AI">
+                                    <div class="card-tab--subcard">
+                                        <h2 class="card-tab--subcard-title font-robot font-300 ">Default AI</h2>
+                                        <div class="card-tab--subcard-form">
+                                            <div class="col-md-10">
+                                                <select class="form-control" id="Bot_Apps" ng-model="item.app">
+                                                    <option value="" selected disabled>Select AI</option>
+                                                    <option value='default'>Smoothflow AI</option>
+                                                    <option value='gnlp'>Googlenlp</option>
+                                                    <option value='witai' disabled>Witai (coming soon)</option>
+                                                    <option value='msnlp' disabled>MSNLP (coming soon)</option>
+                                                </select>
+                                            </div>
+                                            <div class=" col-md-2">
+                                                <button type="button" class="btn card-btn pull-right" ng-click="addnewDefaultAi(item);">
+                                                    Add Default AI
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-tab--list">
+                                            <ul>
+                                                <!-- <div class="col-lg-12"> -->
+                                                <li class="ui-state-default">
+                                                    <div class="row">
+                                                        <div class="col-md-11">
+                                                            <span class="ui-icon ui-icon-arrowthick-2-n-s"> {{displayNameAi}}</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <div class="btn-circle" ng-disabled="true" ng-click="botappedit = !botappedit;" style="cursor: pointer">
+                                                                <i class="fa fa-edit"></i>
+                                                            </div>
+                                                            <!-- <div class="btn-circle" ng-disabled="true" ng-click="deletebotapp(item)" style="cursor: pointer">
+                                                                <i class="fa fa-trash-o"></i>
+                                                            </div> -->
+                                                        </div>
+                                
+                                                        <div class="col-md-12">
+                                                            <div ng-show="botappedit">
+                                                                <div >
+                                                                    <div class="card-tab--subcard-form">
+                                                                        <form name="addDeafultAi" ng-submit="updateDeafultAi(slectedDefaultAi.ai)">
+                                                                            <div class="subcard-title " style="padding:0 !important;">
+                                                                                <div class="col-md-9">
+                                                                                    <h4>{{displayNameAi}} </h4>
+                                                                                </div>
+                                                                                <div class="col-md-3 ">
+                                                                                    <button type="submit" ng-disabled="addDeafultAi.$invalid" class="btn btn-success btn-sm pull-right">
+                                                                                        Update
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div>
+                                                                                <div class="col-md-12 form-group">
+                                                                                    <label>Key</label>
+                                                                                    <input type="text" class="form-control" name="addDeafultAi.key" ng-model="slectedDefaultAi.ai.key" required ng-disabled="disabledField">
+                                                                                </div>
+                                                                                <div class="col-md-12 form-group">
+                                                                                    <label>Description</label>
+                                                                                    <input type="text" class="form-control" name="addDeafultAi.description" ng-model="slectedDefaultAi.ai.description" required ng-disabled="disabledField">
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
 
                                 </uib-tab>
                                 <!-- <uib-tab index="2" heading="White-list">
