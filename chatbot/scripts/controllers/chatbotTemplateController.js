@@ -1,4 +1,4 @@
-mainApp.controller('templateController', function ($scope, $q, $anchorScroll, chatbotService, templateService, $state, $stateParams) {
+mainApp.controller('chatBotTemplateController', function ($scope, $q, $anchorScroll, chatbotService, templateService, $state, $stateParams) {
     $anchorScroll();
 
     console.log("Template controller is up!");
