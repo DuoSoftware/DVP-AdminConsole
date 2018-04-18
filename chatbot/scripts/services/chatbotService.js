@@ -34,6 +34,21 @@ mainApp.factory("chatbotService", function ($http, $log, $filter, authService, b
 
         });
     };
+    var getBotById = function (id) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.botAPIUrl + "Bot/" + id,           
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response;
+            } else {
+                return response;
+            }
+
+        });
+    };
+
     var updateChatbot = function (bot) {
         return $http({
             method: 'PUT',
@@ -47,8 +62,25 @@ mainApp.factory("chatbotService", function ($http, $log, $filter, authService, b
             }
 
         });
-
     };
+
+    var updateChatbotAi = function (id,update) {
+        console.log(id);
+        console.log(update);
+        return $http({
+            method: 'PUT',
+            url: baseUrls.botAPIUrl + "Bot/" + id,           
+            data: update
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response;
+            } else {
+                return response;
+            }
+
+        });
+    };
+
     var deleteChatbot = function (bot) {
         return $http({
             method: 'DELETE',
@@ -63,10 +95,13 @@ mainApp.factory("chatbotService", function ($http, $log, $filter, authService, b
         });
 
     };
+
     return {
         CreateChatbot: createChatbot,
         GetAllChatbots: getAllChatbots,
         UpdateChatbot: updateChatbot,
-        DeleteChatbot: deleteChatbot
+        DeleteChatbot: deleteChatbot,
+        GetBotById: getBotById,
+        UpdateChatbotAi: updateChatbotAi
     }
 });
