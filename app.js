@@ -137,7 +137,8 @@ var baseUrls = {
     'payapiUrl':"https://smoothflow.io/payapi/getWorkflowData/",
     'setupaiAPTUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap",
     'getworkflowfortextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/GetWorkflowForText",
-    'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb"
+    'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb",
+    'uploadFilesinCardTemplate':"https://smoothmediaservice.plus.smoothflow.io/media/1/103/upload"
 };
 
 mainApp.constant('baseUrls', baseUrls);

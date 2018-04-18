@@ -28,6 +28,10 @@
         <input class="form-control" type="text" placeholder="Description" ng-model="card.sub_title" />
         <input class="form-control" type="text" placeholder="Default Action" ng-model="card.default_action.url" />
         <input class="form-control" type="text" placeholder="Image URL" ng-model="card.image_url" />
+
+        <input id="inputImage" type="file" accept="image/*" image="image" />
+        <!-- <button ng-click="">Upload</button> -->
+
         <div ng-repeat="button in card.buttons" class="cardset">
             <cardbutton button="button"></cardbutton>
             <a class="edit-card--btn-circle edit-card--remove font-robot font-300" ng-click="removeButton($index)">
@@ -38,6 +42,6 @@
             <i class="fa fa-plus"></i> New Button
         </a>
         <hr>
-        <input type="button" value="Done" ng-click="changeMode('view')" class="btn card-btn pull-right"/>
+        <input type="button" value="Done" ng-click="changeMode('view',image);" class="btn card-btn pull-right"/>
     </div>
 </div>
