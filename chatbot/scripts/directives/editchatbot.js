@@ -71,6 +71,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                 $(".sortable").disableSelection();
                 scope.generateCallBackURL(scope.bot._id);
                 scope.getallBotApps(scope.bot._id);
+                scope.getallDefaultAi(scope.bot._id);
                 scope.getwhitelisturl(scope.bot._id);
                 scope.editMode = !scope.editMode;
             };
@@ -205,7 +206,8 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                         scope.getallBotApps(scope.bot._id);
                         // scope.botappedit = false;
                         scope.botappeditApiai =false;
-                        scope.botappeditSmooth = false
+                        scope.botappeditSmooth = false;
+
                         
                         scope.showAlert("Bot Apps", 'Added new Bot app.', "success");
                     } else {
@@ -348,6 +350,100 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
                 }, url);
             }
+
+            //Defult AI
+            scope.disabledField = false;
+            scope.getallDefaultAi = function (id) {
+                // var id = scope.bot._id;
+                // console.log(scope.bot._id);
+                scope.slectedDefaultAi = {};
+                chatbotService.GetBotById(id).then(function (response) {
+                    console.log(response);
+                    if (response.data.IsSuccess) {
+                        scope.slectedDefaultAi = response.data.Result;
+
+                        if(scope.slectedDefaultAi.ai.name == 'default'){
+                            scope.displayNameAi = "Smoothflow AI (Default)";
+                            scope.disabledField = true;
+                        }
+                        else if(scope.slectedDefaultAi.ai.name == 'gnlp'){
+                            scope.displayNameAi = "Googlenlp";
+                            scope.disabledField = false;
+                        }
+                        else{
+
+                        }
+
+
+                       
+                    } else {
+                        scope.showAlert("Load AI", 'Fail To load ai.', "error");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Load AI", 'Fail To load ai.', "error");
+                });
+                
+            }
+
+            scope.addnewDefaultAi = function(newai){
+
+                var id = scope.bot._id;
+                var update = {
+                    "ai":{
+                        "name" : newai.app,
+                        "key": "",
+                        "description": ""
+                    }
+                }
+                chatbotService.UpdateChatbotAi(id,update).then(function (response) {
+                    console.log(response);
+                    scope.slectedDefaultAi = {};
+
+                    if (response.data.IsSuccess) {
+                        scope.getallDefaultAi(id);
+                        scope.slectedDefaultAi = response.data.Result;
+                        // scope.botappedit = false;
+                        scope.showAlert("Update Default AI", 'Default AI Updated Successfully.', "success");
+                    } else {
+                        scope.showAlert("Add Default AI", 'Fail To add default ai.', "error");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Add Default AI", 'Fail To add default ai.', "error");
+                });
+
+            }
+
+            scope.updateDeafultAi = function(defaultAi){
+                console.log(defaultAi);
+                var id = scope.bot._id;
+                var update = {
+                    "ai":{
+                        "name" : defaultAi.name,
+                        "key": defaultAi.key,
+                        "description": defaultAi.key
+                    }
+                }
+                chatbotService.UpdateChatbotAi(id,update).then(function (response) {
+                    console.log(response);
+                    scope.slectedDefaultAi = {};
+
+                    if (response.data.IsSuccess) {
+                        scope.getallDefaultAi(id);
+                        scope.slectedDefaultAi = response.data.Result;
+                        // scope.botappedit = false;
+                        scope.showAlert("Update Default AI", 'Default AI Updated Successfully.', "success");
+                    } else {
+                        scope.showAlert("Add Default AI", 'Fail To add default ai.', "error");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Add Default AI", 'Fail To add default ai.', "error");
+                });
+            }
+
+
         }
     }
 

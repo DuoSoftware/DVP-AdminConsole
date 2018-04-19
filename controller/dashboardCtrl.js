@@ -99,28 +99,19 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
         owlCarousel.trigger('to.owl.carousel', itemNo);
         owlCarousel.trigger('to.owl.carousel', itemNo);
 
-        if($scope.currItem ==itemNo)
-        {
-            $scope.stoppedState=false;
-            owlCarousel.trigger('play.owl.autoplay', 1000);
-        }
-        else
-        {
-            $scope.stoppedState=true;
-            owlCarousel.trigger('stop.owl.autoplay');
-        }
 
-        setAgentCurrentState(itemNo);
-        $scope.currItem =itemNo;
-
-
-        /*if (carouselAutoplay) {
+        if (carouselAutoplay) {
             owlCarousel.trigger('play.owl.autoplay', 1000);
 
         } else {
+
             owlCarousel.trigger('stop.owl.autoplay');
 
-        }*/
+        }
+        $scope.stoppedState=!carouselAutoplay;
+        setAgentCurrentState(itemNo);
+        $scope.currItem =itemNo;
+
 
     };
 

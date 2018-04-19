@@ -1,7 +1,7 @@
 /**
  * Created by Shehan on 29/1/2018.
  */
-mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendService) {
+mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendService,templateService) {
 
     return {
         restrict: "EAA",
@@ -13,10 +13,14 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
 
         templateUrl: 'chatbot/views/partials/card.html',
 
-        link: function (scope) {
+        link: function (scope, rootScope) {
             scope.mode = "view";
-            scope.changeMode = function (mode) {
+            scope.changeMode = function (mode, image) {
                 scope.mode = mode
+                if(image!==undefined){
+                    scope.uploadFiles(image);
+                }
+               
             };
 
             scope.addNewButton = function () {
@@ -42,6 +46,25 @@ mainApp.directive("cardtemplate", function ($filter, $uibModal, appBackendServic
                 }, function () {
 
                 }, item);
+            }
+
+            scope.uploadFiles = function(image){
+                console.log(image);
+                
+                templateService.UploadFiles(image).then(function (result) {
+                        console.log(result);
+                        
+                        if (result) {
+                        scope.card.image_url = result.data.url;
+                        }
+                        else{
+                            scope.showAlert("Error", "", "error");
+                        }
+
+                    }, function (error) {
+                        scope.showAlert("Error", "", "error");
+                    });
+
             }
 
             // scope.getnewCardObject = function () {
