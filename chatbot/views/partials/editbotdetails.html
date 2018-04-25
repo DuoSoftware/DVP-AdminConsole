@@ -16,7 +16,7 @@
                             <i class="fa fa-pencil"></i>
                         </div>
                         <div ng-disabled="true" ng-click="deleteBot(bot)" class="btn-circle">
-                                <i class="fa fa-trash-o"></i>
+                            <i class="fa fa-trash-o"></i>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-tab--subcard-form">
-                                                <h4 class="subcard-title ">White List</h4>
+                                                <h4 class="subcard-title ">Whitelist</h4>
                                                 <div>
                                                     <form name="Whitelist">
                                                         <!-- <div class="col-md-9"> -->
@@ -168,13 +168,39 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <!-- <div class="row no-gutters">
-                                                    <div class="col-6 col-md-8 form-group has-feedback">
-                                                        <label>Page Token</label>
-                                                        <input type="text" class="form-control has-feedback-left" ng-model="bot.channel_facebook.page_token" placeholder="Facebook Page Token">
-                                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                            <div class="card-tab--subcard-form">
+                                                <h4 class="subcard-title ">Persist Menu</h4>
+                                                <label class="radio-inline">
+                                                    <input type="radio" ng-model="enablepersistmenu" value="enabled" name="optradio">Enable</label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" ng-model="enablepersistmenu" value="disabled" name="optradio">Disable</label>
+                                                <div ng-hide="enablepersistmenu == 'disabled'">
+                                                    <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
+                                                        <div style="background-color: #e0e0e0">
+                                                            <div ng-repeat="button in persisMenu.persistent_menu[0].call_to_actions" class="cardset">
+                                                                <persistbutton button="button"></persistbutton>
+                                                                <a class="edit-card--btn-circle edit-card--remove font-robot font-300" ng-click="removepersistButton($index)">
+                                                                    <i class="fa fa-times"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div> -->
+                                                    <div class="col-md-3 ">
+                                                        <select class="form-control" placeholder="Select Button Type" ng-model="buttontype">
+                                                            <option value="" disabled selected>Select Button Type</option>
+                                                            <option value="postback">Simple</option>
+                                                            <option value="web_url">Web URL</option>
+                                                            <option disabled value="nested">Nested</option>
+                                                        </select>
+                                                        <button type="button" class="btn card-btn" ng-click="addnewButtons(buttontype)">
+                                                            Add Button
+                                                        </button>
+                                                        <button type="button" class="btn card-btn" ng-click="updatePersistantMenu()">
+                                                            Save Persist Menu
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </uib-tab>
                                         <uib-tab index="1" heading="Slack">
                                             <h2 class="card-tab--subcard-title font-robot font-300 ">Slack Integrations</h2>
@@ -237,10 +263,10 @@
                                                                 <i class="fa fa-trash-o"></i>
                                                             </div>
                                                         </div>
-                                
+
                                                         <div class="col-md-12">
                                                             <div ng-show="botappedit">
-                                                                <div >
+                                                                <div>
                                                                     <div class="card-tab--subcard-form">
                                                                         <div class="subcard-title " style="padding:0 !important;">
                                                                             <div class="col-md-9">
@@ -253,17 +279,17 @@
                                                                             </div>
                                                                         </div>
                                                                         <div ng-repeat="(key,value) in item.config">
-                                                                           
+
                                                                             <div class="col-md-12 form-group">
                                                                                 <label>{{key}}</label>
                                                                                 <input type="text" class="form-control" ng-model="item.config[key]">
                                                                             </div>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                 </div>
-                                                         
-                                                         
+
+
                                                                 <!-- <div ng-show="item.app=='Smoothflow'" ng-if="selectedBot.app=='Smoothflow'">
                                 
                                                                     <div class="card-tab--subcard-form">
@@ -284,7 +310,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div> -->
-                                                            
+
                                                                 <!-- <div ng-show="item.app=='ARDS'" ng-if="selectedBot.app=='ARDS'">
                                                                     <div class="card-tab-subcard-form">
                                                                         <div class="subcard-title ">
@@ -305,7 +331,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>  -->
-                                                            </div> 
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -357,10 +383,10 @@
                                                                 <i class="fa fa-trash-o"></i>
                                                             </div> -->
                                                         </div>
-                                
+
                                                         <div class="col-md-12">
                                                             <div ng-show="botappedit">
-                                                                <div >
+                                                                <div>
                                                                     <div class="card-tab--subcard-form">
                                                                         <form name="addDeafultAi" ng-submit="updateDeafultAi(slectedDefaultAi.ai)">
                                                                             <div class="subcard-title " style="padding:0 !important;">
@@ -380,13 +406,14 @@
                                                                                 </div>
                                                                                 <div class="col-md-12 form-group">
                                                                                     <label>Description</label>
-                                                                                    <input type="text" class="form-control" name="addDeafultAi.description" ng-model="slectedDefaultAi.ai.description" required ng-disabled="disabledField">
+                                                                                    <input type="text" class="form-control" name="addDeafultAi.description" ng-model="slectedDefaultAi.ai.description" required
+                                                                                        ng-disabled="disabledField">
                                                                                 </div>
                                                                             </div>
                                                                         </form>
                                                                     </div>
                                                                 </div>
-                                                            </div> 
+                                                            </div>
                                                         </div>
                                                     </div>
 
