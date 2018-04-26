@@ -15,11 +15,21 @@
                     </div>
                 </div>
             </div>
+            <div class="x_title card-title">
+                <div class="col-md-3 col-sm-6 col-xs-6">
+                    <select class="form-control width-100" ng-model="sort" placeholder="Sorting" >
+                        <option value="created_at"> Create Date</option>    
+                        <option value="name" >Name</option>
+                        <option value="size" >Size</option>
+                    </select> 
+                </div>   
+                <button class="btn btn-success btn-sm" ng-click="sorting(sort)" >Sorting <span class="sortorder" ng-class="{reverse: reverse}"></span></button> 
+            </div>
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="media in allmediaFiles | filterBy: ['name','created_at']: searchCriteria | orderBy:'-created_at'" style="border-bottom: 1px solid #efefef;padding-top: 10px;">
-                        <editmedia media="media" media-type="TemplateCategory" update-media="updateIntegration(media)" delete-media="deleteIntegration(media)"
-                            media-Types="MediaTypes"></editmedia>
+                    <li ng-repeat="media in allmediaFiles | filterBy: ['name','created_at','size','type']: searchCriteria | orderBy:val:reverse" style="border-bottom: 1px solid #efefef;padding-top: 10px;padding-bottom: 10px;">
+                        <editmedia media="media" media-type="TemplateCategory" update-media="updateIntegration(media)"
+                        delete-media="deleteIntegration(media)" media-Types="MediaTypes"></editmedia>
                     </li>
                 </ul>
             </div>

@@ -25,8 +25,14 @@ mainApp.controller('chatbotMediaController', function ($scope, $q, $anchorScroll
     $scope.reloadPage = function () {
         $state.reload();
     };
-
-   
+    $scope.val = 'created_at';
+    $scope.sort = 'created_at'
+    $scope.reverse = false;
+   $scope.sorting = function(val){
+       console.log(val);
+    $scope.reverse = ($scope.val === val) ? !$scope.reverse : false;
+    $scope.val = val;
+   }
 
 
 });
