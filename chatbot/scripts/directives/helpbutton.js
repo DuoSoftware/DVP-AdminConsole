@@ -41,4 +41,9 @@ mainApp.controller("helpbuttonController", function ($scope, $uibModalInstance, 
         $uibModalInstance.dismiss('cancel');
     }
 
+    $scope.getContentForWindow = function(type){
+        
+    }
+    $scope.getContentForWindow(DisplayHelp);
+
 });
