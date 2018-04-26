@@ -6,6 +6,7 @@
                     <h2 class="font-robot font-300">Media Library</h2>
                 </div>
                 <div class="col-md-5 col-sm-5 col-xs-5 form-group top_search card-search">
+                    <helpbutton class="helpbutton" displayhelp="'media'"></helpbutton>
                     <div class="card-search--form">
                         <i class="fa fa-search"></i>
                         <div class="input-group">
@@ -17,8 +18,8 @@
             <div class="x_content">
                 <ul class="list-unstyled">
                     <li ng-repeat="media in allmediaFiles | filterBy: ['name','created_at']: searchCriteria | orderBy:'-created_at'" style="border-bottom: 1px solid #efefef;padding-top: 10px;">
-                        <editmedia media="media" media-type="TemplateCategory" update-media="updateIntegration(media)"
-                        delete-media="deleteIntegration(media)" media-Types="MediaTypes"></editmedia>
+                        <editmedia media="media" media-type="TemplateCategory" update-media="updateIntegration(media)" delete-media="deleteIntegration(media)"
+                            media-Types="MediaTypes"></editmedia>
                     </li>
                 </ul>
             </div>

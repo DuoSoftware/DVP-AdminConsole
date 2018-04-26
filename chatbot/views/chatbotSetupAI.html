@@ -10,6 +10,7 @@
                 </div>
 
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group top_search card-search">
+                    <helpbutton class="helpbutton" displayhelp="'ai'"></helpbutton>
                     <div class="card-search--form">
                         <i class="fa fa-search"></i>
                         <div class="input-group">
@@ -38,12 +39,12 @@
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
                                             <input type="text" class="form-control" ng-model="setupAI.ruleName" placeholder="Rule Name">
-                                            
+
                                         </div>
 
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
                                             <input type="text" class="form-control" ng-model="setupAI.description" placeholder="Rule Description">
-                                            
+
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 form-group">
                                             <label>If User Says Somthing Similar To:*</label>
@@ -64,9 +65,9 @@
                                             </select>
                                         </div>
                                         <div class="col-12 col-sm-12 col-md-12 form-group">
-                                        <button type="submit" ng-disabled="createSetupai.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
-                                            Add Rule
-                                        </button>
+                                            <button type="submit" ng-disabled="createSetupai.$invalid" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
+                                                Add Rule
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -100,24 +101,24 @@
                                                 (proper nouns such as public figures, landmarks, etc.), and returns information
                                                 about those entities</span>
                                         </div>
-                                        
+
                                         <!-- ng-disabled="setTestWorkFlowForText.$invalid" -->
-                                        <button  ng-click="getworkflowfortextAPIUrl(testWorkFlowForText)" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
+                                        <button ng-click="getworkflowfortextAPIUrl(testWorkFlowForText)" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
                                             Analyze
                                         </button>
 
-                                        
-                                        <div class="col-12 col-sm-6 col-md-12" ng-show="checkData || notMatchingKeyWord" style="padding-top:10px; padding-bottom: 10px;" >
-                                            <div layout="row" >
+
+                                        <div class="col-12 col-sm-6 col-md-12" ng-show="checkData || notMatchingKeyWord" style="padding-top:10px; padding-bottom: 10px;">
+                                            <div layout="row">
                                                 <span style="color:green">GREEN:</span>
                                                 <span>Already trained key word</span>
                                             </div>
-                                            <div layout="row" >
+                                            <div layout="row">
                                                 <span style="color:red">RED:</span>
                                                 <span>Untrained key word</span>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-12 col-sm-6 col-md-12" ng-if="checkWorkFlowMatching == false">
                                             <!-- <div ng-show="notFound" style="padding-left: 6px;">
                                                 <span style="color:red">{{testWorkForText.CustomMessage}}</span>
@@ -130,7 +131,7 @@
                                                         <th scope="col">Key Words</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Salience(%)</th>
-                                                        <th>Train</th> 
+                                                        <th>Train</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -138,7 +139,7 @@
                                                         <td>{{testWorkForText.Result.flowName}}</td>
                                                         <td>
                                                             <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                                 <span ng-class="{'taggedclassA': test.tagged == true , 'taggedclassB': test.tagged == false}">{{test.name}}</span>
+                                                                <span ng-class="{'taggedclassA': test.tagged == true , 'taggedclassB': test.tagged == false}">{{test.name}}</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -153,10 +154,11 @@
                                                         </td>
                                                         <td>
                                                             <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
-                                                                <button ng-show="test.tagged == false" style="margin-top:-4px !important;float:none !important;" class="btn-small" ng-click="train(test)" href="#myModal">train</button>
-                                                                 <div style="margin:4px 0 10px;" ng-show="test.tagged == true">already trained</div> 
+                                                                <button ng-show="test.tagged == false" style="margin-top:-4px !important;float:none !important;" class="btn-small" ng-click="train(test)"
+                                                                    href="#myModal">train</button>
+                                                                <div style="margin:4px 0 10px;" ng-show="test.tagged == true">already trained</div>
                                                             </div>
-                                                        </td> 
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -173,7 +175,9 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td> <span>{{testWorkForText.CustomMessage}}</span></td>
+                                                        <td>
+                                                            <span>{{testWorkForText.CustomMessage}}</span>
+                                                        </td>
                                                         <td>
                                                             <div ng-repeat="test in testWorkForText.Result.aiResolution.entities">
                                                                 <span class="taggedclassB">{{test.name}}</span>
@@ -200,23 +204,23 @@
                                             </table>
                                         </div>
 
-                                       <!-- Modal -->
-                                         
-                                        <div style="top: -95px; width:100% !important;" class="modal-dialog" ng-show="editMode" >
+                                        <!-- Modal -->
+
+                                        <div style="top: -95px; width:100% !important;" class="modal-dialog" ng-show="editMode">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()" >&times;</button>
-                                                <h4 class="modal-title">{{modalName}}</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">&times;</button>
+                                                    <h4 class="modal-title">{{modalName}}</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form class="form-horizontal form-label-left input_mask">
                                                         <div class="row no-gutters">
-                                                            
-                                                            <div class="col-12 col-sm-6 col-md-6 form-group"  ng-show="showCreateModel" >
+
+                                                            <div class="col-12 col-sm-6 col-md-6 form-group" ng-show="showCreateModel">
                                                                 <input type="text" class="form-control has-feedback-left" ng-model="createAiModel.ruleName" placeholder="Rule Name">
                                                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                                             </div>
-                                                            <div class="col-12 col-sm-6 col-md-6 form-group" ng-show="showCreateModel" >
+                                                            <div class="col-12 col-sm-6 col-md-6 form-group" ng-show="showCreateModel">
                                                                 <input type="text" class="form-control has-feedback-left" ng-model="createAiModel.description" placeholder="Rule Description">
                                                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                                             </div>
@@ -225,12 +229,12 @@
                                                                 <tags-input class="form-control width-100" ng-model="createAiModel.events">
                                                                 </tags-input>
                                                             </div>
-                
+
                                                             <div class="col-3 col-md-3 form-group has-feedback">
                                                                 <label>Work Flow Name*</label>
                                                                 <select class="form-control has-feedback-left" placeholder="Work Flow Name*" ng-model="createAiModel.workFlowName" ng-options="x.Name as x.DisplayName for x in workFlowNames"></select>
                                                             </div>
-                                                            <div class="col-3 col-md-3 form-group has-feedback" ng-show="showCreateModel" >
+                                                            <div class="col-3 col-md-3 form-group has-feedback" ng-show="showCreateModel">
                                                                 <label>Bot ID*</label>
                                                                 <select class="form-control" name="createAiModel.botAppId" placeholder="Bot ID*" ng-model="createAiModel.botAppId" ng-options="x._id as x.screen_name for x in allbots">
                                                                 </select>
@@ -239,11 +243,13 @@
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
-                                                <button ng-show="showCreateModel" type="button" class="btn btn-primary" ng-click="createSetupAI(createAiModel)">Train</button>
-                                                <button ng-show="!showCreateModel" type="button" class="btn btn-primary" ng-click="updateTrainModelData(createAiModel)">Update</button>
+                                                    <button ng-show="showCreateModel" type="button" class="btn btn-primary" ng-click="createSetupAI(createAiModel)">Train</button>
+                                                    <button ng-show="!showCreateModel" type="button" class="btn btn-primary" ng-click="updateTrainModelData(createAiModel)">Update</button>
                                                 </div>
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal-dialog -->
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
                                         <!-- /.modal -->
 
                                         <!-- <div class="col-md-12 col-sm-12 col-xs-12 edit-main-wrap" ng-show="editMode">
@@ -292,7 +298,7 @@
                                         </div> -->
 
 
-                                        
+
 
 
                                     </div>

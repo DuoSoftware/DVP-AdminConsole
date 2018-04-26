@@ -41,8 +41,27 @@ mainApp.controller("helpbuttonController", function ($scope, $uibModalInstance, 
         $uibModalInstance.dismiss('cancel');
     }
 
-    $scope.getContentForWindow = function(type){
-        
+    $scope.linklist = [];
+    $scope.getContentForWindow = function (displaytype) {
+        switch (displaytype) {
+            case "chatbots": {
+                $scope.linklist = [
+                    {
+                        "Title": "This is about a chatbout",
+                        "URL": "https://www.google.com"
+                    }
+                ];
+                break;
+            }
+            default: {
+                $scope.linklist = [
+                    {
+                        "Title": "Default",
+                        "URL": "https://www.google.com"
+                    }
+                ];
+            }
+        }
     }
     $scope.getContentForWindow(DisplayHelp);
 

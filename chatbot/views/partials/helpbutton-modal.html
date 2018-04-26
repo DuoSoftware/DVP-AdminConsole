@@ -14,18 +14,7 @@
             <p>Feeling blured in any area? Please refer to the following documents to have an clear idea about how things work.</p>
             <p>{{DisplayHelp}}</p>
             <ul>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create an Bot?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create Cards?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create an Bot?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create Cards?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create an Bot?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create Cards?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create an Bot?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create Cards?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create an Bot?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create Cards?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create an Bot?</a></li>
-                <li><a target="_blank" ng-href="https://www.google.com">How to create Cards?</a></li>
+                <li ng-repeat="link in linklist"><a target="_blank" ng-href="{{link.URL}}">{{link.Title}}</a></li>
             </ul>
         </div>
         <div class="divider"></div>
