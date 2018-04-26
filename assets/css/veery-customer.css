@@ -7190,7 +7190,7 @@ ul.newsticker {
 
 .modal-panel-notify {
     padding: 10px;
-    height: 300px;
+    /* height: 300px; */
     border-left-width: 2pt;
     border-color: lightgrey;
 }

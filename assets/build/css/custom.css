@@ -5913,6 +5913,11 @@ ul.notifications {
     line-height: 3;
 }
 
+.helpbutton i {
+    float: left;
+    line-height: 1.5;
+}
+
 .card-search--form {
     float: right;
     margin-top: 0px;
