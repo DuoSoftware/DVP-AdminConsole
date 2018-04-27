@@ -27,7 +27,7 @@
             </div>
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="media in allmediaFiles | filterBy: ['name','created_at','size','type']: searchCriteria | orderBy:val:reverse" style="border-bottom: 1px solid #efefef;padding-top: 10px;padding-bottom: 10px;">
+                    <li ng-repeat="media in allmediaFiles | filterBy: ['name','created_at','type']: searchCriteria | orderBy:val:reverse" style="border-bottom: 1px solid #efefef;padding-top: 10px;padding-bottom: 10px;">
                         <editmedia media="media" media-type="TemplateCategory" update-media="updateIntegration(media)"
                         delete-media="deleteIntegration(media)" media-Types="MediaTypes"></editmedia>
                     </li>
