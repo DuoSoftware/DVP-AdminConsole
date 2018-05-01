@@ -93,7 +93,7 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
                     }*/
                     $scope.newNotice.attachments.push(response.Result._id);
                     //$scope.showAlert("Notice","Attachment saved successfully","success");
-                    cnsole.log("Notice attchment uploaded");
+                    console.log("Notice attchment uploaded");
                     $scope.noticeHandler();
 
 

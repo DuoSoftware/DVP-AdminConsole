@@ -108,7 +108,7 @@ var baseUrls = {
     'socialConnectorUrl': 'http://socialconnector.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'mailSenderUrl': 'http://mailsender.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'notification': 'http://notificationservice.app1.veery.cloud/',//notificationservice.app1.veery.cloud
-    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app1.veery.cloud/DVP/API/1.0.0.0/',
     'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app1.veery.cloud/DVP/API/1.0.0.0/',
@@ -137,7 +137,11 @@ var baseUrls = {
     'payapiUrl':"https://smoothflow.io/payapi/getWorkflowData/",
     'setupaiAPTUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap",
     'getworkflowfortextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/GetWorkflowForText",
-    'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb"
+    'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb",
+    'uploadFilesinCardTemplate':"https://smoothmediaservice.plus.smoothflow.io/media/1/103/upload",
+    'getallMediaFilesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/UploadFileService/UploadFiles",
+    'botentitiesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
+
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1035,7 +1039,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }).state('console.bottemplates', {
                 url: "/templates/:templateType",
                 templateUrl: "chatbot/views/chatbotTemlplates.html",
-                controller: "templateController",
+                controller: "chatBotTemplateController",
                 data: {
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
@@ -1063,7 +1067,23 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 data: {
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
-                }        
+                }    
+            }).state('console.botmedia', {
+                url: "/media",
+                templateUrl: "chatbot/views/chatbotMedia.html",
+                controller: "chatbotMediaController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }   
+            }).state('console.botentities', {
+                url: "/entities",
+                templateUrl: "chatbot/views/chatbotEntities.html",
+                controller: "chatbotEntitiesController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }                
             }).state('console.zohousers', {
                 url: "/zoho/users",
                 templateUrl: "zoho/views/zohoUsers.html",

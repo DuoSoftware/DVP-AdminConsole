@@ -40,6 +40,11 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
                 "bot_token": ""
 
             },
+            "ai":{
+                "name" : "default",
+                "key": "",
+                "description": ""
+            },
             "avatar": "11111111111111111111111111111111111111111111"
         }
 
