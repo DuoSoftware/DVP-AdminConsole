@@ -141,6 +141,7 @@ var baseUrls = {
     'uploadFilesinCardTemplate':"https://smoothmediaservice.plus.smoothflow.io/media/1/103/upload",
     'getallMediaFilesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/UploadFileService/UploadFiles",
     'botentitiesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
+    'chatbotupdateentitityAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
 
 };
 

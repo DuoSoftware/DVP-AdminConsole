@@ -1,7 +1,7 @@
 /**
  * Created by lakmini on 26/01/2018.
  */
-mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService, botappconfigService, whitelistconfigService, $auth, baseUrls, $timeout) {
+mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, integrationsService, botappconfigService, chatbotEntitesService, whitelistconfigService, $auth, baseUrls, $timeout) {
 
     return {
         restrict: "EAA",
@@ -74,6 +74,7 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                     scope.generateCallBackURL(scope.bot._id);
                     scope.getallBotApps(scope.bot._id);
                     scope.getallDefaultAi(scope.bot._id);
+                    scope.getallselectedEntity(scope.bot._id);
                     scope.getwhitelisturl(scope.bot._id);
                     scope.getPersistantMenu(scope.bot._id);
                 }
@@ -292,6 +293,27 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
                     scope.showAlert("Bot Apps", 'Fail To Deleted Bot Apps.', "error");
                 });
             }
+            //Delete bot app 
+            scope.deletebotEntity = function (entity) {
+                console.log(entity);
+                var id = scope.bot._id;
+                var update = {
+                    "entityName": entity.entityName,
+                    "id": entity.id,
+                }
+                chatbotService.DeleteChatbotEntity(id, update).then(function (response) {
+                    if (response.data.IsSuccess) {
+                        
+                        scope.showAlert("Entity", 'Entity Deleted Successfully.', "success");
+                        scope.getallselectedEntity(scope.bot._id);
+                    } else {
+                        scope.showAlert("Bot Apps", 'Fail To Deleted entity.', "error");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Bot Apps", 'Fail To Deleted entity.', "error");
+                });
+            }
             //get facebook whitelist
             scope.getwhitelisturl = function (botid) {
                 if (scope.bot.channel_facebook.page_token != "") {
@@ -387,6 +409,68 @@ mainApp.directive("editachatbot", function ($filter, $uibModal, chatbotService, 
 
                 }, function (error) {
                     scope.showAlert("Load AI", 'Fail To load ai.', "error");
+                });
+
+            }
+
+            scope.getallselectedEntity = function(id){
+                
+                chatbotService.GetBotById(id).then(function (response) {
+                    console.log(response);
+                    if (response.data.IsSuccess) {
+                        scope.selectEntities = response.data.Result.entities;
+
+                    } else {
+                        scope.showAlert("Load AI", 'Fail To load.', "error");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Load AI", 'Fail To load.', "error");
+                });
+            }
+          
+            
+            scope.getallentity = function(){
+               
+                chatbotEntitesService.GetAllEntity().then(function (response) {
+                    if (response.data.IsSuccess) {
+                        scope.allEntities = response.data.Result;
+                        console.log(scope.allEntities);
+                    } else {
+                        scope.showAlert("ChatBot", 'error', "Fail To load entities.");
+                    }
+        
+                }, function (error) {
+                    scope.showAlert("ChatBot", 'error', "Fail To load entities.");
+                });
+            }
+            scope.getallentity();
+
+            scope.addnewEntity = function (entity) {
+                console.log(entity.app);
+                var id = scope.bot._id
+                var update = {
+                    "entityName": entity.app.entityName,
+                    "id": entity.app._id,
+                }
+                console.log(update);
+                
+                chatbotService.UpdateChatbotEntity(id,update).then(function (response) {
+                    console.log(response);
+                    scope.slectedentity = {};
+                    
+                    if (response.data.IsSuccess) {
+                        scope.slectedentity = response.data.Result;
+                        // scope.botappedit = false;
+                        scope.selectEntities= response.data.Result.entities;
+                        console.log(scope.selectEntities);
+                        scope.showAlert("Update Entity", 'Entity Updated Successfully.', "success");
+                    } else {
+                        scope.showAlert("Update Entity", 'Fail To add entity.', "error");
+                    }
+
+                }, function (error) {
+                    scope.showAlert("Add Entity", 'Fail To add entity.', "error");
                 });
 
             }
