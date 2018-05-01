@@ -38,6 +38,8 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 		form: null
 	};
 
+	var isFormSaved = null;
+
 	$scope.currentTicketForm = {
 		currentTicketForm: null
 	};
@@ -336,7 +338,7 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 			profile_form : $scope.currentProfileForm.currentProfileForm
 		};
 
-		if($scope.currentProfileForm.currentProfileForm || $scope.currentTicketForm.currentTicketForm)
+		if(isFormSaved)
 		{
 			//Update
 			ticketService.updateFormProfile(obj).then(function(resp)
@@ -365,6 +367,7 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 			{
 				if(resp && resp.IsSuccess)
 				{
+                    isFormSaved = true;
 					$scope.showAlert("Operation Successful", "Form Profile Saved Successfully");
 
 				}
@@ -391,11 +394,25 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 				{
 					$scope.currentProfileForm.currentProfileForm = resp.Result.profile_form._id;
 				}
+
 				if(resp.Result.ticket_form)
 				{
 					$scope.currentTicketForm.currentTicketForm = resp.Result.ticket_form._id;
 				}
 
+                if(resp.Result.profile_form || resp.Result.ticket_form)
+				{
+                    isFormSaved = true;
+				}
+				else
+				{
+                    isFormSaved = false;
+				}
+
+			}
+			else
+			{
+                isFormSaved = false;
 			}
 
 		}).catch(function(err)
