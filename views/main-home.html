@@ -632,6 +632,19 @@
                                         <li>
                                             <a href="javascript:void(0);" ng-click="clickDirective.goChatbotMedia()">Media Library</a>
                                         </li>
+                                        <li>
+                                            <a>Entity & Context 
+                                                <span class="fa fa-chevron-down"></span>
+                                            </a>
+                                            <ul class="nav child_menu">
+                                                <li ng-show="accessNavigation.ZOHO_CRM">
+                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotEntities()">Entities</a>
+                                                </li>
+                                                <!-- <li ng-show="accessNavigation.ZOHO_CRM">
+                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotTemplates('attachments')">Attachments</a>
+                                                </li> -->
+                                            </ul>    
+                                        </li>
                                     </ul>
                                 </li>
 
