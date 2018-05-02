@@ -30,6 +30,7 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
 
     $scope.closeCreateModel = function(){
         $scope.context = {};
+        $scope.contxMap = [{ entityName: "", contextName: ""}];
     }
 
     //Get all workflows
