@@ -142,7 +142,7 @@ var baseUrls = {
     'getallMediaFilesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/UploadFileService/UploadFiles",
     'botentitiesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
-
+    'chatbotContextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1084,7 +1084,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 data: {
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
-                }                
+                }   
+            }).state('console.botcontext', {
+                url: "/context",
+                templateUrl: "chatbot/views/chatbotContext.html",
+                controller: "chatbotContextController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }                    
             }).state('console.zohousers', {
                 url: "/zoho/users",
                 templateUrl: "zoho/views/zohoUsers.html",

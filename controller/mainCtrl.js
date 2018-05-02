@@ -668,6 +668,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goChatbotEntities: function () {
             $state.go('console.botentities')
         },
+        goChatbotContext: function(){
+            $state.go('console.botcontext')
+        },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')
         },
