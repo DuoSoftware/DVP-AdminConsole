@@ -106,6 +106,7 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
                 $scope.showAlert("Context", 'success', "Context Created Successfully.");
                 $scope.getAllContext();
                 $scope.context = {};
+                $scope.contxMap = [{ entityName: "", contextName: ""}];
             } else {
                 $scope.showAlert("Context", 'error', "Fail To Create Context.");
             }
