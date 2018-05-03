@@ -65,6 +65,7 @@ mainApp.factory("setupAIService", function ($http, $log, $filter, authService, b
     };
 
     var getWorkFlow = function () {
+        tenantID = $auth.getPayload().companyName;
         return $http({
             method: 'GET',
             url: baseUrls.payapiUrl + "getWorkFlows/" + tenantID + ".smoothflow.io",

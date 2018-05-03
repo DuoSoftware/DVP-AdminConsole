@@ -128,7 +128,7 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
     'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
-    'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',
+    'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',//reportqueryfilters.app.veery.cloud
     'contactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/', //contacts.app1.veery.cloud
     'botAPIUrl': 'https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotService/',//Bot API URL
     'botplatformUrl': 'https://smoothbot.plus.smoothflow.io/fb/DBF/API/v1/platform/',//Bot Platform URL
@@ -137,7 +137,12 @@ var baseUrls = {
     'payapiUrl':"https://smoothflow.io/payapi/getWorkflowData/",
     'setupaiAPTUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap",
     'getworkflowfortextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/GetWorkflowForText",
-    'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb"
+    'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb",
+    'uploadFilesinCardTemplate':"https://smoothmediaservice.plus.smoothflow.io/media/1/103/upload",
+    'getallMediaFilesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/UploadFileService/UploadFiles",
+    'botentitiesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
+    'chatbotupdateentitityAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
+    'chatbotContextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1035,7 +1040,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }).state('console.bottemplates', {
                 url: "/templates/:templateType",
                 templateUrl: "chatbot/views/chatbotTemlplates.html",
-                controller: "templateController",
+                controller: "chatBotTemplateController",
                 data: {
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
@@ -1063,7 +1068,31 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 data: {
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
-                }        
+                }    
+            }).state('console.botmedia', {
+                url: "/media",
+                templateUrl: "chatbot/views/chatbotMedia.html",
+                controller: "chatbotMediaController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }   
+            }).state('console.botentities', {
+                url: "/entities",
+                templateUrl: "chatbot/views/chatbotEntities.html",
+                controller: "chatbotEntitiesController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }   
+            }).state('console.botcontext', {
+                url: "/context",
+                templateUrl: "chatbot/views/chatbotContext.html",
+                controller: "chatbotContextController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }                    
             }).state('console.zohousers', {
                 url: "/zoho/users",
                 templateUrl: "zoho/views/zohoUsers.html",

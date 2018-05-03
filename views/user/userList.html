@@ -442,42 +442,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- create new group -->
-                                        <div id="crateNewGroupWrapper" class="new-group-wrapper">
-                                            <ul class="group-inline-des">
-                                                <li>
-                                                    <div class="create-new header">
-                                                        <h5>Create New Group</h5>
-                                                    </div>
-                                                </li>
-                                                <li class="pull-right">
-                                                    <div class="create-new" style="padding-top: 2px;">
-                                                        <button class="btn btn-default btn-remove"
-                                                                ng-click="addNewUserGroup();"
-                                                                ng-disabled="!(newUserGroup.name)">
-                                                            save
-                                                        </button>
-                                                        <button style="margin-right: 0px;"
-                                                                class="btn btn-default btn-remove"
-                                                                ng-click="hiddenNewGroupDIV()">
-                                                            cancel
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            </ul>
-
-                                            <div class="row">
-                                                <div class="col-lg-12 col-xs-12">
-                                                    <div class="search-wrapper">
-                                                        <input type="text" style="width: 100%"
-                                                               ng-model="newUserGroup.name"
-                                                               required
-                                                               placeholder="group name *"
-                                                               class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <!-- user list wrapper -->
                                     <div class="group-wrapper">
@@ -486,6 +450,42 @@
                                              ng-click="loadGroupMembers(group)"
                                              ng-repeat="group in userGroupList | filterBy: ['name']: searchCriteria">
                                             <groupitemview group="group" selected-group="selectedGroup" check-editing="checkEditing()" units="businessUnits" editing="isEditing" supervisors="adminUserList"></groupitemview>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- create new group -->
+                                <div id="crateNewGroupWrapper" class="new-group-wrapper">
+                                    <ul class="no-padding">
+                                        <li class="pull-left">
+                                            <div class="create-new header">
+                                                <h5>Create New Group</h5>
+                                            </div>
+                                        </li>
+                                        <li class="pull-right">
+                                            <div class="create-new" style="padding-top: 2px;">
+                                                <button class="btn btn-default btn-remove"
+                                                        ng-click="addNewUserGroup();"
+                                                        ng-disabled="!(newUserGroup.name)">
+                                                    save
+                                                </button>
+                                                <button style="margin-right: 0px;"
+                                                        class="btn btn-default btn-remove"
+                                                        ng-click="hiddenNewGroupDIV()">
+                                                    cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <div class="row">
+                                        <div class="col-lg-12 col-xs-12">
+                                            <div class="search-wrapper">
+                                                <input type="text" style="width: 100%"
+                                                       ng-model="newUserGroup.name"
+                                                       required
+                                                       placeholder="group name *"
+                                                       class="form-control">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -524,71 +524,6 @@
                                                 </div>
                                             </div>
 
-                                        </div>
-                                        <!-- #add new group member -->
-                                        <!-- create new group -->
-                                        <div id="crateNewGroupMemberWrapper" class="new-group-wrapper new-group-member">
-                                            <ul class="group-inline-des">
-                                                <li>
-                                                    <div class="create-new header">
-                                                        <h5>{{addingTitle}}</h5>
-                                                    </div>
-                                                </li>
-                                                <li class="pull-right" ng-show="addMemRole.toLowerCase()=='member'">
-                                                    <div class="create-new" style="padding-top: 2px;">
-                                                        <button class="btn btn-default btn-remove"
-                                                                ng-click="addUserToGroup(newMember._id)">
-                                                            save
-                                                        </button>
-                                                        <button style="margin-right: 0px;"
-                                                                class="btn btn-default btn-remove"
-                                                                ng-click="hiddenNewGroupMember()">
-                                                            cancel
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                                <li class="pull-right" ng-show="addMemRole.toLowerCase()!='member'">
-                                                    <div class="create-new" style="padding-top: 2px;">
-                                                        <button class="btn btn-default btn-remove"
-                                                                ng-click="addSupervisorsToGroup()">
-                                                            save
-                                                        </button>
-                                                        <button style="margin-right: 0px;"
-                                                                class="btn btn-default btn-remove"
-                                                                ng-click="hiddenNewGroupMember()">
-                                                            cancel
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            </ul>
-
-                                            <div class="row" ng-show="addMemRole.toLowerCase()=='member'">
-                                                <div class="col-lg-12 col-xs-12">
-                                                    <div class="search-wrapper">
-                                                        <select class="select2_single form-control" tabindex="-1"
-                                                                aria-hidden="true"
-                                                                placeholder="Title" name="title" ng-model="newMember"
-                                                                ng-options="user.username for user in agents"></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row" id="fixedCreateNew" ng-show="addMemRole.toLowerCase()!='member'" style="position: fixed;width: 51%;z-index: -1; opacity: 0;">
-                                                <div class="col-lg-12 col-xs-12">
-                                                    <div class="search-wrapper">
-                                                        <tags-input ng-model="selectedGroup.supervisors"
-                                                                    on-tag-added="onChipAdd($tag)"
-                                                                    display-property="username"
-                                                                    add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
-                                                                    placeholder="Add a Supervisor">
-                                                            <auto-complete source="querySearch($query)"
-                                                                           load-on-empty="true"
-                                                                           load-on-focus="true"
-                                                                           min-length="1"
-                                                                           max-results-to-show="100"></auto-complete>
-                                                        </tags-input>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <!-- #view group member -->
@@ -677,6 +612,71 @@
                                             </div>
                                         </div>
 
+                                    </div>
+                                </div>
+                                <!-- #add new group member -->
+                                <!-- create new group -->
+                                <div id="crateNewGroupMemberWrapper" class="new-group-wrapper new-group-member">
+                                    <ul class="group-inline-des">
+                                        <li>
+                                            <div class="create-new header">
+                                                <h5>{{addingTitle}}</h5>
+                                            </div>
+                                        </li>
+                                        <li class="pull-right" ng-show="addMemRole.toLowerCase()=='member'">
+                                            <div class="create-new" style="padding-top: 2px;">
+                                                <button class="btn btn-default btn-remove"
+                                                        ng-click="addUserToGroup(newMember._id)">
+                                                    save
+                                                </button>
+                                                <button style="margin-right: 0px;"
+                                                        class="btn btn-default btn-remove"
+                                                        ng-click="hiddenNewGroupMember()">
+                                                    cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li class="pull-right" ng-show="addMemRole.toLowerCase()!='member'">
+                                            <div class="create-new" style="padding-top: 2px;">
+                                                <button class="btn btn-default btn-remove"
+                                                        ng-click="addSupervisorsToGroup()">
+                                                    save
+                                                </button>
+                                                <button style="margin-right: 0px;"
+                                                        class="btn btn-default btn-remove"
+                                                        ng-click="hiddenNewGroupMember()">
+                                                    cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <div class="row" ng-show="addMemRole.toLowerCase()=='member'">
+                                        <div class="col-lg-12 col-xs-12">
+                                            <div class="search-wrapper">
+                                                <select class="select2_single form-control" tabindex="-1"
+                                                        aria-hidden="true"
+                                                        placeholder="Title" name="title" ng-model="newMember"
+                                                        ng-options="user.username for user in agents"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="fixedCreateNew" ng-show="addMemRole.toLowerCase()!='member'" style="position: fixed;width: 51%;z-index: -1; opacity: 0;">
+                                        <div class="col-lg-12 col-xs-12">
+                                            <div class="search-wrapper">
+                                                <tags-input ng-model="selectedGroup.supervisors"
+                                                            on-tag-added="onChipAdd($tag)"
+                                                            display-property="username"
+                                                            add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
+                                                            placeholder="Add a Supervisor">
+                                                    <auto-complete source="querySearch($query)"
+                                                                   load-on-empty="true"
+                                                                   load-on-focus="true"
+                                                                   min-length="1"
+                                                                   max-results-to-show="100"></auto-complete>
+                                                </tags-input>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

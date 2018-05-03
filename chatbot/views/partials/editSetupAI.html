@@ -12,14 +12,12 @@
                 </div>
                 <div class="col-md-3 ">
                     <div class="pull-right user-option-wrap" ng-show="!editMode">
-                        <h3>
-                            <small ng-disabled="true" ng-click="editSetupai(setupai)" style="cursor: pointer">
-                                <i class="fa fa-edit"></i>
-                            </small>
-                            <small ng-disabled="true" ng-click="removeSetupai(setupai)" style="cursor: pointer">
-                                <i class="fa fa-trash-o"></i>
-                            </small>
-                        </h3>
+                        <div ng-disabled="true" ng-click="editSetupai(setupai)" class="btn-circle">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                        <div ng-disabled="true" ng-click="removeSetupai(setupai)" class="btn-circle">
+                            <i class="fa fa-trash-o"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -41,24 +39,29 @@
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="row no-gutters">
-                                <div class="col-12 col-md-6 form-group has-feedback">
+                                <div class="col-12 col-md-12 form-group">
                                     <label>If User Says Somthing Similar To:*</label>
-                                    <tags-input class="form-control width-100" ng-model="setupai.events">
+                                    <tags-input style="height:100% !important;" class="form-control" ng-model="setupai.events">
                                     </tags-input>
                                 </div>
-                                <div class="col-12 col-md-6 form-group has-feedback">
+                                <div class="col-6 col-md-6 form-group">
                                     <label>Work Flow Name*</label>
-                                    <select class="form-control has-feedback-left" placeholder="Work Flow Name*" ng-model="setupai.workFlowName" ng-options="x.Name as x.DisplayName for x in workFlowNames"></select>
+                                    <select class="form-control" placeholder="Work Flow Name*" ng-model="setupai.workFlowName" ng-options="x.Name as x.DisplayName for x in workFlowNames"></select>
+                                </div>
+                                <div class="col-6 col-md-6 form-group">
+                                    <label>Bot ID*</label>
+                                    <select class="form-control" name="setupai.botAppId" placeholder="Bot ID*" ng-model="setupai.botAppId" ng-options="x._id as x.screen_name for x in botlist">
+                                    </select>
                                 </div>
 
                             </div>
-                            <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updateSetupai(setupai)">
-                                        Update
-                                    </button>
-                                </div>
+                          
+                            <div class="col-12 col-sm-12 col-md-12 form-group">
+                                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="updaterule(setupai)">
+                                    Update
+                                </button>
                             </div>
+                         
                         </form>
                     </div>
                 </div>

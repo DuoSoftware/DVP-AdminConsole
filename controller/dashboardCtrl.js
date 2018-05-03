@@ -99,28 +99,19 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
         owlCarousel.trigger('to.owl.carousel', itemNo);
         owlCarousel.trigger('to.owl.carousel', itemNo);
 
-        if($scope.currItem ==itemNo)
-        {
-            $scope.stoppedState=false;
-            owlCarousel.trigger('play.owl.autoplay', 1000);
-        }
-        else
-        {
-            $scope.stoppedState=true;
-            owlCarousel.trigger('stop.owl.autoplay');
-        }
 
-        setAgentCurrentState(itemNo);
-        $scope.currItem =itemNo;
-
-
-        /*if (carouselAutoplay) {
+        if (carouselAutoplay) {
             owlCarousel.trigger('play.owl.autoplay', 1000);
 
         } else {
+
             owlCarousel.trigger('stop.owl.autoplay');
 
-        }*/
+        }
+        $scope.stoppedState=!carouselAutoplay;
+        setAgentCurrentState(itemNo);
+        $scope.currItem =itemNo;
+
 
     };
 
@@ -329,7 +320,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
 
             }
         } else {
-            console.error("Subscribe Dashboard Event Recive For Invalid Business Unit");
+            console.info("Subscribe Dashboard Event Recive For Invalid Business Unit");
         }
     });
 
@@ -1033,7 +1024,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
                     //agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")
-                    if (response[i] &&(response[i].BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all")) {
+                    if ((response[i] && response[i].BusinessUnit && response[i].BusinessUnit.toLowerCase()) === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all") {
                         var profile = {
                             name: '',
                             slotState: null,

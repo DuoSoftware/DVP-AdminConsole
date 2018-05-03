@@ -1,30 +1,28 @@
 /**
  * Created by divani on 9/3/2018.
  */
-mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService, $state) {
+mainApp.directive("editchatbotcontext", function ($filter, $uibModal, appBackendService, $state) {
 
     return {
         restrict: "EAA",
         scope: {
-            setupai: "=",
-            setupaiType: "=",
-            setupaiTypes: "=",
-            botlist: "=",
-            'updaterule': '&',
-            'deleteSetupai': '&'
+            context: "=",
+            entitylist: "=",
+            'updateContext': '&',
+            'deleteContext': '&'
         },
 
-        templateUrl: 'chatbot/views/partials/editSetupAI.html',
+        templateUrl: 'chatbot/views/partials/editChatbotcontext.html',
 
         link: function (scope) {
 
             debugger
-            console.log(scope.setupai);
+            console.log(scope.context);
 
-            scope.removeSetupai = function (item) {
+            scope.removeContext = function (item) {
 
-                scope.showConfirm("Delete Setup AI", "Delete", "ok", "cancel", "Are you sure you want to delete " + item.workFlowName, function (obj) {
-                    scope.deleteSetupai(scope.setupai);
+                scope.showConfirm("Delete Context", "Delete", "ok", "cancel", "Are you sure you want to delete " + item.workflowName, function (obj) {
+                    scope.deleteContext(scope.context);
 
                 }, function () {
 
@@ -72,60 +70,44 @@ mainApp.directive("editsetupai", function ($filter, $uibModal, appBackendService
 
         },
 
-        controller: function ($scope, $state, setupAIService, chatbotService) {
+        controller: function ($scope, $state, setupAIService) {
 
-            // $scope.getAllBots = function () {
-            //     chatbotService.GetAllChatbots().then(function (response) {
-            //         if (response.data.IsSuccess) {
-            //             $scope.allbots = response.data.Result;
-            //         } else {
-            //             $scope.showAlert("ChatBot", 'error', "Fail To load Bots.");
-            //         }
+            // $scope.contxMap = [{ entityName: "", contextName: ""}];
 
-            //     }, function (error) {
-            //         $scope.showAlert("ChatBot", 'error', "Fail To load Bots.");
-            //     });
-            // };
-            // $scope.getAllBots();
+            $scope.addcontxMap = function() {
+                $scope.context.contextMapping.push({});
+            }
+        
+            $scope.deletecontextMap = function(index) {
+                for (var n = $scope.context.contextMapping.length - 1; n >= 0; n--) {
+                    if (n == index) {
+                        $scope.context.contextMapping.splice(n, 1);
+                    }
+                }
+            }
 
             $scope.getWorkflows = function () {
                 setupAIService.GetWorkFlow().then(function (response) {
+                    console.log(response);
                     if (response.data !== 0) {
                         $scope.workFlowNames = response.data;
-                        console.log($scope.workFlowNames);
+                       
                     } else {
                         $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
                     }
-
+        
                 }, function (error) {
                     $scope.showAlert("Work Flows", 'error', "Fail To load work flows.");
                 });
             }
             $scope.getWorkflows();
 
-            // $scope.getAllSetupAi = function () {
-            //     setupAIService.GetAllSetupAI().then(function (response) {
-            //         if (response.data.IsSuccess) {
-            //             // $scope.allsetupai = response.data.Result;
-            //             // console.log($scope.allsetupai);
-
-            //         } else {
-            //             $scope.showAlert("Setup AI", 'error', "Fail To load setup ai.");
-            //         }
-
-            //     }, function (error) {
-            //         $scope.showAlert("Set up AI", 'error', "Fail To load setup ai.");
-            //     });
-            // }
-            // $scope.getAllSetupAi();
-
             $scope.closeTemplate = function () {
                 $scope.editMode = false;
-                $scope.getAllSetupAi();
             };
 
-            $scope.editSetupai = function (setupai) {
-                console.log(setupai);
+            $scope.editContext = function (context) {
+                console.log(context);
                 $scope.editMode = true;
             };
         }

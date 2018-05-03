@@ -1253,7 +1253,7 @@ h2 {
 }
 
 .x_title h2 {
-    margin: 5px 0 6px;
+    margin: 10px 0 6px;
     float: left;
     display: block;
     text-overflow: ellipsis;
@@ -5096,7 +5096,7 @@ fieldset {
 }
 
 .progress-bar-success {
-    background-color: #6a3390;
+    /* background-color: #6a3390; */
 }
 
 .progress_summary .progress {
@@ -5901,6 +5901,7 @@ ul.notifications {
 
 .card-title {
     border-bottom: 1px solid #E6E6E6;
+    min-height: 50px;
 }
 
 .card-search {
@@ -5912,9 +5913,14 @@ ul.notifications {
     line-height: 3;
 }
 
+.helpbutton i {
+    float: left;
+    line-height: 1.5;
+}
+
 .card-search--form {
     float: right;
-    margin-top: -6px;
+    margin-top: 0px;
 }
 
 .card-search  .form-control{
@@ -5938,7 +5944,7 @@ ul.notifications {
 
 .card-title--btn-add {
     float: right;
-    margin: -6px 0 0;
+    margin: 0 0 0 6px;
     z-index: 1;
     position: relative;
 }
@@ -6142,6 +6148,13 @@ ul.notifications {
     right: 0;
 }
 
+.form-control .tags {
+    width: 100% !important;
+    border: none;
+    box-shadow: none !important;
+    margin: 0;
+}
+
 .subcard {
     background: #F2F4F8;
     padding: 15px;
@@ -6231,4 +6244,9 @@ ul.notifications {
     float: left;
     max-width: 450px;
     border-radius: 5px 0 0 5px !important;
+}
+
+.user-option-wrap .btn-circle {
+    float: left;
+    margin: 6px 0 0 6px;
 }
