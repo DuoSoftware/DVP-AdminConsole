@@ -52,17 +52,16 @@
 
                                     <label style="padding-left: 10px;">Map Context</label>
                                     <div ng-repeat="field in context.contextMapping track by $index">
-                                        
+
+                                        <div class="col-12 col-sm-6 col-md-5 form-group">
+                                            <input type="text" class="form-control" name="updatecontxt" ng-model='field.contextName' placeholder="Context Name" required>
+                                        </div>
                                         <div class="col-12 col-sm-6 col-md-6 form-group">
-                                            
                                             <select class="form-control" name="updatecontxt" ng-model="field.entityName" placeholder="Entity Name" ng-options="x.entityName as x.entityName for x in entitylist" required>
                                                     <option value="" selected disabled>Select Entity Name</option>
                                             </select>
                                         </div>
-                                        <div class="col-12 col-sm-6 col-md-5 form-group">
-                                            
-                                            <input type="text" class="form-control" name="updatecontxt" ng-model='field.contextName' placeholder="Context Name" required>
-                                        </div>
+                                        
                                         <div class="col-12 col-sm-6 col-md-1 form-group">
                                                 <div ng-hide="$index==0" ng-click='deletecontextMap($index)' class="btn-circle">
                                                     <i class='fa fa-trash-o'></i>
