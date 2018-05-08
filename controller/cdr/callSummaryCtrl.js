@@ -1,7 +1,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var callSummaryCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, baseUrls,$anchorScroll, filterDateRangeValidation) {
+    var callSummaryCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, baseUrls,$anchorScroll, filterDateRangeValidation, ShareData) {
 
         $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
@@ -233,7 +233,14 @@
                     var momentTz = moment.parseZone(new Date()).format('Z');
                     momentTz = momentTz.replace("+", "%2B");
 
-                    cdrApiHandler.getCallSummaryForHrDownload($scope.obj.dateofmonth, momentTz, 'csv').then(function (cdrResp) {
+                    var tempBUnit = null;
+
+                    if(ShareData.BusinessUnit !== 'ALL' && ShareData.BusinessUnit != null)
+                    {
+                        tempBUnit = ShareData.BusinessUnit;
+                    }
+
+                    cdrApiHandler.getCallSummaryForHrDownload($scope.obj.dateofmonth, momentTz, 'csv', tempBUnit).then(function (cdrResp) {
                         if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                             var downloadFilename = cdrResp.Result;
 
@@ -299,7 +306,14 @@
                     var momentTz = moment.parseZone(new Date()).format('Z');
                     momentTz = momentTz.replace("+", "%2B");
 
-                    cdrApiHandler.getCallSummaryForDayDownload($scope.obj2.startDay, $scope.obj2.endDay, momentTz, 'csv').then(function (cdrResp) {
+                    var tempBUnit = null;
+
+                    if(ShareData.BusinessUnit !== 'ALL' && ShareData.BusinessUnit != null)
+                    {
+                        tempBUnit = ShareData.BusinessUnit;
+                    }
+
+                    cdrApiHandler.getCallSummaryForDayDownload($scope.obj2.startDay, $scope.obj2.endDay, momentTz, 'csv', tempBUnit).then(function (cdrResp) {
                         if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                             var downloadFilename = cdrResp.Result;
 
@@ -342,7 +356,14 @@
 
                 $scope.obj.isTableLoadingHr = 0;
 
-                cdrApiHandler.getCallSummaryForHr($scope.obj.dateofmonth, momentTz).then(function (sumResp) {
+                var tempBUnit = null;
+
+                if(ShareData.BusinessUnit !== 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }
+
+                cdrApiHandler.getCallSummaryForHr($scope.obj.dateofmonth, momentTz, tempBUnit).then(function (sumResp) {
                     if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
                         if (!isEmpty(sumResp.Result)) {
                             var newSummary = sumResp.Result.map(function (sumr) {
@@ -403,7 +424,14 @@
 
                 $scope.obj.isTableLoadingDay = 0;
 
-                cdrApiHandler.getCallSummaryForDay($scope.obj2.startDay, $scope.obj2.endDay, momentTz).then(function (sumResp) {
+                var tempBUnit = null;
+
+                if(ShareData.BusinessUnit !== 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }
+
+                cdrApiHandler.getCallSummaryForDay($scope.obj2.startDay, $scope.obj2.endDay, momentTz, tempBUnit).then(function (sumResp) {
                     if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
                         if (!isEmpty(sumResp.Result)) {
 

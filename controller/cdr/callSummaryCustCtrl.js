@@ -1,7 +1,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var callSummaryCustCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, baseUrls,$anchorScroll) {
+    var callSummaryCustCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, ShareData, baseUrls,$anchorScroll) {
 
         $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
@@ -124,7 +124,14 @@
                     var startDay = $scope.obj.dayCust + ' 00:00:00.000' + momentTz;
                     var endDay = $scope.obj.dayCust + ' 23:59:59.999' + momentTz;
 
-                    cdrApiHandler.getCallSummaryForCustDownload(startDay, endDay, 'csv', momentTz).then(function (cdrResp) {
+                    var tempBUnit = null;
+
+                    if(ShareData.BusinessUnit !== 'ALL' && ShareData.BusinessUnit != null)
+                    {
+                        tempBUnit = ShareData.BusinessUnit;
+                    }
+
+                    cdrApiHandler.getCallSummaryForCustDownload(startDay, endDay, 'csv', momentTz, tempBUnit).then(function (cdrResp) {
                         if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                             var downloadFilename = cdrResp.Result;
 
@@ -171,7 +178,14 @@
                     var startDay = $scope.obj.dayCust + ' ' + splitHour[0] + momentTz;
                     var endDay = $scope.obj.dayCust + ' ' + splitHour[1] + momentTz;
 
-                    cdrApiHandler.getCallSummaryForCust(startDay, endDay, momentTz).then(function (cdrResp) {
+                    var tempBUnit = null;
+
+                    if(ShareData.BusinessUnit !== 'ALL' && ShareData.BusinessUnit != null)
+                    {
+                        tempBUnit = ShareData.BusinessUnit;
+                    }
+
+                    cdrApiHandler.getCallSummaryForCust(startDay, endDay, momentTz, tempBUnit).then(function (cdrResp) {
                         if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                             $scope.callSummaryList = cdrResp.Result;
                             $scope.isTableLoading = 1;
