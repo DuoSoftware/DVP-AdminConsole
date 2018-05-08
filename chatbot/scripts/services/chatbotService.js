@@ -123,6 +123,38 @@ mainApp.factory("chatbotService", function ($http, $log, $filter, authService, b
         });
     };
 
+    var updateChatbotEntity = function(id, entity){
+        console.log(entity);
+        return $http({
+            method: 'PUT',
+            url: baseUrls.chatbotupdateentitityAPIUrl + "/" + id,
+            data: entity
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response;
+            } else {
+                return response;
+            }
+
+        });
+    }
+
+    var deleteChatbotEntity = function (id, entity) {
+        return $http({
+            method: 'POST',
+            url: baseUrls.chatbotupdateentitityAPIUrl + "/" + id,
+            data: entity
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response;
+            } else {
+                return response;
+            }
+
+        });
+
+    };
+
     return {
         CreateChatbot: createChatbot,
         GetAllChatbots: getAllChatbots,
@@ -131,6 +163,8 @@ mainApp.factory("chatbotService", function ($http, $log, $filter, authService, b
         GetBotById: getBotById,
         UpdateChatbotAi: updateChatbotAi,
         GetPersistantMenu: getPersistantMenuByBotId,
-        StorePersistantMenu: updatePersistantMenuByBotId
+        StorePersistantMenu: updatePersistantMenuByBotId,
+        UpdateChatbotEntity: updateChatbotEntity,
+        DeleteChatbotEntity: deleteChatbotEntity,
     }
 });

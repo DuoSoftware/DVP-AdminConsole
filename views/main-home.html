@@ -629,9 +629,7 @@
                                         <li>
                                             <a href="javascript:void(0);" ng-click="clickDirective.goChatbotSetupAI()">AI</a>
                                         </li>
-                                        <li>
-                                            <a href="javascript:void(0);" ng-click="clickDirective.goChatbotMedia()">Media Library</a>
-                                        </li>
+                                       
                                         <li>
                                             <a>Entity & Context 
                                                 <span class="fa fa-chevron-down"></span>
@@ -640,11 +638,15 @@
                                                 <li ng-show="accessNavigation.ZOHO_CRM">
                                                     <a href="javascript:void(0);" ng-click="clickDirective.goChatbotEntities()">Entities</a>
                                                 </li>
-                                                <!-- <li ng-show="accessNavigation.ZOHO_CRM">
-                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotTemplates('attachments')">Attachments</a>
-                                                </li> -->
+                                                <li ng-show="accessNavigation.ZOHO_CRM">
+                                                    <a href="javascript:void(0);" ng-click="clickDirective.goChatbotContext()">Context</a>
+                                                </li>
                                             </ul>    
                                         </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goChatbotMedia()">Media Library</a>
+                                        </li>
+
                                     </ul>
                                 </li>
 

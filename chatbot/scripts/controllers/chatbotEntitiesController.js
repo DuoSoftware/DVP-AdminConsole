@@ -16,7 +16,7 @@ mainApp.controller('chatbotEntitiesController', function ($scope, $q, $anchorScr
         $scope.entities = {};
     }
 
-    //Get All Bots
+    //Get All Entity
     $scope.getAllEntities = function () {
         chatbotEntitesService.GetAllEntity().then(function (response) {
             if (response.data.IsSuccess) {
