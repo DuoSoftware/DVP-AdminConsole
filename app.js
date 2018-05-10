@@ -138,7 +138,11 @@ var baseUrls = {
     'setupaiAPTUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap",
     'getworkflowfortextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/GetWorkflowForText",
     'botFrameworkFacebookConnector':"https://smoothbot.plus.smoothflow.io/fb",
-    'uploadFilesinCardTemplate':"https://smoothmediaservice.plus.smoothflow.io/media/1/103/upload"
+    'uploadFilesinCardTemplate':"https://smoothmediaservice.plus.smoothflow.io/media/1/103/upload",
+    'getallMediaFilesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/UploadFileService/UploadFiles",
+    'botentitiesAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
+    'chatbotupdateentitityAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
+    'chatbotContextAPIUrl':"https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1064,7 +1068,31 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 data: {
                     requireLogin: true,
                     navigation: "ZOHO_CRM"
-                }        
+                }    
+            }).state('console.botmedia', {
+                url: "/media",
+                templateUrl: "chatbot/views/chatbotMedia.html",
+                controller: "chatbotMediaController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }   
+            }).state('console.botentities', {
+                url: "/entities",
+                templateUrl: "chatbot/views/chatbotEntities.html",
+                controller: "chatbotEntitiesController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }   
+            }).state('console.botcontext', {
+                url: "/context",
+                templateUrl: "chatbot/views/chatbotContext.html",
+                controller: "chatbotContextController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ZOHO_CRM"
+                }                    
             }).state('console.zohousers', {
                 url: "/zoho/users",
                 templateUrl: "zoho/views/zohoUsers.html",

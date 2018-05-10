@@ -53,7 +53,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                     var inviteObj = {
                         message:$scope.newInvite.message,
                         to:$scope.newInvite.to,
-                        role:$scope.newInvite.role
+                        role:"agent"
                     }
                     invitationApiAccess.sendInvitation(inviteObj).then(function (resSend) {
 
