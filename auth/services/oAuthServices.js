@@ -246,7 +246,7 @@
         //user login in to console
         //get current user navigation
         function getUserNavigation(callback) {
-            $http.get(baseUrls.UserServiceBaseUrl + "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").success(function (data, status, headers, config) {
+            $http.get(baseUrls.UserServiceBaseUrl + "MyAppScopes/MyAppScopes/BOT_CONSOLE").success(function (data, status, headers, config) {
                 console.log(data);
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
                     //navigations = data.Result[0];
@@ -266,7 +266,7 @@
         //is can access
         function getNavigationAccess(callback) {
             mynavigations = {};
-            $http.get(baseUrls.UserServiceBaseUrl + "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").success(function (data, status, headers, config) {
+            $http.get(baseUrls.UserServiceBaseUrl + "MyAppScopes/MyAppScopes/BOT_CONSOLE").success(function (data, status, headers, config) {
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
                     data.Result[0].menus.forEach(function (item) {
                         mynavigations[item.menuItem] = true;

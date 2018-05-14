@@ -88,10 +88,10 @@ mainApp.config(function (scrollableTabsetConfigProvider) {
 //resourceservice.app1.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
-    'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'https://userserviceproduction.plus.smoothflow.io/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
-    'authProviderUrl': 'http://userservice.app1.veery.cloud/',
+    'authServiceBaseUrl': 'https://userserviceproduction.plus.smoothflow.io/oauth/',
+    'authProviderUrl': 'https://userserviceproduction.plus.smoothflow.io/',
     'resourceServiceBaseUrl': 'http://resourceservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
     'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
@@ -157,11 +157,11 @@ mainApp.constant('applicationConfig', applicationConfig);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
-        var authProviderUrl = 'http://userservice.app1.veery.cloud/auth/';
+        var authProviderUrl = 'https://userserviceproduction.plus.smoothflow.io/auth/';
         //var authProviderUrl = 'http://192.168.0.132:3637/auth/';
         vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI');
 
-        //http://userservice.app1.veery.cloud/
+        //https://userserviceproduction.plus.smoothflow.io/
         //var authProviderUrl = 'http:192.168.1.16:3637/';
         $urlRouterProvider.otherwise('/login');
 
@@ -1027,7 +1027,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "MYBOTS"
                 }
             }).state('console.bot-details', {
                 url: "/bot-details",
@@ -1035,7 +1035,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "MYBOTS"
                 }
             }).state('console.bottemplates', {
                 url: "/templates/:templateType",
@@ -1043,7 +1043,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatBotTemplateController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "BOTTEMPLATES"
                 }
 	     }).state('console.botautomations', {
                url: "/automations",
@@ -1051,7 +1051,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                controller: "setupAIController",
 	       data: {
 		  requireLogin: true,
-	          navigation: "ZOHO_CRM"
+	          navigation: "BOTAUTOMATIONS"
 	       }   		
             }).state('console.botintegration', {
                 url: "/integration",
@@ -1059,7 +1059,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatBotIntegrationController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "BOTINTEGRATIONS"
                 }   
              }).state('console.botsetupai', {
                 url: "/setupai",
@@ -1067,7 +1067,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "setupAIController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "BOTSETUPAI"
                 }    
             }).state('console.botmedia', {
                 url: "/media",
@@ -1075,7 +1075,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotMediaController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "MEDIALIBRARY"
                 }   
             }).state('console.botentities', {
                 url: "/entities",
@@ -1083,7 +1083,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotEntitiesController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "ENTITYCONTEXT"
                 }   
             }).state('console.botcontext', {
                 url: "/context",
@@ -1091,7 +1091,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotContextController",
                 data: {
                     requireLogin: true,
-                    navigation: "ZOHO_CRM"
+                    navigation: "ENTITYCONTEXT"
                 }                    
             }).state('console.zohousers', {
                 url: "/zoho/users",

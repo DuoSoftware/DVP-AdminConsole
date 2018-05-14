@@ -101,7 +101,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         para.userName = $scope.userName;
         para.password = $scope.password;
         para.scope = ["all_all", "profile_veeryaccount"];
-        para.console = "SUPERVISOR_CONSOLE";
+        para.console = "BOT_CONSOLE";
         para.companyName = $scope.companyName;
         //parameter option
         //username
