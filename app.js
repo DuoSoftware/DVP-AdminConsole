@@ -1075,7 +1075,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotMediaController",
                 data: {
                     requireLogin: true,
-                    navigation: "MEDIALIBRARY"
+                    navigation: "MYBOTS"
                 }   
             }).state('console.botentities', {
                 url: "/entities",
@@ -1083,7 +1083,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotEntitiesController",
                 data: {
                     requireLogin: true,
-                    navigation: "ENTITYCONTEXT"
+                    navigation: "MYBOTS"
                 }   
             }).state('console.botcontext', {
                 url: "/context",
@@ -1091,7 +1091,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "chatbotContextController",
                 data: {
                     requireLogin: true,
-                    navigation: "ENTITYCONTEXT"
+                    navigation: "MYBOTS"
                 }                    
             }).state('console.zohousers', {
                 url: "/zoho/users",
