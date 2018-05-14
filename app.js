@@ -119,7 +119,7 @@ var baseUrls = {
     'queuemusicServiceUrl': 'http://queuemusic.app1.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
     'eventserviceUrl': 'http://eventservice.app1.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app1.veery.cloud
-    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
+    'walletUrl': 'https://walletserviceproduction.plus.smoothflow.io/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app1.veery.cloud/DVP/API/1.0/',  //csatservice.app1.veery.cloud
     'campaignmanagerUrl': 'http://campaignmanager.app1.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app1.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
