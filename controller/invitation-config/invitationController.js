@@ -5,7 +5,12 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
 
     $scope.searchCriteria = "";
-   $scope.invites = [];
+    $scope.invites = [];
+    $scope.newInvite={
+        role:"agent"
+    };
+
+
 
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
@@ -53,7 +58,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                     var inviteObj = {
                         message:$scope.newInvite.message,
                         to:$scope.newInvite.to,
-                        role:"agent"
+                        role:$scope.newInvite.role
                     }
                     invitationApiAccess.sendInvitation(inviteObj).then(function (resSend) {
 
