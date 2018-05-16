@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-md-9">
                         <h2 class=" font-300">
-                            <a ng-hide="editMode">Entity Name: {{entity.entityName}}</a>
+                            <a ng-hide="editMode">Entity Name: {{entity.displayName}}</a>
                         </h2>
                         <span ng-hide="editMode">{{entity.description}}</span>
                         <br>
@@ -40,10 +40,13 @@
                             <form name="updateentity" ng-submit="updateEntity(entity)" class="form-horizontal form-label-left input_mask">
                                 <div class="row no-gutters">
                                     <div class="col-12 col-sm-6 col-md-6 form-group">
-                                        <input type="text" class="form-control" name="updateentity" ng-model="entity.entityName" placeholder="Entity Name">
+                                        <input type="text" class="form-control" name="updateentity" ng-model="entity.displayName" placeholder="Display Name" ng-disabled="true">
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-6 form-group">
+                                        <input type="text" class="form-control" name="updateentity" ng-model="entity.entityName" placeholder="Entity Name" required>
                                     </div>
 
-                                    <div class="col-12 col-sm-6 col-md-6 form-group">
+                                    <div class="col-12 col-sm-12 col-md-12 form-group">
                                         <input type="text" class="form-control" name="updateentity" ng-model="entity.description" placeholder="Entity Description">
                                     </div>
                                     

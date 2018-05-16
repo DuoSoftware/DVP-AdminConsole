@@ -7,14 +7,17 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
         "workflowName": "",
         "displayName": "",
         "contextMapping" : [{
+            "entityID":"",
+            "displayName":"",
             "entityName": "",
-            "contextName": ""
+            "contextName": "",
+            "entityObj":{}
         }],
         "description": "",
         "enable": true
     };
 
-    $scope.contxMap = [{ entityName: "", contextName: ""}];
+    $scope.contxMap = [{entityObj: "", contextName: ""}];
 
     $scope.addcontxMap = function() {
         $scope.contxMap.push({});
@@ -30,7 +33,11 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
 
     $scope.closeCreateModel = function(){
         $scope.context = {};
-        $scope.contxMap = [{ entityName: "", contextName: ""}];
+        $scope.contxMap = [{entityObj: "", contextName: ""}];
+    }
+
+    $scope.getEntityObj = function(entityobj){
+        console.log(entityobj);
     }
 
     //Get all workflows
@@ -65,7 +72,12 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
     $scope.getAllEntities = function () {
         chatbotEntitesService.GetAllEntity().then(function (response) {
             if (response.data.IsSuccess) {
-                $scope.allEntities = response.data.Result;
+                $scope.allEntities = response.data.Result.map(function(entity) {
+                    return({"entityID":entity._id, "entityName":entity.entityName, "displayName":entity.displayName})
+                 });
+                
+                var emptyObject = {"entityID":"", "entityName":"", "displayName":"empty"};
+                $scope.allEntities.push(emptyObject);
                 console.log($scope.allEntities);
             } else {
                 $scope.showAlert("ChatBot", 'error', "Fail To load entities.");
@@ -99,14 +111,41 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
         console.log(context);
         context.displayName = context.workflowName.DisplayName;
         context.workflowName = context.workflowName.Name;
-        context.contextMapping= angular.copy($scope.contxMap);
+        console.log($scope.contxMap);
+        $scope.contxMaps = [];
+        for (var c = 0; c < $scope.contxMap.length; c++) {
+            if($scope.contxMap[c].entityObj.displayName == "empty"){
+                console.log($scope.contxMap[c].entityObj.displayName);
+                var obj = {
+                    "displayName":"",
+                    "entityName":$scope.contxMap[c].entityObj.entityName,
+                    "entityID":$scope.contxMap[c].entityObj.entityID,
+                    "contextName":$scope.contxMap[c].contextName,
+                    "entityObj": {}
+                }
+            }
+            else{
+                var obj = {
+                    "displayName":$scope.contxMap[c].entityObj.displayName,
+                    "entityName":$scope.contxMap[c].entityObj.entityName,
+                    "entityID":$scope.contxMap[c].entityObj.entityID,
+                    "contextName":$scope.contxMap[c].contextName,
+                    "entityObj": $scope.contxMap[c].entityObj
+                }
+            }
+           
+            console.log(obj);
+            $scope.contxMaps.push(obj);
+            console.log($scope.contxMaps);
+        }
+        context.contextMapping= angular.copy($scope.contxMaps);
         console.log(context);
         chatbotContextService.CreateContext(context).then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.showAlert("Context", 'success', "Context Created Successfully.");
                 $scope.getAllContext();
                 $scope.context = {};
-                $scope.contxMap = [{ entityName: "", contextName: ""}];
+                $scope.contxMap = [{ entityObj: "", contextName: ""}];
             } else {
                 $scope.showAlert("Context", 'error', "Fail To Create Context.");
             }
@@ -119,6 +158,34 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
     };
 
     $scope.updateContext = function (context) {
+        
+        var contextMap = context.contextMapping;
+        $scope.contxMaps = [];
+        for (var r = 0; r < contextMap.length; r++) {
+            if(contextMap[r].entityObj.displayName == "empty"){
+                var obj = {
+                    "displayName":"",
+                    "entityName":contextMap[r].entityObj.entityName,
+                    "entityID":contextMap[r].entityObj.entityID,
+                    "contextName":contextMap[r].contextName,
+                    "entityObj": {}
+                }
+            }
+            else{
+                var obj = {
+                    "displayName":contextMap[r].entityObj.displayName,
+                    "entityName":contextMap[r].entityObj.entityName,
+                    "entityID":contextMap[r].entityObj.entityID,
+                    "contextName":contextMap[r].contextName,
+                    "entityObj": contextMap[r].entityObj
+                }
+            }
+           
+            console.log(obj);
+            $scope.contxMaps.push(obj);
+            console.log($scope.contxMaps);
+        }
+        context.contextMapping= angular.copy($scope.contxMaps);
         console.log(context);
         chatbotContextService.UpdateContext(context).then(function (response) {
             if (response.data && response.data.IsSuccess) {

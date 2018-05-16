@@ -6,6 +6,7 @@ mainApp.controller('chatbotEntitiesController', function ($scope, $q, $anchorScr
     $scope.buttonName = "SAVE";
 
     $scope.entities = {
+        "displayName":"",
         "entityName": "",
         "description": "",
         "values": [],
@@ -47,6 +48,7 @@ mainApp.controller('chatbotEntitiesController', function ($scope, $q, $anchorScr
 
         $scope.entities.values = [];
         $scope.entities = {};
+        $scope.entities.displayName = $scope.entity.displayName;
         $scope.entities.entityName = $scope.entity.entityName;
         $scope.entities.description = $scope.entity.description;
         $scope.entities.enable = $scope.entity.enable;
@@ -82,6 +84,7 @@ mainApp.controller('chatbotEntitiesController', function ($scope, $q, $anchorScr
 
         $scope.entity.values = [];
         $scope.entities = {};
+        $scope.entities.displayName = $scope.entity.displayName;
         $scope.entities.entityName = $scope.entity.entityName;
         $scope.entities.description = $scope.entity.description;
         $scope.entities.enable = $scope.entity.enable;

@@ -34,12 +34,16 @@
                                     </div>
                                     <form name="createEntity" ng-submit="createNewEntity(entities)" class="form-horizontal form-label-left input_mask card-create-bot">
                                         <div class="row no-gutters">
-    
+
                                             <div class="col-12 col-sm-6 col-md-6 form-group">
-                                                <input type="text" class="form-control" name="createEntity" ng-model="entities.entityName" placeholder="Entity Name">
+                                                    <input type="text" class="form-control" name="createEntity" ng-model="entities.displayName" placeholder="Display Name" required>
                                             </div>
     
                                             <div class="col-12 col-sm-6 col-md-6 form-group">
+                                                <input type="text" class="form-control" name="createEntity" ng-model="entities.entityName" placeholder="Entity Name" required>
+                                            </div>
+    
+                                            <div class="col-12 col-sm-12 col-md-12 form-group">
                                                 <input type="text" class="form-control" name="createEntity" ng-model="entities.description" placeholder="Entity Description">
                                             </div>
                                             

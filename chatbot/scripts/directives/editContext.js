@@ -16,7 +16,7 @@ mainApp.directive("editchatbotcontext", function ($filter, $uibModal, appBackend
 
         link: function (scope) {
 
-            debugger
+       
             console.log(scope.context);
 
             scope.removeContext = function (item) {
@@ -73,7 +73,19 @@ mainApp.directive("editchatbotcontext", function ($filter, $uibModal, appBackend
         controller: function ($scope, $state, setupAIService) {
 
             // $scope.contxMap = [{ entityName: "", contextName: ""}];
+            console.log( $scope.context.contextMapping);
+            
+            $scope.checkEmptyEntity = function(){
+                for (var c = 0; c < $scope.context.contextMapping.length; c++) {
+                    if($scope.context.contextMapping[c].displayName == ""){
+                        $scope.context.contextMapping[c].displayName = "empty";
+                        $scope.context.contextMapping[c].entityObj = {"entityID":"","entityName":"","displayName":"empty"}
 
+                    }
+                }
+            }
+            $scope.checkEmptyEntity();
+            
             $scope.addcontxMap = function() {
                 $scope.context.contextMapping.push({});
             }
@@ -88,7 +100,7 @@ mainApp.directive("editchatbotcontext", function ($filter, $uibModal, appBackend
 
             $scope.getWorkflows = function () {
                 setupAIService.GetWorkFlow().then(function (response) {
-                    console.log(response);
+                  
                     if (response.data !== 0) {
                         $scope.workFlowNames = response.data;
                        

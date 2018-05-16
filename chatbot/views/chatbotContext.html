@@ -55,11 +55,13 @@
                                                 <input type="text" class="form-control" name="createContext" ng-model='field.contextName' placeholder="Context Name" required>
                                             </div>
                                             <div class="col-12 col-sm-6 col-md-6 form-group">
-                                               
-                                                <select class="form-control" name="createContext" ng-model="field.entityName" placeholder="Entity Name" ng-options="x.entityName as x.entityName for x in allEntities" required>
-                                                        <option value="" selected disabled>Select Entity Name</option>
+                                                <select class="form-control" name="createContext" ng-model="field.entityObj" placeholder="Entity Name" ng-options="x as x.displayName for x in allEntities" required>
+                                                    <option value="" selected disabled>Select Entity Name</option>
+                                                        
                                                 </select>
                                             </div>
+                                             
+                                            
                                             <div class="col-12 col-sm-6 col-md-1 form-group">
                                                     <div ng-hide="$index==0" ng-click='deletecontextMap($index)' class="btn-circle">
                                                         <i class='fa fa-trash-o'></i>
@@ -71,8 +73,6 @@
                                                 <button class="btn card-btn pull-left" type="button" ng-click="addcontxMap()">Add</button>
                                         </div>
                                             
-                                        
-
                                         <div class="col-12 col-sm-12 col-md-12 form-group">
                                             <button type="submit" ng-disabled="createContext.$invalid" data-toggle="collapse" data-target="#addNewSetUp" class="btn btn-success btn-block card-btn btn-add-bot pull-right">
                                                 Add Context

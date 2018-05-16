@@ -18,9 +18,6 @@ mainApp.directive("editentity", function ($filter, $uibModal, appBackendService,
 
         link: function (scope) {
 
-            debugger
-            console.log(scope.entity);
-
             scope.removeEntity = function (item) {
 
                 scope.showConfirm("Delete Entity", "Delete", "ok", "cancel", "Are you sure you want to delete " + item.entityName, function (obj) {
