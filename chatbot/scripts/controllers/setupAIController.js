@@ -16,7 +16,7 @@ mainApp.controller('setupAIController', function ($scope, $q, $anchorScroll, $st
     };
 
     $scope.createNewAutomation = function () {
-        debugger
+        //debugger
         var profile = $auth.getPayload();
         var url = "https://" + profile.companyName + ".smoothflow.io/app/";
         var win = window.open(url, '_blank');

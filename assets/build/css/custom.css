@@ -681,7 +681,7 @@ a:hover, a:focus {
 .nav.side-menu > li > a > i:hover,
 .nav.side-menu > li > a > i:focus,
 .nav.side-menu > li > a:focus {
-    background-color: #383b3b;
+    background-color: #583c75;
     text-decoration: none;
     /*color: #17bab8;*/
     color: #ee407d;
@@ -799,7 +799,7 @@ a:hover, a:focus {
 
 .nav.side-menu > li.current-page, .nav.side-menu > li.active {
     border-right: 5px solid #1ABB9C;
-    background: #444;
+    background: #583c75;
 }
 
 .nav li.current-page {
