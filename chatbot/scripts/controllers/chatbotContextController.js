@@ -7,7 +7,7 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
         "workflowName": "",
         "displayName": "",
         "contextMapping" : [{
-            "entityID":"",
+            "entityId":"",
             "displayName":"",
             "entityName": "",
             "contextName": "",
@@ -73,10 +73,10 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
         chatbotEntitesService.GetAllEntity().then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.allEntities = response.data.Result.map(function(entity) {
-                    return({"entityID":entity._id, "entityName":entity.entityName, "displayName":entity.displayName})
+                    return({"entityId":entity._id, "entityName":entity.entityName, "displayName":entity.displayName})
                  });
                 
-                var emptyObject = {"entityID":"", "entityName":"", "displayName":"empty"};
+                var emptyObject = {"entityId":"", "entityName":"", "displayName":"empty"};
                 $scope.allEntities.push(emptyObject);
                 console.log($scope.allEntities);
             } else {
@@ -119,7 +119,7 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
                 var obj = {
                     "displayName":"",
                     "entityName":$scope.contxMap[c].entityObj.entityName,
-                    "entityID":$scope.contxMap[c].entityObj.entityID,
+                    "entityId":$scope.contxMap[c].entityObj.entityId,
                     "contextName":$scope.contxMap[c].contextName,
                     "entityObj": {}
                 }
@@ -128,7 +128,7 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
                 var obj = {
                     "displayName":$scope.contxMap[c].entityObj.displayName,
                     "entityName":$scope.contxMap[c].entityObj.entityName,
-                    "entityID":$scope.contxMap[c].entityObj.entityID,
+                    "entityId":$scope.contxMap[c].entityObj.entityId,
                     "contextName":$scope.contxMap[c].contextName,
                     "entityObj": $scope.contxMap[c].entityObj
                 }
@@ -166,7 +166,7 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
                 var obj = {
                     "displayName":"",
                     "entityName":contextMap[r].entityObj.entityName,
-                    "entityID":contextMap[r].entityObj.entityID,
+                    "entityId":contextMap[r].entityObj.entityId,
                     "contextName":contextMap[r].contextName,
                     "entityObj": {}
                 }
@@ -175,7 +175,7 @@ mainApp.controller('chatbotContextController', function ($scope, $q, $anchorScro
                 var obj = {
                     "displayName":contextMap[r].entityObj.displayName,
                     "entityName":contextMap[r].entityObj.entityName,
-                    "entityID":contextMap[r].entityObj.entityID,
+                    "entityId":contextMap[r].entityObj.entityId,
                     "contextName":contextMap[r].contextName,
                     "entityObj": contextMap[r].entityObj
                 }

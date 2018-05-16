@@ -79,7 +79,7 @@ mainApp.directive("editchatbotcontext", function ($filter, $uibModal, appBackend
                 for (var c = 0; c < $scope.context.contextMapping.length; c++) {
                     if($scope.context.contextMapping[c].displayName == ""){
                         $scope.context.contextMapping[c].displayName = "empty";
-                        $scope.context.contextMapping[c].entityObj = {"entityID":"","entityName":"","displayName":"empty"}
+                        $scope.context.contextMapping[c].entityObj = {"entityId":"","entityName":"","displayName":"empty"}
 
                     }
                 }
