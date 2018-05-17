@@ -54,6 +54,15 @@
                                     Not valid number.</p>
                             </div>
 
+                            <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+                                <label>Phone Type</label>
+                                <select name="filterType" ng-model="phoneConfig.phoneType" ng-change="onSelectionChanged()"
+                                        aria-controls="datatable-responsive" class="form-control select-limit">
+                                    <option  value="veery_web_rtc_phone">Web RTC Phone</option>
+                                    <option value="veery_sip_phone">SIP Phone</option>
+                                    <option value="veery_rest_phone">Rest Phone</option>
+                                </select>
+                            </div>
                             <div class="clearfix"></div>
                             <div class="ln_solid"></div>
 

@@ -424,6 +424,48 @@
                                     </div>
 
                                 </uib-tab>
+                                <uib-tab index="3" heading="Entity"> 
+                                    <div class="card-tab--subcard">
+                                        <h2 class="card-tab--subcard-title font-robot font-300 ">Entities</h2>
+                                        <div class="card-tab--subcard-form">
+                                            <div class="col-md-10">
+                                                <select class="form-control" id="Bot_Apps" ng-model="item.app" ng-options="x as x.entityName for x in allEntities">
+                                                    <option value="" disabled>Select Entity</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            <div class=" col-md-2">
+                                                <button type="button" class="btn card-btn pull-right" ng-click="addnewEntity(item);">
+                                                    Add Entity
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-tab--list">
+                                            <ul>
+                                                <!-- <div class="col-lg-12"> -->
+                                                <li class="ui-state-default" ng-repeat="item in selectEntities">
+                                                    <div class="row">
+                                                        <div class="col-md-11">
+                                                            <span class="ui-icon ui-icon-arrowthick-2-n-s"> {{item.entityName}}</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <!-- <div class="btn-circle" ng-disabled="true" ng-click="botappedit = !botappedit;" style="cursor: pointer">
+                                                                <i class="fa fa-edit"></i>
+                                                            </div> -->
+                                                            <div class="btn-circle" ng-disabled="true" ng-click="deletebotEntity(item)" style="cursor: pointer">
+                                                                <i class="fa fa-trash-o"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+    
+                                </uib-tab>
                                 <!-- <uib-tab index="2" heading="White-list">
 
                                 </uib-tab> -->

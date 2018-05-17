@@ -45,6 +45,7 @@ mainApp.controller('chatbotController', function ($scope, $q, $anchorScroll, cha
                 "key": "",
                 "description": ""
             },
+            "entities" :[],
             "avatar": "11111111111111111111111111111111111111111111"
         }
 
