@@ -434,8 +434,13 @@
             });
         };
 
-        var getCallSummaryForHr = function (date, tz) {
+        var getCallSummaryForHr = function (date, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=ss ' + bUnit;
+            }
 
             return $http({
                 method: 'GET',
@@ -447,28 +452,16 @@
             });
         };
 
-        var getCallSummaryForHrDownload = function (date, tz, fileType) {
+        var getCallSummaryForHrDownload = function (date, tz, fileType, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Hourly/Download?date=' + date + '&tz=' + tz;
 
             if (fileType) {
                 url = url + '&fileType=' + fileType;
             }
 
-            return $http({
-                method: 'GET',
-                url: url
-            }).then(function (resp) {
-                return resp.data;
-            }, function (err) {
-                loginService.isCheckResponse(err);
-            });
-        };
-
-        var getCallSummaryForCustDownload = function (startTime, endTime, fileType, tz) {
-            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomerDownload?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
-
-            if (fileType) {
-                url = url + '&fileType=' + fileType;
+            if(bUnit)
+            {
+                url = url + '&businessunit=ss ' + bUnit;
             }
 
             return $http({
@@ -481,8 +474,34 @@
             });
         };
 
-        var getCallSummaryForCust = function (startTime, endTime, tz) {
+        var getCallSummaryForCustDownload = function (startTime, endTime, fileType, tz, bUnit) {
+            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomerDownload?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            if (fileType) {
+                url = url + '&fileType=' + fileType;
+            }
+
+            if (bUnit) {
+                url = url + '&businessunit=' + bUnit;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getCallSummaryForCust = function (startTime, endTime, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallSummaryByCustomer?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
+            }
 
             return $http({
                 method: 'GET',
@@ -604,8 +623,13 @@
             });
         };
 
-        var getCallSummaryForDay = function (sdate, edate, tz) {
+        var getCallSummaryForDay = function (sdate, edate, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
+            }
 
             return $http({
                 method: 'GET',
@@ -617,11 +641,15 @@
             });
         };
 
-        var getCallSummaryForDayDownload = function (sdate, edate, tz, fileType) {
+        var getCallSummaryForDayDownload = function (sdate, edate, tz, fileType, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily/Download?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
 
             if (fileType) {
                 url = url + '&fileType=' + fileType;
+            }
+
+            if (bUnit) {
+                url = url + '&businessunit=' + bUnit;
             }
 
             return $http({

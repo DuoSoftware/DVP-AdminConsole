@@ -1172,7 +1172,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "agentBreakDetailController",
                 data: {
                     requireLogin: true,
-                    navigation: "USERS"
+                    navigation: "AGENT_BREAKS"
                 }
             }).state('console.queuesettings', {
                 url: "/queuesetting",
