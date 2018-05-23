@@ -172,7 +172,7 @@
                                         <td>{{cdr.SipToUser}}</td>
                                         <td>{{cdr.RecievedBy}}</td>
                                         <td>{{cdr.AgentSkill}}</td>
-                                        <td>{{cdr.CreatedTime}}</td>
+                                        <td>{{moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                                         <td>{{cdr.Duration}}</td>
                                         <td>{{cdr.AnswerSec}}</td>
                                         <td>{{cdr.QueueSec}}</td>

@@ -40,6 +40,8 @@
             }
         };
 
+        $scope.moment = moment;
+
 
         $scope.enableSearchButton = true;
 
@@ -910,10 +912,9 @@
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
-                                    $scope.cdrList = [];
+                                    $scope.cdrList = cdrResp.Result;
 
-
-                                    var count = 0;
+                                    /*var count = 0;
 
                                     for (cdr in cdrResp.Result)
                                     {
@@ -1076,12 +1077,12 @@
                                             cdrAppendObj.ShowButton = true;
                                         }
 
-                                        /*if (transferredParties) {
+                                        /!*if (transferredParties) {
                                             transferredParties = transferredParties.slice(0, -1);
                                             cdrAppendObj.TransferredParties = transferredParties;
-                                        }*/
+                                        }*!/
 
-                                        /*if(cdrAppendObj.ObjType === 'FAX_INBOUND')
+                                        /!*if(cdrAppendObj.ObjType === 'FAX_INBOUND')
                                         {
                                             cdrAppendObj.IsAnswered = inLegAnswered;
 
@@ -1089,7 +1090,7 @@
                                             {
                                                 cdrAppendObj.ShowButton = true;
                                             }
-                                        }*/
+                                        }*!/
 
                                         if(!cdrAppendObj.IsAnswered)
                                         {
@@ -1105,7 +1106,7 @@
 
 
                                         $scope.cdrList.push(cdrAppendObj);
-                                    }
+                                    }*/
                                     $scope.isTableLoading = 1;
 
 

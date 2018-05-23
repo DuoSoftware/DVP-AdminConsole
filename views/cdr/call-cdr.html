@@ -215,7 +215,7 @@
                                             <td>{{cdr.RecievedBy}}</td>
                                             <td>{{cdr.AgentSkill}}</td>
                                             <td>{{cdr.IsAnswered}}</td>
-                                            <td>{{cdr.CreatedTime}}</td>
+                                            <td>{{moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                                             <td>{{cdr.Duration}}</td>
                                             <td>{{cdr.BillSec}}</td>
                                             <td>{{cdr.AnswerSec}}</td>
@@ -227,11 +227,23 @@
                                             <td>{{cdr.TransferredParties}}</td>
                                             <td>{{cdr.BusinessUnit}}</td>
                                             <td>
-                            <span ng-show="cdr.ShowButton">
+                            <!--<span ng-show="cdr.ShowButton">
 
                                 <a href="">
                                     <i class="fa fa-play"
                                        ng-click="playStopFile(cdr.Uuid)"></i>
+                                </a>
+
+
+                                <a class="fa fa-download" target="_self"
+                                   ng-click="SetDownloadPath(cdr)"></a>
+
+                            </span>-->
+                            <span ng-show="cdr.IsAnswered">
+
+                                <a href="">
+                                    <i class="fa fa-play"
+                                       ng-click="playStopFile(cdr.RecordingUuid)"></i>
                                 </a>
 
 

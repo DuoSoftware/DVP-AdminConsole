@@ -10,6 +10,8 @@
         $anchorScroll();
         $scope.enableSearchButton = true;
 
+        $scope.moment = moment;
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'desc']};
 
 
@@ -646,7 +648,13 @@
                         $scope.pagination.totalItems = cdrCntRsp.Result;
                         cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
                             if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
-                                if (!isEmpty(cdrResp.Result)) {
+
+                                $scope.cdrList = cdrResp.Result;
+                                $scope.isTableLoading = 1;
+
+                                //<editor-fold>
+
+                                /*if (!isEmpty(cdrResp.Result)) {
 
                                     $scope.cdrList = [];
                                     var topSet = false;
@@ -865,7 +873,9 @@
                                     }
                                     $scope.isNextDisabled = true;
                                     $scope.isTableLoading = 1;
-                                }
+                                }*/
+
+                                //</editor-fold>
 
 
                             }
