@@ -5,7 +5,12 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
 
     $scope.searchCriteria = "";
-   $scope.invites = [];
+    $scope.invites = [];
+    $scope.newInvite={
+        role:"agent"
+    };
+
+
 
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
