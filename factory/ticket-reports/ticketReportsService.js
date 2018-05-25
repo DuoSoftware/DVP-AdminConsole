@@ -3,10 +3,15 @@
     var ticketReportsService = function($http, authService, baseUrls)
     {
 
-        var getTicketSummary = function(sdate, edate, tag, channel, priority, type)
+        var getTicketSummary = function(sdate, edate, tag, channel, priority, type, businessUnit)
         {
             var postData = {};
             var url = baseUrls.ticketUrl + 'TicketReport?from=' + sdate + '&to=' + edate;
+
+            if(businessUnit)
+            {
+                url = url + '&businessunit=' + businessUnit;
+            }
 
             if(tag)
             {
@@ -45,9 +50,14 @@
             })
         };
 
-        var getTicketSummaryTagWise = function(sdate, edate)
+        var getTicketSummaryTagWise = function(sdate, edate, businessUnit)
         {
             var url = baseUrls.ticketUrl + 'TicketReportTagBased?from=' + sdate + '&to=' + edate;
+
+            if(businessUnit)
+            {
+                url = url + '&businessunit=' + businessUnit;
+            }
 
             var httpHeaders = {
                 method: 'GET',
@@ -65,6 +75,11 @@
 
             var postData = {};
             var url = baseUrls.ticketUrl + 'TicketDetailReport/data' + '?from=' + filterData.sdate + '&to=' + filterData.edate;
+
+            if(filterData.businessUnit)
+            {
+                url = url + '&businessunit=' + filterData.businessUnit;
+            }
 
             if(filterData.tag)
             {
@@ -139,6 +154,11 @@
             var postData = {};
             var url = baseUrls.ticketUrl + 'TicketDetailReport/data/' + filterData.skipCount + '/' + filterData.limitCount + '?from=' + filterData.sdate + '&to=' + filterData.edate;
 
+            if(filterData.businessUnit)
+            {
+                url = url + '&businessunit=' + filterData.businessUnit;
+            }
+
             if(filterData.tag)
             {
                 postData.tag = filterData.tag;
@@ -204,6 +224,11 @@
         {
             var postData = {};
             var url = baseUrls.ticketUrl + 'TicketDetailReport/count' + '?from=' + filterData.sdate + '&to=' + filterData.edate;
+
+            if(filterData.businessUnit)
+            {
+                url = url + '&businessunit=' + filterData.businessUnit;
+            }
 
             if(filterData.tag)
             {

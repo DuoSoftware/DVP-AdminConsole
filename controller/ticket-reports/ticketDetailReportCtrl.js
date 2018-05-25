@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketDetailReportCtrl = function ($scope, $filter, $q, $timeout, ticketReportsService, cdrApiHandler, loginService, filterDateRangeValidation) {
+    var ticketDetailReportCtrl = function ($scope, $filter, $q, $timeout, ticketReportsService, ShareData, cdrApiHandler, loginService, filterDateRangeValidation) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -354,6 +354,11 @@
 
             try {
 
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    $scope.FilterData.businessUnit = ShareData.BusinessUnit;
+                }
+
                 ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
                     if (ticketCount && ticketCount.IsSuccess) {
                         $scope.pagination.totalItems = ticketCount.Result;
@@ -448,6 +453,11 @@
                 slaViolated: $scope.slaStatus
 
             };
+
+            if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+            {
+                $scope.FilterData.businessUnit = ShareData.BusinessUnit;
+            }
 
 
             try {
@@ -618,6 +628,11 @@
                 tagCount: $scope.tagCount
 
             };
+
+            if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+            {
+                $scope.FilterData.businessUnit = ShareData.BusinessUnit;
+            }
 
 
             try {
