@@ -105,7 +105,7 @@
 
         var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter, bUnit)
         {
-            var url = baseUrls.cdrProcessor + '/Processed/GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
                 url = url + '&agent=' + agent;

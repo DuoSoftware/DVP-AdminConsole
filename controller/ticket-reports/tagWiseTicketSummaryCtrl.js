@@ -231,7 +231,13 @@
 
                 try
                 {
-                    ticketReportsService.getTicketSummaryTagWise(startDate, endDate).then(function (ticketSummaryResp)
+                    var businessUnit = null;
+                    if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                    {
+                        businessUnit = ShareData.BusinessUnit;
+                    }
+
+                    ticketReportsService.getTicketSummaryTagWise(startDate, endDate, businessUnit).then(function (ticketSummaryResp)
                     {
                         if (ticketSummaryResp && ticketSummaryResp.IsSuccess)
                         {
