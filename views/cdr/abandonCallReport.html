@@ -173,9 +173,9 @@
                                         <td>{{cdr.RecievedBy}}</td>
                                         <td>{{cdr.AgentSkill}}</td>
                                         <td>{{moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
-                                        <td>{{cdr.Duration}}</td>
-                                        <td>{{cdr.AnswerSec}}</td>
-                                        <td>{{cdr.QueueSec}}</td>
+                                        <td>{{convertToMMSS(cdr.Duration)}}</td>
+                                        <td>{{convertToMMSS(cdr.AnswerSec)}}</td>
+                                        <td>{{convertToMMSS(cdr.QueueSec)}}</td>
                                         <td>{{cdr.ObjType}}</td>
                                         <td>{{cdr.ObjCategory}}</td>
                                         <td>{{cdr.BusinessUnit}}</td>

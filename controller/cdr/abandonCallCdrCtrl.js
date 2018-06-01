@@ -150,7 +150,7 @@
 
         };
 
-        var convertToMMSS = function (sec) {
+        $scope.convertToMMSS = function (sec) {
             var minutes = Math.floor(sec / 60);
 
             if (minutes < 10) {
@@ -546,11 +546,11 @@
                                     cdrAppendObj.ShowButton = true;
                                 }
 
-                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
-                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
-                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
-                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
-                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
+                                cdrAppendObj.BillSec = $scope.convertToMMSS(cdrAppendObj.BillSec);
+                                cdrAppendObj.Duration = $scope.convertToMMSS(cdrAppendObj.Duration);
+                                cdrAppendObj.AnswerSec = $scope.convertToMMSS(cdrAppendObj.AnswerSec);
+                                cdrAppendObj.QueueSec = $scope.convertToMMSS(cdrAppendObj.QueueSec);
+                                cdrAppendObj.HoldSec = $scope.convertToMMSS(cdrAppendObj.HoldSec);
 
                                 var cdrCsv =
                                 {

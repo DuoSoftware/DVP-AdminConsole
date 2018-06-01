@@ -216,11 +216,11 @@
                                             <td>{{cdr.AgentSkill}}</td>
                                             <td>{{cdr.IsAnswered}}</td>
                                             <td>{{moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
-                                            <td>{{cdr.Duration}}</td>
-                                            <td>{{cdr.BillSec}}</td>
-                                            <td>{{cdr.AnswerSec}}</td>
-                                            <td>{{cdr.QueueSec}}</td>
-                                            <td>{{cdr.HoldSec}}</td>
+                                            <td>{{convertToMMSS(cdr.Duration)}}</td>
+                                            <td>{{convertToMMSS(cdr.BillSec)}}</td>
+                                            <td>{{convertToMMSS(cdr.AnswerSec)}}</td>
+                                            <td>{{convertToMMSS(cdr.QueueSec)}}</td>
+                                            <td>{{convertToMMSS(cdr.HoldSec)}}</td>
                                             <td>{{cdr.ObjType}}</td>
                                             <td>{{cdr.ObjCategory}}</td>
                                             <td>{{cdr.HangupParty}}</td>
