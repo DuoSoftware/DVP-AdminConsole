@@ -7,7 +7,7 @@
     var cdrApiHandler = function ($http, authService, baseUrls, loginService)
     {
         var getCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber, didFilter, bUnit) {
-            var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -52,7 +52,7 @@
         };
 
         var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, record, custNumber, campaignName) {
-            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -105,7 +105,7 @@
 
         var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter, bUnit)
         {
-            var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -146,7 +146,7 @@
 
         var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, skill, record, custNumber, campaignName)
         {
-            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -371,7 +371,7 @@
         };
 
         var getAbandonCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, custNumber, bUnit) {
-            var url = baseUrls.cdrProcessor + 'GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = baseUrls.cdrProcessor + 'Processed/GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
 
             if (offsetId) {
@@ -405,7 +405,7 @@
         };
 
         var getAbandonCDRForTimeRangeCount = function (startDate, endDate, agent, skill, custNumber, bUnit) {
-            var url = baseUrls.cdrProcessor + 'GetAbandonCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'Processed/GetAbandonCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
 
             if (agent) {

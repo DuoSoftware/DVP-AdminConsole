@@ -10,6 +10,8 @@
         $anchorScroll();
         $scope.enableSearchButton = true;
 
+        $scope.moment = moment;
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'desc']};
 
 
@@ -148,7 +150,7 @@
 
         };
 
-        var convertToMMSS = function (sec) {
+        $scope.convertToMMSS = function (sec) {
             var minutes = Math.floor(sec / 60);
 
             if (minutes < 10) {
@@ -544,11 +546,11 @@
                                     cdrAppendObj.ShowButton = true;
                                 }
 
-                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
-                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
-                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
-                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
-                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
+                                cdrAppendObj.BillSec = $scope.convertToMMSS(cdrAppendObj.BillSec);
+                                cdrAppendObj.Duration = $scope.convertToMMSS(cdrAppendObj.Duration);
+                                cdrAppendObj.AnswerSec = $scope.convertToMMSS(cdrAppendObj.AnswerSec);
+                                cdrAppendObj.QueueSec = $scope.convertToMMSS(cdrAppendObj.QueueSec);
+                                cdrAppendObj.HoldSec = $scope.convertToMMSS(cdrAppendObj.HoldSec);
 
                                 var cdrCsv =
                                 {
@@ -646,7 +648,13 @@
                         $scope.pagination.totalItems = cdrCntRsp.Result;
                         cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
                             if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
-                                if (!isEmpty(cdrResp.Result)) {
+
+                                $scope.cdrList = cdrResp.Result;
+                                $scope.isTableLoading = 1;
+
+                                //<editor-fold>
+
+                                /*if (!isEmpty(cdrResp.Result)) {
 
                                     $scope.cdrList = [];
                                     var topSet = false;
@@ -865,7 +873,9 @@
                                     }
                                     $scope.isNextDisabled = true;
                                     $scope.isTableLoading = 1;
-                                }
+                                }*/
+
+                                //</editor-fold>
 
 
                             }

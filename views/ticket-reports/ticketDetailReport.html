@@ -250,6 +250,10 @@
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
+                                        colspan="1" aria-label="BUnit">Business Unit
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
                                         colspan="1" aria-label="SLA Violated">SLA Violated
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -270,6 +274,7 @@
                                     <td>{{ticket.status}}</td>
                                     <td>{{ticket.priority}}</td>
                                     <td>{{ticket.type}}</td>
+                                    <td>{{ticket.businessUnit}}</td>
                                     <td>{{ticket.ticket_matrix ? ticket.ticket_matrix.sla_violated : false}}</td>
                                     <td ng-if="ticket.tags && ticket.tags.length > 0">{{ticket.tags[0]}}</td>
                                     <td ng-if="!ticket.tags || ticket.tags.length <= 0"></td>

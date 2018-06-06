@@ -44,6 +44,8 @@
             }
         };
 
+        $scope.moment = moment;
+
 
         $scope.enableSearchButton = true;
 
@@ -178,7 +180,9 @@
                     saveAs = cdrInf.CreatedTime;
                 }
 
-                fileService.downloadLatestFile(cdrInf.Uuid + fileType, saveAs + fileType);
+                fileService.downloadLatestFile(cdrInf.RecordingUuid + fileType, saveAs + fileType);
+
+                /*fileService.downloadLatestFile(cdrInf.Uuid + fileType, saveAs + fileType);*/
 
             }
 
@@ -309,7 +313,7 @@
 
         };
 
-        var convertToMMSS = function (sec) {
+        $scope.convertToMMSS = function (sec) {
             var minutes = Math.floor(sec / 60);
 
             if (minutes < 10) {
@@ -817,11 +821,11 @@
                                     cdrAppendObj.TransferredParties = transferredParties;
                                 }
 
-                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
-                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
-                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
-                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
-                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
+                                cdrAppendObj.BillSec = $scope.convertToMMSS(cdrAppendObj.BillSec);
+                                cdrAppendObj.Duration = $scope.convertToMMSS(cdrAppendObj.Duration);
+                                cdrAppendObj.AnswerSec = $scope.convertToMMSS(cdrAppendObj.AnswerSec);
+                                cdrAppendObj.QueueSec = $scope.convertToMMSS(cdrAppendObj.QueueSec);
+                                cdrAppendObj.HoldSec = $scope.convertToMMSS(cdrAppendObj.HoldSec);
 
 
                                 var cdrCsv =
@@ -930,7 +934,12 @@
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
-                                    $scope.cdrList = [];
+                                    $scope.cdrList = cdrResp.Result;
+                                    $scope.isTableLoading = 1;
+
+                                    //<editor-fold desc="OLD CDR ALGO">
+
+                                    /*$scope.cdrList = [];
 
 
                                     var count = 0;
@@ -1275,7 +1284,9 @@
 
                                         $scope.cdrList.push(cdrAppendObj);
                                     }
-                                    $scope.isTableLoading = 1;
+                                    $scope.isTableLoading = 1;*/
+
+                                    //</editor-fold>
 
 
                                 }

@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketSummaryCtrl = function ($scope, $filter, ticketReportsService, loginService) {
+    var ticketSummaryCtrl = function ($scope, $filter, ticketReportsService, loginService, ShareData) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -177,7 +177,12 @@
                 if ($scope.selectedTag) {
                     tagName = $scope.selectedTag.name;
                 }
-                ticketReportsService.getTicketSummary(startDate, endDate, tagName, $scope.channelType, $scope.priorityType, $scope.ticketType).then(function (ticketSummaryResp) {
+                var businessUnit = null;
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    businessUnit = ShareData.BusinessUnit;
+                }
+                ticketReportsService.getTicketSummary(startDate, endDate, tagName, $scope.channelType, $scope.priorityType, $scope.ticketType, businessUnit).then(function (ticketSummaryResp) {
                     if (ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0 && ticketSummaryResp.Result[0].statistics) {
                         $scope.summaryDetails = ticketSummaryResp.Result[0].statistics;
                         $scope.obj.isTableLoading = 1;

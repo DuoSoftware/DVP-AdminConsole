@@ -334,7 +334,7 @@
                                             <td>{{cdr.RecievedBy}}</td>
                                             <td>{{cdr.AgentSkill}}</td>
                                             <td>{{cdr.IsAnswered}}</td>
-                                            <td>{{cdr.CreatedTime}}</td>
+                                            <td>{{moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                                             <td>{{cdr.Duration}}</td>
                                             <td>{{cdr.BillSec}}</td>
                                             <td>{{cdr.AnswerSec}}</td>
