@@ -596,6 +596,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goTemplateCreater: function () {
             $state.go('console.templatecreater');
         },
+        go_ip_phone_config: function () {
+            $state.go('console.ip_phone_config');
+        },
         goTriggerConfiguration: function () {
             $state.go('console.trigger.triggerConfiguration');
         },

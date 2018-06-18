@@ -9,7 +9,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Users'
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Users'
       }).then(function(resp)
       {
         return resp.data;
@@ -21,7 +21,7 @@
       
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'User/' + usr
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'User/' + usr
       }).then(function (resp)
       {
         return resp.data;
@@ -33,7 +33,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Extension/' + ext
       }).then(function (resp) {
         return resp.data;
       })
@@ -44,7 +44,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Groups'
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Groups'
       }).then(function(resp)
       {
         return resp.data;
@@ -56,7 +56,7 @@
 
       return $http({
         method: 'DELETE',
-        url: baseUrls.sipUserendpoint + 'Group/' + grpId
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Group/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -68,7 +68,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Group/' + id
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Group/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -80,7 +80,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Users/InGroup/' + id
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Users/InGroup/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -92,7 +92,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'User/' + username
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'User/' + username
       }).then(function(resp)
       {
         return resp.data;
@@ -104,7 +104,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Extension/' + extId
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Extension/' + extId
       }).then(function(resp)
       {
         return resp.data;
@@ -117,7 +117,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + usrId + '/AssignToGroup/' + grpId
+        url: baseUrls.sipUserendpoint +"SipUser/"  + usrId + '/AssignToGroup/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -129,7 +129,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + usrId + '/RemoveFromGroup/' + grpId
+        url: baseUrls.sipUserendpoint +"SipUser/"  + usrId + '/RemoveFromGroup/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -141,7 +141,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'User',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'User',
         data:usrObj
       }).then(function(resp)
       {
@@ -154,7 +154,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'DuoWorldUser',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'DuoWorldUser',
         data:usrObj
       }).then(function(resp)
       {
@@ -167,7 +167,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'TransferCodes',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'TransferCodes',
         data:transCodes
       }).then(function(resp)
       {
@@ -180,7 +180,7 @@
 
       return $http({
         method: 'PUT',
-        url: baseUrls.sipUserendpoint + 'TransferCode/' + transCodes.id,
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'TransferCode/' + transCodes.id,
         data:transCodes
       }).then(function(resp)
       {
@@ -193,7 +193,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'TransferCode'
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'TransferCode'
       }).then(function(resp)
       {
         return resp.data;
@@ -205,7 +205,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'Group',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Group',
         data:grpObj
       }).then(function(resp)
       {
@@ -218,7 +218,7 @@
 
       return $http({
         method: 'PUT',
-        url: baseUrls.sipUserendpoint + 'Group/' + grpObj.id,
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Group/' + grpObj.id,
         data:grpObj
       }).then(function(resp)
       {
@@ -231,7 +231,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Context'
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Context'
       }).then(function(resp)
       {
         return resp.data;
@@ -243,7 +243,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToSipUser/' + sipUserId
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Extension/' + ext + '/AssignToSipUser/' + sipUserId
       }).then(function(resp)
       {
         return resp.data;
@@ -255,7 +255,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToGroup/' + grpId
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Extension/' + ext + '/AssignToGroup/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -267,7 +267,7 @@
 
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'Extension',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Extension',
         data:extObj
       }).then(function(resp)
       {
@@ -280,7 +280,7 @@
 
       return $http({
         method: 'DELETE',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Extension/' + ext
       }).then(function(resp)
       {
         return resp.data;
@@ -316,7 +316,7 @@
 
       return $http({
         method: 'PUT',
-        url: baseUrls.sipUserendpoint + 'User/' + usrObj.SipUsername,
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'User/' + usrObj.SipUsername,
         data: usrObj
       }).then(function(resp)
       {
@@ -329,7 +329,7 @@
 
       return $http({
         method: 'DELETE',
-        url: baseUrls.sipUserendpoint + 'User/' + usrObj.SipUsername
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'User/' + usrObj.SipUsername
       }).then(function(resp)
       {
         return resp.data;
