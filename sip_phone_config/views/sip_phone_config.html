@@ -1,0 +1,18 @@
+<div class="col-md-12 col-lg-12  col-sm-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-bars"></i> IP Phone Configurations</h2>
+            <div class="clearfix"></div>
+        </div>
+        </br>
+
+        <div class="x_content">
+            <ul class="list-unstyled">
+                <li ng-repeat="phone in ip_phones">
+                    <sipphonconfig phone="phone" sipusers="sipUsrList"></sipphonconfig>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>

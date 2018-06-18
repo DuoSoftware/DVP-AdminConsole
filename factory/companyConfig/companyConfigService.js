@@ -125,7 +125,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint +"Contexts"
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"Contexts"
             }).then(function(response)
             {
                 return response;
@@ -136,7 +136,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
 
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserendpoint +"Context",
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"Context",
                 data:resource
 
             }).then(function(response)
@@ -148,7 +148,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
 
             return $http({
                 method: 'PUT',
-                url: baseUrls.sipUserendpoint + "Context/" + resource.Context,
+                url: baseUrls.sipUserendpoint +"SipUser/"  + "Context/" + resource.Context,
                 data:resource
 
             }).then(function(response)
@@ -161,7 +161,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
 
             return $http({
                 method: 'DELETE',
-                url: baseUrls.sipUserendpoint +"Context/"+resource.Context
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"Context/"+resource.Context
 
             }).then(function(response)
             {
