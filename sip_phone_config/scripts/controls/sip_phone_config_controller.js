@@ -1,4 +1,4 @@
-mainApp.controller("sip_phone_config_controller",function ($scope, $rootScope, $filter, $stateParams, $anchorScroll,sipUserService,sipUserApiHandler) {
+mainApp.controller("sip_phone_config_controller", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $q, sipUserService, sipUserApiHandler) {
     $anchorScroll();
 
     $scope.showAlert = function (tittle, type, content) {
@@ -14,19 +14,38 @@ mainApp.controller("sip_phone_config_controller",function ($scope, $rootScope, $
     $scope.ip_phones = [];
     var getPhoneConfigs = function () {
         return sipUserService.getPhoneConfigs().then(function (response) {
-            $scope.ip_phones = response;
+            return response;
         }, function (error) {
             console.error(error);
-            $scope.showAlert("SIP Phone", 'error','Fail To Get Phone List.');
+            $scope.showAlert("SIP Phone", 'error', 'Fail To Get Phone List.');
             $scope.isTableLoading = false;
             return null;
         })
     };
 
-    getPhoneConfigs();
+
     $scope.sipUsrList = [];
     var loadSipUsers = function () {
-        sipUserApiHandler.getSIPUsers().then(function (data) {
+        return sipUserApiHandler.getSIPUsers().then(function (data) {
+            return data;
+        }, function (err) {
+            console.error(err);
+            $scope.showAlert('Error', 'error', 'Fail To Load Sip User List');
+            return null;
+        });
+    };
+
+    $scope.isLoadingCompany = false;
+    $scope.loadData = function () {
+        $scope.isLoadingCompany = true;
+        $scope.ip_phones = [];
+        $scope.sipUsrList = [];
+        $q.all([
+            getPhoneConfigs(),
+            loadSipUsers()
+        ]).then(function (value) {
+            $scope.ip_phones = value[0];
+            var data = value[1];
             if (data.IsSuccess) {
                 $scope.sipUsrList = data.Result;
                 /*if ($scope.sipUsrList.length > 0) {
@@ -41,10 +60,11 @@ mainApp.controller("sip_phone_config_controller",function ($scope, $rootScope, $
                 }
                 $scope.total = data.Result.length;*/
             }
+            $scope.isLoadingCompany = false;
         }, function (err) {
-            console.error(err);
-            $scope.showAlert('Error', 'error', 'Fail To Load Sip User List');
+            console.log(err);
+            $scope.isLoadingCompany = false;
         });
     };
-    loadSipUsers();
+    $scope.loadData();
 });

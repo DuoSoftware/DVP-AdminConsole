@@ -52,12 +52,8 @@ mainApp.directive("sipphonconfig", function (sipUserService) {
             scope.selected_sip_user = {};
             scope.update_ip_phone = function () {
                 scope.isUpdate = true;
-                var data = {
-                    "username": parseInt(scope.selected_sip_user.value.SipExtension),
-                    "domain": scope.selected_sip_user.value.CloudEndUser.Domain,
-                    "password": scope.selected_sip_user.value.Password
-                };
-                sipUserService.add_sip_account_to_phone(scope.phone.mac, data).then(function (response) {
+
+                sipUserService.add_sip_account_to_phone(scope.phone.mac, scope.selected_sip_user.value.SipUsername).then(function (response) {
                     scope.isUpdate = false;
                     if (response) {
                         scope.showAlert("SIP Config", 'success', 'Successfully Updated.');

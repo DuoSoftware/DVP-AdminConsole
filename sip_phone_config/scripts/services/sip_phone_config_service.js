@@ -27,8 +27,7 @@
         var add_sip_account_to_phone = function (mac,sip_user) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.sipUserendpoint + 'IPPhone/Config/'+mac,
-                data:sip_user
+                url: baseUrls.sipUserendpoint + 'IPPhone/Config/'+mac+'/uac/'+sip_user
             }).then(function (resp) {
                 return resp.data.IsSuccess;
             })
