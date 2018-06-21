@@ -73,6 +73,12 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
         if (response.IsSuccess) {
+
+            if(fileItem && !fileItem._file.type)
+            {
+                fileItem._file.type="image/jpeg"
+            }
+
             var attchmentData =
             {
                 file: fileItem._file.name,
