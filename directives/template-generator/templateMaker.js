@@ -479,6 +479,7 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
 
                 var templateData={
                     TemplateContent:scope.template.content.content,
+                    TemplateSubject:scope.template.content.subject,
                     FileType:scope.template.filetype
                 };
 
