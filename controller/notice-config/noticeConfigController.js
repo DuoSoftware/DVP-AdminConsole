@@ -74,10 +74,6 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
         console.info('onCompleteItem', fileItem, response, status, headers);
         if (response.IsSuccess) {
 
-            if(fileItem && !fileItem._file.type)
-            {
-                fileItem._file.type="image/jpeg"
-            }
 
             var attchmentData =
             {
@@ -88,6 +84,11 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
                 size: fileItem._file.size
             }
 
+
+            if(!attchmentData.type)
+            {
+                attchmentData.type='application/text';
+            }
             attachmentBackendService.saveNewAttachment(attchmentData).then(function (response) {
 
                 if(response.IsSuccess && response.Result)
