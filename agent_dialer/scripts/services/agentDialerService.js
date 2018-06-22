@@ -72,10 +72,24 @@ mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls
         });
     };
 
-    var headerDetails = function () {
+    /*var headerDetails = function () {
         return $http({
             method: 'GET',
             url:  baseUrls.agentDialerURL+"HeaderDetails"
+        }).then(function(response)
+        {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };*/
+
+    var headerDetails = function () {
+        return $http({
+            method: 'GET',
+            url:  baseUrls.agentDialerURL+"HeaderDetails/all"
         }).then(function(response)
         {
             if (response.data && response.data.IsSuccess) {
