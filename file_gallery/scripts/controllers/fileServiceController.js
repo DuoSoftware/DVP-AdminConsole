@@ -461,9 +461,27 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
     $scope.SearchFiles = function () {
         $scope.files = [];
+        var searchCatObj={
++            categoryList:[]
++        };
+        
         $scope.noDataToshow = false;
         if ($scope.categoryId <= 0) {
             $scope.categoryId = -1;
+            searchCatObj=categoryObj;
+
+        }
+        else
+        {
+            var catName= $scope.Catagories.filter(function (item) {
++
++                return item.id==$scope.categoryId;
++            });
++
++            if(catName.length>0 && catName[0].Category)
++            {
++                searchCatObj.categoryList.push(catName[0].Category);
++            }
         }
 
         if ($scope.fileSerach.StartTime >= $scope.fileSerach.EndTime) {
@@ -471,7 +489,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             return
         }
 
-        fileService.searchFilesWithCategories( $scope.fileSerach.StartTime, $scope.fileSerach.EndTime,categoryObj).then(function (response) {
+        fileService.searchFilesWithCategories( $scope.fileSerach.StartTime, $scope.fileSerach.EndTime,searchCatObj).then(function (response) {
             $scope.files = response;
             $scope.noDataToshow = response ? (response.length == 0) : true;
             $scope.isLoading = false;
