@@ -107,7 +107,7 @@ mainApp.controller("templateController", function ($scope, $state, templateMaker
             }
 
         }, function (error) {
-            loginService.isCheckResponse(err);
+            //loginService.isCheckResponse(error);
             console.info("Error in adding new Template " + error);
             $scope.showAlert("Error", "There is an Exception in saving Template " + error, "error");
             $state.reload();
@@ -130,7 +130,7 @@ mainApp.controller("templateController", function ($scope, $state, templateMaker
                 //$state.reload();
             }
         }, function (error) {
-            loginService.isCheckResponse(err);
+            //loginService.isCheckResponse(error);
             console.info("Error in picking Template " + error);
             $scope.showAlert("Error", "There is an Exception in picking Template " + error, "error");
         });

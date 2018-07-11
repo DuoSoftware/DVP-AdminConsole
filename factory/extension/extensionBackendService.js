@@ -13,7 +13,7 @@ mainApp.factory('extensionBackendService', function ($http, authService,baseUrls
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint +"Extensions"
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"Extensions"
             }).then(function(response)
             {
                 return response;
@@ -24,7 +24,7 @@ mainApp.factory('extensionBackendService', function ($http, authService,baseUrls
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint +"ExtensionsByCategory/"+category
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"ExtensionsByCategory/"+category
             }).then(function(response)
             {
                 return response;
@@ -35,7 +35,7 @@ mainApp.factory('extensionBackendService', function ($http, authService,baseUrls
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserendpoint +"Extension",
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"Extension",
                 data:resource
 
             }).then(function(response)
@@ -52,7 +52,7 @@ mainApp.factory('extensionBackendService', function ($http, authService,baseUrls
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserendpoint +"DodNumber",
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"DodNumber",
                 data:dodData
 
             }).then(function(response)
@@ -64,7 +64,7 @@ mainApp.factory('extensionBackendService', function ($http, authService,baseUrls
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: baseUrls.sipUserendpoint +"Extension/"+extension
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"Extension/"+extension
 
             }).then(function(response)
             {
@@ -75,7 +75,7 @@ mainApp.factory('extensionBackendService', function ($http, authService,baseUrls
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserendpoint +"Extension/"+extension.Extension,
+                url: baseUrls.sipUserendpoint +"SipUser/"  +"Extension/"+extension.Extension,
                 data:extension
 
             }).then(function(response)

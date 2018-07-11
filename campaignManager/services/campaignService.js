@@ -43,7 +43,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
 
         return $http({
             method: 'GET',
-            url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CAMPAIGN"
+            url: baseUrls.sipUserendpoint +"SipUser/"  + "ExtensionsByCategory/CAMPAIGN"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
 
