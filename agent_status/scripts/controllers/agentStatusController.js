@@ -4,6 +4,20 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     $anchorScroll();
 
+    // Kasun_Wijeratne_17_July_2018
+    $scope.showError = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
+    $scope.filterType = "ALL";
+    $scope.Productivitys = [];
+    // Kasun_Wijeratne_17_July_2018 - END
+
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     $scope.showCallInfos = false;
     $scope.summaryText = "Table";
@@ -85,9 +99,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.getTableHeight = function () {
         var rowHeight = 30; // your row height
         var headerHeight = 50; // your header height
-        return {
-            height: (($scope.Productivitys.length + 2) * rowHeight + headerHeight) + "px"
-        };
+        // if($scope.Productivitys) {
+            return {
+                height: (($scope.Productivitys.length + 2) * rowHeight + headerHeight) + "px"
+            };
+        // }
     };
 
 
