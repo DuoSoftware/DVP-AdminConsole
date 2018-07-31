@@ -1232,6 +1232,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
             }
+        }).state('console.fileCatConfig', {
+            url: "/FileCategoryConfigurations",
+            templateUrl: "views/file-category-config/fileCategoryConfig.html",
+            controller: "filecategoryController",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_CAT_CONFIG"
+            }
         });
         //Todo shoud be change navigation
     }]);
