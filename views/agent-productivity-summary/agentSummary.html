@@ -44,13 +44,13 @@
                 <div class="col-sm-21 col-sm-2 col-xs-12 text-right" style="padding-top: 25px">
                     <button ng-disabled="disableDownload" type="button" class="btn btn-success"
                             csv-header="['Agent ID', 'Date', 'LoginTime', 'Total Calls(inbound)', 'Total Calls(outbound)'
-                        , 'Total Answered', 'Total Outbound Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
-                        , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)', 'Talk Time(inbound)', 'Talk Time(outbound)'
+                        , 'Total Answered', 'Total Outbound Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Total Idle Time','Staff Time', 'Inbound Time', 'Outbound Time'
+                        , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)','Talk Time(inbound)', 'Talk Time(outbound)'
                         , 'Hold Time(inbound)', 'Hold Time(outbound)', 'After Work Time(inbound)', 'After Work Time(outbound)', 'Break Time'
                         , 'Average Handling Time(inbound)', 'Average Handling Time(outbound)', 'Average Talk Time(inbound)', 'Average Talk Time(outbound)'
                         , 'Average Hold Time(inbound)', 'Average Hold Time(outbound)']"
                             csv-column-order="['AgentName', 'Date', 'LoginTime', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalAnsweredOutbound', 'TotalHoldInbound'
-                        , 'TotalHoldOutbound', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
+                        , 'TotalHoldOutbound', 'TotalIdleTime', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
                         , 'TalkTimeInbound', 'TalkTimeOutbound', 'TotalHoldTimeInbound', 'TotalHoldTimeOutbound', 'AfterWorkTimeInbound', 'AfterWorkTimeOutbound'
                         , 'BreakTime', 'AverageHandlingTimeInbound', 'AverageHandlingTimeOutbound', 'AvgTalkTimeInbound', 'AvgTalkTimeOutbound', 'AvgHoldTimeInbound'
                         , 'AvgHoldTimeOutbound']"
@@ -141,6 +141,26 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+
+                <div class="widget-dy-wrp " id="idleTotal">
+                    <div class="active-card">
+                        <div class="selected-group">
+                            <i class="ti-check"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 ">
+                        <div class="row">
+                            <div class="w-bg-text text-center ">
+                                Total Idle Time
+                            </div>
+                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                {{total.TotalIdleTime}}
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="widget-dy-wrp " id="acwInbound">
                     <div class="active-card">

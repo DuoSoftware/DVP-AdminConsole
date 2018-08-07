@@ -57,7 +57,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         InboundHold: 0,
         OutboundHold: 0,
         InboundAverageHoldTime: '00:00:00',
-        OutboundAverageHoldTime: '00:00:00'
+        OutboundAverageHoldTime: '00:00:00',
+        TotalIdleTime:0
     };
 
     $scope.querySearch = function (query) {
@@ -121,6 +122,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
             {width: '60',name: 'TotalAnsweredOutbound', field: 'TotalAnsweredOutbound', headerTooltip: 'TotalAnsweredOutbound', cellClass: 'table-number'},
             {width: '60',name : 'TotalHoldInbound', field: 'TotalHoldInbound', headerTooltip: 'TotalHoldInbound', cellClass: 'table-number'},
             {width: '60',name : 'TotalHoldOutbound', field: 'TotalHoldOutbound', headerTooltip: 'TotalHoldOutbound', cellClass: 'table-number'},
+            {width: '60',name : 'TotalIdleTime', field: 'TotalIdleTime', headerTooltip: 'TotalIdleTime', cellClass: 'table-time'},
             {width: '80',name : 'StaffTime', field: 'StaffTime', headerTooltip: 'StaffTime', cellClass: 'table-time'},
             {width: '80',name : 'InboundTime', field: 'InboundTime', headerTooltip: 'InboundTime', cellClass: 'table-time'},
             {width: '80',name : 'OutboundTime', field: 'OutboundTime', headerTooltip: 'OutboundTime', cellClass: 'table-time'},
@@ -201,6 +203,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 var totalOutboundHold = 0;
                 var totalInboundAvgHoldTime = 0;
                 var totalOutboundAvgHoldTime = 0;
+                var totalIdleTime=0;
 
                 var count = 0;
 
@@ -233,8 +236,11 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
                         totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
                         totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+                        totalIdleTime = totalIdleTime + summaryData[i].Summary[j].TotalIdleTime;
+
 
                         count++;
+
 
                         summaryData[i].Summary[j].StaffTime = TimeFromatter(summaryData[i].Summary[j].StaffTime, "HH:mm:ss");
                         summaryData[i].Summary[j].LoginTime = moment(summaryData[i].Summary[j].LoginTime).format("YYYY-MM-DD HH:mm:ss");
@@ -256,6 +262,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
                         summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime = TimeFromatter(summaryData[i].Summary[j].BreakTime, "HH:mm:ss");
+                        summaryData[i].Summary[j].TotalIdleTime = TimeFromatter(summaryData[i].Summary[j].TotalIdleTime, "HH:mm:ss");
+
 
 
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
@@ -269,6 +277,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 $scope.total.OfflineIdleTime = TimeFromatter(totalOfflineIdleTime, "HH:mm:ss");
                 $scope.total.InboundAfterWorkTime = TimeFromatter(totalInboundAfterWorkTime, "HH:mm:ss");
                 $scope.total.OutboundAfterWorkTime = TimeFromatter(totalOutboundAfterWorkTime, "HH:mm:ss");
+                $scope.total.TotalIdleTime = TimeFromatter(totalIdleTime, "HH:mm:ss");
+
                 if (count > 0) {
                     $scope.total.InboundAverageHandlingTime = TimeFromatter(Math.round(totalInboundAverageHandlingTime / count), "HH:mm:ss");
                     $scope.total.OutboundAverageHandlingTime = TimeFromatter(Math.round(totalOutboundAverageHandlingTime / count), "HH:mm:ss");
@@ -276,6 +286,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                     $scope.total.OutboundAverageTalkTime = TimeFromatter(Math.round(totalOutboundAverageTalkTime / count), "HH:mm:ss");
                     $scope.total.InboundAverageHoldTime = TimeFromatter(Math.round(totalInboundAvgHoldTime / count), "HH:mm:ss");
                     $scope.total.OutboundAverageHoldTime = TimeFromatter(Math.round(totalOutboundAvgHoldTime / count), "HH:mm:ss");
+
                 }
                 else {
                     $scope.total.InboundAverageHandlingTime = TimeFromatter(totalInboundAverageHandlingTime, "HH:mm:ss");
@@ -371,6 +382,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 var totalInboundAvgHoldTime = 0;
                 var totalOutboundAvgHoldTime = 0;
                 var totalOutboundAnswered = 0;
+                var totalIdleTime=0;
 
                 var count = 0;
 
@@ -403,6 +415,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
                         totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
                         totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+                        totalIdleTime=totalIdleTime+summaryData[i].Summary[j].TotalIdleTime;
 
                         count++;
 
@@ -426,6 +439,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
                         summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime = TimeFromatter(summaryData[i].Summary[j].BreakTime, "HH:mm:ss");
+                        summaryData[i].Summary[j].TotalIdleTime = TimeFromatter(summaryData[i].Summary[j].TotalIdleTime, "HH:mm:ss");
 
 
                         agentSummaryList.push(summaryData[i].Summary[j]);
@@ -470,7 +484,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                     TotalHoldInbound: totalInboundHold,
                     TotalHoldOutbound: totalOutboundHold,
                     AvgHoldTimeInbound: '00:00:00',
-                    AvgHoldTimeOutbound: '00:00:00'
+                    AvgHoldTimeOutbound: '00:00:00',
+                    TotalIdleTime:TimeFromatter(totalIdleTime, "HH:mm:ss")
                 };
 
                 if (count > 0) {
