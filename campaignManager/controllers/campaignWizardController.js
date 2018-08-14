@@ -25,8 +25,9 @@ mainApp.controller("campaignWizardController", function ($scope,
             {name: 'AGENT'}
         ];
 
-
+$scope.step = 1;
         if (queryCampaignId && queryCampaignId.id != 0) {
+
             $scope.isCreateNewCampaign = true;
             campaignService.GetCampaignById(queryCampaignId.id).then(function (res) {
                 $scope.isCreateNewCampaign = false;
@@ -56,6 +57,11 @@ mainApp.controller("campaignWizardController", function ($scope,
                         step01UIFun.goToLastWizard();
                         return;
                     }
+
+                     if (res.OperationalStatus != "done" || res.OperationalStatus != "create" || res.OperationalStatus != "stop"){
+                        $scope.step = 4;
+                     }
+
 
                     if (res.CampaignMode == "AGENT") {
                         $scope.changeChannels('CALL');
@@ -111,7 +117,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
 
-        $scope.step = 1;
+
 
 
         $scope.submit = function () {
@@ -1116,7 +1122,6 @@ mainApp.controller("campaignWizardController", function ($scope,
 
             return {}
         }();
-
 
         //goto wizard
         $scope.changeFormWizard = function (_wizard) {
