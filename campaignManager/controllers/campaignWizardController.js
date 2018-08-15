@@ -25,7 +25,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             {name: 'AGENT'}
         ];
 
-$scope.step = 1;
+        $scope.step = 1;
         if (queryCampaignId && queryCampaignId.id != 0) {
 
             $scope.isCreateNewCampaign = true;
@@ -50,17 +50,17 @@ $scope.step = 1;
                     };
 
                     ///
-                    if (res.OperationalStatus == "start") {
+                    if (res.OperationalStatus === "start"|| res.OperationalStatus === "ongoing" || res.OperationalStatus === "stop") {
                         console.log("campaign start...");
 
-                        $scope.OperationalStatus = "start";
+                        $scope.OperationalStatus = res.OperationalStatus;
                         step01UIFun.goToLastWizard();
                         return;
                     }
 
-                     if (res.OperationalStatus != "done" || res.OperationalStatus != "create" || res.OperationalStatus != "stop"){
+                     /*if (res.OperationalStatus != "done" || res.OperationalStatus != "create" || res.OperationalStatus != "stop"){
                         $scope.step = 4;
-                     }
+                     }*/
 
 
                     if (res.CampaignMode == "AGENT") {
@@ -1926,8 +1926,10 @@ $scope.step = 1;
 
             if ($scope.selectedCustomerTags && $scope.selectedCustomerTags.length > 0) {
                 loadCustomersByTags();
-            } else {
-                loadCustomers();
+            }
+            else {
+                $scope.reset();
+             //   loadCustomers();
             }
         };
 
