@@ -50,7 +50,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     };
 
                     ///
-                    if (res.OperationalStatus === "start"|| res.OperationalStatus === "ongoing" || res.OperationalStatus === "stop") {
+                    if (res.OperationalStatus === "start" || res.OperationalStatus === "ongoing" || res.OperationalStatus === "stop") {
                         console.log("campaign start...");
 
                         $scope.OperationalStatus = res.OperationalStatus;
@@ -58,9 +58,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                         return;
                     }
 
-                     /*if (res.OperationalStatus != "done" || res.OperationalStatus != "create" || res.OperationalStatus != "stop"){
-                        $scope.step = 4;
-                     }*/
+                    /*if (res.OperationalStatus != "done" || res.OperationalStatus != "create" || res.OperationalStatus != "stop"){
+                       $scope.step = 4;
+                    }*/
 
 
                     if (res.CampaignMode == "AGENT") {
@@ -115,9 +115,6 @@ mainApp.controller("campaignWizardController", function ($scope,
         var checkIsCampaignStatus = function () {
 
         };
-
-
-
 
 
         $scope.submit = function () {
@@ -1744,14 +1741,21 @@ mainApp.controller("campaignWizardController", function ($scope,
         $scope.GetArdsAttributes();
 
 
+    $scope.validation_numbers = false;
         $scope.loadNumbers = function () {
+            $scope.validation_numbers = true;
             $scope.campaignNumberObj.Contacts = [];
 
 
             var promise = validateNumbers($scope.data, $scope.selectObj.name, $scope.selectObj.previewData);
             promise.then(function (numbers) {
                 $scope.campaignNumberObj.Contacts = numbers;
+                if ($scope.data.length != numbers.length) {
+                    $scope.showAlert("Campaign", "Delete All Invalid Numbers.", 'success');
+                }
+                $scope.data = numbers;
                 console.log(JSON.stringify(numbers));
+                $scope.validation_numbers = false;
             });
         };
 
@@ -1855,6 +1859,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.headerData.push({name: 'ExternalUser', index: 0});
                     $scope.headerData.push({name: 'Number', index: 1});
                     console.log($scope.data);
+                    $scope.loadNumbers();
                 }
                 else {
                     var errMsg = response.CustomMessage;
@@ -1929,7 +1934,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
             else {
                 $scope.reset();
-             //   loadCustomers();
+                //   loadCustomers();
             }
         };
 
@@ -2267,7 +2272,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             } else {
                 if ($scope.campaignNumberObj && $scope.campaignNumberObj.Contacts.length > 0) {
 
-                     $('#uploadLoaindWizard').removeClass('display-none');
+                    $('#uploadLoaindWizard').removeClass('display-none');
                     $scope.uploadButtonValue = true;
 
                     $scope.numberProgress = 0;
@@ -2303,7 +2308,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $scope.refreshAllWizard();
                     }, function (reason) {
                         $scope.uploadButtonValue = false;
-                       $('#uploadLoaindWizard').addClass('display-none');
+                        $('#uploadLoaindWizard').addClass('display-none');
                     });
                 } else {
                     $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
