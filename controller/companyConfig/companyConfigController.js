@@ -1393,7 +1393,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
                             if(key=="primary_contacts")
                             {
-                                title="( Phone number & Email )";
+                                title="( Phone number )";
                                 isRequired=true;
                             }
                             if(key=="secondary_contacts")
