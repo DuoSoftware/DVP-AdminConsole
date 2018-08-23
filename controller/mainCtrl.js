@@ -897,6 +897,11 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         displayName = jwtHelper.decodeToken(authToken).context.veeryaccount.display;
     }
 
+    if(jwtHelper.decodeToken(authToken))
+    {
+        $scope.companyName=jwtHelper.decodeToken(authToken).companyName;
+    }
+
     /*$scope.showAlert = function (tittle, type, msg) {
      new PNotify({
      title: tittle,
