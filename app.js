@@ -99,7 +99,7 @@ var baseUrls = {
     'fileServiceInternalUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app1.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',//clusterconfig.app1.veery.cloud
     'conferenceUrl': 'http://conference.app1.veery.cloud/DVP/API/1.0.0.0/',
-    'sipUserendpoint': 'http://localhost:8086/DVP/API/1.0.0.0/', //sipuserendpointservice.app1.veery.cloud
+    'sipUserendpoint': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/', //sipuserendpointservice.app1.veery.cloud
     'pbxUrl': 'http://pbxservice.app1.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
@@ -1231,6 +1231,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.fileCatConfig', {
+            url: "/FileCategoryConfigurations",
+            templateUrl: "views/file-category-config/fileCategoryConfig.html",
+            controller: "filecategoryController",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_CAT_CONFIG"
             }
         });
         //Todo shoud be change navigation

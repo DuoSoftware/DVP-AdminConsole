@@ -420,7 +420,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         };
     };
 
-    var statusTemplate = '<timer start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>';
+    var statusTemplate = '<timer ng-if="row.entity.MaxWaitingMS" start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer><span ng-if="!row.entity.MaxWaitingMS">00:00:00</span>';
     var maxWaitTimeTemplate = "<div>{{row.entity.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</div>";
 
     $scope.gridOptions3 = {

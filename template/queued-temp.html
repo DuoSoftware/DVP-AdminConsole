@@ -16,9 +16,10 @@
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
                     <div class="tile-stats text-center bg-purple700" ng-class="{'small-card':viewmode!='large'}">
                         <div class="count">
-                            <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} :
-                                {{sseconds}}
+                            <timer ng-if="que.MaxWaitingMS" start-time="que.MaxWaitingMS" interval="1000">
+                                {{hhours}} : {{mminutes}} : {{sseconds}}
                             </timer>
+                            <span ng-if="!que.MaxWaitingMS"> 00 : 00 : 00</span>
                         </div>
                         <h3 class="font-700 font-orange800" style="padding-bottom: 10px ; padding-top: 10px">Max Wait
                             Time</h3>
