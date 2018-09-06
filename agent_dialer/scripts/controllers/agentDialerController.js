@@ -168,7 +168,8 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         agentDialService.GetProfileDetails().then(function (response) {
             if (response) {
                 $scope.availableAgentList = response.map(function (item) {
-                    item.displayName = item.firstname + " " + item.lastname;
+                    //item.displayName = item.firstname + " " + item.lastname; combank
+                    item.displayName = item.username;
                     return item;
                 })
             }

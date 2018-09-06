@@ -7,7 +7,7 @@
     var cdrApiHandler = function ($http, authService, baseUrls, loginService)
     {
         var getCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber, didFilter, bUnit) {
-            var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -47,12 +47,12 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                loginService.isCheckResponse(err);
+                return null;
             })
         };
 
         var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, record, custNumber, campaignName) {
-            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -105,7 +105,7 @@
 
         var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter, bUnit)
         {
-            var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -146,7 +146,7 @@
 
         var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, skill, record, custNumber, campaignName)
         {
-            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'Processed/GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
                 url = url + '&agent=' + agent;
@@ -371,7 +371,7 @@
         };
 
         var getAbandonCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, custNumber, bUnit) {
-            var url = baseUrls.cdrProcessor + 'GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = baseUrls.cdrProcessor + 'Processed/GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
 
             if (offsetId) {
@@ -400,12 +400,12 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                loginService.isCheckResponse(err);
+                return null;
             });
         };
 
         var getAbandonCDRForTimeRangeCount = function (startDate, endDate, agent, skill, custNumber, bUnit) {
-            var url = baseUrls.cdrProcessor + 'GetAbandonCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'Processed/GetAbandonCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
 
             if (agent) {
@@ -434,8 +434,13 @@
             });
         };
 
-        var getCallSummaryForHr = function (date, tz) {
+        var getCallSummaryForHr = function (date, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=ss ' + bUnit;
+            }
 
             return $http({
                 method: 'GET',
@@ -447,28 +452,16 @@
             });
         };
 
-        var getCallSummaryForHrDownload = function (date, tz, fileType) {
+        var getCallSummaryForHrDownload = function (date, tz, fileType, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Hourly/Download?date=' + date + '&tz=' + tz;
 
             if (fileType) {
                 url = url + '&fileType=' + fileType;
             }
 
-            return $http({
-                method: 'GET',
-                url: url
-            }).then(function (resp) {
-                return resp.data;
-            }, function (err) {
-                loginService.isCheckResponse(err);
-            });
-        };
-
-        var getCallSummaryForCustDownload = function (startTime, endTime, fileType, tz) {
-            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomerDownload?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
-
-            if (fileType) {
-                url = url + '&fileType=' + fileType;
+            if(bUnit)
+            {
+                url = url + '&businessunit=ss ' + bUnit;
             }
 
             return $http({
@@ -481,8 +474,34 @@
             });
         };
 
-        var getCallSummaryForCust = function (startTime, endTime, tz) {
+        var getCallSummaryForCustDownload = function (startTime, endTime, fileType, tz, bUnit) {
+            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomerDownload?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            if (fileType) {
+                url = url + '&fileType=' + fileType;
+            }
+
+            if (bUnit) {
+                url = url + '&businessunit=' + bUnit;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getCallSummaryForCust = function (startTime, endTime, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallSummaryByCustomer?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
+            }
 
             return $http({
                 method: 'GET',
@@ -604,8 +623,13 @@
             });
         };
 
-        var getCallSummaryForDay = function (sdate, edate, tz) {
+        var getCallSummaryForDay = function (sdate, edate, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
+            }
 
             return $http({
                 method: 'GET',
@@ -617,11 +641,15 @@
             });
         };
 
-        var getCallSummaryForDayDownload = function (sdate, edate, tz, fileType) {
+        var getCallSummaryForDayDownload = function (sdate, edate, tz, fileType, bUnit) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily/Download?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
 
             if (fileType) {
                 url = url + '&fileType=' + fileType;
+            }
+
+            if (bUnit) {
+                url = url + '&businessunit=' + bUnit;
             }
 
             return $http({

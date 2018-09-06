@@ -67,7 +67,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.resizeSensor',
     'gantt.dependencies',
     'angular-progress-arc',
-    'ui.tab.scroll'
+    'ui.tab.scroll','ui.select'
 ]);
 
 
@@ -99,13 +99,14 @@ var baseUrls = {
     'fileServiceInternalUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app1.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',//clusterconfig.app1.veery.cloud
     'conferenceUrl': 'http://conference.app1.veery.cloud/DVP/API/1.0.0.0/',
-    'sipUserendpoint': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/SipUser/',
+    'sipUserendpoint': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/', //sipuserendpointservice.app1.veery.cloud
     'pbxUrl': 'http://pbxservice.app1.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app1.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app1.veery.cloud/DVP/API/1.0.0.0/',
-    'socialConnectorUrl': 'http://104.236.197.119:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
+    'socialConnectorUrl': 'http://socialconnector.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
+    'mailSenderUrl': 'http://mailsender.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'notification': 'http://notificationservice.app1.veery.cloud/',//notificationservice.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app1.veery.cloud/DVP/API/1.0.0.0/',
@@ -127,8 +128,21 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
     'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
-    'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',
+    'reportQueryFilterUrl': 'http://reportqueryfilters.app1.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',//reportqueryfilters.app.veery.cloud
     'contactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/', //contacts.app1.veery.cloud
+    'botAPIUrl': 'https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotService/',//Bot API URL
+    'botplatformUrl': 'https://smoothbot.plus.smoothflow.io/fb/DBF/API/v1/platform/',//Bot Platform URL
+    'templateAPIUrl': 'https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ViewService/',//View service API URL
+    'integrationAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/IntegrationService/",//Integration service API URL
+    'payapiUrl': "https://smoothflow.io/payapi/getWorkflowData/",
+    'setupaiAPTUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/AiMap",
+    'getworkflowfortextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/GetWorkflowForText",
+    'botFrameworkFacebookConnector': "https://smoothbot.plus.smoothflow.io/fb",
+    'uploadFilesinCardTemplate': "https://smoothmediaservice.plus.smoothflow.io/media/1/103/upload",
+    'getallMediaFilesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/UploadFileService/UploadFiles",
+    'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
+    'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
+    'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -728,6 +742,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
             }
+        }).state('console.ip_phone_config', {
+            url: "/ip_phone_config",
+            templateUrl: "sip_phone_config/views/sip_phone_config.html",
+            controller: "sip_phone_config_controller",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
         }).state('console.translations', {
             url: "/translation",
             templateUrl: "views/translation/translations.html",
@@ -1007,6 +1029,78 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "ZOHO_CRM"
             }
+        }).state('console.chatbots', {
+            url: "/chatbots",
+            templateUrl: "chatbot/views/chatbot.html",
+            controller: "chatbotController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.bot-details', {
+            url: "/bot-details",
+            templateUrl: "chatbot/views/chatbot-details.html",
+            controller: "chatbotController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.bottemplates', {
+            url: "/templates/:templateType",
+            templateUrl: "chatbot/views/chatbotTemlplates.html",
+            controller: "chatBotTemplateController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.botautomations', {
+            url: "/automations",
+            templateUrl: "chatbot/views/chatbotAutomations.html",
+            controller: "setupAIController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.botintegration', {
+            url: "/integration",
+            templateUrl: "chatbot/views/chatbotIntegration.html",
+            controller: "chatBotIntegrationController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.botsetupai', {
+            url: "/setupai",
+            templateUrl: "chatbot/views/chatbotSetupAI.html",
+            controller: "setupAIController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.botmedia', {
+            url: "/media",
+            templateUrl: "chatbot/views/chatbotMedia.html",
+            controller: "chatbotMediaController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.botentities', {
+            url: "/entities",
+            templateUrl: "chatbot/views/chatbotEntities.html",
+            controller: "chatbotEntitiesController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
+        }).state('console.botcontext', {
+            url: "/context",
+            templateUrl: "chatbot/views/chatbotContext.html",
+            controller: "chatbotContextController",
+            data: {
+                requireLogin: true,
+                navigation: "ZOHO_CRM"
+            }
         }).state('console.zohousers', {
             url: "/zoho/users",
             templateUrl: "zoho/views/zohoUsers.html",
@@ -1047,7 +1141,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CALLCENTER_PERFORMANCE"
             }
-//callcenterPerformance.html
+            //callcenterPerformance.html
         }).state('console.seclevels', {
             url: "/SecutityLevels",
             templateUrl: "user_security_level_management/views/securityLevelManagement.html",
@@ -1086,7 +1180,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "agentBreakDetailController",
             data: {
                 requireLogin: true,
-                navigation: "USERS"
+                navigation: "AGENT_BREAKS"
             }
         }).state('console.queuesettings', {
             url: "/queuesetting",
@@ -1137,6 +1231,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.fileCatConfig', {
+            url: "/FileCategoryConfigurations",
+            templateUrl: "views/file-category-config/fileCategoryConfig.html",
+            controller: "filecategoryController",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_CAT_CONFIG"
             }
         });
         //Todo shoud be change navigation

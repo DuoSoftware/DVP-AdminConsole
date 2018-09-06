@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var tagWiseTicketSummaryCtrl = function ($scope, $filter, $q, ticketReportsService, loginService) {
+    var tagWiseTicketSummaryCtrl = function ($scope, $filter, $q, ticketReportsService, loginService, filterDateRangeValidation, ShareData) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -23,6 +23,16 @@
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
         };
+
+		$scope.onDateChange = function () {
+
+			if (moment($scope.searchParams.startDay, "YYYY-MM-DD").isValid() && moment($scope.searchParams.endDay, "YYYY-MM-DD").isValid()) {
+				$scope.dateValid = true;
+			}
+			else {
+				$scope.dateValid = false;
+			}
+		};
 
         $scope.tagSummaryDetails = [];
 
@@ -122,7 +132,12 @@
             {
                 try
                 {
-                    ticketReportsService.getTicketSummaryTagWise(startDate, endDate).then(function (ticketSummaryResp)
+                    var businessUnit = null;
+                    if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                    {
+                        businessUnit = ShareData.BusinessUnit;
+                    }
+                    ticketReportsService.getTicketSummaryTagWise(startDate, endDate, businessUnit).then(function (ticketSummaryResp)
                     {
                         if(ticketSummaryResp && ticketSummaryResp.IsSuccess)
                         {
@@ -190,6 +205,15 @@
 
         $scope.getTicketTagSummaryCSV = function ()
         {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.searchParams.startDay, $scope.searchParams.endDay) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
+
             var tagSumCsvDetails = [];
             var deferred = $q.defer();
             var momentTz = moment.parseZone(new Date()).format('Z');
@@ -207,7 +231,13 @@
 
                 try
                 {
-                    ticketReportsService.getTicketSummaryTagWise(startDate, endDate).then(function (ticketSummaryResp)
+                    var businessUnit = null;
+                    if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                    {
+                        businessUnit = ShareData.BusinessUnit;
+                    }
+
+                    ticketReportsService.getTicketSummaryTagWise(startDate, endDate, businessUnit).then(function (ticketSummaryResp)
                     {
                         if (ticketSummaryResp && ticketSummaryResp.IsSuccess)
                         {

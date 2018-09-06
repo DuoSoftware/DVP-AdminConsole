@@ -1075,6 +1075,12 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
              description:$scope.newBUnit.description
              }*/
 
+            $scope.newBUnit.headUsers = $scope.newBUnit.headUserObjs.map(function (item) {
+                return item._id;
+            });
+
+            delete $scope.newBUnit.headUserObjs;
+
             userProfileApiAccess.saveBusinessUnit($scope.newBUnit).then(function (resSave) {
 
                 if(resSave.IsSuccess)
@@ -1169,6 +1175,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             $scope.showAlert('Error', 'error', errMsg);
         });
     };
+
 
 
 
@@ -1300,7 +1307,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
                             if(key=="primary_contacts")
                             {
-                                title="( Phone numbers & Email )";
+                                title="( Phone numbers )";
                                 isRequired=true;
                             }
                             if(key=="secondary_contacts")
@@ -1387,7 +1394,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
                             if(key=="primary_contacts")
                             {
-                                title="( Phone number & Email )";
+                                title="( Phone number )";
                                 isRequired=true;
                             }
                             if(key=="secondary_contacts")
@@ -1451,7 +1458,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
     $scope.checkDisable = function (sub,field) {
-        if((sub.action =='require' || sub.action =='editable') && field.isRequired)
+        if(sub.action =='require'  && field.isRequired)
         {
             return true;
         }

@@ -7,7 +7,7 @@
 
 
     var cdrCampaignCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, campaignService, resourceService, sipUserApiHandler, ngAudio,
-                            loginService, baseUrls,$anchorScroll,$auth,fileService) {
+                            loginService, baseUrls,$anchorScroll,$auth,fileService, filterDateRangeValidation) {
 
         $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
@@ -39,6 +39,8 @@
                 }
             }
         };
+
+        $scope.moment = moment;
 
 
         $scope.enableSearchButton = true;
@@ -109,8 +111,8 @@
 
         $scope.onDateChange = function () {
             if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-                $scope.dateValid = true;
-            }
+				$scope.dateValid = true;
+			}
             else {
                 $scope.dateValid = false;
             }
@@ -443,8 +445,14 @@
 
 
         $scope.getProcessedCDRCSVDownload = function () {
-
-
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.startDate, $scope.endDate) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
             if ($scope.DownloadButtonName === 'CSV') {
                 $scope.cancelDownload = false;
                 $scope.buttonClass = 'fa fa-spinner fa-spin';
@@ -904,10 +912,9 @@
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
-                                    $scope.cdrList = [];
+                                    $scope.cdrList = cdrResp.Result;
 
-
-                                    var count = 0;
+                                    /*var count = 0;
 
                                     for (cdr in cdrResp.Result)
                                     {
@@ -1070,12 +1077,12 @@
                                             cdrAppendObj.ShowButton = true;
                                         }
 
-                                        /*if (transferredParties) {
+                                        /!*if (transferredParties) {
                                             transferredParties = transferredParties.slice(0, -1);
                                             cdrAppendObj.TransferredParties = transferredParties;
-                                        }*/
+                                        }*!/
 
-                                        /*if(cdrAppendObj.ObjType === 'FAX_INBOUND')
+                                        /!*if(cdrAppendObj.ObjType === 'FAX_INBOUND')
                                         {
                                             cdrAppendObj.IsAnswered = inLegAnswered;
 
@@ -1083,7 +1090,7 @@
                                             {
                                                 cdrAppendObj.ShowButton = true;
                                             }
-                                        }*/
+                                        }*!/
 
                                         if(!cdrAppendObj.IsAnswered)
                                         {
@@ -1099,7 +1106,7 @@
 
 
                                         $scope.cdrList.push(cdrAppendObj);
-                                    }
+                                    }*/
                                     $scope.isTableLoading = 1;
 
 

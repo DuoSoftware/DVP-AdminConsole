@@ -241,6 +241,24 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
 
   };
 
+    var getStorageDetails = function () {
+        return $http({
+            method: 'get',
+            url: baseUrls.fileServiceUrl+ "FileStorage/Sizes"
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
+    var getUploadSize = function () {
+        return $http({
+            method: 'get',
+            url: baseUrls.fileServiceUrl+ "MaxUploadSize"
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
   return {
     GetToken: authService.GetToken(),
     DownloadFile: downloadFile,
@@ -256,6 +274,9 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     downloadInternalFile:downloadInternalFile,
       getAvailableCategoryFiles:getAvailableCategoryFiles,
       searchFilesWithCategories:searchFilesWithCategories,
+      getStorageDetails:getStorageDetails,
+      getUploadSize:getUploadSize,
+
     UploadUrl: baseUrls.fileServiceUrl+ "File/Upload",
     File: {},
     Headers: {'Authorization':  authService.GetToken()}

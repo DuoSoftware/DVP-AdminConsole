@@ -1,8 +1,22 @@
-mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
+mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $q, $timeout, $log, $http,
                                                       $anchorScroll, agentStatusService, notifiSenderService,
                                                       reportQueryFilterService, ShareData, uiGridConstants, $interval) {
 
     $anchorScroll();
+
+    // Kasun_Wijeratne_17_July_2018
+    $scope.showError = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
+    $scope.filterType = "ALL";
+    $scope.Productivitys = [];
+    // Kasun_Wijeratne_17_July_2018 - END
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     $scope.showCallInfos = false;
@@ -40,6 +54,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.productivity = [];
     $scope.isLoading = true;
     $scope.GetProductivity = function () {
+
+        var deferred = $q.defer();
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
 
@@ -51,12 +67,16 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.productivity = response;
             $scope.isLoading = true;
             calculateProductivity();
-            $scope.SaveReportQueryFilter();
+
+            deferred.resolve(true);
         }, function (error) {
             $log.debug("productivity err");
             $scope.showAlert("Error", "error", "Fail To Get productivity.");
             $scope.isLoading = false;
+            deferred.resolve(true);
         });
+
+        return deferred.promise;
     };
     $scope.GetProductivity();
     /* $scope.loadAllAgents = function () {
@@ -79,9 +99,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.getTableHeight = function () {
         var rowHeight = 30; // your row height
         var headerHeight = 50; // your header height
-        return {
-            height: (($scope.Productivitys.length + 2) * rowHeight + headerHeight) + "px"
-        };
+        // if($scope.Productivitys) {
+            return {
+                height: (($scope.Productivitys.length + 2) * rowHeight + headerHeight) + "px"
+            };
+        // }
     };
 
 
@@ -524,13 +546,18 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.activeCalls = [];
 
     $scope.GetAllActiveCalls = function () {
+        var deferred = $q.defer();
         agentStatusService.GetAllActiveCalls().then(function (response) {
             $scope.activeCalls = response;
+            deferred.resolve();
 
         }, function (error) {
             $log.debug("getAllActiveCalls err");
             $scope.showAlert("Error", "error", "Fail To Get Active Call List.");
+            deferred.resolve();
         });
+
+        return deferred.promise;
     };
     $scope.GetAllActiveCalls();
 
@@ -551,6 +578,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.availableProfile = [];
 
     $scope.getProfileDetails = function () {
+        var deferred = $q.defer();
         agentStatusService.GetProfileDetails().then(function (response) {
 
             if (response) {
@@ -567,7 +595,15 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                  }*/
             }
 
+            deferred.resolve();
+
+        }).catch(function(err)
+        {
+            deferred.resolve();
+
         });
+
+        return deferred.promise;
     };
 
     $scope.GetAvailableProfile = function () {
@@ -647,18 +683,24 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                                 $scope.profile = [];
 
-                                angular.forEach(resp.profile, function(prof)
+                                if ($scope.filterType == "ALL" && resp.profile.length == 0) {
+                                    angular.copy($scope.availableProfile, $scope.profile);
+                                }
+                                else
                                 {
-                                    for(i = 0; i < $scope.availableProfile.length; i++)
+                                    angular.forEach(resp.profile, function(prof)
                                     {
-                                        if($scope.availableProfile[i].ResourceId === prof.ResourceId)
+                                        for(i = 0; i < $scope.availableProfile.length; i++)
                                         {
-                                            $scope.profile.push($scope.availableProfile[i]);
-                                            break;
-                                        }
+                                            if($scope.availableProfile[i].ResourceId === prof.ResourceId)
+                                            {
+                                                $scope.profile.push($scope.availableProfile[i]);
+                                                break;
+                                            }
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }
 
                                 $scope.agentMode = resp.agentMode;
                                 $scope.filterType = resp.filterType;
@@ -697,10 +739,20 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     var getAllRealTimeTimer = null;
     var getAllRealTime = function () {
-        $scope.getProfileDetails();
-        $scope.GetAllActiveCalls();
-        $scope.GetProductivity();
-        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        var arr = [];
+
+        arr.push($scope.getProfileDetails());
+        arr.push($scope.GetAllActiveCalls());
+        arr.push($scope.GetProductivity());
+
+        $q.all(arr).then(function(resolveData)
+        {
+            getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        }).catch(function(err)
+        {
+            getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        });
+
     };
 
     getAllRealTime();

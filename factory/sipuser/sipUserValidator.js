@@ -14,7 +14,7 @@
 
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint + 'User/' + usr
+                url: baseUrls.sipUserendpoint +"SipUser/"  + 'User/' + usr
             }).then(function (resp)
             {
                 return resp.data;
@@ -73,7 +73,7 @@
 
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint + 'Extension/' + ext
+                url: baseUrls.sipUserendpoint +"SipUser/"  + 'Extension/' + ext
             }).then(function (resp) {
                 return resp.data;
             })

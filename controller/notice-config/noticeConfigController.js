@@ -73,6 +73,8 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
         if (response.IsSuccess) {
+
+
             var attchmentData =
             {
                 file: fileItem._file.name,
@@ -82,17 +84,23 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
                 size: fileItem._file.size
             }
 
+
+            if(!attchmentData.type)
+            {
+                attchmentData.type='application/text';
+            }
             attachmentBackendService.saveNewAttachment(attchmentData).then(function (response) {
 
                 if(response.IsSuccess && response.Result)
                 {
                     $scope.newNotice.attachments=[];
-                    var attachmentObj = {
-                        id:response.Result._id,
-                        file_type:response.Result.type
-                    }
-                    $scope.newNotice.attachments.push(attachmentObj);
-                    $scope.showAlert("Notice","Attachment saved successfully","success");
+                    /*var attachmentObj = {
+                        id:response.Result._id/!*,
+                        file_type:response.Result.type*!/
+                    }*/
+                    $scope.newNotice.attachments.push(response.Result._id);
+                    //$scope.showAlert("Notice","Attachment saved successfully","success");
+                    console.log("Notice attchment uploaded");
                     $scope.noticeHandler();
 
 

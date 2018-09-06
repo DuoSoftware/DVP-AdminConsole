@@ -767,3 +767,11 @@ mainApp.controller("NewTagController", function ($scope, $rootScope, $uibModalIn
 
 });
 
+mainApp.directive('myEnterTag', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (e) {
+            var k = e.keyCode;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8   || (k >= 48 && k <= 57));
+        });
+    };
+});

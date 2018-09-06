@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketDetailReportCtrl = function ($scope, $filter, $q, $timeout, ticketReportsService, cdrApiHandler, loginService) {
+    var ticketDetailReportCtrl = function ($scope, $filter, $q, $timeout, ticketReportsService, ShareData, cdrApiHandler, loginService, filterDateRangeValidation) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -38,6 +38,16 @@
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
         };
+
+		$scope.onDateChange = function () {
+
+			if (moment($scope.obj.startDay, "YYYY-MM-DD").isValid() && moment($scope.obj.endDay, "YYYY-MM-DD").isValid()) {
+				$scope.dateValid = true;
+			}
+			else {
+				$scope.dateValid = false;
+			}
+		};
 
         $scope.ticketList = [];
         $scope.extUserList = [];
@@ -344,6 +354,11 @@
 
             try {
 
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    $scope.FilterData.businessUnit = ShareData.BusinessUnit;
+                }
+
                 ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
                     if (ticketCount && ticketCount.IsSuccess) {
                         $scope.pagination.totalItems = ticketCount.Result;
@@ -438,6 +453,11 @@
                 slaViolated: $scope.slaStatus
 
             };
+
+            if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+            {
+                $scope.FilterData.businessUnit = ShareData.BusinessUnit;
+            }
 
 
             try {
@@ -557,6 +577,15 @@
 
         $scope.getTicketSummaryCSVPrepare = function ()
         {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.obj.startDay, $scope.obj.endDay) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
+
             if ($scope.DownloadButtonName === 'CSV') {
                 $scope.cancelDownload = false;
                 $scope.buttonClass = 'fa fa-spinner fa-spin';
@@ -599,6 +628,11 @@
                 tagCount: $scope.tagCount
 
             };
+
+            if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+            {
+                $scope.FilterData.businessUnit = ShareData.BusinessUnit;
+            }
 
 
             try {

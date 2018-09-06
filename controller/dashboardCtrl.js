@@ -2,7 +2,7 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
+mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
                                               loginService, $filter,
                                               dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices, ShareData) {
 
@@ -29,13 +29,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         profile: []
     };
 
-    $scope.agentCurrentState = 'available';
+    $scope.agentCurrentState = 'inbound';
+
     $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
     var setAgentCurrentState = function (index) {
         $scope.safeApply(function () {
             switch (index) {
                 case 0:
-                    $scope.agentCurrentState = "available";
+                    $scope.agentCurrentState = "inbound";
                     $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
                     break;
                 case 1:
@@ -85,22 +86,39 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     });
 
     var carouselAutoplay = true;
+    $scope.stoppedState=false;
+    $scope.currItem=-1;
+
+
+
     $scope.carouselAutoplay = function (itemNo) {
+
         carouselAutoplay = !carouselAutoplay;
+
         var owlCarousel = $('.owl-carousel');
         owlCarousel.trigger('to.owl.carousel', itemNo);
         owlCarousel.trigger('to.owl.carousel', itemNo);
+
+
         if (carouselAutoplay) {
             owlCarousel.trigger('play.owl.autoplay', 1000);
+
         } else {
+
             owlCarousel.trigger('stop.owl.autoplay');
+
         }
+        $scope.stoppedState=!carouselAutoplay;
         setAgentCurrentState(itemNo);
+        $scope.currItem =itemNo;
+
+
     };
 
 
     subscribeServices.subscribeDashboard('dashboard', function (event) {
-        if (event && event.Message && event.Message.businessUnit && ((ShareData.BusinessUnit.toLowerCase() === 'all') || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+        if (event && event.Message && event.Message.businessUnit
+            && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*')||(ShareData.BusinessUnit.toLowerCase() === 'all' && event.From ==="ArdsMonitoringService" )|| (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
             switch (event.roomName) {
                 case 'ARDS:ResourceStatus':
                     if (event.Message) {
@@ -302,7 +320,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
             }
         } else {
-            console.error("Subscribe Dashboard Event Recive For Invalid Business Unit");
+            console.info("Subscribe Dashboard Event Recive For Invalid Business Unit");
         }
     });
 
@@ -361,6 +379,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         }];
         return {
             getDataAll: function () {
+                var deferred = $q.defer();
                 dashboardService.GetAll().then(function (response) {
                     if (response && response.length > 0) {
                         response.pop();
@@ -389,8 +408,15 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions.yaxis.max = $scope.chartymax.calls;
                         }
                     }
+
+                    deferred.resolve(true);
+                }).catch(function(err)
+                {
+                    deferred.resolve(true);
                 });
+                return deferred.promise;
             }, getAllQueued: function () {
+                var deferred = $q.defer();
                 dashboardService.GetAllQueued().then(function (response) {
                     if (response && response.length > 0) {
                         response.pop();
@@ -419,10 +445,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions2.yaxis.max = $scope.chartymax.queued;
                         }
                     }
+                    deferred.resolve(true);
                 }, function (err) {
                     loginService.isCheckResponse(err);
+                    deferred.resolve(true);
                 });
+                return deferred.promise;
             }, getAllBriged: function () {
+                var deferred = $q.defer();
                 dashboardService.GetAllBriged().then(function (response) {
                     if (response && response.length > 0) {
                         response.pop();
@@ -452,9 +482,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions3.yaxis.max = $scope.chartymax.briged;
                         }
                     }
+                    deferred.resolve(true);
                 }, function (err) {
                     loginService.isCheckResponse(err);
+                    deferred.resolve(true);
                 });
+                return deferred.promise;
             }, getAllChannels: function () {
                 /*dashboardService.GetAllChannels().then(function (response) {
                  if(response && response.length >0) {
@@ -483,6 +516,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                  });*/
             },
             getTotalQueueHit: function () {
+                var deferred = $q.defer();
                 dashboardService.GetTotalQueueHit().then(function (response) {
                     if (response && response.length > 0) {
                         response.pop();
@@ -507,9 +541,13 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
                         }
                     }
+                    deferred.resolve(true);
                 }, function (err) {
                     loginService.isCheckResponse(err);
+                    deferred.resolve(true);
                 });
+
+                return deferred.promise;
             },
             getTotalCall: function () {
                 dashboardService.GetTotalCalls('inbound', null).then(function (responseInb) {
@@ -585,10 +623,24 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             },
             callAllServices: function () {
-                ServerHandler.getDataAll();
-                ServerHandler.getAllQueued();
-                ServerHandler.getAllBriged();
-                ServerHandler.getTotalQueueHit();//ServerHandler.getAllChannels();
+
+                var deferred = $q.defer();
+                var arr = [];
+
+                arr.push(ServerHandler.getDataAll());
+                arr.push(ServerHandler.getAllQueued());
+                arr.push(ServerHandler.getAllBriged());
+                arr.push(ServerHandler.getTotalQueueHit());
+
+                $q.all(arr).then(function(resolveData)
+                {
+                    deferred.resolve(true);
+                }).catch(function(err)
+                {
+                    deferred.resolve(true);
+                });
+
+                return deferred.promise;
 
             },
             getAllNumTotal: function () {
@@ -626,8 +678,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
 
     var countAllCallServices = function () {
-        ServerHandler.callAllServices();
-        countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
+        ServerHandler.callAllServices().then(function(resp)
+        {
+            countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
+        }).catch(function(err)
+        {
+            countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
+        });
+
     };
 
     var getAllNumTotal = function () {
@@ -966,7 +1024,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
                     //agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")
-                    if (response[i] &&(response[i].BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all")) {
+                    if ((response[i] && response[i].BusinessUnit && response[i].BusinessUnit.toLowerCase()) === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all") {
                         var profile = {
                             name: '',
                             slotState: null,

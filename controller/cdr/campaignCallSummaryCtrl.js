@@ -1,4 +1,4 @@
-mainApp.controller("campaignCallSummaryController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, sipUserApiHandler, campaignService, cdrApiHandler) {
+mainApp.controller("campaignCallSummaryController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, sipUserApiHandler, campaignService, cdrApiHandler, filterDateRangeValidation) {
 
     $anchorScroll();
 
@@ -59,6 +59,14 @@ mainApp.controller("campaignCallSummaryController", function ($http, $scope, $fi
     $scope.EndDate = moment().format("YYYY-MM-DD");
 
     $scope.DownloadCSV = function () {
+		/** Kasun_Wijeratne_5_MARCH_2018
+		 * ----------------------------------------*/
+		if(filterDateRangeValidation.validateDateRange($scope.StartDate, $scope.EndDate) == false){
+			$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+			return -1;
+		}
+		/** ----------------------------------------
+		 * Kasun_Wijeratne_5_MARCH_2018*/
 
         $scope.DownloadFileName = 'CAMPAIGN_SUMMARY_' + $scope.StartDate + '_' + $scope.EndDate;
         var deferred = $q.defer();

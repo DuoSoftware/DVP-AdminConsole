@@ -4,14 +4,12 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData) {
+    authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http) {
 
 
     // check adminconsole is focus or not.
     angular.element($window).bind('focus', function () {
-        console.log('enter......................');
     }).bind('blur', function () {
-        console.log('out................');
     });
 
 
@@ -28,7 +26,13 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.newNotifications = [];
 
 
-// Register for notifications
+	/** Kasun_Wijeratne_2_MARCH_2018
+	 * ------------------------------ */
+    $scope.invalidUserPassword = true;
+	/**---------------------------------
+	 Kasun_Wijeratne_2_MARCH_2018 */
+
+    // Register for notifications
 
     $scope.showAlert = function (tittle, type, msg) {
         new PNotify({
@@ -68,7 +72,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
         if (data.From && $scope.users) {
 
-            var sender = $filter('filter')($scope.users, {username: data.From});
+            var sender = $filter('filter')($scope.users, { username: data.From });
             console.log("Sender ", sender);
             data.avatar = (sender && sender.length) ? sender[0].avatar : "assets/images/defaultProfile.png";
             data.resv_time = new Date();
@@ -113,7 +117,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.agentDisconnected = function () {
         $scope.isSocketRegistered = false;
         if ($scope.isLogged) {
-            $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
+            $scope.showAlert("Notification Service", "error", "Disconnected from notifications, Please re-register");
         }
 
     };
@@ -298,7 +302,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     var mObject = data.Message;
 
                     //var items = $filter('filter')($scope.users, {resourceid: parseInt(mObject.ResourceId)}, true);
-                    var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()});
+                    var items = $filter('filter')($scope.users, { resourceid: mObject.ResourceId.toString() },true);
                     mObject.From = (items && items.length) ? items[0].username : mObject.UserName;
                     mObject.TopicKey = data.eventName;
                     mObject.messageType = mObject.Message;
@@ -379,7 +383,28 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     //check my navigation
     //is can access
+	/** Kasun_Wijeratne_5_MARCH_2018
+	 * ----------------------------------------
+	 * User validation for Dev or Live goes here
+	 * ----------------------------------------*/
+    $rootScope.isLive = false;
+	/** ----------------------------------------
+	 * Kasun_Wijeratne_5_MARCH_2018*/
+
     loginService.getNavigationAccess(function (result) {
+
+        // Kasun_Wijeratne_14_JAN_2018
+        if (Object.keys(result).length > 5) {
+            $rootScope.allUsers = true;
+            // $state.go('console.dashboard');
+        } else {
+            if (Object.keys(result).length != 0) {
+                $rootScope.freshUser = true;
+                $rootScope.allUsers = false;
+            }
+        }
+        // Kasun_Wijeratne_14_JAN_2018 - END
+
         $scope.accessNavigation = result;
         //if($scope.accessNavigation.BASIC INFO)
         if ($scope.accessNavigation.TICKET) {
@@ -388,21 +413,20 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
     $scope.isLogged = true;
+
     $scope.clickDirective = {
         goLogout: function () {
             loginService.Logoff(undefined, function (issuccess) {
                 if (issuccess) {
                     veeryNotification.disconnectFromServer();
                     $scope.isLogged = false;
+                    $rootScope.freshUser = false;
                     $state.go('login');
                     SE.disconnect();
-
-
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {
 
                 }
-
             });
             //loginService.clearCookie("@loginToken");
             //$state.go('login');
@@ -572,6 +596,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goTemplateCreater: function () {
             $state.go('console.templatecreater');
         },
+        go_ip_phone_config: function () {
+            $state.go('console.ip_phone_config');
+        },
         goTriggerConfiguration: function () {
             $state.go('console.trigger.triggerConfiguration');
         },
@@ -591,7 +618,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.campaign')
         },
         goCreateNewCampaign: function () {
-            $state.go('console.new-campaign', {id: 0});
+            $state.go('console.new-campaign', { id: 0 });
         },
         goCampaignLookUp: function () {
             $state.go('console.campaign-lookup');
@@ -622,6 +649,30 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goZohoUser: function () {
             $state.go('console.zohousers')
+        },
+        goChatbot: function () {
+            $state.go('console.chatbots')
+        },
+        goChatbotTemplates: function (templateType) {
+            $state.go('console.bottemplates', { templateType: templateType })
+        },
+        goChatbotAutomations: function () {
+            $state.go('console.botautomations')
+        },
+        goChatbotIntegration: function () {
+            $state.go('console.botintegration')
+        },
+        goChatbotSetupAI: function () {
+            $state.go('console.botsetupai')
+        },
+        goChatbotMedia: function () {
+            $state.go('console.botmedia')
+        },
+        goChatbotEntities: function () {
+            $state.go('console.botentities')
+        },
+        goChatbotContext: function(){
+            $state.go('console.botcontext')
         },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')
@@ -708,6 +759,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.fileCatRestrict');
 
         },
+        goFileCatConfig: function () {
+            $state.go('console.fileCatConfig');
+
+        },
         goAgentBreakReport: function () {
             $state.go('console.agentBreakReport');
 
@@ -729,7 +784,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 $scope.BusinessUnit = ShareData.BusinessUnit;
             }
         }, function (error) {
-            $log.debug("loadBusinessUnit err");
+            console.error("loadBusinessUnit err");
         });
 
     };
@@ -749,37 +804,37 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     $scope.loadBusinessUnit();
                     myUserProfileApiAccess.getMyOrganization().then(function (resOrg) {
 
-                            if (resOrg.IsSuccess && resOrg.Result) {
-                                if (resOrg.Result.ownerRef == resMyProf.Result._id) {
-                                    $scope.displayname = resOrg.Result.companyName;
-                                }
-                                else {
-                                    if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
-                                        $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
-
-                                    }
-
-                                }
-                                $scope.showDisplayName = true;
+                        if (resOrg.IsSuccess && resOrg.Result) {
+                            if (resOrg.Result.ownerRef == resMyProf.Result._id) {
+                                $scope.displayname = resOrg.Result.companyName;
                             }
                             else {
                                 if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
                                     $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
 
                                 }
-                                $scope.showDisplayName = true;
+
                             }
-
-
-                        }, function (errOrg) {
-
-                            console.log("Error in searching company");
+                            $scope.showDisplayName = true;
+                        }
+                        else {
                             if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
                                 $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
 
                             }
                             $scope.showDisplayName = true;
                         }
+
+
+                    }, function (errOrg) {
+
+                        console.log("Error in searching company");
+                        if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
+                            $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
+
+                        }
+                        $scope.showDisplayName = true;
+                    }
                     );
                 }
                 else {
@@ -799,10 +854,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     getUserName();
 
     // Kasun_Wijeratne
-	$scope.isNavHidden = false;
-	$scope.navToggleCheck = function () {
-		$scope.isNavHidden = !$scope.isNavHidden;
-	}
+    $scope.isNavHidden = false;
+    // $scope.navToggleCheck = function () {
+    // 	$scope.isNavHidden = !$scope.isNavHidden;
+    // }
     // Kasun_Wijeratne
 
     // $scope.loadBusinessUnit();
@@ -811,7 +866,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.safeApply = function (fn) {
         var phase = this.$root.$$phase;
         if (phase == '$apply' || phase == '$digest') {
-            if (fn && (typeof(fn) === 'function')) {
+            if (fn && (typeof (fn) === 'function')) {
                 fn();
             }
         } else {
@@ -840,6 +895,11 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     var displayName = "";
     if (jwtHelper.decodeToken(authToken).context.veeryaccount) {
         displayName = jwtHelper.decodeToken(authToken).context.veeryaccount.display;
+    }
+
+    if(jwtHelper.decodeToken(authToken))
+    {
+        $scope.companyName=jwtHelper.decodeToken(authToken).companyName;
     }
 
     /*$scope.showAlert = function (tittle, type, msg) {
@@ -1514,7 +1574,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     // Sidebar
     var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
         $BODY = $('body'),
-        $MENU_TOGGLE = $('#menu_toggle'),
+        $MENU_TOGGLE = $('.menu_toggle'),
         $SIDEBAR_MENU = $('#sidebar-menu'),
         $SIDEBAR_FOOTER = $('.sidebar-footer'),
         $LEFT_COL = $('.left_col'),
@@ -1549,7 +1609,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             }
 
             if ($li.is('.active')) {
-                $li.removeClass('active active-sm activet');
+                $li.removeClass('active');
+                $li.removeClass('active-sm');
+                $li.removeClass('activet');
                 $('ul:first', $li).slideUp(function () {
                     setContentHeight();
                 });
@@ -1558,6 +1620,16 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 }
             } else {
                 // prevent closing menu if we are on child menu
+                var sibs = $li.siblings('.active');
+                var sibschild = sibs.find('.active');
+                sibs.removeClass('active');
+                sibs.removeClass('activet');
+                if (sibschild != undefined) {
+                    sibschild.removeClass('active');
+                    sibschild.removeClass('activet');
+                }
+                // if(as!=undefined)
+                // 	var elems = $li.find('a').siblings('.active');
                 if (!$li.parent().is('.child_menu')) {
                     $SIDEBAR_MENU.find('li').removeClass('active active-sm');
                     $SIDEBAR_MENU.find('li ul').slideUp();
@@ -1571,7 +1643,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             }
             oldItem = $li;
             //slide menu height set daynamically
-            $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
+            $scope.windowMenuHeight = jsUpdateSize() - 100 + "px";
             document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;
         });
 
@@ -1580,9 +1652,13 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             if ($BODY.hasClass('nav-md')) {
                 $SIDEBAR_MENU.find('li.active ul').hide();
                 $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+                $('#menu_toggle2').hide();
+                $('#menu_toggle').show();
             } else {
                 $SIDEBAR_MENU.find('li.active-sm ul').show();
                 $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
+                $('#menu_toggle').hide();
+                $('#menu_toggle2').show();
             }
 
             $BODY.toggleClass('nav-md nav-sm');
@@ -1611,11 +1687,57 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $('.menu_fixed').mCustomScrollbar({
                 autoHideScrollbar: true,
                 theme: 'minimal',
-                mouseWheel: {preventDefault: true}
+                mouseWheel: { preventDefault: true }
             });
         }
     });
     // /Sidebar
+
+
+	/** Kasun_Wijeratne_14_FEB_2018
+	 * --------------------------------------------------------------------------
+	 * GUIDE FOR FRESH USERS
+	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
+    $scope.freshUserConfigStep = 0;
+    $rootScope.userGuideMin = false;
+    $rootScope.toggleFreshUserGuide = function () {
+        $rootScope.freshUser = !$rootScope.freshUser;
+    };
+    $scope.rotateFreshUserGuide = function (direction) {
+        if (direction == 'forward') {
+            $scope.freshUserConfigStep++;
+        } else if (direction == 'backward' && $scope.freshUserConfigStep != 0) {
+            $scope.freshUserConfigStep--;
+        }
+    };
+    $scope.minMaxFreshUserConfig = function () {
+        $rootScope.userGuideMin = !$rootScope.userGuideMin;
+    };
+
+	/** GUIDE FOR ALL USERS
+	* Functionality for the Guide panel of all users appears after the main configuration is done.*/
+    $rootScope.userGuide = {};
+    $scope.userGuideStep = 0;
+    $scope.$watch(function () {
+        $rootScope.$statecurrent = $state.current.name.split('.')[1];
+    });
+    $http.get('assets/js/userguide.json').then(function (res) {
+        $rootScope.userGuide = res.data.secondaryguide;
+        var b = $rootScope.userGuide[$rootScope.$statecurrent];
+    }, function (errorres) {
+        debugger;
+    });
+
+    $scope.activeGuide = {};
+    $scope.rotateAllUserGuide = function (direction) {
+        if (direction == 'forward') {
+            $scope.userGuideStep++;
+        } else if (direction == 'backward' && $scope.userGuideStep != 0) {
+            $scope.userGuideStep--;
+        }
+    };
+	/** -------------------------------------------------------------------------
+	/*Kasun_Wijeratne_14_FEB_2018*/
 
 
 });

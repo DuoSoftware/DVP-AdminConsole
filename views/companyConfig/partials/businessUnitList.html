@@ -59,7 +59,8 @@
                                 <label >Head Users</label>
                                 <tags-input ng-model="unit.heads" display-property="username"
                                             add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
-                                            placeholder="Add a Head User">
+                                            placeholder="Add a Head User" on-tag-added="onHUserChipAdd($tag)"
+                                            on-tag-removed="onHUserChipDelete($tag)" >
                                     <auto-complete source="querySearch($query)"
                                                    load-on-empty="true"
                                                    load-on-focus="true"

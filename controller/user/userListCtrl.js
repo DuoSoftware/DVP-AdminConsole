@@ -4,7 +4,23 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService, resourceService, $rootScope) {
+
+		/** Kasun_Wijeratne_21_MARCH_2018
+		 * --------------------------------------------------------------*/
+    	$scope.newUserView = false;
+    	$scope.toggleNewUserView = function () {
+			$scope.newUserView = !$scope.newUserView;
+		};
+		$scope.runSIPUserSave = function () {
+			$rootScope.$broadcast('SIPUserUploadOn');
+		}
+		$rootScope.$on('SIPUserSaveSuccess', function () {
+			$scope.activeCreateUserTab = 0;
+			$scope.newUserView = false;
+		});
+		/** --------------------------------------------------------------
+		 * Kasun_Wijeratne_21_MARCH_2018*/
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -26,8 +42,6 @@
         }
 
 
-
-
         $scope.querySearch = function (query) {
             if (query === "*" || query === "") {
                 if ($scope.adminUserList) {
@@ -47,7 +61,7 @@
 
         $scope.onChipAdd = function (chip) {
 
-            chip.isTemp=true;
+            chip.isTemp = true;
             console.log("add attGroup " + $scope.attributeGroups);
 
         };
@@ -63,15 +77,15 @@
             });
         };
 
-        $scope.isEditing=false;
-        $scope.businessUnits=[];
+        $scope.isEditing = false;
+        $scope.businessUnits = [];
         $scope.newUser = {};
         $scope.newUserGroup = {};
         $scope.newUser.title = 'mr';
         $scope.NewUserLabel = "+";
         $scope.newGroupUsers = [];
-        $scope.addMemRole="user";
-        $scope.isScrolled =false;
+        $scope.addMemRole = "user";
+        $scope.isScrolled = false;
 
         $scope.searchCriteria = "";
 
@@ -149,7 +163,7 @@
                     $scope.showAlert('Error', 'error', errMsg);
 
                 }
-            },function (err) {
+            }, function (err) {
                 var errMsg = "Error occurred while loading users";
                 if (err.statusText) {
                     errMsg = err.statusText;
@@ -188,14 +202,111 @@
             });
         };
 
-        $scope.addNewUser = function () {
-            userProfileApiAccess.addUser($scope.newUser).then(function (data) {
+		$scope.isUserSaving = false;
+		$scope.addNewUser = function (isSIP, sipExt) {
+			/** Kasun_Wijeratne_21_MARCH_2018
+			 * This function has been modified to receive "isSIP" and "sipEct" parameters when creating a user with "Create SIP user" enabled.
+			 * isSIP = bool
+			 * siExt = SIP extension
+			 * --------------------------------------------------------------*/
+			if(isSIP) {
+				$scope.newUser.veeryaccount = {
+					"contact": sipExt+"@duo.media1.veery.cloud",
+					"display": sipExt,
+					"verified": true,
+					"type": "sip"
+				};
+			}
+			/**--------------------------------------------------------------
+			 * Kasun_Wijeratne_21_MARCH_2018 - ENDs
+			 */
+			$scope.isUserSaving = true;
+			$scope.sipUserFromUser = {
+				SipUsername :"",
+				mail :"",
+				Password : ""
+			};
+			userProfileApiAccess.addUser($scope.newUser).then(function (data) {
                 if (data.IsSuccess) {
-                    $scope.showAlert('Success', 'info', 'User added');
 
-                    resetForm();
+                    //Map Resource To User
+                    if ($scope.newUser.mapToResource && data.Result && data.Result.username) {
 
-                    loadUsers();
+                        resourceService.SaveResource({ResourceName: data.Result.username}).then(function (response) {
+                            if (response.IsSuccess) {
+
+                                resourceService.SetResourceToProfile(response.Result.ResourceName, response.Result.ResourceId).then(function (mappingStatus) {
+                                    if (mappingStatus) {
+                                        $scope.showAlert("Map To Resource", "info", "Resource " + response.Result.ResourceName + " Successfully Save.");
+                                    }else {
+                                        $scope.showAlert("Map To Resource", "warn", "Resource " + response.Result.ResourceName + " Save Successfully Without Mapping to Profile.");
+                                    }
+                                    $scope.showAlert('Success', 'info', 'User added');
+									if(isSIP){
+										$scope.activeCreateUserTab = 1;
+										$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+										$scope.sipUserFromUser.Password = $scope.newUser.password;
+									}
+                                    resetForm();
+                                    loadUsers();
+									$scope.isUserSaving = false;
+                                }, function (error) {
+                                    $scope.showAlert("Map To Resource", "error", "Fail To Map Resource with Profile.");
+                                    $scope.showAlert('Success', 'info', 'User added');
+									if(isSIP){
+										$scope.activeCreateUserTab = 1;
+										$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+										$scope.sipUserFromUser.Password = $scope.newUser.password;
+										$scope.sipUserFromUser.Email = $scope.newUser.mail;
+									}
+                                    resetForm();
+                                    loadUsers();
+									$scope.isUserSaving = false;
+								});
+                            }
+                            else {
+                                if (response.CustomMessage == "invalid Resource Name.") {
+                                    $scope.showAlert("Map To Resource", "error", "Invalid Resource Name.");
+                                }
+                                $scope.showAlert('Success', 'info', 'User added');
+								if(isSIP){
+									$scope.activeCreateUserTab = 1;
+									$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+									$scope.sipUserFromUser.Password = $scope.newUser.password;
+									$scope.sipUserFromUser.Email = $scope.newUser.mail;
+								}
+                                resetForm();
+                                loadUsers();
+								$scope.isUserSaving = false;
+                            }
+
+                        }, function (error) {
+                            $scope.showAlert('Map To Resource', 'error', 'Failed to map user to resource');
+                            $scope.showAlert('Success', 'info', 'User added');
+							if(isSIP){
+								$scope.activeCreateUserTab = 1;
+								$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+								$scope.sipUserFromUser.Password = $scope.newUser.password;
+								$scope.sipUserFromUser.Email = $scope.newUser.mail;
+							}
+                            resetForm();
+                            loadUsers();
+							$scope.isUserSaving = false;
+						});
+
+                    } else {
+
+                        $scope.showAlert('Success', 'info', 'User added');
+						if(isSIP){
+							$scope.activeCreateUserTab = 1;
+							$scope.sipUserFromUser.SipUsername = $scope.newUser.firstname.toLowerCase();
+							$scope.sipUserFromUser.Password = $scope.newUser.password;
+							$scope.sipUserFromUser.Email = $scope.newUser.mail;
+						}
+                        resetForm();
+                        loadUsers();
+						$scope.isUserSaving = false;
+					}
 
 
                 }
@@ -209,7 +320,8 @@
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
-                }
+					$scope.isUserSaving = false;
+				}
 
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -218,8 +330,14 @@
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
-            });
+				$scope.isUserSaving = false;
+			});
         };
+
+		$scope.activeCreateUserTab = 0;
+        $scope.addNewSIPUser = function (direction) {
+			direction == 'up' ? $scope.activeCreateUserTab++ : $scope.activeCreateUserTab--;
+		}
 
         loadUsers();
         loadUserGroups();
@@ -230,9 +348,9 @@
 
 
             console.log(user.Active);
-            if(user.Active) {
+            if (user.Active) {
 
-                if(!$scope.disableSwitch) {
+                if (!$scope.disableSwitch) {
 
                     $scope.safeApply(function () {
                         $scope.disableSwitch = true;
@@ -300,9 +418,9 @@
                     });
                 }
 
-            }else{
+            } else {
                 console.log("deactivate");
-                if(!$scope.disableSwitch) {
+                if (!$scope.disableSwitch) {
 
                     $scope.safeApply(function () {
                         $scope.disableSwitch = true;
@@ -395,28 +513,25 @@
 
                 var updateObj =
                     {
-                        supervisors:$scope.selectedGroup.supervisors
+                        supervisors: $scope.selectedGroup.supervisors
                     };
 
 
-                userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
-                    if(resUpdate.IsSuccess)
-                    {
-                        $scope.showAlert("Success","success","Supervisor removed successfully");
+                userProfileApiAccess.updateUserGroup($scope.selectedGroup._id, updateObj).then(function (resUpdate) {
+                    if (resUpdate.IsSuccess) {
+                        $scope.showAlert("Success", "success", "Supervisor removed successfully");
 
 
                     }
-                    else
-                    {
-                        $scope.showAlert("Error","error","Supervisor removing failed");
+                    else {
+                        $scope.showAlert("Error", "error", "Supervisor removing failed");
                     }
-                },function (errUpdate) {
-                    $scope.showAlert("Error","error","Supervisor removing failed");
+                }, function (errUpdate) {
+                    $scope.showAlert("Error", "error", "Supervisor removing failed");
                 });
             }).on('pnotify.cancel', function () {
                 console.log('fire event cancel');
             });
-
 
 
         };
@@ -459,8 +574,7 @@
 
         $scope.loadGroupMembers = function (group) {
 
-            if(!$scope.isEditing)
-            {
+            if (!$scope.isEditing) {
                 $scope.groupMemberlist = [];
                 $scope.isLoadingUsers = true;
                 $scope.selectedGroup = group;
@@ -482,7 +596,6 @@
             }
 
         };
-
 
 
         //remove group member
@@ -531,37 +644,35 @@
         //create new group
         $scope.createNewGroup = function () {
             $('#crateNewGroupWrapper').animate({
-                bottom: "-5"
+                top: "0"
             }, 500);
         };
         $scope.hiddenNewGroupDIV = function () {
             $('#crateNewGroupWrapper').animate({
-                bottom: "-95"
-            }, 300);
+                top: "-200px"
+            }, 500);
         };
 
 
         $scope.addNewGroupMember = function (memState) {
             $anchorScroll();
-            $scope.isOpen=true;
+            $scope.isOpen = true;
             $('#crateNewGroupMemberWrapper').animate({
-                bottom: "-5"
-            }, 200);
+                top: "0"
+            }, 500);
             $('#fixedCreateNew').animate({
                 opacity: 1,
                 "z-index": 1
             }, 200);
 
 
-            if(memState.toLowerCase()=='member')
-            {
+            if (memState.toLowerCase() == 'member') {
                 $scope.addingTitle = "Add Group Member";
-                $scope.addMemRole="member";
+                $scope.addMemRole = "member";
             }
-            else
-            {
+            else {
                 $scope.addingTitle = "Add Group Supervisor";
-                $scope.addMemRole="supervisor";
+                $scope.addMemRole = "supervisor";
             }
 
 
@@ -569,20 +680,20 @@
 
         $scope.hiddenNewGroupMember = function () {
             $('#crateNewGroupMemberWrapper').animate({
-                bottom: "-95"
-            }, 200);
+                top: "-200px"
+            }, 500);
 
             $('#fixedCreateNew').animate({
                 opacity: 0,
                 "z-index": -1
             }, 200);
 
-            $scope.isOpen=false;
+            $scope.isOpen = false;
         };
 
-        $scope.showUnits=false;
+        $scope.showUnits = false;
         $scope.showIt = function () {
-            $scope.showUnits=!$scope.showUnits
+            $scope.showUnits = !$scope.showUnits
         }
 
 
@@ -636,11 +747,9 @@
         // });
 
 
-
         $(document).bind('scroll', function () {
 
-            if( $scope.isOpen)
-            {
+            if ($scope.isOpen) {
                 $scope.hiddenNewGroupMember();
             }
 
@@ -771,20 +880,19 @@
         $scope.userActiveCheck = false;
 
         $scope.checkEditing = function () {
-            $scope.isEditing=!$scope.isEditing;
+            $scope.isEditing = !$scope.isEditing;
         }
 
         $scope.loadBusinessUnits = function () {
             userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
-                if(resUnits.IsSuccess)
-                {
-                    $scope.businessUnits=resUnits.Result;
+                if (resUnits.IsSuccess) {
+                    $scope.businessUnits = resUnits.Result;
                 }
                 else {
-                    $scope.showAlert("Business Unit","error","No Business Units found");
+                    $scope.showAlert("Business Unit", "error", "No Business Units found");
                 }
-            },function (errUnits) {
-                $scope.showAlert("Business Unit","error","Error in searching Business Units");
+            }, function (errUnits) {
+                $scope.showAlert("Business Unit", "error", "Error in searching Business Units");
             });
         }
         $scope.loadBusinessUnits();
@@ -794,37 +902,33 @@
 
             var updateObj =
                 {
-                    supervisors:$scope.selectedGroup.supervisors
+                    supervisors: $scope.selectedGroup.supervisors
 
                 }
 
 
-            userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
-                if(resUpdate.IsSuccess)
-                {
-                    $scope.showAlert("Business Unit","success","Supervisors of Group updated successfully");
+            userProfileApiAccess.updateUserGroup($scope.selectedGroup._id, updateObj).then(function (resUpdate) {
+                if (resUpdate.IsSuccess) {
+                    $scope.showAlert("Business Unit", "success", "Supervisors of Group updated successfully");
                     $scope.selectedGroup.supervisors.forEach(function (item) {
 
-                        item.isTemp=false;
+                        item.isTemp = false;
                     });
 
 
                 }
-                else
-                {
-                    $scope.showAlert("Business Unit","error","Error in updating Supervisors of Group");
+                else {
+                    $scope.showAlert("Business Unit", "error", "Error in updating Supervisors of Group");
                 }
-            },function (errUpdate) {
-                $scope.showAlert("Business Unit","error","Error in updating Supervisors of Group");
+            }, function (errUpdate) {
+                $scope.showAlert("Business Unit", "error", "Error in updating Supervisors of Group");
             });
-
 
 
         }
 
 
     };
-
 
 
     app.controller("userListCtrl", userListCtrl);

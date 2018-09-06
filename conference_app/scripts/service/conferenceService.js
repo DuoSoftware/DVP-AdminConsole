@@ -9,7 +9,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
 
         return $http({
             method: 'GET',
-            url: baseUrls.sipUserendpoint + "Users"
+            url: baseUrls.sipUserendpoint +"SipUser/"  + "Users"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -31,7 +31,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var getExtensions = function () {
         return $http({
             method: 'GET',
-            /*url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CONFERENCE",*/
+            /*url: baseUrls.sipUserendpoint +"SipUser/"  + "ExtensionsByCategory/CONFERENCE",*/
             url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/AvailableExtensions"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -45,7 +45,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var getExtensionsByConfRoom = function (conferenceName) {
         return $http({
             method: 'GET',
-            /*url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CONFERENCE",*/
+            /*url: baseUrls.sipUserendpoint +"SipUser/"  + "ExtensionsByCategory/CONFERENCE",*/
             url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/"+conferenceName+"/AvailableExtensions"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -60,7 +60,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         var authToken = authService.GetToken();
         return $http({
             method: 'POST',
-            url: baseUrls.sipUserendpoint + "Extension",
+            url: baseUrls.sipUserendpoint +"SipUser/"  + "Extension",
             data: resource
         }).then(function (response) {
             return response;

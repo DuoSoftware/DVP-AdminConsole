@@ -60,7 +60,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'EmergencyNumbers',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'EmergencyNumbers',
       }).then(function(resp)
       {
         return resp.data;
@@ -71,7 +71,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'TransferCode',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'TransferCode',
       }).then(function(resp)
       {
         return resp.data;
@@ -82,7 +82,7 @@
     {
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'TransferCode',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'TransferCode',
         data:JSON.stringify(transCodes)
       }).then(function(resp)
       {
@@ -94,7 +94,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: baseUrls.sipUserendpoint + 'EmergencyNumber/' + emergencyNum,
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'EmergencyNumber/' + emergencyNum,
       }).then(function(resp)
       {
         return resp.data;
@@ -105,7 +105,7 @@
     {
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'EmergencyNumber',
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'EmergencyNumber',
         data:JSON.stringify(emNum)
       }).then(function(resp)
       {

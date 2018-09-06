@@ -21,7 +21,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Users'
+        url: baseUrls.sipUserendpoint +"SipUser/"  + 'Users'
       }).then(function(resp)
       {
         return resp.data;

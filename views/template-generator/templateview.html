@@ -46,10 +46,16 @@
                                                 </select>
                                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                             </div>
+                                            <div class="col-md-8 col-sm-8 col-xs-8 form-group has-feedback" ng-show="newTemplate.FileType=='html'">
+                                                <input type="text" class="form-control" ng-model="newTemplate.TemplateSubject" placeholder="Enter subject here">
+
+                                            </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                                 <textarea class="resizable_textarea form-control" ng-model="newTemplate.TemplateContent" placeholder="Enter content here"></textarea>
 
                                             </div>
+
+
 
                                             <div class="row">
 

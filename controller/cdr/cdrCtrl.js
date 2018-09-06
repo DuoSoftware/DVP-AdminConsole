@@ -9,6 +9,10 @@
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, ShareData, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
+
+
+
+
         $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
 
@@ -39,6 +43,8 @@
                 }
             }
         };
+
+        $scope.moment = moment;
 
 
         $scope.enableSearchButton = true;
@@ -94,7 +100,7 @@
 
         $scope.onDateChange = function () {
             if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-                $scope.dateValid = true;
+				$scope.dateValid = true;
             }
             else {
                 $scope.dateValid = false;
@@ -174,7 +180,9 @@
                     saveAs = cdrInf.CreatedTime;
                 }
 
-                fileService.downloadLatestFile(cdrInf.Uuid + fileType, saveAs + fileType);
+                fileService.downloadLatestFile(cdrInf.RecordingUuid + fileType, saveAs + fileType);
+
+                /*fileService.downloadLatestFile(cdrInf.Uuid + fileType, saveAs + fileType);*/
 
             }
 
@@ -305,7 +313,7 @@
 
         };
 
-        var convertToMMSS = function (sec) {
+        $scope.convertToMMSS = function (sec) {
             var minutes = Math.floor(sec / 60);
 
             if (minutes < 10) {
@@ -428,6 +436,17 @@
 
 
         $scope.getProcessedCDRCSVDownload = function () {
+			var sd = new Date($scope.startDate);
+			var ed = new Date($scope.endDate);
+			var msd = moment(sd);
+			var med = moment(ed);
+			if(sd && ed){
+				var dif = med.diff(msd, 'days');
+				if(dif > 31){
+					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+					return -1;
+				}
+			}
             /*if (checkCSVGenerateAllowed()) {
 
             }
@@ -468,7 +487,7 @@
 
             var tempBUnit = null;
 
-            if(!$scope.businessUnitEnabled)
+            if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
             {
                 tempBUnit = ShareData.BusinessUnit;
             }
@@ -802,11 +821,11 @@
                                     cdrAppendObj.TransferredParties = transferredParties;
                                 }
 
-                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
-                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
-                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
-                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
-                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
+                                cdrAppendObj.BillSec = $scope.convertToMMSS(cdrAppendObj.BillSec);
+                                cdrAppendObj.Duration = $scope.convertToMMSS(cdrAppendObj.Duration);
+                                cdrAppendObj.AnswerSec = $scope.convertToMMSS(cdrAppendObj.AnswerSec);
+                                cdrAppendObj.QueueSec = $scope.convertToMMSS(cdrAppendObj.QueueSec);
+                                cdrAppendObj.HoldSec = $scope.convertToMMSS(cdrAppendObj.HoldSec);
 
 
                                 var cdrCsv =
@@ -915,7 +934,12 @@
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
-                                    $scope.cdrList = [];
+                                    $scope.cdrList = cdrResp.Result;
+                                    $scope.isTableLoading = 1;
+
+                                    //<editor-fold desc="OLD CDR ALGO">
+
+                                    /*$scope.cdrList = [];
 
 
                                     var count = 0;
@@ -1260,7 +1284,9 @@
 
                                         $scope.cdrList.push(cdrAppendObj);
                                     }
-                                    $scope.isTableLoading = 1;
+                                    $scope.isTableLoading = 1;*/
+
+                                    //</editor-fold>
 
 
                                 }

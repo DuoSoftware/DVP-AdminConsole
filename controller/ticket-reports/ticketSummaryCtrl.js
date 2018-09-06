@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketSummaryCtrl = function ($scope, $filter, ticketReportsService, loginService) {
+    var ticketSummaryCtrl = function ($scope, $filter, ticketReportsService, loginService, ShareData) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -23,6 +23,32 @@
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
         };
+
+		$scope.onDateChange = function () {
+
+			if (moment($scope.obj.startDay, "YYYY-MM-DD").isValid() && moment($scope.obj.endDay, "YYYY-MM-DD").isValid()) {
+				/** Kasun_Wijeratne_5_MARCH_2018
+				 * ----------------------------------------*/
+				var sd = new Date($scope.obj.startDay);
+				var ed = new Date($scope.obj.endDay);
+				var msd = moment(sd);
+				var med = moment(ed);
+				if(sd && ed){
+					var dif = med.diff(msd, 'days');
+					if(dif > 31){
+						$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 30 days from Start Date");
+						$scope.obj.endDay = $scope.obj.startDay;
+					}else{
+						$scope.dateValid = true;
+					}
+				}
+				/** ----------------------------------------
+				 * Kasun_Wijeratne_5_MARCH_2018*/
+			}
+			else {
+				$scope.dateValid = false;
+			}
+		};
 
         $scope.summaryDetails = {};
         $scope.summaryProgressBar = {
@@ -151,7 +177,12 @@
                 if ($scope.selectedTag) {
                     tagName = $scope.selectedTag.name;
                 }
-                ticketReportsService.getTicketSummary(startDate, endDate, tagName, $scope.channelType, $scope.priorityType, $scope.ticketType).then(function (ticketSummaryResp) {
+                var businessUnit = null;
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    businessUnit = ShareData.BusinessUnit;
+                }
+                ticketReportsService.getTicketSummary(startDate, endDate, tagName, $scope.channelType, $scope.priorityType, $scope.ticketType, businessUnit).then(function (ticketSummaryResp) {
                     if (ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0 && ticketSummaryResp.Result[0].statistics) {
                         $scope.summaryDetails = ticketSummaryResp.Result[0].statistics;
                         $scope.obj.isTableLoading = 1;

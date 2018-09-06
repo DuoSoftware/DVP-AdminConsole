@@ -10,6 +10,8 @@
         $anchorScroll();
         $scope.enableSearchButton = true;
 
+        $scope.moment = moment;
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'desc']};
 
 
@@ -32,7 +34,7 @@
 
         $scope.onDateChange = function () {
             if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-                $scope.dateValid = true;
+				$scope.dateValid = true;
             }
             else {
                 $scope.dateValid = false;
@@ -148,7 +150,7 @@
 
         };
 
-        var convertToMMSS = function (sec) {
+        $scope.convertToMMSS = function (sec) {
             var minutes = Math.floor(sec / 60);
 
             if (minutes < 10) {
@@ -209,6 +211,7 @@
                         $scope.DownloadButtonName = 'CSV';
                         $scope.cancelDownload = true;
                         $scope.buttonClass = 'fa fa-file-text';
+                        $scope.showAlert('CDR Download', 'warn', 'No CDR Records found for downloading');
                     }
 
                 }).catch(function (err) {
@@ -275,6 +278,17 @@
 
 
         $scope.getProcessedCDRCSVDownload = function () {
+			var sd = new Date($scope.startDate);
+			var ed = new Date($scope.endDate);
+			var msd = moment(sd);
+			var med = moment(ed);
+			if(sd && ed){
+				var dif = med.diff(msd, 'days');
+				if(dif > 31){
+					$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+					return -1;
+				}
+			}
             /*if (checkCSVGenerateAllowed()) {
 
             }
@@ -384,7 +398,7 @@
 
                 var lim = parseInt($scope.recLimit);
                 cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
-                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
+                    if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var count = 0;
                             for (cdr in cdrResp.Result) {
@@ -532,11 +546,11 @@
                                     cdrAppendObj.ShowButton = true;
                                 }
 
-                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
-                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
-                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
-                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
-                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
+                                cdrAppendObj.BillSec = $scope.convertToMMSS(cdrAppendObj.BillSec);
+                                cdrAppendObj.Duration = $scope.convertToMMSS(cdrAppendObj.Duration);
+                                cdrAppendObj.AnswerSec = $scope.convertToMMSS(cdrAppendObj.AnswerSec);
+                                cdrAppendObj.QueueSec = $scope.convertToMMSS(cdrAppendObj.QueueSec);
+                                cdrAppendObj.HoldSec = $scope.convertToMMSS(cdrAppendObj.HoldSec);
 
                                 var cdrCsv =
                                 {
@@ -613,9 +627,16 @@
 
                 $scope.isTableLoading = 0;
 
-                var tempBUnit = null;
+                /*var tempBUnit = null;
 
                 if(!$scope.businessUnitEnabled)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }*/
+
+                var tempBUnit = null;
+
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
                 {
                     tempBUnit = ShareData.BusinessUnit;
                 }
@@ -626,8 +647,14 @@
                     {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
                         cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
-                            if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
-                                if (!isEmpty(cdrResp.Result)) {
+                            if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
+
+                                $scope.cdrList = cdrResp.Result;
+                                $scope.isTableLoading = 1;
+
+                                //<editor-fold>
+
+                                /*if (!isEmpty(cdrResp.Result)) {
 
                                     $scope.cdrList = [];
                                     var topSet = false;
@@ -846,7 +873,9 @@
                                     }
                                     $scope.isNextDisabled = true;
                                     $scope.isTableLoading = 1;
-                                }
+                                }*/
+
+                                //</editor-fold>
 
 
                             }

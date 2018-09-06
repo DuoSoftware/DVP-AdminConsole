@@ -35,8 +35,8 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     var d = new Date();
     d.setDate(d.getDate() - 1);
     $scope.fileSerach = {};
-    $scope.fileSerach.StartTime = d;
-    $scope.fileSerach.EndTime = new Date();
+    $scope.fileSerach.StartTime = moment().format("YYYY-MM-DD");
+    $scope.fileSerach.EndTime = moment().format("YYYY-MM-DD");
     // search end
 
     var showAlert = function (tittle, type, content) {
@@ -93,6 +93,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     $scope.isLoading = false;
 
     $scope.LoadNodeData = function () {
+    	
         if (!$scope.application) {
             showAlert("IVR", "error", "Please Select Application");
             return
@@ -113,7 +114,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
 
         $scope.intiate = false;
         $scope.isLoading = true;
-        ivrNodeCountService.GetIvrNodeCount($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString(),nods).then(function (response) {
+        ivrNodeCountService.GetIvrNodeCount($scope.application, $scope.fileSerach.StartTime, $scope.fileSerach.EndTime,nods).then(function (response) {
             $scope.isLoading = false;
             if (response) {
                 $scope.doughnutObj = {labels: [], data: [], node: []};

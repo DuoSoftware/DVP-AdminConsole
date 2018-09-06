@@ -420,7 +420,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         };
     };
 
-    var statusTemplate = '<timer start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>';
+    var statusTemplate = '<timer ng-if="row.entity.MaxWaitingMS" start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer><span ng-if="!row.entity.MaxWaitingMS">00:00:00</span>';
     var maxWaitTimeTemplate = "<div>{{row.entity.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</div>";
 
     $scope.gridOptions3 = {
@@ -568,7 +568,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     }
 );
 
-mainApp.directive('queued', function (queueMonitorService, $timeout, loginService) {
+mainApp.directive('queued', function (queueMonitorService, $timeout, $q, loginService) {
     return {
 
         restrict: 'EA',
@@ -653,20 +653,27 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
 
             var skilledResources = function () {
 
+                var deferred = $q.defer();
+
                 var skillObj = {
                     skills: scope.skillList
                 };
 
                 queueMonitorService.getAvailableResourcesToSkill(skillObj).then(function (response) {
                     scope.agentCount = response;
+                    deferred.resolve(true);
                 }, function (err) {
                     loginService.isCheckResponse(err);
+                    deferred.reject(null);
                 });
+
+                return deferred.promise;
             };
 
 
             var qStats = function () {
 
+                var deferred = $q.defer();
                 //GetSingleQueueStats
                 queueMonitorService.GetSingleQueueGraph(scope.name).then(function (response) {
                     response.pop();
@@ -694,11 +701,16 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
                         scope.maxy = Math.ceil(max);
                         scope.queueoption.yaxis.max = scope.maxy + 1;
                     }
+
+                    deferred.resolve(true);
                 }, function (err) {
                     loginService.isCheckResponse(err);
+                    deferred.resolve(true);
                 });
 
-            }
+                return deferred.promise;
+
+            };
 
 
             //qData();
@@ -709,10 +721,22 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
             var updateRealtime = function () {
 
                 // qData();
-                qStats();
-                skilledResources();
+                var arr = [];
 
-                updatetimer = $timeout(updateRealtime, 2000);
+                arr.push(qStats());
+                arr.push(skilledResources());
+                //qStats();
+                //skilledResources();
+
+                $q.all(arr).then(function(resolveData)
+                {
+                    updatetimer = $timeout(updateRealtime, 2000);
+                }).catch(function(err)
+                {
+                    updatetimer = $timeout(updateRealtime, 2000);
+                });
+
+
 
             };
 
@@ -746,7 +770,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
     }
 });
 
-mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout, loginService) {
+mainApp.directive('queuedlist', function (queueMonitorService, moment, $q, $timeout, loginService) {
     return {
 
         restrict: 'EA',
@@ -810,6 +834,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
             });
 
             var skilledResources = function () {
+                var deferred = $q.defer();
 
                 var skillObj = {
                     skills: scope.skillList
@@ -817,9 +842,13 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
 
                 queueMonitorService.getAvailableResourcesToSkill(skillObj).then(function (response) {
                     scope.que.agentCount = response;
+                    deferred.resolve(true);
                 }, function (err) {
                     loginService.isCheckResponse(err);
+                    deferred.reject(null);
                 });
+
+                return deferred.promise;
             };
 
             //skilledResources();
@@ -827,9 +856,15 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
             var updateRealtime = function () {
 
                 //qData();
-                skilledResources();
+                skilledResources().then(function(rslt)
+                {
+                    updatetimer = $timeout(updateRealtime, 2000);
+                }).catch(function(err)
+                {
+                    updatetimer = $timeout(updateRealtime, 2000);
+                });
 
-                updatetimer = $timeout(updateRealtime, 2000);
+
 
             };
 

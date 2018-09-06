@@ -128,6 +128,8 @@
 <link rel="stylesheet" href="bower_components/angular-ui-switch/angular-ui-switch.min.css"/>
 
 <link rel="stylesheet" href="bower_components/ng-wizard/dist/ngWizard.css">
+<link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
+
 
 <body class="nav-md" ng-style="detailsDashboardState ? {'background':'#f7f7f7'} : null">
 <!--style="display: none;"-->
@@ -201,7 +203,7 @@
 
 <!--<script type="text/javascript" src="bower_components/moment/moment.js"></script>
 <script type="text/javascript" src="bower_components/moment-timezone/moment-timezone.js"></script>
-<script type="text/javascript" src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
+<script type="text/javascript" src="bower_compont ents/moment-timezone/builds/moment-timezone-with-data.js"></script>
 <script type="text/javascript" src="bower_components/angular-moment/angular-moment.js"></script>-->
 <script type="text/javascript" src="bower_components/lodash/dist/lodash.min.js"></script>
 <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
@@ -347,13 +349,13 @@
 <script type="text/javascript" src="auth/services/oAuthServices.js"></script>
 <script type="text/javascript" src="auth/services/signUpServices.js"></script>
 
-<!---Socket --->
+<!--Socket -->
 
 <script type="text/javascript" src="bower_components/angular-socket-io/socket.js"></script>
 <script type="text/javascript" src="bower_components/socket.io-client/dist/socket.io.js"></script>
 
 
-<!--- Angular Schema Form --->
+<!-- Angular Schema Form -->
 <script type="text/javascript" src="bower_components/angular-progress-arc/angular-progress-arc.js"></script>
 
 <script type="text/javascript" src="bower_components/tv4/tv4.js"></script>
@@ -361,7 +363,7 @@
 <script type="text/javascript" src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
 
-<!-- angular-object-diff --->
+<!-- angular-object-diff -->
 <script type="text/javascript" src="bower_components/angular-object-diff/dist/angular-object-diff.js"></script>
 
 <!-- form wizard -->
@@ -858,6 +860,45 @@
 <script type="text/javascript" src="zoho/scripts/services/zohoService.js"></script>
 <script type="text/javascript" src="zoho/scripts/controllers/zohoUsersController.js"></script>
 
+<!-- Chatbot -->
+<!-- Chatbot - Controller -->
+<script type="text/javascript" src="chatbot/scripts/controllers/chatbotController.js"></script>
+<script type="text/javascript" src="chatbot/scripts/controllers/chatbotTemplateController.js"></script>
+<script type="text/javascript" src="chatbot/scripts/controllers/integrationController.js"></script>
+<script type="text/javascript" src="chatbot/scripts/controllers/setupAIController.js"></script>
+<script type="text/javascript" src="chatbot/scripts/controllers/chatbotMediaController.js"></script>
+<script type="text/javascript" src="chatbot/scripts/controllers/chatbotEntitiesController.js"></script>
+<script type="text/javascript" src="chatbot/scripts/controllers/chatbotContextController.js"></script>
+<!-- Chatbot - Service -->
+<script type="text/javascript" src="chatbot/scripts/services/templateService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/chatbotService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/integrationsService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/botappconfigService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/whitelistconfigService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/botintegrationService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/setupAIService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/chatbotMediaService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/chatbotEntitiesService.js"></script>
+<script type="text/javascript" src="chatbot/scripts/services/chatbotContextService.js"></script>
+<!-- Chatbot - Directives -->
+<script type="text/javascript" src="chatbot/scripts/directives/editTemplate.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/editintegration.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/editchatbot.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/card.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/workflow.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/cardbutton.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/persistbutton.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/helpbutton.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/errorSrc.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/quickreply.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/editSetupAI.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/editMedia.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/editEntity.js"></script>
+<script type="text/javascript" src="chatbot/scripts/directives/editContext.js"></script>
+<!-- Chatbot - Styles -->
+<link rel="stylesheet" href="chatbot/styles/styles.css">
+
+
 <!-- Notice config -->
 <script type="text/javascript" src="controller/notice-config/noticeConfigController.js"></script>
 <script type="text/javascript" src="factory/notice-config/noticeBackendService.js"></script>
@@ -940,6 +981,21 @@
 <script type="text/javascript" src="controller/invitation-config/invitationController.js"></script>
 <script type="text/javascript" src="factory/invitation-config/invitationApiAccess.js"></script>
 <script type="text/javascript" src="directives/invitation-config/editInvitation.js"></script>
+
+<script type="text/javascript" src="controller/file-category-config/fileCategoryConfigController.js"></script>
+<script type="text/javascript" src="factory/file-category-config/fileserviceApiAccess.js"></script>
+<script type="text/javascript" src="factory/filterDateRangeValidation.js"></script>
+<script type="text/javascript" src="directives/file-category-config/editFileCategory.js"></script>
+
+
+<!-- ip phone-->
+<script type="text/javascript" src="sip_phone_config/scripts/services/sip_phone_config_service.js"></script>
+<script type="text/javascript" src="sip_phone_config/scripts/directive/sip_phon_config.js"></script>
+<script type="text/javascript" src="sip_phone_config/scripts/controls/sip_phone_config_controller.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-select/dist/select.js"></script>
+
+
+
 
 
 

@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptchaService,
-                                           signUpServices, $auth, $http,moment) {
+    signUpServices, $auth, $http, moment) {
 
     //go to login
 
@@ -53,18 +53,27 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
             });
     };
 
+    $scope.newWidgetId = 0;
+    $scope.getRecaptchaId = function (widgetId) {
+        $scope.newWidgetId = widgetId;
+        return;
+    };
+
     $scope.onClickCreateAccount = function () {
         newUser.mail = $scope.email;
         newUser.companyname = $scope.companyName;
         newUser.password = $scope.password;
-        newUser.timeZone = {tz:moment.tz.guess(), utcOffset: ""};
+        newUser.timeZone = { tz: moment.tz.guess(), utcOffset: "" };
         $scope.isSignUp = true;
-        if (vcRecaptchaService.getResponse() === "") { //if string is empty
-            alert("Please resolve the captcha and submit!")
-        } else {
-            newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse();
-            signUp(newUser);
-        }
+        // commented due to Demo on Bot framework
+        // if (vcRecaptchaService.getResponse($scope.newWidgetId) === "") { //if string is empty
+        //     alert("Please resolve the captcha and submit!");
+        // } else {
+        //     newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse($scope.newWidgetId);
+        //     signUp(newUser);
+        // }
+        // delete this when uncommenting the above
+        signUp(newUser);
     };
 
 
@@ -166,7 +175,8 @@ mainApp.directive('passwordStrengthBox', [
             scope: {
                 password: '=ngModel',
                 confirm: '=',
-                box: '='
+                box: '=',
+                invaliduserp: '='
             },
 
             link: function (scope, elem, attrs, ctrl) {
@@ -178,7 +188,6 @@ mainApp.directive('passwordStrengthBox', [
                     digit: false,
                     capitalLetter: false
                 };
-
 
                 scope.$watch('password', function (newVal) {
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
@@ -222,6 +231,19 @@ mainApp.directive('passwordStrengthBox', [
                     }
 
 
+					/** Kasun_Wijeratne_2_MARCH_2018
+					 * ------------------------------ */
+                    if (scope.invaliduserp != undefined) {
+                        if (scope.strength >= 5) {
+                            scope.invaliduserp = false;
+                        } else {
+                            scope.invaliduserp = true;
+                        }
+                    }
+					/**---------------------------------
+					 Kasun_Wijeratne_2_MARCH_2018 */
+
+
                     //check password confirm validation
                     // if (scope.confirm) {
                     //     var origin = scope.confirm;
@@ -239,28 +261,28 @@ mainApp.directive('passwordStrengthBox', [
                 }, true);
             },
             template: '<div ng-if="strength != ' + 5 + ' "' +
-            'ng-show=strength' +
-            ' class="password-leg-wrapper animated fadeIn ">' +
-            '<ul>' +
-            '<li>' +
-            '<i ng-show="isPwdValidation.minLength" class="ti-check color-green"></i>' +
-            '<i ng-show="!isPwdValidation.minLength" class="ti-close color-red"></i>' +
-            ' Min length 8' +
-            '</li>' +
-            '<li><i ng-show="isPwdValidation.specialChr" class="ti-check color-green "></i>' +
-            '<i ng-show="!isPwdValidation.specialChr" class="ti-close color-red"></i>' +
-            ' Special Character' +
-            '</li>' +
-            '<li><i ng-show="isPwdValidation.digit" class="ti-check color-green"></i>' +
-            '<i ng-show="!isPwdValidation.digit" class="ti-close color-red"></i>' +
-            ' Digit' +
-            '</li>' +
-            '<li><i ng-show="isPwdValidation.capitalLetter" class="ti-check color-green"></i>' +
-            '<i ng-show="!isPwdValidation.capitalLetter" class="ti-close color-red"></i>' +
-            ' Capital Letter' +
-            ' </li>' +
-            '</ul>' +
-            '</div>'
+                'ng-show=strength' +
+                ' class="password-leg-wrapper animated fadeIn ">' +
+                '<ul>' +
+                '<li>' +
+                '<i ng-show="isPwdValidation.minLength" class="ti-check color-green"></i>' +
+                '<i ng-show="!isPwdValidation.minLength" class="ti-close color-red"></i>' +
+                ' Min length 8' +
+                '</li>' +
+                '<li><i ng-show="isPwdValidation.specialChr" class="ti-check color-green "></i>' +
+                '<i ng-show="!isPwdValidation.specialChr" class="ti-close color-red"></i>' +
+                ' Special Character' +
+                '</li>' +
+                '<li><i ng-show="isPwdValidation.digit" class="ti-check color-green"></i>' +
+                '<i ng-show="!isPwdValidation.digit" class="ti-close color-red"></i>' +
+                ' Digit' +
+                '</li>' +
+                '<li><i ng-show="isPwdValidation.capitalLetter" class="ti-check color-green"></i>' +
+                '<i ng-show="!isPwdValidation.capitalLetter" class="ti-close color-red"></i>' +
+                ' Capital Letter' +
+                ' </li>' +
+                '</ul>' +
+                '</div>'
         }
     }
 ]);

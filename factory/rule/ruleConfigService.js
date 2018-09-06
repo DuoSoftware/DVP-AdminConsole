@@ -64,7 +64,7 @@ mainApp.factory('ruleconfigservice', function ($http, baseUrls) {
 
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint + 'Contexts'
+                url: baseUrls.sipUserendpoint +"SipUser/"  + 'Contexts'
             }).then(function(response)
             {
                 return response;

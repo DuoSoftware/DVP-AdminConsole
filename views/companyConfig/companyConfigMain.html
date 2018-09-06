@@ -1,5 +1,4 @@
 <div class="row">
-
     <div class="col-md-12 col-sm-6 col-xs-12 " >
         <scrollable-tabset show-tooltips="true">
             <uib-tabset active="0">
@@ -329,8 +328,8 @@
                     </div>
                 </uib-tab>
 
-                <uib-tab index="8" heading="Integration Config">
-                    <div ng-include="'views/companyConfig/integrationConfiguration.html'">
+                <uib-tab index="8" heading="Integration Config" ng-click="selectIntegration = true " >
+                    <div ng-if="selectIntegration" ng-include="'views/companyConfig/integrationConfiguration.html'">
                     </div>
                 </uib-tab>
                 <uib-tab index="9" heading="Business Unit Config">

@@ -5,7 +5,24 @@
                 <h2>Media Gallery
                     <small>File Uploader</small>
                 </h2>
+
+
                 <div class="clearfix"></div>
+            </div>
+            <div class="row" style="padding-left: 10px;" >
+                <div ng-show="allocatedSpace">
+                    <label>Used {{usedSizeWithType}} from {{allocatedSpace}}</label>
+                    <div class="progress">
+                        <div id="storage-bar" class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                            {{usedPtg}}% Used
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="UploadSize">
+                    Maximum upload file size : {{UploadSize/1024}} MB
+                </div>
+
             </div>
             <div class="x_content">
                 <br/>
@@ -79,7 +96,7 @@
                                         <td nowrap>
                                             <button type="button" class="btn btn-success btn-xs"
                                                     ng-click="item.upload()"
-                                                    ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                    ng-disabled="item.isReady || item.isUploading || item.isSuccess || !item.readyToUpload || !file.Category">
                                                 <span class="glyphicon glyphicon-upload"></span> Upload
                                             </button>
                                             <button type="button" class="btn btn-warning btn-xs"
@@ -88,7 +105,7 @@
                                                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel
                                             </button>
                                             <button type="button" class="btn btn-danger btn-xs"
-                                                    ng-click="item.remove()">
+                                                    ng-click="removeItemFromQueue(item)">
                                                 <span class="glyphicon glyphicon-trash"></span> Remove
                                             </button>
                                         </td>
@@ -114,7 +131,7 @@
                             <div layout-gt-sm="row">
 
                                 <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
-                                        ng-disabled="!uploader.getNotUploadedItems().length">
+                                        ng-disabled="disblUpload || !file.Category || uploader.queue.length ==0">
                                     <span class="glyphicon glyphicon-upload"></span> Upload all
                                 </button>
 

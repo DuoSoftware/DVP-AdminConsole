@@ -1,40 +1,47 @@
-<div class="row" ng-show="showMesssageModal">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel modal-panel-notify">
-            <div class="notification-modal-time pull-right">
-                <time-ago from-time='{{MessageObj.resv_time}}'
-                          format='MM/dd/yyyy'></time-ago>
-            </div>
-            <div class="console-model-block">
-                <div class="notify-img-modal md-col-3 notifi-sender">
+<div class="clearfix" ng-show="showMesssageModal">
+    <!--<br class="col-md-12 col-sm-12 col-xs-12">-->
+        <div class="modal-panel-notify">
+            <!--<div class="notification-modal-time pull-right">-->
+                <!--<time-ago from-time='{{MessageObj.resv_time}}'-->
+                          <!--format='MM/dd/yyyy'></time-ago>-->
+            <!--</div>-->
+            <div class="clearfix">
+                <div class="col-md-3 col-sm-3 col-xs-12 notify-img-modal notifi-sender">
                     <img src="assets/images/defaultProfile.png"
                          ng-src="{{MessageObj.avatar}}">
-                     <span>{{MessageObj.From}}</span>
-
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <h3>{{MessageObj.From}}</h3>
+                    <time-ago from-time='{{MessageObj.resv_time}}'
+                              format='MM/dd/yyyy' style="color: #aaa"></time-ago>
                 </div>
             </div>
+            <div class="divider"></div>
 
-            <div class="console-model-block">
-                <div
-                     ng-slimscroll
-                     opacity="0.1"
-                     distance="10px"
-                     height="100%"
-                     width="100%"
-                     ng-mouseover="chatWidgetscrollEnabled = true"
-                     ng-mouseleave="chatWidgetscrollEnabled = false">
-                    <div class="u-body notification-v">
-                        <textarea disabled readonly ng-model="MessageObj.Message" class="form-control" rows="6"></textarea>
-                    </div>
-                </div>
+            <div class="console-model-block" style="padding: 20px">
+                <!--<div-->
+                     <!--ng-slimscroll-->
+                     <!--opacity="0.1"-->
+                     <!--distance="10px"-->
+                     <!--height="100%"-->
+                     <!--width="100%"-->
+                     <!--ng-mouseover="chatWidgetscrollEnabled = true"-->
+                     <!--ng-mouseleave="chatWidgetscrollEnabled = false">-->
+                    <!--<div class="u-body notification-v">-->
+                        <!--<textarea disabled readonly ng-model="MessageObj.Message" class="form-control" rows="6"></textarea>-->
+                    <!--</div>-->
+                <!--</div>-->
+                {{MessageObj.Message}}
             </div>
+            <div class="divider"></div>
         </div>
-        <div class=" pull-right row notify-modal-btn-wrap" >
+        <div class="text-right notify-modal-btn-wrap">
 
             <button type="submit" class="btn btn-success" ng-click="keepNotification()">Keep</button>
             <!--<button type="submit" class="btn btn-success" ng-click="addToTodo()">Add to To-Do</button>-->
-            <button type="submit" class="btn btn-primary" ng-click="discardNotification(MessageObj)">Discard</button>
+            <button type="submit" class="btn btn-default" ng-click="discardNotification(MessageObj)">Discard</button>
 
         </div>
+        </br>
     </div>
 </div>

@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, companyConfigBackendService, loginService,$anchorScroll) {
+    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, companyConfigBackendService, loginService,$anchorScroll, filterDateRangeValidation) {
 
         $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
@@ -356,6 +356,14 @@
         $scope.statusData=[];
         $scope.isDowloading=false;
         $scope.getAgentStatusListCSV = function () {
+			/** Kasun_Wijeratne_5_MARCH_2018
+			 * ----------------------------------------*/
+			if(filterDateRangeValidation.validateDateRange($scope.obj.startDay, $scope.obj.endDay) == false){
+				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+				return -1;
+			}
+			/** ----------------------------------------
+			 * Kasun_Wijeratne_5_MARCH_2018*/
             $scope.isDowloading=true;
             $scope.agentStatusListCSV ={};
             $scope.statusData=[];

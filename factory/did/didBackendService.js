@@ -11,7 +11,7 @@ mainApp.factory('didBackendService', function ($http, baseUrls) {
             
             return $http({
                 method: 'GET',
-                url:baseUrls.sipUserendpoint+ 'DidNumbers'})
+                url:baseUrls.sipUserendpoint +"SipUser/" + 'DidNumbers'})
                 .then(function(response){
                     return response;
                 });
@@ -20,7 +20,7 @@ mainApp.factory('didBackendService', function ($http, baseUrls) {
             
             return $http({
                 method: 'DELETE',
-                url: baseUrls.sipUserendpoint+ 'DidNumber/'+id})
+                url: baseUrls.sipUserendpoint +"SipUser/" + 'DidNumber/'+id})
                 .then(function(response){
                     return response;
                 });
@@ -29,7 +29,7 @@ mainApp.factory('didBackendService', function ($http, baseUrls) {
             
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint+ 'Extensions'})
+                url: baseUrls.sipUserendpoint +"SipUser/" + 'Extensions'})
                 .then(function(response){
                     return response;
                 });
@@ -38,7 +38,7 @@ mainApp.factory('didBackendService', function ($http, baseUrls) {
             
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserendpoint+ 'DidNumber/'+didNum+'/AssignToExt/'+extension})
+                url: baseUrls.sipUserendpoint +"SipUser/" + 'DidNumber/'+didNum+'/AssignToExt/'+extension})
                 .then(function(response){
                     return response;
                 });
@@ -48,7 +48,7 @@ mainApp.factory('didBackendService', function ($http, baseUrls) {
             
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserendpoint+ 'DidNumber',
+                url: baseUrls.sipUserendpoint +"SipUser/" + 'DidNumber',
                 data:didData
 
             }).then(function(response)
@@ -74,7 +74,7 @@ mainApp.factory('didBackendService', function ($http, baseUrls) {
             
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserendpoint+"DidNumbers"
+                url: baseUrls.sipUserendpoint +"SipUser/" +"DidNumbers"
 
             }).then(function(response)
             {

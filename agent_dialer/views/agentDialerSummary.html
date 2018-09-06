@@ -1,19 +1,19 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
+        <div class="x_panel main-title">
             <div class="x_title">
-                <h2>Agent Dialer
-                    <small>Summary Report</small>
-                </h2>
+                <h2><b>REPORT</b> | CAMPAIGN | Agent Dialer - Summary</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="close-link"><i class="fa fa-refresh" ng-click="HeaderDetails()"></i></a>
+                    <li><button class="btn btn-success" ng-click="HeaderDetails()"><i class="fa fa-refresh" ></i></button></li>
+                    <li ng-show="!showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="x_content">
+            <div class="x_content" ng-show="!showFilter">
                 <div class="col-md-12 col-sm-6 col-xs-12">
                     <form id="campaingForm" name="ivrForm" novalidate class="form-label-left input_mask">
 
@@ -79,15 +79,11 @@
     <div class="col-md-12 col-sm-6 col-xs-12" ng-hide="intiate">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Summary
-                </h2>
-
+                <h2>Details</h2>
                 <div class="clearfix"></div>
             </div>
 
-
             <div class="x_content">
-
                 <div ng-show="isLoading">
                     <div class="row ">
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -117,7 +113,7 @@
                                     </th>
                                     <th class="sorting" tabindex="1" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="Total Duration">ContactNumber
+                                        colspan="1" aria-label="Total Duration">Contact Number
                                     </th>
                                     <th class="sorting" tabindex="2" aria-controls="datatable-responsive"
                                         rowspan="1"
@@ -125,11 +121,15 @@
                                     </th>
                                     <th class="sorting" tabindex="3" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="Total Duration">ResourceName
+                                        colspan="1" aria-label="Total Duration">Resource Name
+                                    </th>
+                                    <th class="sorting" tabindex="3" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="Total Duration">User Name
                                     </th>
                                     <th class="sorting" tabindex="4" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="AgentSkill">OtherData
+                                        colspan="1" aria-label="AgentSkill">Other Data
                                     </th>
                                     <th class="sorting" tabindex="5" aria-controls="datatable-responsive"
                                         rowspan="1"
@@ -144,6 +144,7 @@
                                     <td>{{c.ContactNumber}}</td>
                                     <td>{{c.DialerState}}</td>
                                     <td>{{c.ResourceName}}</td>
+                                    <td>{{c.ResourceId}}</td>
                                     <td>{{c.OtherData}}</td>
                                     <td>{{c.AttemptCount}}</td>
                                 </tbody>
@@ -169,5 +170,9 @@
         </div>
     </div>
 </div>
+
+<script>
+	window.scrollTo(0, 0);
+</script>
 
 
