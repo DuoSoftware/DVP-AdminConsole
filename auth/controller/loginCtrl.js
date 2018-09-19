@@ -49,7 +49,9 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.isSocialMedia = false;
     $scope.authenticate = function (provider) {
 
-        para.scope = ["all_all", "profile_veeryaccount"];
+        para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
+
+
 
         $scope.isSocialMedia = true;
         $auth.authenticate(provider, para)
@@ -100,7 +102,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.onClickLogin = function () {
         para.userName = $scope.userName;
         para.password = $scope.password;
-        para.scope = ["all_all", "profile_veeryaccount"];
+        para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
         para.console = "SUPERVISOR_CONSOLE";
         para.companyName = $scope.companyName;
         //parameter option

@@ -184,8 +184,15 @@
                     <div class="x_content">
                         <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
                             <button ng-click="selectTask(atTask)" ng-repeat="atTask in taskAttachToResource"
-                                    type="button" class="btn btn-success btn-sm">{{atTask.ResTask.ResTaskInfo.TaskName}}
+                                    ng-class="{'btn btn-warning btn-sm': atTask.ResTask.ResTaskInfo.TaskName===assignSkill_selectedTask.task.ResTask.ResTaskInfo.TaskName, 'btn btn-success btn-sm': atTask.ResTask.ResTaskInfo.TaskName!=assignSkill_selectedTask.task.ResTask.ResTaskInfo.TaskName}"
+                                    type="button" >{{atTask.ResTask.ResTaskInfo.TaskName}}
                             </button>
+
+                            <tr ng-repeat="user in vm.users" ng-class="{'approved': user.Status, 'notApproved': !user.Status}">
+                                <td>{{user.Id}}</td>
+                                <td>{{user.Name}}</td>
+                                <td>{{user.Status}}</td>
+                            </tr>
                         </div>
                         <br>
 

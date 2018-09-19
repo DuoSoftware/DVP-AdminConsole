@@ -215,10 +215,23 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                                     value: ids[0].HoldTime ? ids[0].HoldTime : 0,
                                     name: 'Hold'
                                 }],
+                                "InboundAcwTime":ids[0].InboundAcwTime ? ids[0].InboundAcwTime : 0,
+                                "OutboundAcwTime":ids[0].OutboundAcwTime ? ids[0].OutboundAcwTime : 0,
+                                'Break':ids[0].BreakTime ? ids[0].BreakTime : 0,
+                                'InboundCallTime': ids[0].InboundCallTime ? ids[0].InboundCallTime : 0,
+                                'OutboundCallTime': ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
+                                'Idle': ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                'InboundHoldTime': ids[0].InboundHoldTime ? ids[0].InboundHoldTime : 0,
+                                'OutboundHoldTime': ids[0].OutboundHoldTime ? ids[0].OutboundHoldTime : 0,
                                 "ResourceId": agent.ResourceId,
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
+                                "OutgoingCallCount": ids[0].OutgoingCallCount ? ids[0].OutgoingCallCount : 0,
+                                "OutboundAnswerCount": ids[0].OutboundAnswerCount ? ids[0].OutboundAnswerCount : 0,
+                                "TransferCallCount": ids[0].TransferCallCount ? ids[0].TransferCallCount : 0,
+                                "OnCallTime": ids[0].OnCallTime ? ids[0].OnCallTime : 0,
+                                "StaffedTime": ids[0].StaffedTime ? ids[0].StaffedTime : 0,
                                 "Chatid": agent.ResourceId
                             };
 
@@ -584,6 +597,136 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         }
     });
 
+
+    //------------------------- table view ------------------------------
+
+    $scope.gridOptions = {
+        enableColumnResizing: true,
+        enableGridMenu: false,
+        enableSorting: true,
+        columnDefs: [],
+        data: 'Productivitys',
+
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+
+            // call resize every 500 ms for 5 s after modal finishes opening - usually only necessary on a bootstrap modal
+            $interval(function () {
+                $scope.gridApi.core.handleWindowResize();
+            }, 500, 10);
+
+
+        }
+    };
+
+    $scope.getTableHeight = function() {
+        var rowHeight = 30; // your row height
+        var headerHeight = 50; // your header height
+        return {
+            height: (($scope.gridQOptions.data.length+2) * rowHeight + headerHeight) + "px"
+        };
+    };
+
+    $scope.gridOptions.columnDefs = [
+        {
+            name: 'ResourceName',
+            displayName: 'Agent Name',
+            headerTooltip: 'Agent Name',
+            sort: {direction: 'asc', priority: 0}
+        },
+        {
+            name: 'InboundAcwTime',
+            displayName: 'Inbound Acw Time',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.InboundAcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Inbound Acw Time'
+        },{
+            name: 'OutboundAcwTime',
+            displayName: 'Outbound Acw Time',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.OutboundAcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Outbound Acw Time'
+        },
+        {
+            name: 'Break',
+            displayName: 'Break',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.Break|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Break'
+        },
+        {
+            name: 'InboundCallTime',
+            displayName: 'Inbound Call Time',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.InboundCallTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Inbound Call Time'
+        },
+
+        {
+            name: 'OutboundCallTime',
+            displayName: 'Outbound Call Time',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.OutboundCallTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Outbound Call Time'
+        },
+        {
+            name: 'InboundHoldTime',
+            displayName: 'Inbound Hold Time',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.InboundHoldTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Inbound Hold Time'
+        },{
+            name: 'OutboundHoldTime',
+            displayName: 'Outbound Hold Time',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.InboundHoldTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Outbound Hold Time'
+        },{
+            name: 'OnCallTime',
+            displayName: 'On Call Time',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.OnCallTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'On Call Time'
+        },{
+            name: 'IncomingCallCount',
+            displayName: 'Incoming Call Count',
+            cellClass: 'table-time',
+             headerTooltip: 'Incoming Call Count'
+        },{
+            name: 'OutgoingCallCount',
+            displayName: 'Outgoing Call Count',
+            cellClass: 'table-time',
+             headerTooltip: 'Outgoing Call Count'
+        },{
+            name: 'OutboundAnswerCount',
+            displayName: 'Outbound Answer Count',
+            cellClass: 'table-time',
+             headerTooltip: 'Outbound Answer Count'
+        },{
+            name: 'MissCallCount',
+            displayName: 'Miss Call Count',
+            cellClass: 'table-time',
+             headerTooltip: 'Miss Call Count'
+        },{
+            name: 'TransferCallCount',
+            displayName: 'Transfer Call Count',
+            cellClass: 'table-time',
+             headerTooltip: 'Transfer Call Count'
+        },{
+            name: 'Idle',
+            displayName: 'Idle',
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.Idle|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+             headerTooltip: 'Idle'
+        },{
+            name: 'StaffedTime',
+            displayName: 'Staffed Time',
+            cellTemplate: "<div>{{row.entity.StaffedTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+            cellClass: 'table-time',
+             headerTooltip: 'Staffed Time'
+        }
+
+    ];
 });
 
 app.controller("resourceEditController", function ($scope, $routeParams, $location, $log, $filter, clusterService) {

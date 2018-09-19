@@ -302,7 +302,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     var mObject = data.Message;
 
                     //var items = $filter('filter')($scope.users, {resourceid: parseInt(mObject.ResourceId)}, true);
-                    var items = $filter('filter')($scope.users, { resourceid: mObject.ResourceId.toString() });
+                    var items = $filter('filter')($scope.users, { resourceid: mObject.ResourceId.toString() },true);
                     mObject.From = (items && items.length) ? items[0].username : mObject.UserName;
                     mObject.TopicKey = data.eventName;
                     mObject.messageType = mObject.Message;
@@ -895,6 +895,11 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     var displayName = "";
     if (jwtHelper.decodeToken(authToken).context.veeryaccount) {
         displayName = jwtHelper.decodeToken(authToken).context.veeryaccount.display;
+    }
+
+    if(jwtHelper.decodeToken(authToken))
+    {
+        $scope.companyName=jwtHelper.decodeToken(authToken).companyName;
     }
 
     /*$scope.showAlert = function (tittle, type, msg) {
