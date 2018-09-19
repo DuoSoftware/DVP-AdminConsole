@@ -121,6 +121,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
             {width: '60',name: 'TotalAnsweredOutbound', field: 'TotalAnsweredOutbound', headerTooltip: 'TotalAnsweredOutbound', cellClass: 'table-number'},
             {width: '60',name : 'TotalHoldInbound', field: 'TotalHoldInbound', headerTooltip: 'TotalHoldInbound', cellClass: 'table-number'},
             {width: '60',name : 'TotalHoldOutbound', field: 'TotalHoldOutbound', headerTooltip: 'TotalHoldOutbound', cellClass: 'table-number'},
+            //{width: '60',name : 'MissedCallCount', field: 'MissCallCount', headerTooltip: 'MissedCallCount', cellClass: 'table-number'},
             {width: '80',name : 'StaffTime', field: 'StaffTime', headerTooltip: 'StaffTime', cellClass: 'table-time'},
             {width: '80',name : 'InboundTime', field: 'InboundTime', headerTooltip: 'InboundTime', cellClass: 'table-time'},
             {width: '80',name : 'OutboundTime', field: 'OutboundTime', headerTooltip: 'OutboundTime', cellClass: 'table-time'},
@@ -197,6 +198,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 var totalOutboundAnswered = 0;
                 var totalCallsInb = 0;
                 var totalCallsOut = 0;
+                var MissCallCount = 0;
                 var totalInboundHold = 0;
                 var totalOutboundHold = 0;
                 var totalInboundAvgHoldTime = 0;
@@ -228,6 +230,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
                         totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
                         totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                        MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
                         totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
                         totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
                         totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
@@ -294,6 +297,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 $scope.total.Answered = totalAnswered;
                 $scope.total.InboundCalls = totalCallsInb;
                 $scope.total.OutboundCalls = totalCallsOut;
+                $scope.total.MissCallCount = MissCallCount;
                 $scope.total.OutboundAnswered = totalOutboundAnswered;
                 $scope.AgentDetailsAssignToSummery();
                 //console.log($scope.agentSummaryList);
@@ -366,6 +370,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 var totalAnswered = 0;
                 var totalCallsInb = 0;
                 var totalCallsOut = 0;
+                var MissCallCount = 0;
                 var totalInboundHold = 0;
                 var totalOutboundHold = 0;
                 var totalInboundAvgHoldTime = 0;
@@ -399,6 +404,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
                         totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
                         totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                        MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
                         totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
                         totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
                         totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
@@ -466,6 +472,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                     TotalAnswered: totalAnswered,
                     TotalCallsInbound: totalCallsInb,
                     TotalCallsOutbound: totalCallsOut,
+                    MissCallCount: MissCallCount,
                     TotalAnsweredOutbound: totalOutboundAnswered,
                     TotalHoldInbound: totalInboundHold,
                     TotalHoldOutbound: totalOutboundHold,

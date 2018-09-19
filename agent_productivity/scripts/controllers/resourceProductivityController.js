@@ -704,9 +704,9 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
              headerTooltip: 'Outbound Answer Count'
         },{
             name: 'MissCallCount',
-            displayName: 'Miss Call Count',
+            displayName: 'Missed Call Count',
             cellClass: 'table-time',
-             headerTooltip: 'Miss Call Count'
+             headerTooltip: 'Missed Call Count'
         },{
             name: 'TransferCallCount',
             displayName: 'Transfer Call Count',
