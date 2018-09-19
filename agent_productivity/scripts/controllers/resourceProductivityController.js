@@ -1,6 +1,6 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll,$q, resourceProductivityService, reportQueryFilterService, ShareData) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll,$q,$interval, resourceProductivityService, reportQueryFilterService, ShareData) {
 
     $anchorScroll();
     $scope.reloadPage = function () {
@@ -623,7 +623,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         var rowHeight = 30; // your row height
         var headerHeight = 50; // your header height
         return {
-            height: (($scope.gridQOptions.data.length+2) * rowHeight + headerHeight) + "px"
+            height: (($scope.gridOptions.data.length+2) * rowHeight + headerHeight) + "px"
         };
     };
 
