@@ -679,14 +679,14 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             name: 'OutboundHoldTime',
             displayName: 'Outbound Hold Time',
             cellClass: 'table-time',
-            cellTemplate: "<div>{{row.entity.InboundHoldTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
+            cellTemplate: "<div>{{row.entity.OutboundHoldTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
              headerTooltip: 'Outbound Hold Time'
         },{
             name: 'OnCallTime',
-            displayName: 'On Call Time',
+            displayName: 'Total Call Time',
             cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.OnCallTime|secondsToDateTime| date:'HH:mm:ss'}}</div>",
-             headerTooltip: 'On Call Time'
+             headerTooltip: 'Total Call Time'
         },{
             name: 'IncomingCallCount',
             displayName: 'Incoming Call Count',
