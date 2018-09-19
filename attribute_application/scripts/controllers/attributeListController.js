@@ -114,7 +114,49 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
     $scope.GetGroups = function (Paging, page, pageSize) {
         attributeService.GetGroups(pageSize, page).then(function (response) {
             $log.debug("GetGroups: response" + response);
-            $scope.groupsData = response;
+            if(response)
+            {
+                $scope.groupsData = response.filter(grp =>
+                {
+                    if (grp.GroupName === 'Business Unit') {
+                        $scope.fixedBUGroup = grp;
+                    }
+                    else if(grp.GroupName === 'User Group')
+                    {
+                        $scope.fixedUserGroup = grp;
+                    }
+                    else
+                    {
+                        return grp;
+                    }
+                });
+
+                if(!$scope.fixedBUGroup)
+                {
+                    $scope.fixedBUGroup = {
+                        GroupName : 'Business Unit'
+                    };
+                    attributeService.SaveGroup($scope.fixedBUGroup).then(grp => {
+                        if(grp && grp.IsSuccess && grp.Result)
+                        {
+                            $scope.fixedBUGroup.GroupId = grp.Result.GroupId;
+                        }
+                    });
+                }
+
+                if(!$scope.fixedUserGroup)
+                {
+                    $scope.fixedUserGroup = {
+                        GroupName : 'User Group'
+                    };
+                    attributeService.SaveGroup($scope.fixedUserGroup).then(grp => {
+                        if(grp && grp.IsSuccess && grp.Result)
+                        {
+                            $scope.fixedUserGroup.GroupId = grp.Result.GroupId;
+                        }
+                    });
+                }
+            }
         }, function (error) {
             $log.debug("GetGroups err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
