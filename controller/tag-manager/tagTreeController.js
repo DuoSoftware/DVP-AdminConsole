@@ -93,9 +93,9 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
 
                     var newChild = $scope.try_adding_a_branch(motherBranch, tagResponse);
 
-                    if (tagResponse.tags.length > 0) {
+                   /* if (tagResponse.tags.length > 0) {
                         $scope.childTreeGenerator(tagResponse.tags, newChild)
-                    }
+                    }*/
 
 
                 }
@@ -126,6 +126,35 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
 
 
     };
+
+    $scope.loadImmediateChildren = function ()
+    {
+        var selectedBranch;
+        selectedBranch = tree.get_selected_branch();
+
+
+        $scope.loadTagDetails(selectedBranch,function (errChild,resChild) {
+            if(errChild)
+            {
+                console.info("Error in getting child tags  " + errChild);
+            }
+            else
+            {
+                if(resChild.tags.length == 0)
+                {
+                    $scope.showAlert("Info", "No children to load", "info");
+                }
+                else
+                {
+                    $scope.childTreeGenerator(resChild.tags,selectedBranch);
+                }
+
+            }
+        });
+
+
+
+    }
 
     $scope.saveNewTagData = function (parentTag, newTagData) {
 
@@ -316,6 +345,8 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
             $scope.showAlert("Error", "Tag deletion failed", "error");
         });
     };
+
+
     $scope.deleteCategory = function (tagCat) {
         tagBackendService.deleteTagCategoryFromDB(tagCat._id).then(function (response) {
             if (response) {

@@ -2,7 +2,7 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("queueSummaryController", function ($scope, $filter, $state, $q, _, queueSummaryBackendService, loginService,$anchorScroll,filterDateRangeValidation) {
+mainApp.controller("queueSummaryController", function ($scope, $filter, $state, $q, _, queueSummaryBackendService, loginService,$anchorScroll,filterDateRangeValidation,ShareData) {
 
     $anchorScroll();
     $scope.params = {
@@ -28,7 +28,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
         $scope.queueSummaryList = [];
         if(moment($scope.params.startDate).isBefore($scope.params.endDate) || moment($scope.params.startDate).isSame($scope.params.endDate))
         {
-            queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate).then(function (response) {
+            queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate,ShareData.BusinessUnit).then(function (response) {
 
                 if (!response.data.IsSuccess) {
                     console.log("Queue Summary loading failed ", response.data.Exception);
@@ -84,7 +84,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
         if(moment($scope.params.startDate).isBefore($scope.params.endDate) || moment($scope.params.startDate).isSame($scope.params.endDate))
         {
-            queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate).then(function (response) {
+            queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate,ShareData.BusinessUnit).then(function (response) {
 
                 if (!response.data.IsSuccess) {
                     console.log("Queue Summary loading failed ", response.data.Exception);
@@ -200,7 +200,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
         if(moment($scope.params2.startDate).isBefore($scope.params2.endDate) || moment($scope.params2.startDate).isSame($scope.params2.endDate))
         {
-            queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate).then(function (response) {
+            queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate,ShareData.BusinessUnit).then(function (response) {
 
                 if (!response.data.IsSuccess) {
                     console.log("Queue Summary loading failed ", response.data.Exception);
@@ -255,7 +255,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
         if(moment($scope.params2.startDate).isBefore($scope.params2.endDate) || moment($scope.params2.startDate).isSame($scope.params2.endDate))
         {
-            queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate).then(function (response) {
+            queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate,ShareData.BusinessUnit).then(function (response) {
 
                 if (!response.data.IsSuccess) {
                     console.log("Queue Summary loading failed ", response.data.Exception);
