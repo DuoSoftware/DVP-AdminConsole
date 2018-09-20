@@ -80,11 +80,31 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getAllowedGroups = function (rowCount, pageNo) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'AllowedGroups/'+rowCount+'/'+pageNo
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
     var GroupsCount = function () {
 
         return $http({
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + 'GroupsCount'
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
+    var getAllowedGroupsCount = function () {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'AllowedGroupsCount'
         }).then(function (response) {
             return response.data.Result;
         });
@@ -204,6 +224,16 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getGroupByName = function (groupName) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'Group/Name/' + groupName
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     return {
         GetAttributes: getattributes,
         GetAttributeCount: getattributeCount,
@@ -221,7 +251,10 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         DeleteOneAttribute:deleteOneAttribute,
         GetAttributeByGroupId:getAttributeByGroupId,
         getGroupNames:getGroupNames,
-        getAttributeDetails:getAttributeDetails
+        getAttributeDetails:getAttributeDetails,
+        getAllowedGroups: getAllowedGroups,
+        getAllowedGroupsCount: getAllowedGroupsCount,
+        getGroupByName: getGroupByName
     }
 
 });
