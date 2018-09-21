@@ -171,7 +171,6 @@ mainApp.directive("editfixedgroups", function ($filter, $rootScope, attributeSer
                 attributeService.AddAttributeToGroup(scope.groupinfo.GroupId, chip.AttributeId, "Attribute Group").then(function (response) {
                     if (response) {
                         console.info("AddAttributeToGroup : " + response);
-                        scope.showAlert("Info", "Info", "ok", "Attribute " + chip.Attribute + " Save successfully");
 
                     }
                     else {
@@ -188,7 +187,6 @@ mainApp.directive("editfixedgroups", function ($filter, $rootScope, attributeSer
                 attributeService.DeleteOneAttribute(scope.groupinfo.GroupId, chip.AttributeId).then(function (response) {
                     if (response) {
                         console.info("AddAttributeToGroup : " + response);
-                        scope.showAlert("Info", "Info", "ok", "Successfully Delete " + chip.Attribute);
                     }
                     else {
                         scope.resetAfterDeleteFail(chip);

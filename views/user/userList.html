@@ -538,13 +538,13 @@
                                         <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
                                             <div class="row">
                                                 <tags-input class="col-md-11 col-sm-6 col-xs-12 " placeholder="Add Attribute"
-                                                            ng-model="attachedAttributes"
+                                                            ng-model="grpSkills"
                                                             display-property="Attribute"
                                                             add-from-autocomplete-only="true"
-                                                            on-tag-added="onChipAdd($tag)"
-                                                            on-tag-removed="onChipDelete($tag)"
+                                                            on-tag-adding="onChipAddAttr($tag)"
+                                                            on-tag-removing="onChipDeleteAttr($tag)"
                                                             ng-disabled="" min-length="1">
-                                                    <auto-complete source="querySearch($query)"
+                                                    <auto-complete source="querySearchSkills($query)"
                                                                    load-on-empty="true"
                                                                    load-on-focus="true"
                                                                    min-length="1"></auto-complete>

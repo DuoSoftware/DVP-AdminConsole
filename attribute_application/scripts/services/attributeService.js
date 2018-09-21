@@ -90,6 +90,16 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getSkillsForUserGroup = function (groupId) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'UserGroupSkill/'+groupId
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
     var GroupsCount = function () {
 
         return $http({
@@ -116,6 +126,27 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'post',
             url: baseUrls.resourceServiceBaseUrl + 'Group',
             data: item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var addAttributeToUserGroup = function (item) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl + 'UserGroup/Skill',
+            data: item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var removeAttributeFromUserGroup = function (grpId, attrId) {
+
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl + 'UserGroup/' + grpId + '/Skill/' + attrId
         }).then(function (response) {
             return response.data;
         });
@@ -254,7 +285,10 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         getAttributeDetails:getAttributeDetails,
         getAllowedGroups: getAllowedGroups,
         getAllowedGroupsCount: getAllowedGroupsCount,
-        getGroupByName: getGroupByName
+        getGroupByName: getGroupByName,
+        addAttributeToUserGroup: addAttributeToUserGroup,
+        removeAttributeFromUserGroup: removeAttributeFromUserGroup,
+        getSkillsForUserGroup: getSkillsForUserGroup
     }
 
 });
