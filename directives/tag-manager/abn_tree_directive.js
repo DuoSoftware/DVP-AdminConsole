@@ -325,7 +325,7 @@
 
                       if(result.length>=1)
                       {
-                          scope.showAlert("Info", "Child Tags already loaded", "info");
+
                           return null;
                       }
 
