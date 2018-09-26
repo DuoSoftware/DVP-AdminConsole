@@ -84,6 +84,7 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
 
     $scope.childTreeGenerator = function (childTags, motherBranch) {
 
+
         for (var i = 0; i < childTags.length; i++) {
             $scope.loadTagDetails(childTags[i], function (error, tagResponse) {
                 if (error) {
@@ -140,14 +141,22 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
             }
             else
             {
-                if(resChild.tags.length == 0)
+                if(resChild && resChild.tags)
                 {
-                    $scope.showAlert("Info", "No children to load", "info");
+                    if( resChild.tags.length == 0)
+                    {
+                        $scope.showAlert("Info", "No children to load", "info");
+                    }
+                    else
+                    {
+                        $scope.childTreeGenerator(resChild.tags,selectedBranch);
+                    }
                 }
                 else
                 {
-                    $scope.childTreeGenerator(resChild.tags,selectedBranch);
+                    $scope.showAlert("Info", "Child Tags already loaded", "info");
                 }
+
 
             }
         });
@@ -580,6 +589,7 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
     return $scope.try_adding_a_branch = function (currentBranch, childDetails) {
 
         var parentBranch = tree.get_selected_branch();
+
 
         return tree.add_branch(currentBranch, {
             label: childDetails.name,
