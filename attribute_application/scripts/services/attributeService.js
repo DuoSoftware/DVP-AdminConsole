@@ -100,6 +100,17 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getSkillsForBusinessUnits = function (bUnits) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl + 'BusinessUnitSkills',
+            data: bUnits
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
     var GroupsCount = function () {
 
         return $http({
@@ -131,6 +142,17 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var addAttributeToBusinessUnit = function (item) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl + 'BusinessUnit/Skill',
+            data: item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
     var addAttributeToUserGroup = function (item) {
 
         return $http({
@@ -147,6 +169,16 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         return $http({
             method: 'delete',
             url: baseUrls.resourceServiceBaseUrl + 'UserGroup/' + grpId + '/Skill/' + attrId
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var removeAttributeFromBusinessUnit = function (buId, attrId) {
+
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl + 'BusinessUnit/' + buId + '/Skill/' + attrId
         }).then(function (response) {
             return response.data;
         });
@@ -288,7 +320,10 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         getGroupByName: getGroupByName,
         addAttributeToUserGroup: addAttributeToUserGroup,
         removeAttributeFromUserGroup: removeAttributeFromUserGroup,
-        getSkillsForUserGroup: getSkillsForUserGroup
+        getSkillsForUserGroup: getSkillsForUserGroup,
+        getSkillsForBusinessUnits: getSkillsForBusinessUnits,
+        addAttributeToBusinessUnit: addAttributeToBusinessUnit,
+        removeAttributeFromBusinessUnit: removeAttributeFromBusinessUnit
     }
 
 });

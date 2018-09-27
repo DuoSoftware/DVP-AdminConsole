@@ -2,7 +2,7 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService,$anchorScroll,userProfileApiAccess) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, attributeService, loginService,$anchorScroll,userProfileApiAccess) {
 
     $anchorScroll();
     $scope.scrlTabsApi = {};
@@ -1025,8 +1025,43 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.newBUnit = {};
     $scope.businessUnits = [];
     $scope.headUsers=[];
+    $scope.attribinfo=[];
     $scope.bUnitGroups={};
     $scope.userGroupList=[];
+
+    var getBUGroup = function()
+    {
+        attributeService.getGroupByName('Business Unit').then(function(response)
+        {
+            if(!response.data || !response.data.IsSuccess)
+            {
+                $scope.showAlert("Error", "error", "Error loading fixed group for business units");
+            }
+            else
+            {
+                if(response.data.Result)
+                {
+                    attributeService.GetAttributeByGroupId(response.data.Result.GroupId).then(function (response) {
+                        /*scope.attachedAttributes = response.ResAttribute;*/
+                        response.forEach(res => {
+                            if(res.ResAttribute)
+                            {
+                                res.ResAttribute.AttributeGroupId = res.AttributeGroupId;
+                                $scope.attribinfo.push(res.ResAttribute)
+                            }});
+                    }, function (error) {
+                        $log.debug("GetAttributeByGroupId err");
+                        $scope.showError("Error", "Error", "ok", "There is an error ");
+                    });
+                }
+                else
+                {
+                    $scope.attribinfo = [];
+                }
+            }
+        })
+    };
+    getBUGroup();
 
 
 
@@ -1060,7 +1095,6 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         }
 
     };
-
 
 
 
@@ -1116,9 +1150,36 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
         userProfileApiAccess.getBusinessUnitsWithGroups().then(function (resUnits) {
 
-            if(resUnits.IsSuccess)
+            if(resUnits.IsSuccess && resUnits.Result && resUnits.Result.length > 0)
             {
-                $scope.businessUnits=resUnits.Result;
+                var buIds = resUnits.Result.map(bu => bu._id);
+                attributeService.getSkillsForBusinessUnits(buIds).then(function(skillsList)
+                {
+                    if(skillsList.IsSuccess && skillsList.Result && skillsList.Result.length > 0)
+                    {
+                        skillsList.Result.forEach(skill => {
+                            resUnits.Result.forEach(bu => {
+                                if(bu._id === skill.BUId)
+                                {
+                                    if(!bu.skills)
+                                    {
+                                        bu.skills = [];
+                                    }
+
+                                    bu.skills.push(skill);
+                                }
+                            })
+                        })
+                    }
+
+
+                    $scope.businessUnits=resUnits.Result;
+
+                }).catch(function(err)
+                {
+
+                })
+
             }
             else
             {

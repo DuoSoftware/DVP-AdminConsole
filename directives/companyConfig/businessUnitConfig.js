@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 1/2/2018.
  */
-mainApp.directive("bisunit", function (userProfileApiAccess) {
+mainApp.directive("bisunit", function (userProfileApiAccess, attributeService) {
 
 
     return {
@@ -10,6 +10,7 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
             unit: "=",
             headusers:"=",
             groups:"=",
+            skills:"=",
             updateobjs:"="
         },
 
@@ -19,6 +20,27 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
 
             scope.editBUnit=false;
             scope.isHide=false;
+
+            scope.buSkills = [];
+
+
+            if(scope.unit.skills && scope.unit.skills.length > 0)
+            {
+                if(scope.skills && scope.skills.length > 0)
+                {
+                    scope.skills.filter(attr => {
+                        scope.unit.skills.forEach(sg => {
+                            if(sg.AttributeId === attr.AttributeId)
+                            {
+                                scope.buSkills.push(attr);
+                            }
+
+                        })
+                    });
+                }
+
+            }
+
 
             if(scope.unit.unitName.toUpperCase() == 'ALL' || scope.unit.unitName.toUpperCase() == 'DEFAULT')
             {
@@ -98,7 +120,7 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
             };
             scope.querySearchGroups = function (query) {
                 if (query === "*" || query === "") {
-                    if (scope.groups) {
+                    if (scope.attri) {
                         return scope.groups;
                     }
                     else {
@@ -112,6 +134,65 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
                 }
 
             };
+
+            scope.querySearchSkills = function (query) {
+                if (query === "*" || query === "") {
+                    if (scope.skills) {
+                        return scope.skills;
+                    }
+                    else {
+                        return [];
+                    }
+
+                }
+                else {
+                    var results = query ? scope.skills.filter(createFilterForGroups(query)) : [];
+                    return results;
+                }
+
+            };
+
+            scope.onChipAddBSkill = function (chip) {
+
+                var addObj = {
+                    BUId: scope.unit._id,
+                    UnitName: scope.unit.UnitName,
+                    AttributeId: chip.AttributeId,
+                    AttributeGroupId: chip.AttributeGroupId
+                };
+                attributeService.addAttributeToBusinessUnit(addObj).then(function (response) {
+                    if (response) {
+                        console.info("AddAttributeToBU : " + response);
+                        return true;
+                    }
+                    else {
+
+                        scope.showAlert("Error", "error", "Failed to save " + chip.Attribute);
+                        return false;
+                    }
+                }, function (error) {
+                    scope.showAlert("Error", "error", "Failed to save " + chip.Attribute);
+                    return false;
+                });
+            };
+
+            scope.onChipDeleteBSkill = function (chip) {
+
+                attributeService.removeAttributeFromBusinessUnit(scope.unit._id, chip.AttributeId).then(function (response) {
+                    if (response) {
+                        return true;
+                    }
+                    else {
+
+                        scope.showAlert("Error", "error", "Failed to save " + chip.Attribute);
+                        return false;
+                    }
+                }, function (error) {
+                    scope.showAlert("Error", "error", "Failed to save " + chip.Attribute);
+                    return false;
+                });
+            };
+
 
             scope.onChipAdd = function (group) {
 
