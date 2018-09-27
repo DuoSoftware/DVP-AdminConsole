@@ -18,7 +18,7 @@
             });
         };
 
-        var getAcwRecords = function(resourceId, pageNo, rowCount, startDate, endData, skill){
+        var getAcwRecords = function(resourceId, pageNo, rowCount, startDate, endData, skill, bu){
 
             var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/resource/'+resourceId+'/'+pageNo+'/'+rowCount+'?startDate='+startDate+'&endDate='+endData;
 
@@ -26,6 +26,13 @@
             {
                 url = url + '&skill='+skill;
             }
+
+            if(bu){
+
+                url = url + '&bu='+bu;
+
+            }
+
             return $http({
                 method: 'GET',
                 url: url,
@@ -37,7 +44,7 @@
             });
         };
 
-        var getAllAcwRecords = function(resourceId, startDate, endData, skill){
+        var getAllAcwRecords = function(resourceId, startDate, endData, skill, bu){
 
             var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/resource/'+resourceId+'/download?startDate='+startDate+'&endDate='+endData;
 
@@ -45,6 +52,12 @@
             {
                 url = url + '&skill='+skill;
             }
+
+            if(bu)
+            {
+                url = url + '&bu='+bu;
+            }
+
             return $http({
                 method: 'GET',
                 url: url,
@@ -68,13 +81,57 @@
             });
         };
 
-        var getAcwSummeryDetails = function(resourceId, startDate, endData, skill){
+        var getAcwSummeryDetails = function(resourceId, startDate, endData, skill, bu){
 
             var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/summery/resource/'+resourceId+'?startDate='+startDate+'&endDate='+endData;
 
             if(skill)
             {
                 url = url + '&skill='+skill;
+            }
+
+            if(bu){
+
+                url = url + '&bu='+bu;
+
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getRejectedSessionCount = function(resourceId, startDate, endData, bu){
+
+            var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/resource/'+resourceId+'/task/rejectCount?startDate='+startDate+'&endDate='+endData;
+            if(bu){
+
+                url = url + '&bu='+bu;
+
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getRejectedSessionDetails = function(resourceId, pageNo, rowCount, startDate, endData, bu){
+
+            var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/resource/'+resourceId+'/task/reject/'+pageNo+'/'+rowCount+'?startDate='+startDate+'&endDate='+endData;
+            if(bu){
+                url = url + '&bu='+bu;
             }
             return $http({
                 method: 'GET',
@@ -87,34 +144,15 @@
             });
         };
 
-        var getRejectedSessionCount = function(resourceId, startDate, endData){
-            return $http({
-                method: 'GET',
-                url: baseUrls.ardsmonitoringBaseUrl+'MONITORING/resource/'+resourceId+'/task/rejectCount?startDate='+startDate+'&endDate='+endData,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(function(response){
-                return response.data;
-            });
-        };
+        var prepareDownloadDetails = function(resourceId, startDate, endData, bu){
+            var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/resource/'+resourceId+'/task/reject/prepareForDownload?startDate='+startDate+'&endDate='+endData;
+            if(bu){
+                url = url + '&bu='+bu;
+            }
 
-        var getRejectedSessionDetails = function(resourceId, pageNo, rowCount, startDate, endData){
             return $http({
                 method: 'GET',
-                url: baseUrls.ardsmonitoringBaseUrl+'MONITORING/resource/'+resourceId+'/task/reject/'+pageNo+'/'+rowCount+'?startDate='+startDate+'&endDate='+endData,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(function(response){
-                return response.data;
-            });
-        };
-
-        var prepareDownloadDetails = function(resourceId, startDate, endData){
-            return $http({
-                method: 'GET',
-                url: baseUrls.ardsmonitoringBaseUrl+'MONITORING/resource/'+resourceId+'/task/reject/prepareForDownload?startDate='+startDate+'&endDate='+endData,
+                url: bu,
                 headers: {
                     'Content-Type': 'application/json'
                 }

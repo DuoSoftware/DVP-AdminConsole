@@ -6,7 +6,7 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var acwDetailController = function($scope, $state, $timeout, acwDetailApiAccess, resourceService, cdrApiHandler, loginService, filterDateRangeValidation) {
+    var acwDetailController = function($scope, $state, $timeout, acwDetailApiAccess, resourceService, cdrApiHandler, loginService, filterDateRangeValidation, ShareData) {
 
         $scope.pagination = {
             currentPage : 1
@@ -131,7 +131,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.getAllAcwRecords($scope.obj.resourceId, startDate, endDate, $scope.skillFilter).then(function(response){
+            acwDetailApiAccess.getAllAcwRecords($scope.obj.resourceId, startDate, endDate, $scope.skillFilter,ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     var downloadFilename = response.Result;
@@ -233,7 +233,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetAcwSummeryDetails($scope.obj.resourceId, startDate, endDate, $scope.skillFilter).then(function(response){
+            acwDetailApiAccess.GetAcwSummeryDetails($scope.obj.resourceId, startDate, endDate, $scope.skillFilter,ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     if(response.Result) {
@@ -283,7 +283,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.pagination.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter).then(function(response){
+            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.pagination.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter, ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     $scope.showTable = true;
@@ -291,7 +291,28 @@
                     /*$scope.acwRecords = response.Result;*/
                     var sessionIds = [];
                     $scope.obj.isTableLoading = 1;
+
+
                     if($scope.allAcwRecords && $scope.allAcwRecords.length > 0){
+
+
+                        // $scope.allAcwRecords.forEach(function(record){
+                        //
+                        //     if($scope.resourceDetails) {
+                        //         var resourceObj = $scope.resourceDetails.filter(function(resource){
+                        //             return resource.ResourceId == record.ResourceId;
+                        //         })
+                        //
+                        //         if(Array.isArray(resourceObj) && resourceObj.length > 0){
+                        //
+                        //             record.ResourceName = resourceObj[0].ResourceName;
+                        //
+                        //         }
+                        //     }
+                        //
+                        //
+                        //
+                        // });
 
 
                         if($scope.allAcwRecords.length < $scope.pageSize){
