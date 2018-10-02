@@ -163,6 +163,32 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
+    
+    var getUserAppMeta = function (user) {
+        return $http({
+            method: 'get',
+            url: baseUrls.UserServiceBaseUrl + "Users/"+user+"/AppMeta/",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var updateUserAppMeta = function(user, AppMetaData){
+        return $http({
+            method: 'put',
+            url: baseUrls.UserServiceBaseUrl + "Users/"+user+"/AppMeta/",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: AppMetaData
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
     return {
         GetUserList: getUserList,
         AddConsoleToUser: addConsoleToUser,
@@ -174,7 +200,9 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         GetUserAssignableScope: getUserAssignableScope,
         GetUserAssignedScope: getUserAssignedScope,
         AssignScopeToUser:assignScopeToUser,
-        RemoveAssignedScope:removeAssignedScope
+        RemoveAssignedScope:removeAssignedScope,
+        GetUserAppMeta: getUserAppMeta,
+        UpdateUserAppMeta: updateUserAppMeta
     }
 
 });
