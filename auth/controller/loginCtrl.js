@@ -51,8 +51,6 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
         para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
 
-
-
         $scope.isSocialMedia = true;
         $auth.authenticate(provider, para)
             .then(function () {

@@ -526,12 +526,21 @@
             });
         };
 
-        var getCallSummaryForQueueByHr = function (date, skill, hr, tz) {
-            var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill + '&hour=' + hr;
+        var getCallSummaryForQueueByHr = function (date, skill, hr, tz,businessUnit) {
+            var qData = [];
+            qData['businessunit'] = businessUnit;
+            qData['date'] = date;
+            qData['tz'] = tz;
+            qData['skill'] = skill;
+            qData['hour'] = hr;
+
+            //var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill + '&hour=' + hr;
+            var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly';
 
             return $http({
                 method: 'GET',
-                url: url
+                url: url,
+                params: qData
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
@@ -539,17 +548,25 @@
             });
         };
 
-        var getCallSummaryForQueueHrDownload = function (date, skills, tz, fileType) {
-            var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly/Download?date=' + date + '&tz=' + tz;
+        var getCallSummaryForQueueHrDownload = function (date, skills, tz, fileType,businessUnit) {
+
+            var qData = [];
+            qData['businessunit'] = businessUnit;
+            qData['date'] = date;
+            qData['tz'] = tz;
+
+            //var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly/Download?date=' + date + '&tz=' + tz;
+            var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly/Download';
 
             if (fileType) {
-                url = url + '&fileType=' + fileType;
+                qData['fileType'] = fileType;
             }
 
             return $http({
                 method: 'POST',
                 url: url,
-                data: JSON.stringify({skills: skills})
+                data: JSON.stringify({skills: skills}),
+                params: qData
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {

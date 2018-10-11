@@ -135,7 +135,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.veeryNotification = function () {
         /*veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);*/
 
-        subscribeServices.connectSubscribeServer(function (isConnected) {
+        subscribeServices.connectSubscribeServer('main_ctrl',function (isConnected) {
 
             if (isConnected) {
                 $scope.agentAuthenticated();
@@ -148,8 +148,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.veeryNotification();
 
     $scope.socketReconnect = function () {
-        subscribeServices.connectSubscribeServer(function (isConnected) {
-
+        subscribeServices.connectSubscribeServer("main_ctrl", function (isConnected) {
             if (isConnected) {
                 $scope.agentAuthenticated();
             } else {
@@ -979,6 +978,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         subscribeServices.unSubscribeDashboard('main');
         subscribeServices.UnSubscribeCallStatus('main');
         subscribeServices.UnSubscribeStatus('main');
+        subscribeServices.removeSubscribeServer('main_ctrl');
 
     });
 
