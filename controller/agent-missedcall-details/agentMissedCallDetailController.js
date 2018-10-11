@@ -5,7 +5,7 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls, $anchorScroll, filterDateRangeValidation) {
+    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls, $anchorScroll, filterDateRangeValidation, ShareData) {
 
         $anchorScroll();
         $scope.pageSize = 10;
@@ -146,7 +146,7 @@
                 var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
                 var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-                acwDetailApiAccess.PrepareDownloadDetails($scope.obj.resourceId, startDate, endDate).then(function(response){
+                acwDetailApiAccess.PrepareDownloadDetails($scope.obj.resourceId, startDate, endDate, ShareData.BusinessUnit).then(function(response){
                     if(response.IsSuccess){
 
                         var downloadFilename = response.Result;
@@ -217,7 +217,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetRejectedSessionCount($scope.obj.resourceId, startDate, endDate).then(function(response){
+            acwDetailApiAccess.GetRejectedSessionCount($scope.obj.resourceId, startDate, endDate, ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     if(response.Result) {
@@ -259,7 +259,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetRejectedSessionDetails($scope.obj.resourceId, $scope.currentPage, $scope.pageSize, startDate, endDate).then(function(response){
+            acwDetailApiAccess.GetRejectedSessionDetails($scope.obj.resourceId, $scope.currentPage, $scope.pageSize, startDate, endDate, ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     $scope.missedCallRecords = response.Result;

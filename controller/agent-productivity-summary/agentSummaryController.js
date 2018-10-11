@@ -5,7 +5,7 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll,uiGridConstants, filterDateRangeValidation ) {
+mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll,uiGridConstants, filterDateRangeValidation,ShareData ) {
 
     $anchorScroll();
     $scope.startDate = moment().format("YYYY-MM-DD");
@@ -166,7 +166,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         var queryStartDate = $scope.startDate + ' 00:00:00' + momentTz;
         var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
 
-        agentSummaryBackendService.getAgentSummary(queryStartDate, queryEndDate, resId).then(function (response) {
+        agentSummaryBackendService.getAgentSummary(queryStartDate, queryEndDate, resId, ShareData.BusinessUnit).then(function (response) {
 
 
             if (!response.data.IsSuccess) {
@@ -210,34 +210,15 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                     // main objects
 
                     for (var j = 0; j < summaryData[i].Summary.length; j++) {
+
                         totalStaffTime = totalStaffTime + summaryData[i].Summary[j].StaffTime;
                         totalInboundTime = totalInboundTime + summaryData[i].Summary[j].InboundTime;
                         totalOutboundTime = totalOutboundTime + summaryData[i].Summary[j].OutboundTime;
                         totalInboundIdleTime = totalInboundIdleTime + summaryData[i].Summary[j].IdleTimeInbound;
                         totalOutboundIdleTime = totalOutboundIdleTime + summaryData[i].Summary[j].IdleTimeOutbound;
                         totalOfflineIdleTime = totalOfflineIdleTime + summaryData[i].Summary[j].IdleTimeOffline;
-                        totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
-                        totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
-                        totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
-                        totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
-                        totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
-                        totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
-                        totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
-                        totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
-                        totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
-                        totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
                         totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
-                        totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
-                        totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
-                        totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
-                        MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
-                        totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
-                        totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
-                        totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
-                        totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
-                        totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
 
-                        count++;
 
                         summaryData[i].Summary[j].StaffTime = TimeFromatter(summaryData[i].Summary[j].StaffTime, "HH:mm:ss");
                         summaryData[i].Summary[j].LoginTime = moment(summaryData[i].Summary[j].LoginTime).format("YYYY-MM-DD HH:mm:ss");
@@ -246,21 +227,176 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         summaryData[i].Summary[j].IdleTimeInbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeInbound, "HH:mm:ss");
                         summaryData[i].Summary[j].IdleTimeOutbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeOutbound, "HH:mm:ss");
                         summaryData[i].Summary[j].IdleTimeOffline = TimeFromatter(summaryData[i].Summary[j].IdleTimeOffline, "HH:mm:ss");
-                        summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime = TimeFromatter(summaryData[i].Summary[j].BreakTime, "HH:mm:ss");
 
+                        if(ShareData.BusinessUnit && ShareData.BusinessUnit.toLowerCase() != "all") {
 
+                            if (summaryData[i].Summary[j] && summaryData[i].Summary[j][ShareData.BusinessUnit]) {
+
+                                totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeInbound;
+                                totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeOutbound;
+                                totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeInbound;
+                                totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeOutbound;
+                                totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeInbound;
+                                totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeOutbound;
+                                totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeInbound;
+                                totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeOutbound;
+                                totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeInbound;
+                                totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeOutbound;
+                                totalAnswered = totalAnswered + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnswered;
+                                totalCallsInb = totalCallsInb + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsInbound;
+                                totalCallsOut = totalCallsOut + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsOutbound;
+                                MissCallCount = MissCallCount + summaryData[i].Summary[j][ShareData.BusinessUnit].MissCallCount;
+                                totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnsweredOutbound;
+                                totalInboundHold = totalInboundHold + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldInbound;
+                                totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldOutbound;
+                                totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeInbound;
+                                totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeOutbound;
+
+
+                                summaryData[i].Summary[j].TotalAnswered = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnswered;
+                                summaryData[i].Summary[j].TotalAnsweredOutbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnsweredOutbound;
+                                summaryData[i].Summary[j].TotalCallsInbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsInbound;
+                                summaryData[i].Summary[j].TotalCallsOutbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsOutbound;
+                                summaryData[i].Summary[j].TotalHoldInbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldInbound;
+                                summaryData[i].Summary[j].TotalHoldOutbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldOutbound;
+
+
+
+                                summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeOutbound, "HH:mm:ss");
+
+                            }else{
+
+
+                                totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
+                                totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
+                                totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
+                                totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
+                                totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
+                                totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
+                                totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
+                                totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
+                                totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
+                                totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
+                                totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
+                                totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
+                                totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
+                                totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                                MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
+                                totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
+                                totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
+                                totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
+                                totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
+                                totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+
+                                summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
+
+                            }
+                        }else {
+
+
+                            totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
+                            totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
+                            totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
+                            totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
+                            totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
+                            totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
+                            totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
+                            totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
+                            totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
+                            totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
+                            totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
+                            totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
+                            totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
+                            totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                            MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
+                            totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
+                            totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
+                            totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
+                            totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
+                            totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+
+                            summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
+
+
+                        }
+
+
+                        // totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
+                        // totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
+                        // totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
+                        // totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
+                        // totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
+                        // totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
+                        // totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
+                        // totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
+                        // totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
+                        // totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
+                        // totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
+                        // totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
+                        // totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
+                        // totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                        // MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
+                        // totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
+                        // totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
+                        // totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
+                        // totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
+                        // totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+                        // summaryData[i].Summary[j].StaffTime = TimeFromatter(summaryData[i].Summary[j].StaffTime, "HH:mm:ss");
+                        // summaryData[i].Summary[j].LoginTime = moment(summaryData[i].Summary[j].LoginTime).format("YYYY-MM-DD HH:mm:ss");
+                        // summaryData[i].Summary[j].InboundTime = TimeFromatter(summaryData[i].Summary[j].InboundTime, "HH:mm:ss");
+                        // summaryData[i].Summary[j].OutboundTime = TimeFromatter(summaryData[i].Summary[j].OutboundTime, "HH:mm:ss");
+                        // summaryData[i].Summary[j].IdleTimeInbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].IdleTimeOutbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].IdleTimeOffline = TimeFromatter(summaryData[i].Summary[j].IdleTimeOffline, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].BreakTime = TimeFromatter(summaryData[i].Summary[j].BreakTime, "HH:mm:ss");
+
+                        count++;
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
 
                     }
@@ -383,34 +519,17 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                     // main objects
 
                     for (var j = 0; j < summaryData[i].Summary.length; j++) {
+
+
+
                         totalStaffTime = totalStaffTime + summaryData[i].Summary[j].StaffTime;
                         totalInboundTime = totalInboundTime + summaryData[i].Summary[j].InboundTime;
                         totalOutboundTime = totalOutboundTime + summaryData[i].Summary[j].OutboundTime;
                         totalInboundIdleTime = totalInboundIdleTime + summaryData[i].Summary[j].IdleTimeInbound;
                         totalOutboundIdleTime = totalOutboundIdleTime + summaryData[i].Summary[j].IdleTimeOutbound;
                         totalOfflineIdleTime = totalOfflineIdleTime + summaryData[i].Summary[j].IdleTimeOffline;
-                        totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
-                        totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
-                        totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
-                        totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
-                        totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
-                        totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
-                        totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
-                        totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
-                        totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
-                        totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
                         totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
-                        totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
-                        totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
-                        totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
-                        totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
-                        MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
-                        totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
-                        totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
-                        totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
-                        totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
 
-                        count++;
 
                         summaryData[i].Summary[j].StaffTime = TimeFromatter(summaryData[i].Summary[j].StaffTime, "HH:mm:ss");
                         summaryData[i].Summary[j].LoginTime = moment(summaryData[i].Summary[j].LoginTime).format("YYYY-MM-DD HH:mm:ss");
@@ -419,22 +538,190 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         summaryData[i].Summary[j].IdleTimeInbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeInbound, "HH:mm:ss");
                         summaryData[i].Summary[j].IdleTimeOutbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeOutbound, "HH:mm:ss");
                         summaryData[i].Summary[j].IdleTimeOffline = TimeFromatter(summaryData[i].Summary[j].IdleTimeOffline, "HH:mm:ss");
-                        summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
-                        summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime = TimeFromatter(summaryData[i].Summary[j].BreakTime, "HH:mm:ss");
 
+                        if(ShareData.BusinessUnit && ShareData.BusinessUnit.toLowerCase() != "all") {
 
+                            if (summaryData[i].Summary[j] && summaryData[i].Summary[j][ShareData.BusinessUnit]) {
+
+                                totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeInbound;
+                                totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeOutbound;
+                                totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeInbound;
+                                totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeOutbound;
+                                totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeInbound;
+                                totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeOutbound;
+                                totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeInbound;
+                                totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeOutbound;
+                                totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeInbound;
+                                totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeOutbound;
+                                totalAnswered = totalAnswered + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnswered;
+                                totalCallsInb = totalCallsInb + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsInbound;
+                                totalCallsOut = totalCallsOut + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsOutbound;
+                                MissCallCount = MissCallCount + summaryData[i].Summary[j][ShareData.BusinessUnit].MissCallCount;
+                                totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnsweredOutbound;
+                                totalInboundHold = totalInboundHold + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldInbound;
+                                totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldOutbound;
+                                totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeInbound;
+                                totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeOutbound;
+
+
+                                summaryData[i].Summary[j].TotalAnswered = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnswered;
+                                summaryData[i].Summary[j].TotalAnsweredOutbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalAnsweredOutbound;
+                                summaryData[i].Summary[j].TotalCallsInbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsInbound;
+                                summaryData[i].Summary[j].TotalCallsOutbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalCallsOutbound;
+                                summaryData[i].Summary[j].TotalHoldInbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldInbound;
+                                summaryData[i].Summary[j].TotalHoldOutbound = summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldOutbound;
+
+
+
+                                summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AfterWorkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AverageHandlingTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgTalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].TotalHoldTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j][ShareData.BusinessUnit].AvgHoldTimeOutbound, "HH:mm:ss");
+
+                            }else{
+
+
+                                totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
+                                totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
+                                totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
+                                totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
+                                totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
+                                totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
+                                totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
+                                totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
+                                totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
+                                totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
+                                totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
+                                totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
+                                totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
+                                totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                                MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
+                                totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
+                                totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
+                                totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
+                                totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
+                                totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+
+                                summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
+                                summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
+
+                            }
+                        }else {
+
+
+                            totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
+                            totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
+                            totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
+                            totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
+                            totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
+                            totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
+                            totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
+                            totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
+                            totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
+                            totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
+                            totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
+                            totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
+                            totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
+                            totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                            MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
+                            totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
+                            totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
+                            totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
+                            totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
+                            totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+
+                            summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
+                            summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
+
+
+                        }
+
+                        count++;
                         agentSummaryList.push(summaryData[i].Summary[j]);
+
+
+                        // totalStaffTime = totalStaffTime + summaryData[i].Summary[j].StaffTime;
+                        // totalInboundTime = totalInboundTime + summaryData[i].Summary[j].InboundTime;
+                        // totalOutboundTime = totalOutboundTime + summaryData[i].Summary[j].OutboundTime;
+                        // totalInboundIdleTime = totalInboundIdleTime + summaryData[i].Summary[j].IdleTimeInbound;
+                        // totalOutboundIdleTime = totalOutboundIdleTime + summaryData[i].Summary[j].IdleTimeOutbound;
+                        // totalOfflineIdleTime = totalOfflineIdleTime + summaryData[i].Summary[j].IdleTimeOffline;
+                        // totalInboundAfterWorkTime = totalInboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeInbound;
+                        // totalOutboundAfterWorkTime = totalOutboundAfterWorkTime + summaryData[i].Summary[j].AfterWorkTimeOutbound;
+                        // totalInboundAverageHandlingTime = totalInboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeInbound;
+                        // totalOutboundAverageHandlingTime = totalOutboundAverageHandlingTime + summaryData[i].Summary[j].AverageHandlingTimeOutbound;
+                        // totalInboundAverageTalkTime = totalInboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeInbound;
+                        // totalOutboundAverageTalkTime = totalOutboundAverageTalkTime + summaryData[i].Summary[j].AvgTalkTimeOutbound;
+                        // totalInboundTalkTime = totalInboundTalkTime + summaryData[i].Summary[j].TalkTimeInbound;
+                        // totalOutboundTalkTime = totalOutboundTalkTime + summaryData[i].Summary[j].TalkTimeOutbound;
+                        // totalInboundHoldTime = totalInboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeInbound;
+                        // totalOutboundHoldTime = totalOutboundHoldTime + summaryData[i].Summary[j].TotalHoldTimeOutbound;
+                        // totalBreakTime = totalBreakTime + summaryData[i].Summary[j].BreakTime;
+                        // totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
+                        // totalOutboundAnswered = totalOutboundAnswered + summaryData[i].Summary[j].TotalAnsweredOutbound;
+                        // totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCallsInbound;
+                        // totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+                        // MissCallCount = MissCallCount + summaryData[i].Summary[j].MissCallCount;
+                        // totalInboundHold = totalInboundHold + summaryData[i].Summary[j].TotalHoldInbound;
+                        // totalOutboundHold = totalOutboundHold + summaryData[i].Summary[j].TotalHoldOutbound;
+                        // totalInboundAvgHoldTime = totalInboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeInbound;
+                        // totalOutboundAvgHoldTime = totalOutboundAvgHoldTime + summaryData[i].Summary[j].AvgHoldTimeOutbound;
+                        //
+                        // count++;
+                        //
+                        // summaryData[i].Summary[j].StaffTime = TimeFromatter(summaryData[i].Summary[j].StaffTime, "HH:mm:ss");
+                        // summaryData[i].Summary[j].LoginTime = moment(summaryData[i].Summary[j].LoginTime).format("YYYY-MM-DD HH:mm:ss");
+                        // summaryData[i].Summary[j].InboundTime = TimeFromatter(summaryData[i].Summary[j].InboundTime, "HH:mm:ss");
+                        // summaryData[i].Summary[j].OutboundTime = TimeFromatter(summaryData[i].Summary[j].OutboundTime, "HH:mm:ss");
+                        // summaryData[i].Summary[j].IdleTimeInbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].IdleTimeOutbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].IdleTimeOffline = TimeFromatter(summaryData[i].Summary[j].IdleTimeOffline, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AfterWorkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AfterWorkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AfterWorkTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AverageHandlingTimeInbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AverageHandlingTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AverageHandlingTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgTalkTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgTalkTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgTalkTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TotalHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].TotalHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].TotalHoldTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgHoldTimeInbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeInbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].AvgHoldTimeOutbound = TimeFromatter(summaryData[i].Summary[j].AvgHoldTimeOutbound, "HH:mm:ss");
+                        // summaryData[i].Summary[j].BreakTime = TimeFromatter(summaryData[i].Summary[j].BreakTime, "HH:mm:ss");
+                        //
+                        //
+                        // agentSummaryList.push(summaryData[i].Summary[j]);
+
                     }
                 }
 
