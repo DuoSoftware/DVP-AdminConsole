@@ -19,7 +19,7 @@ window.SE = function (e) {
 
         var r = v(e, "serverUrl");
         callBack = v(e, "callBackEvents");
-        socket = io(r);
+        socket = io(r,{'forceNew':true });
 
         socket.on('connect', function () {
 
