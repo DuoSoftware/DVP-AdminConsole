@@ -115,7 +115,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
 
     };
 
-    subscribeServices.connectSubscribeServer('dashboard_socket',function (isConnected) {
+    subscribeServices.SubscribeConnection('dashboard_socket',function (isConnected) {
         if (isConnected) {
             $('#dashbooad_info').removeClass('blur-filter');
             $('#dashbooad_info_error').addClass('display-none');
@@ -737,7 +737,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
 
         //subscribeServices.unsubscribe('dashoboard');
         subscribeServices.unSubscribeDashboard('dashboard');
-        subscribeServices.removeSubscribeServer('dashboard_socket');
+        subscribeServices.UnSubscribeConnection('dashboard_socket');
 
     });
 

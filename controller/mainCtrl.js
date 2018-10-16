@@ -132,30 +132,25 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     };
 
 
-    $scope.veeryNotification = function () {
-        /*veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);*/
-
-        subscribeServices.connectSubscribeServer('main_ctrl',function (isConnected) {
-
+    $scope.SubscribeConnection = function () {
+        subscribeServices.SubscribeConnection("main_ctrl", function (isConnected) {
             if (isConnected) {
                 $scope.agentAuthenticated();
             } else {
                 $scope.agentDisconnected();
             }
         });
+    };
+    $scope.veeryNotification = function () {
+        /*veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);*/
+
+        subscribeServices.Connect();
+        $scope.SubscribeConnection();
     };
 
     $scope.veeryNotification();
 
-    $scope.socketReconnect = function () {
-        subscribeServices.connectSubscribeServer("main_ctrl", function (isConnected) {
-            if (isConnected) {
-                $scope.agentAuthenticated();
-            } else {
-                $scope.agentDisconnected();
-            }
-        });
-    };
+
 
 
     $scope.checkAndRegister = function () {
@@ -165,7 +160,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $('#regNotification').addClass('display-none').removeClass('display-block');
             $('#regNotificationLoading').addClass('display-block').removeClass('display-none');
             $scope.isLoadingNotifiReg = true;
-            $scope.socketReconnect();
+            $scope.veeryNotification();
         }
 
     };
@@ -421,7 +416,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     $scope.isLogged = false;
                     $rootScope.freshUser = false;
                     $state.go('login');
-                    SE.disconnect();
+                    subscribeServices.Disconnect();
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {
 
@@ -978,8 +973,8 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         subscribeServices.unSubscribeDashboard('main');
         subscribeServices.UnSubscribeCallStatus('main');
         subscribeServices.UnSubscribeStatus('main');
-        subscribeServices.removeSubscribeServer('main_ctrl');
-
+        subscribeServices.UnSubscribeConnection('main_ctrl');
+        subscribeServices.Disconnect();
     });
 
     var onCallDisconnected = function () {

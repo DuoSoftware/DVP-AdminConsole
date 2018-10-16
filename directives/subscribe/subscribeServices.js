@@ -131,14 +131,20 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
 
     //********  subscribe function ********//
-    var connect = function (name,callbck) {
-        connectionSubscribers[name] = callbck;
+    var connect = function () {
         SE.init({
             serverUrl: baseUrls.ipMessageURL,
             callBackEvents: callBackEvents
         });
     };
-    var Unconnect = function (name) {
+    var disconnect = function () {
+        SE.disconnect();
+    };
+    var subscribeConnection = function (name,callbck) {
+        connectionSubscribers[name] = callbck;
+
+    };
+    var unSubscribeConnection = function (name) {
         delete connectionSubscribers[name];
 
     };
@@ -230,10 +236,14 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
         });
     };
 
+
+
     return {
+        Disconnect:disconnect,
         Request: request,
-        connectSubscribeServer: connect,
-        removeSubscribeServer: Unconnect,
+        Connect: connect,
+        SubscribeConnection:subscribeConnection,
+        UnSubscribeConnection: unSubscribeConnection,
         subscribeDashboard: subscribeDashboard,
         unSubscribeDashboard: unSubscribeDashboard,
         unsubscribe: unsubscribe,
