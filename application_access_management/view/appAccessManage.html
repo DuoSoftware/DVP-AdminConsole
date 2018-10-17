@@ -105,8 +105,25 @@
                                     user-name="{{selectedUser}}"
                                     console-name="{{DragObject.consoleName}}"
                                     navigation="item"
-                                    ng-repeat="item in selectedConsole.consoleNavigation">
+                                    ng-repeat="item in selectedConsole.consoleNavigation"
+                                    update-action="updateNavigation">
                             </navigationtree>
+                        </div>
+
+                        <div class="row" ng-if="showSharedResources">
+                            <h2 class="font-robot font-300 text-uppercase font-15">SShared Resources / Templates</h2>
+                            <div class="x_content">
+                                <navigationtree
+                                    selected-console="selectedConsole"
+                                    user-name="{{selectedUser}}"
+                                    console-name="{{DragObject.consoleName}}"
+                                    owner-app-meta="owner_app_meta"
+                                    tree-type="SharedResource"
+                                    update-action="updateSharedResources">
+                                </navigationtree>
+                            </div>
+                            
+                            
                         </div>
                     </div>
                 </div>

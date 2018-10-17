@@ -147,9 +147,12 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
     $scope.showEditWindow = false;
     $scope.selectedConsole = {};
+    $scope.showSharedResources = false;
+
     $scope.showEditView = function (item) {
         $scope.selectedConsole = item;
         $scope.showEditWindow = true;
+        $scope.showSharedResources = ($scope.selectedConsole.consoleName in $scope.owner_app_meta.sharedResources);
     };
 
     $scope.selectedUser = {};
@@ -228,6 +231,27 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
     };
     $scope.getOwnerName();
     $scope.userName = $stateParams.username;
+
+    //get user's app meta..
+    $scope.owner_app_meta = {};
+
+    $scope.getUserAppMeta = function(user){
+        appAccessManageService.GetUserAppMeta(user).then(function (response) {
+            $scope.owner_app_meta = response.Result;
+            $scope.setSelectedUserMeta();
+        }, function (error) {
+            $scope.showError("Error", "Error", "ok", "Failed To Get User App meta.");
+        });
+    };
+
+    $scope.setSelectedUserMeta = function(){
+        appAccessManageService.GetUserAppMeta($scope.selectedUser).then(function (response) {
+            $scope.owner_app_meta['selectedUserMeta'] = response.Result;
+        }, function (error) {
+            $scope.showError("Error", "Error", "ok", "Failed To Get User App meta.");
+        });
+    };
+    $scope.getUserAppMeta($scope.ownerName);
 });
 
 
