@@ -61,8 +61,13 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                                 var checkedGroup= scope.groups.map(function (group) {
                                     if(group.GroupName==scope.ards.AttributeMeta[i].AttributeGroupName)
                                     {
-                                        scope.attributeGroups.push(group);
-                                        scope.NewattributeGroups.push(group);
+                                        //scope.attributeGroups[]
+
+                                        scope.attributeGroups.indexOf(group) === -1 ? scope.attributeGroups.push(group) : console.log("Duplicate");
+                                        scope.NewattributeGroups.indexOf(group) === -1 ? scope.NewattributeGroups.push(group) : console.log("Duplicate");
+
+                                        //scope.attributeGroups.push(group);
+                                        //scope.NewattributeGroups.push(group);
                                     }
                                 });
 
