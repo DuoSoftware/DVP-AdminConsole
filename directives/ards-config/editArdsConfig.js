@@ -49,6 +49,10 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                 });
             };
             scope.LoadGroups = function () {
+
+                scope.attributeGroups=[];
+                scope.NewattributeGroups=[];
+
                 ardsBackendService.getGroups().then(function (response) {
                     if(response.data.IsSuccess)
                     {
@@ -58,7 +62,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                         {
                             for(var i=0;i<scope.ards.AttributeMeta.length;i++)
                             {
-                                var checkedGroup= scope.groups.map(function (group) {
+                                scope.groups.forEach(function (group) {
                                     if(group.GroupName==scope.ards.AttributeMeta[i].AttributeGroupName)
                                     {
                                         //scope.attributeGroups[]
@@ -125,7 +129,8 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
 
 
             scope.onChipAdd = function (chip) {
-                scope.NewattributeGroups.push(chip);
+
+                scope.NewattributeGroups.indexOf(chip) === -1 ? scope.NewattributeGroups.push(chip) : console.log("Duplicate");
                 console.log("add attGroup "+scope.NewattributeGroups);
 
             };
@@ -215,14 +220,16 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     if(response.data.IsSuccess)
                     {
                         console.log("Updated");
+                        scope.showAlert("Success", "Updation ARDS success ","success");
                         scope.editMode = !scope.editMode;
                     }
                     else
                     {
+                        scope.showAlert("Error", "Updation ARDS error ","error");
                         console.log("Updation error "+response.data);
                     }
                 }, function (error) {
-
+                    scope.showAlert("Error", "Updation ARDS Exception ","error");
                     console.log("Updation Exception ",error);
                 })
 
