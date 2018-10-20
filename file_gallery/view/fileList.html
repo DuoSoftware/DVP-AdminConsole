@@ -164,7 +164,7 @@
 
                     <div class="row" ng-hide="isLoading">
 
-                        <div class="col-md-55" ng-repeat="file in files | filter:txtSearch">
+                        <div class="col-md-55" ng-repeat="file in files | filter:txtSearch| orderBy:'-createdAt'">
                             <div class="thumbnail">
                                 <div class="image view view-first">
 

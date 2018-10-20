@@ -184,10 +184,10 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     });
   };
 
-  var searchFilesWithCategories = function (startTime,endTime,categories) {
+  var searchFilesWithCategories = function (startTime,endTime,categories,pageSize,pageNo) {
     return $http({
       method: 'post',
-      url: baseUrls.fileServiceUrl+ 'FileInfo/ByCategoryList',
+      url: baseUrls.fileServiceUrl+ "FileInfo/ByCategoryList/"+pageSize+"/"+pageNo,
       // params: [{startDateTime: startTime},{endDateTime:endTime}],
         params: {startDateTime: startTime, endDateTime:endTime},
         data:categories
@@ -195,6 +195,17 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       return response.data.Result;
     });
   };
+
+    var getFileCountByCategory = function (categories,startTime,endTime) {
+        return $http({
+            method: 'POST',
+            url: baseUrls.fileServiceUrl+ "FileInfo/ByCategoryList/count",
+            params: {startDateTime: startTime, endDateTime:endTime},
+            data:categories
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
 
   var getFilesCategoryID = function (categoryId,pageSize,pageNo) {
     return $http({
@@ -268,6 +279,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     GetCatagories: getCatagories,
     GetFilesCategoryID:getFilesCategoryID,
     GetFileCountCategoryID:getFileCountCategoryID,
+    GetFileCountByCategory:getFileCountByCategory,
     GetFilesByCategoryName:getFilesByCategoryName,
     playEncryptedFile:playEncryptedFile,
     downloadLatestFile:downloadLatestFile,
