@@ -231,8 +231,12 @@
                                      data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=selectedAttributes])'}"
                                      jqyoui-droppable="{multiple:false, onDrop: 'assignAttributeToTask'}">
                                     <div class="caption">
+                                        <!--.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .-->
+                                        <!--    ng-dblclick="deleteAttributeAssignToTask(item)"     -->
+                                        <!-- Removed from below directive as per the QA requirement-->
+                                        <!--.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .-->
+
                                         <resourceskill class="resource-skill"
-                                                       ng-dblclick="deleteAttributeAssignToTask(item)"
                                                        ng-click="curentDragAttribute(item)"
                                                        ng-repeat="item in selectedAttributes" ng-show="item.Attribute"
                                                        data-drag="{{draggable}}"
