@@ -133,6 +133,14 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
             });
 
 
+            // Kasun_Wijeratne_23_OCT_2018
+            scope.attrEditOn = false;
+            scope.initAttributeEdit = function () {
+                scope.attrEditOn = !scope.attrEditOn;
+            };
+            // END - Kasun_Wijeratne_23_OCT_2018
+
+
         }
 
     }
