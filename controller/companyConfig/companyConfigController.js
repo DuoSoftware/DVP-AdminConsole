@@ -1029,7 +1029,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.bUnitGroups={};
     $scope.userGroupList=[];
 
-    var getBUGroup = function()
+    /*var getBUGroup = function()
     {
         attributeService.getGroupByName('Business Unit').then(function(response)
         {
@@ -1042,7 +1042,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 if(response.data.Result)
                 {
                     attributeService.GetAttributeByGroupId(response.data.Result.GroupId).then(function (response) {
-                        /*scope.attachedAttributes = response.ResAttribute;*/
+                        /!*scope.attachedAttributes = response.ResAttribute;*!/
                         response.forEach(res => {
                             if(res.ResAttribute)
                             {
@@ -1061,7 +1061,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             }
         })
     };
-    getBUGroup();
+    getBUGroup();*/
 
 
 
@@ -1150,7 +1150,11 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
         userProfileApiAccess.getBusinessUnitsWithGroups().then(function (resUnits) {
 
-            if(resUnits.IsSuccess && resUnits.Result && resUnits.Result.length > 0)
+            if(resUnits.IsSuccess)
+            {
+                $scope.businessUnits=resUnits.Result;
+            }
+            /*if(resUnits.IsSuccess && resUnits.Result && resUnits.Result.length > 0)
             {
                 var buIds = resUnits.Result.map(bu => bu._id);
                 attributeService.getSkillsForBusinessUnits(buIds).then(function(skillsList)
@@ -1180,7 +1184,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
                 })
 
-            }
+            }*/
             else
             {
                 $scope.showAlert('Business Unit', 'No Business Units found', 'info');

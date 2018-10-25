@@ -192,7 +192,7 @@
             $state.go('console.applicationAccessManager', {username: item.username, role: item.user_meta.role});
         };
 
-        var getUserGrpGroup = function()
+        /*var getUserGrpGroup = function()
         {
             attributeService.getGroupByName('User Group').then(function(response)
             {
@@ -206,7 +206,7 @@
                     if(response.data.Result)
                     {
                         attributeService.GetAttributeByGroupId(response.data.Result.GroupId).then(function (response) {
-                            /*scope.attachedAttributes = response.ResAttribute;*/
+                            /!*scope.attachedAttributes = response.ResAttribute;*!/
 
                             response.forEach(res => {
                                 if(res.ResAttribute)
@@ -233,7 +233,7 @@
             })
         };
 
-        getUserGrpGroup();
+        getUserGrpGroup();*/
 
 
         var loadUsers = function () {
@@ -455,6 +455,7 @@
 		}
 
         loadUsers();
+        loadUserGroups();
         loadAdminUsers();
 
 
@@ -694,7 +695,7 @@
                 $scope.isLoadingUsers = true;
                 $scope.selectedGroup = group;
 
-                attributeService.getSkillsForUserGroup(group._id).then(function(sRes)
+                /*attributeService.getSkillsForUserGroup(group._id).then(function(sRes)
                 {
                     if(sRes.IsSuccess && sRes.Result && sRes.Result.length > 0)
                     {
@@ -717,7 +718,7 @@
                 {
                     $scope.showAlert("Error", "error", "Error loading user group skills");
 
-                });
+                });*/
 
                 userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
                     if (response.IsSuccess) {

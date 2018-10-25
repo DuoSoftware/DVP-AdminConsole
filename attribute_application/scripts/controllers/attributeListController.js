@@ -95,7 +95,7 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
     $scope.pageGrpTotal = "1";
 
     $scope.GroupsCount = function () {
-        attributeService.getAllowedGroupsCount().then(function (response) {
+        attributeService.GroupsCount().then(function (response) {
             $log.debug("GroupsCount: response" + response);
             $scope.pageGrpTotal = response;
         }, function (error) {
@@ -111,84 +111,10 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
     };
 
     $scope.groupsData = {};
-
-    var getBUGroup = function()
-    {
-        attributeService.getGroupByName('Business Unit').then(function(response)
-        {
-
-            if(!response.data || !response.data.IsSuccess)
-            {
-                $scope.showError("Error", "Error loading fixed groups for business unit");
-
-            }
-            else
-            {
-                if(response.data.Result)
-                {
-                    $scope.fixedBUGroup = response.data.Result;
-
-                }
-                else
-                {
-                    $scope.fixedBUGroup = {
-                        GroupName : 'Business Unit'
-                    };
-                    attributeService.SaveGroup($scope.fixedBUGroup).then(grp => {
-                        if(grp && grp.IsSuccess && grp.Result)
-                        {
-                            $scope.fixedBUGroup.GroupId = grp.Result.GroupId;
-                        }
-                    });
-                }
-
-            }
-        })
-    };
-
-    var getUserGrpGroup = function()
-    {
-        attributeService.getGroupByName('User Group').then(function(response)
-        {
-            if(!response.data || !response.data.IsSuccess)
-            {
-                $scope.showError("Error", "Error loading fixed groups for user groups");
-
-            }
-            else
-            {
-                if(response.data.Result)
-                {
-                    $scope.fixedUserGroup = response.data.Result;
-
-                }
-                else
-                {
-                    $scope.fixedUserGroup = {
-                        GroupName : 'User Group'
-                    };
-                    attributeService.SaveGroup($scope.fixedUserGroup).then(grp => {
-                        if(grp && grp.IsSuccess && grp.Result)
-                        {
-                            $scope.fixedUserGroup.GroupId = grp.Result.GroupId;
-                        }
-                    });
-                }
-
-            }
-        })
-    };
-
-    getBUGroup();
-    getUserGrpGroup();
-
     $scope.GetGroups = function (Paging, page, pageSize) {
-        attributeService.getAllowedGroups(pageSize, page).then(function (response) {
+        attributeService.GetGroups(pageSize, page).then(function (response) {
             $log.debug("GetGroups: response" + response);
-            if(response)
-            {
-                $scope.groupsData = response;
-            }
+            $scope.groupsData = response;
         }, function (error) {
             $log.debug("GetGroups err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
@@ -199,26 +125,17 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
     $scope.GetGroups("init", 1, $scope.pageSize);
 
     $scope.saveGroup = function (item) {
-
-        if(item.GroupName === 'Business Unit' || item.GroupName === 'User Group')
-        {
-            $scope.showError("Error", "Business Unit & User Group are reserved for group name and cannot be used");
-        }
-        else
-        {
-            attributeService.SaveGroup(item).then(function (response) {
-                if (response.IsSuccess) {
-                    $scope.GetGroups("init", 1, $scope.pageSize);
-                    $scope.showAlert("Info", "Info", "ok", "Save Successfully");
-                }
-                $scope.addGrp = !response.IsSuccess;
-                $scope.GroupsCount();
-            }, function (error) {
-                $log.debug("saveGroup err");
-                $scope.showError("Error", "Error", "ok", "There is an error ");
-            });
-        }
-
+        attributeService.SaveGroup(item).then(function (response) {
+            if (response.IsSuccess) {
+                $scope.GetGroups("init", 1, $scope.pageSize);
+                $scope.showAlert("Info", "Info", "ok", "Save Successfully");
+            }
+            $scope.addGrp = !response.IsSuccess;
+            $scope.GroupsCount();
+        }, function (error) {
+            $log.debug("saveGroup err");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
+        });
 
     };
 
@@ -267,12 +184,10 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
 
     //update code by damith
     //on click change attribute view
-    $scope.attributes = 1;
+    $scope.attributes = false;
     $scope.changeView = function (state) {
         $scope.attributes = state;
     }
 
 
 });
-
-

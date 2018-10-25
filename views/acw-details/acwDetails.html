@@ -106,7 +106,7 @@
                     </uib-accordion-heading>
                     <div class="col-md-12 col-sm-12 col-xs-12"
                          style="padding: 10px;background-color: #eee">
-                        <div class="col-md-3 col-sm-2 col-xs-3">Agent Name</div>
+                        <!--<div class="col-md-3 col-sm-2 col-xs-3">Agent Name</div>-->
                         <div class="col-md-1 col-sm-2 col-xs-2">Call Direction</div>
                         <div class="col-md-2 col-sm-2 col-xs-2">From Number</div>
                         <div class="col-md-2 col-sm-2 col-xs-2">To Number</div>
@@ -120,12 +120,12 @@
                             <div class="col-md-12 col-sm-12 col-xs-12"
                                  style="border: 1px solid #ccc!important;padding: 15px;border-radius: 2px;
                                              font-size: 15px;margin-bottom: 10px;">
-                                <div class="col-md-3 col-sm-2 col-xs-4">{{acwRecord.ResResource ? acwRecord.ResResource.ResourceName : 'undefined';}}</div>
-                                <div class="col-md-1 col-sm-2 col-xs-2">{{acwRecord.CallCDRProcessed ? acwRecord.CallCDRProcessed.DVPCallDirection:'undefined'}}</div>
-                                <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.CallCDRProcessed ? acwRecord.CallCDRProcessed.SipFromUser:'undefined'}}</div>
-                                <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.CallCDRProcessed ? acwRecord.CallCDRProcessed.SipToUser:'undefined'}}</div>
-                                <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.CallCDRProcessed ? acwRecord.CallCDRProcessed.AgentSkill:'undefined'}}</div>
-                                <div class="col-md-1 col-sm-2 col-xs-2">{{acwRecord.CallCDRProcessed ? acwRecord.CallCDRProcessed.HangupParty:'undefined'}}</div>
+                                <!--<div class="col-md-3 col-sm-2 col-xs-4">{{acwRecord.ResResource ? acwRecord.ResResource.ResourceName : 'undefined';}}</div>-->
+                                <div class="col-md-1 col-sm-2 col-xs-2">{{acwRecord ? acwRecord.DVPCallDirection:'undefined'}}</div>
+                                <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord ? acwRecord.SipFromUser:'undefined'}}</div>
+                                <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord ? acwRecord.SipToUser:'undefined'}}</div>
+                                <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord ? acwRecord.AgentSkill:'undefined'}}</div>
+                                <div class="col-md-1 col-sm-2 col-xs-2">{{acwRecord ? acwRecord.HangupParty:'undefined'}}</div>
                                 <div class="col-md-1 col-sm-2 col-xs-3">{{acwRecord.Duration}}</div>
                             </div>
                         </div>
