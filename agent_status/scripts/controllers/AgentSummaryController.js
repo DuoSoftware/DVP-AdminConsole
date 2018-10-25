@@ -48,8 +48,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         if (query === "*" || query === "") {
             if ($scope.usrList) {
                 return $scope.usrList;
-            }
-            else {
+            } else {
                 return emptyArr;
             }
 
@@ -62,8 +61,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                     if (item.username) {
                         return item.username.match(regEx);
-                    }
-                    else {
+                    } else {
                         return false;
                     }
 
