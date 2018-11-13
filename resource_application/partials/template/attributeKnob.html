@@ -21,6 +21,14 @@
             delete
         </button>
     </div>
+
+    <div class="confirm-delete" ng-if="showDeleteConfirm" style="padding: 0px;border-radius: 5px;box-shadow: 0 1px 5px #aaa">
+        <p>Are you sure?</p>
+        <div class="text-right">
+            <button class="btn btn-success" ng-click="deleteAttrConfirm()">Yes</button>
+            <button class="btn" ng-click="cancelDelete()">No</button>
+        </div>
+    </div>
     <!--<i class="fa fa-times-circle-o "-->
 
     <!--style="cursor: pointer">-->

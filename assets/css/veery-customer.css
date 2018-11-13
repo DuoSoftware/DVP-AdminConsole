@@ -4736,6 +4736,12 @@ tags-input .tags {
    visibility: visible;
 }
 
+.confirm-delete {
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px #aaa;
+}
+
 .resource-skill {
     display: inline-table !important
 }

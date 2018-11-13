@@ -33,8 +33,21 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
 
             scope.knobValue = scope.selectedAttribute.Percentage;
 
+            // Kasun_Wijeratne_13_NOV_2018
+            scope.showDeleteConfirm = false;
+            scope.itemToDelete = null;
+            scope.deleteAttrConfirm = function() {
+                scope.deleteAttributedrictive(scope.itemToDelete);
+            };
+            scope.cancelDelete = function() {
+                scope.showDeleteConfirm = false;
+                scope.itemToDelete = null;
+            };
+            // END - Kasun_Wijeratne_13_NOV_2018
+
             scope.deleteAttribute = function (item) {
-                scope.deleteAttributedrictive(item);
+                scope.itemToDelete = item;
+                scope.showDeleteConfirm = true;
             };
 
             <!-- jQuery Knob -->
