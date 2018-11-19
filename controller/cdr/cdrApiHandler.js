@@ -439,7 +439,7 @@
 
             if(bUnit)
             {
-                url = url + '&businessunit=ss ' + bUnit;
+                url = url + '&businessunit=' + bUnit;
             }
 
             return $http({
