@@ -153,6 +153,10 @@
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
+                                            colspan="1" aria-label="Hangup Party">Hangup Party
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
                                             colspan="1" aria-label="Call Type">Call Type
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -176,6 +180,7 @@
                                         <td>{{convertToMMSS(cdr.Duration)}}</td>
                                         <td>{{convertToMMSS(cdr.AnswerSec)}}</td>
                                         <td>{{convertToMMSS(cdr.QueueSec)}}</td>
+                                        <td>{{cdr.HangupParty}}</td>
                                         <td>{{cdr.ObjType}}</td>
                                         <td>{{cdr.ObjCategory}}</td>
                                         <td>{{cdr.BusinessUnit}}</td>
@@ -192,8 +197,8 @@
                         <div class="col-sm-7">
                             <button type="button" class="btn" ng-disabled="!(cdrList && cdrList.length > 0)"
                                     style="background-color: #aad154; color: #000000; font-weight: 500"
-                                    csv-header="['Call Direction', 'From', 'To', 'Received By', 'Agent Skill', 'Call Time', 'Total Duration', 'Ring Duration', 'Queue Duration', 'Call Type', 'Call Category']"
-                                    csv-column-order="['DVPCallDirection', 'SipFromUser', 'SipToUser', 'RecievedBy', 'AgentSkill', 'CreatedTime', 'Duration', 'AnswerSec', 'QueueSec', 'ObjType', 'ObjCategory']" ng-csv="getPageWiseDownloadCSV()"
+                                    csv-header="['Call Direction', 'From', 'To', 'Received By', 'Agent Skill', 'Call Time', 'Total Duration', 'Ring Duration', 'Queue Duration', 'Hangup Party', 'Call Type', 'Call Category']"
+                                    csv-column-order="['DVPCallDirection', 'SipFromUser', 'SipToUser', 'RecievedBy', 'AgentSkill', 'CreatedTime', 'Duration', 'AnswerSec', 'QueueSec', 'HangupParty', 'ObjType', 'ObjCategory']" ng-csv="getPageWiseDownloadCSV()"
                                     filename="AbandonCDR_PageWise_{{startDate}}_{{endDate}}_{{pageStack.length + 1}}.csv">
                                 Download Page&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-download"></i>

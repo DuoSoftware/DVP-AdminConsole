@@ -273,7 +273,31 @@
 
         $scope.getPageWiseDownloadCSV = function()
         {
-            return $scope.cdrList;
+            var listOfCdr = angular.copy($scope.cdrList);
+            var newCdrList = listOfCdr.map(function (item) {
+                if(item.CreatedTime)
+                {
+                    item.CreatedTime = moment(item.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")
+                }
+                if(item.Duration)
+                {
+                    item.Duration = $scope.convertToMMSS(item.Duration);
+                }
+                if(item.AnswerSec)
+                {
+                    item.AnswerSec = $scope.convertToMMSS(item.AnswerSec);
+                }
+                if(item.QueueSec)
+                {
+                    item.QueueSec = $scope.convertToMMSS(item.QueueSec);
+                }
+
+                return item;
+
+            });
+
+            return newCdrList;
+
         };
 
 
@@ -562,6 +586,7 @@
                                     Duration: cdrAppendObj.Duration,
                                     AnswerSec: cdrAppendObj.AnswerSec,
                                     QueueSec: cdrAppendObj.QueueSec,
+                                    HangupParty:cdrAppendObj.HangupParty,
                                     ObjType: cdrAppendObj.ObjType,
                                     ObjCategory: cdrAppendObj.ObjCategory
                                 };
