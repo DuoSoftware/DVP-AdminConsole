@@ -626,6 +626,10 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         });
     };
     $scope.deleteFile = function (file) {
+        if(file&&file.FileCategory&&file.FileCategory.Category === "CONVERSATION"){
+            $scope.showError("File Delete","Not Allowed To Delete Conversation Files");
+            return;
+        }
 
         $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " + file.Filename, function (obj) {
 
@@ -653,19 +657,24 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             var delCount = 0;
             angular.forEach($scope.fileToDelete, function (file) {
 
-                fileService.DeleteFile(file).then(function (response) {
-                    delCount++;
-                    if ($scope.fileToDelete.length === delCount) {
-                        $scope.reloadPage();
-                        $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
-                    }
-                }, function (error) {
-                    delCount++;
-                    if ($scope.fileToDelete.length === delCount) {
-                        $scope.reloadPage();
-                        $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
-                    }
-                });
+                if(file&&file.FileCategory&&file.FileCategory.Category === "CONVERSATION"){
+                    $scope.showError("File Delete","Not Allowed To Delete Conversation Files");
+                }
+                else{
+                    fileService.DeleteFile(file).then(function (response) {
+                        delCount++;
+                        if ($scope.fileToDelete.length === delCount) {
+                            $scope.reloadPage();
+                            $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
+                        }
+                    }, function (error) {
+                        delCount++;
+                        if ($scope.fileToDelete.length === delCount) {
+                            $scope.reloadPage();
+                            $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
+                        }
+                    });
+                }
 
             });
 
