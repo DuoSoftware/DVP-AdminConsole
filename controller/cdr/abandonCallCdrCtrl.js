@@ -562,6 +562,7 @@
                                     Duration: cdrAppendObj.Duration,
                                     AnswerSec: cdrAppendObj.AnswerSec,
                                     QueueSec: cdrAppendObj.QueueSec,
+                                    HangupParty:cdrAppendObj.HangupParty,
                                     ObjType: cdrAppendObj.ObjType,
                                     ObjCategory: cdrAppendObj.ObjCategory
                                 };
