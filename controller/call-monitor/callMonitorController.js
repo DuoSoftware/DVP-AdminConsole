@@ -70,6 +70,13 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 if (keyObj.length > 1) {
                     var callObject = CallObjectCreator(keyObj);
                     if (callObject && (callObject.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")) {
+
+                        callObject.isListning=false;
+
+                       /* if($scope.IsListingCall(callObject.BargeID))
+                        {
+                            callObject.isListning=true;
+                        }*/
                         $scope.CallObj.push(callObject);
                     }
 
@@ -111,7 +118,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 FromID = objKey[j]['Caller-Caller-ID-Number'];
                 ToID = objKey[j]['Caller-Destination-Number'];
                 otherID = objKey[j]['Caller-Unique-ID'];
-                ;
+
 
                 if (objKey[j]['Bridge-State'] == "Bridged") {
                     Bridged = true;
@@ -321,6 +328,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                             legID: listenData.data.Result
                         }
                     $rootScope.$emit("call_listning", listenObj);
+
                 }
 
 
@@ -359,6 +367,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                         CallStatus: "LISTEN"
                     }
                 $rootScope.$emit("call_listning", listenObj);
+                ShareData.listeningCallId=$scope.currentSessionID;
+                callData.isListning=true;
 
             }
 
@@ -422,6 +432,12 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
     else {
         console.log("going to register");
         //$scope.RegisterThePhone();
+    }
+
+
+    $scope.IsListingCall = function (sId) {
+
+        return sId==ShareData.listeningCallId;
     }
 
 
