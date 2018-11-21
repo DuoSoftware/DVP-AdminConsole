@@ -5,7 +5,7 @@
 
 (function () {
 
-    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll, subscribeServices) {
+    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll, subscribeServices,ShareData) {
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -502,6 +502,7 @@
                     $scope.callCenterPerformance.totalQueueDropped
                 ];
                 window.callCenterPerformanceChart.update();
+                $scope.isLoading++
             });
 
             //getCountTimer = $timeout(getCounts, 60000);
@@ -526,7 +527,7 @@
                 $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
                 $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter(averageTalkTimeInbound);
                 $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter(averageTalkTimeOutbound);
-
+                $scope.isLoading++
             });
 
             //getTimesTimer = $timeout(getTimes, 30000);
@@ -717,7 +718,17 @@
             }
         });
 
+        $scope.isLoading = -1;
+        $scope.$watch(function () {
+            return ShareData.BusinessUnit;
+        }, function (newValue, oldValue) {
+            if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+                $scope.isLoading = 0;
+                getCounts();
+                getTimes();
 
+            }
+        });
     });
 
 }());
