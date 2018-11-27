@@ -589,65 +589,72 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     };
 
     subscribeServices.subscribeDashboard('agentsummery',function (event) {
-        switch (event.roomName) {
-            case 'ARDS:ResourceStatus':
-                if (event.Message) {
+        if (event && event.Message && event.Message.businessUnit
+            && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (ShareData.BusinessUnit.toLowerCase() === 'all' && event.From === "ArdsMonitoringService") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
 
-                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res;
-                    });
+            switch (event.roomName) {
+                case 'ARDS:ResourceStatus':
+                    if (event.Message) {
 
-                    if (event.Message.task === 'CALL' || !event.Message.task) {
+                        userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                            event.Message.avatar = res;
+                        });
+
+                        if (event.Message.task === 'CALL' || !event.Message.task) {
+                            removeExistingResourceData(event.Message);
+                            setResourceData(event.Message);
+                        }
+
+                    }
+                    break;
+
+                case 'ARDS:RemoveResourceTask':
+                    if (event.Message) {
+
+                        userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                            event.Message.avatar = res;
+                        });
+
+                        if (event.Message.task && event.Message.task === 'CALL') {
+                            removeExistingResourceData(event.Message);
+                            setResourceData(event.Message);
+                        }
+
+                    }
+                    break;
+
+                case 'ARDS:RemoveResource':
+                    if (event.Message) {
+
                         removeExistingResourceData(event.Message);
-                        setResourceData(event.Message);
+
+                    }
+                    break;
+                case 'ARDS:break_exceeded':
+                    if (event.Message) {
+                        var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
+                        if (agent && agent.length > 0) {
+                            agent[0].breakExceeded = true;
+                        }
                     }
 
-                }
-                break;
-
-            case 'ARDS:RemoveResourceTask':
-                if (event.Message) {
-
-                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res;
-                    });
-
-                    if (event.Message.task && event.Message.task === 'CALL') {
-                        removeExistingResourceData(event.Message);
-                        setResourceData(event.Message);
+                    break;
+                case 'ARDS:freeze_exceeded':
+                    if (event.Message) {
+                        var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
+                        if (agent && agent.length > 0) {
+                            agent[0].freezeExceeded = true;
+                        }
                     }
+                    break;
+                default:
+                    //console.log(event);
+                    break;
 
-                }
-                break;
-
-            case 'ARDS:RemoveResource':
-                if (event.Message) {
-
-                    removeExistingResourceData(event.Message);
-
-                }
-                break;
-            case 'ARDS:break_exceeded':
-                if (event.Message) {
-                    var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent && agent.length > 0) {
-                        agent[0].breakExceeded = true;
-                    }
-                }
-
-                break;
-            case 'ARDS:freeze_exceeded':
-                if (event.Message) {
-                    var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent && agent.length > 0) {
-                        agent[0].freezeExceeded = true;
-                    }
-                }
-                break;
-            default:
-                //console.log(event);
-                break;
-
+            }
+        }
+        else {
+            console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
         }
     });
 

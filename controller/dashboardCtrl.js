@@ -350,7 +350,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
 
             }
         } else {
-            console.info("Subscribe Dashboard Event Recive For Invalid Business Unit");
+            console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
         }
     });
 
