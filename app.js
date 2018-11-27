@@ -279,7 +279,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "detailsDashBoardController",
             data: {
                 requireLogin: true,
-                navigation: "AGENT_DASHBOARD"
+                navigation: "DASHBOARD"
             }
         }).state('console.filegallery', {
             url: "/filegallery",
