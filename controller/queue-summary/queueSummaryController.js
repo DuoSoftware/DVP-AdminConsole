@@ -162,6 +162,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
             totalSumObj.QueueAnsweredPercentage = 'N/A';
             totalSumObj.QueueDroppedPercentage = 'N/A';
             totalSumObj.AverageQueueTime = 'N/A';
+            totalSumObj.BusinessUnit = groupedList[key][0].BusinessUnit;
             if(totalSumObj.TotalQueued > 0)
             {
                 totalSumObj.SLA = Math.round((((totalSumObj.TotalQueued - _.sum(groupedList[key], 'ThresholdValue'))/totalSumObj.TotalQueued)*100) * 100) / 100;
