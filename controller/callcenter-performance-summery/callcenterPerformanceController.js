@@ -6,7 +6,7 @@
 (function () {
 
     mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll, subscribeServices,ShareData) {
-
+        $scope.isLoading = -1;
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
             if (phase == '$apply' || phase == '$digest') {
@@ -483,7 +483,7 @@
 
         var getCounts = function () {
 
-
+            $scope.isLoading = 0;
             $q.all([
                 getTotalInboundCalls(),
                 getTotalOutboundCalls(),
@@ -725,12 +725,11 @@
             }
         });
 
-        $scope.isLoading = -1;
+
         $scope.$watch(function () {
             return ShareData.BusinessUnit;
         }, function (newValue, oldValue) {
             if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
-                $scope.isLoading = 0;
                 getCounts();
                 getTimes();
 
