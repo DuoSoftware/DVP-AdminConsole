@@ -35,8 +35,8 @@
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-12 text-right" style="padding-top: 20px">
                     <button type="button" class="btn btn-success"
-                        csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)']"
-                        csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average']"
+                        csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)',''Business Unit'']"
+                        csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average' ,'BusinessUnit']"
                         ng-csv="getProcessedSlaCSVDownload()" filename="SLA_BreakDown_{{param.qDate}}.csv">CSV <i class="fa fa-download"></i></button>
                 </div>
             </div>
