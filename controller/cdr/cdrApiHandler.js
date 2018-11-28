@@ -528,7 +528,11 @@
 
         var getCallSummaryForQueueByHr = function (date, skill, hr, tz,businessUnit) {
             var qData = [];
-            qData['businessunit'] = businessUnit;
+            if(businessUnit && businessUnit !='ALL')
+            {
+                qData['businessunit'] = businessUnit;
+            }
+
             qData['date'] = date;
             qData['tz'] = tz;
             qData['skill'] = skill;
@@ -551,7 +555,11 @@
         var getCallSummaryForQueueHrDownload = function (date, skills, tz, fileType,businessUnit) {
 
             var qData = [];
-            qData['businessunit'] = businessUnit;
+            if(businessUnit && businessUnit !='ALL')
+            {
+                qData['businessunit'] = businessUnit;
+            }
+
             qData['date'] = date;
             qData['tz'] = tz;
 
