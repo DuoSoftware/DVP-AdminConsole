@@ -82,9 +82,10 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         }
     };
 
-    $scope.searchOption = 'hourly';
+    $scope.searchOption  = {}
+    $scope.searchOption.name = 'hourly';
     $scope.getQueueSummary = function () {
-        if ($scope.searchOption == 'hourly') {
+        if ($scope.searchOption.name == 'hourly') {
             $scope.queueSummaryList = [];
             $scope.isTableLoading = 0;
             queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
@@ -102,7 +103,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
                 console.log("Error in Queue Summary loading ", error);
                 $scope.isTableLoading = 2;
             });
-        } else if ($scope.searchOption == 'daily') {
+        } else if ($scope.searchOption.name == 'daily') {
             createDailyGraph();
         }
     };

@@ -41,7 +41,7 @@ mainApp.factory('queueSummaryBackendService', function ($http, baseUrls,ShareDat
         getQueueDailySlaBreakDown: function (qDate) {
             return $http({
                 method: 'GET',
-                url: baseUrls.ardsmonitoringBaseUrl + 'MONITORING/QUEUE/SlaBreakDown/date/' + qDate
+                url: baseUrls.ardsmonitoringBaseUrl + 'MONITORING/QUEUE/SlaBreakDown/date/' + qDate+"?bUnit="+ShareData.BusinessUnit
             }).then(function (response) {
                 return response;
             });

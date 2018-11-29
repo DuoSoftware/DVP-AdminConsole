@@ -20,12 +20,12 @@
                 </div>
                 <div class="col-md-3 col-sm-3 col-xs-12" style="padding-top: 20px">
                     <div>
-                        <input type="radio" name="slaBreakOption" ng-model="searchOption"
+                        <input type="radio" name="slaBreakOption" ng-model="searchOption.name"
                                id="hourly"
                                value="hourly" ng-checked="true"> Hourly SLA Breakdown
                     </div>
                     <div>
-                        <input type="radio" ng-model="searchOption" name="slaBreakOption" id="daily"
+                        <input type="radio" ng-model="searchOption.name" name="slaBreakOption" id="daily"
                                value="daily"> Daily SLA Breakdown
                     </div>
                 </div>
@@ -57,10 +57,10 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title bottom-gray-200 m-bottom20">
-                            <h4 ng-if="searchOption == 'hourly'" class="font-robot font-300 text-uppercase font-15">
+                            <h4 ng-if="searchOption.name == 'hourly'" class="font-robot font-300 text-uppercase font-15">
                                 Hourly SLA Breakdown
                             </h4>
-                            <h4 ng-if="searchOption == 'daily'" class="font-robot font-300 text-uppercase font-15">
+                            <h4 ng-if="searchOption.name == 'daily'" class="font-robot font-300 text-uppercase font-15">
                                 Daily SLA Breakdown
                                 <div class="btn-group pull-right">
                                     <label class="btn btn-sm btn-default" ng-click="changeView('table');" ng-model="viewMode"
@@ -75,7 +75,7 @@
                         </div>
 
                         <!-- Start SLA hourly wrapper -->
-                        <div class="x_content" ng-if="searchOption == 'hourly'">
+                        <div class="x_content" ng-if="searchOption.name == 'hourly'">
                             <div id="datatable-responsive_wrapper"
 
                                  class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -151,7 +151,7 @@
                         </div>
 
                         <!-- Daily SLA hourly wrapper -->
-                        <div class="x_content" ng-if="searchOption == 'daily'">
+                        <div class="x_content" ng-if="searchOption.name == 'daily'">
                             <div ng-if="viewMode=='graph'" class="row">
                                 <div ng-if="dailySLAbreakObj.length==0">
                                     DATA NOT FOUND
