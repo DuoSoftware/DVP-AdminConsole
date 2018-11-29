@@ -127,7 +127,7 @@
                                                     <th class="sorting" tabindex="0"
                                                         aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="Average">Business Unit
+                                                        colspan="1" aria-label="BusinessUnit">Business Unit
                                                     </th>
 
                                                 </thead>
@@ -139,7 +139,7 @@
                                                     <td>{{queueSummary.BreakDown}}</td>
                                                     <td>{{queueSummary.ThresholdCount}}</td>
                                                     <td>{{queueSummary.SlaViolated}}</td>
-                                                    <td>{{queueSummary.Average}}%</td>
+                                                    <td>{{queueSummary.Average | number : 0}}%</td>
                                                     <td>{{queueSummary.BusinessUnit}}</td>
                                                 </tr>
                                                 </tbody>
@@ -214,6 +214,11 @@
                                                             rowspan="1"
                                                             colspan="1" aria-label="Average">Average ((Count/TotalQueueCount) *100)
                                                         </th>
+                                                        <th class="sorting" tabindex="0"
+                                                            aria-controls="datatable-responsive"
+                                                            rowspan="1"
+                                                            colspan="1" aria-label="Average">Business Unit
+                                                        </th>
 
                                                     </thead>
                                                     <tbody>
@@ -223,7 +228,8 @@
                                                         <td>{{queueSummary.BreakDown}}</td>
                                                         <td>{{queueSummary.ThresholdCount}}</td>
                                                         <td>{{queueSummary.SlaViolated}}</td>
-                                                        <td>{{queueSummary.Average}}%</td>
+                                                        <td>{{queueSummary.Average | number : 0 }}%</td>
+                                                        <td>{{queueSummary.BusinessUnit}}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
