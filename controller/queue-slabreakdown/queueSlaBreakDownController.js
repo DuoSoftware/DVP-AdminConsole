@@ -132,24 +132,50 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         var deferred = $q.defer();
 
         var queueSummaryListForCsv = [];
-        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
 
-            if (!response.data.IsSuccess) {
-                console.log("Queue Summary loading failed ", response.data.Exception);
+        if($scope.searchOption.name == 'hourly')
+        {
+            queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
+
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    deferred.resolve(queueSummaryListForCsv);
+                }
+                else {
+                    queueSummaryListForCsv = response.data.Result;
+                    deferred.resolve(queueSummaryListForCsv);
+
+                    console.log(queueSummaryListForCsv);
+                }
+
+            }, function (error) {
+                loginService.isCheckResponse(error);
                 deferred.resolve(queueSummaryListForCsv);
-            }
-            else {
-                queueSummaryListForCsv = response.data.Result;
+                console.log("Error in Queue Hourly Summary loading ", error);
+            });
+        }
+        else
+        {
+            queueSummaryBackendService.getQueueSlaBreakDown($scope.param.qDate).then(function (response) {
+
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    deferred.resolve(queueSummaryListForCsv);
+                }
+                else {
+                    queueSummaryListForCsv = response.data.Result;
+                    deferred.resolve(queueSummaryListForCsv);
+
+                    console.log(queueSummaryListForCsv);
+                }
+
+            }, function (error) {
+                loginService.isCheckResponse(error);
                 deferred.resolve(queueSummaryListForCsv);
+                console.log("Error in Queue Daily Summary loading ", error);
+            });
+        }
 
-                console.log(queueSummaryListForCsv);
-            }
-
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            deferred.resolve(queueSummaryListForCsv);
-            console.log("Error in Queue Summary loading ", error);
-        });
 
         return deferred.promise;
 
