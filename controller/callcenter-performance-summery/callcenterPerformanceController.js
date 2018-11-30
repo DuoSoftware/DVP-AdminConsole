@@ -5,8 +5,8 @@
 
 (function () {
 
-    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll, subscribeServices) {
-
+    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll, subscribeServices,ShareData) {
+        $scope.isLoading = -1;
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
             if (phase == '$apply' || phase == '$digest') {
@@ -483,7 +483,7 @@
 
         var getCounts = function () {
 
-
+            $scope.isLoading = 0;
             $q.all([
                 getTotalInboundCalls(),
                 getTotalOutboundCalls(),
@@ -502,6 +502,7 @@
                     $scope.callCenterPerformance.totalQueueDropped
                 ];
                 window.callCenterPerformanceChart.update();
+                $scope.isLoading++
             });
 
             //getCountTimer = $timeout(getCounts, 60000);
@@ -526,7 +527,7 @@
                 $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
                 $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter(averageTalkTimeInbound);
                 $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter(averageTalkTimeOutbound);
-
+                $scope.isLoading++
             });
 
             //getTimesTimer = $timeout(getTimes, 30000);
@@ -568,7 +569,10 @@
 
 
         subscribeServices.subscribeDashboard('ccperformance',function (event) {
-            switch (event.roomName) {
+            if (event && event.Message && event.Message.businessUnit
+                && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (ShareData.BusinessUnit.toLowerCase() === 'all' && event.From === "ArdsMonitoringService") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+
+                switch (event.roomName) {
                 case 'CALLS:TotalCount':
                     if (event.Message) {
                         if (event.Message.window === 'CALLS' && event.Message.param1 === 'inbound') {
@@ -715,9 +719,21 @@
                     break;
 
             }
+            }
+            else {
+                console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
+            }
         });
 
+        $scope.$watch(function () {
+            return ShareData.BusinessUnit;
+        }, function (newValue, oldValue) {
+            if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+                getCounts();
+                getTimes();
 
+            }
+        });
     });
 
 }());

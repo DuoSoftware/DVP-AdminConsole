@@ -22,6 +22,8 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         subscribeServices.subscribe('queuedetail');
         //subscribe services
         subscribeServices.subscribeDashboard('realtime', function (event) {
+            if (event && event.Message && event.Message.businessUnit
+                && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (ShareData.BusinessUnit.toLowerCase() === 'all' && event.From === "ArdsMonitoringService") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
 
             switch (event.roomName) {
                 case 'QUEUE:QueueDetail':
@@ -64,6 +66,10 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         setGridData();
                     }
                     break;
+            }
+            }
+            else {
+                console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
             }
         });
 

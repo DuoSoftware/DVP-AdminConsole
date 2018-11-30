@@ -587,7 +587,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     };
 
     subscribeServices.subscribeDashboard('agentsummery',function (event) {
-        switch (event.roomName) {
+        if (event && event.Message && event.Message.businessUnit
+            && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (ShareData.BusinessUnit.toLowerCase() === 'all' && event.From === "ArdsMonitoringService") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+
+            switch (event.roomName) {
             case 'ARDS:ResourceStatus':
                 if (event.Message) {
 
@@ -646,6 +649,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                 //console.log(event);
                 break;
 
+        }
+        }
+        else {
+            console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
         }
     });
 
