@@ -336,7 +336,7 @@
                 curCount = 0;
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
-                momentTz = momentTz.replace("+", "%2B");
+                //momentTz = momentTz.replace("+", "%2B");
 
                 $scope.obj.isTableLoadingHr = 0;
 
@@ -419,7 +419,7 @@
 
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
-                momentTz = momentTz.replace("+", "%2B");
+                //momentTz = momentTz.replace("+", "%2B");
 
                 cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, attribArray, momentTz, 'csv',ShareData.BusinessUnit).then(function (sumResp) {
                     if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
