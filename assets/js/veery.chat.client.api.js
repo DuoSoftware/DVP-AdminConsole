@@ -193,6 +193,29 @@ window.SE = function (e) {
             }
         });
 
+        /*socket.on('agent_found', function (data) {
+            //var displayMsg = "Company : " + data.Company + "<br> Company No : " + values[5] + "<br> Caller : " + values[3] + "<br> Skill : " + values[6];
+           /!*console.log(data);
+            var dataArr=[];
+
+           if(data && data.Message)
+           {
+               dataArr = data.Message.split("|");
+           }
+
+           ShareData.listeningCallId = dataArr[1];*!/
+
+            if (callBack.OnConnected) {
+                callBack.OnConnected(data);
+            }
+
+        });*/
+
+        socket.on('agent_connected', function (data) {
+            console.log(data);
+
+        });
+
         socket.on('connectionerror', function(data){
             console.log("connectionerror");
 

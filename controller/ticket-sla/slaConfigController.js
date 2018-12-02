@@ -168,6 +168,49 @@
         };
 
         $scope.loadUsers = function () {
+
+            triggerUserServiceAccess.getUserCount().then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(triggerUserServiceAccess.LoadUsersByPage(pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (data) {
+                            var Result= data.Result;
+                            Result.map(function (item) {
+
+                                $scope.userList.push(item);
+                            });
+                        });
+
+                    }
+
+
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    var errMsg = err;
+                    $scope.showAlert('Users', errMsg, 'error');
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+
+
+/*
+
             triggerUserServiceAccess.getUsers().then(function (response) {
                 if (response.IsSuccess) {
                     $scope.users = response.Result;
@@ -187,7 +230,7 @@
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Users', errMsg, 'error');
-            });
+            });*/
         };
 
         $scope.loadUserGroups = function () {

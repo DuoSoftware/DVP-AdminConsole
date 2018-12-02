@@ -72,6 +72,8 @@ mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls
         });
     };
 
+
+
     /*var headerDetails = function () {
         return $http({
             method: 'GET',
@@ -174,6 +176,35 @@ mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls
         });
     };
 
+    var getUserCount =  function (activeState) {
+        return $http({
+            method: 'GET',
+            url:  baseUrls.UserServiceBaseUrl + "UserCount?active="+activeState
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+    var LoadUsersByPage =  function (activeState,pagesize,pageno) {
+        var postData = [];
+        postData['Page'] = pageno;
+        postData['Size'] = pagesize;
+        return $http({
+            method: 'GET',
+            url: baseUrls.UserServiceBaseUrl + 'Users?active='+activeState,
+            params: postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
     return {
         GetProfileDetails:getProfileDetails,
         AssignNumber: assignNumber,
@@ -185,7 +216,9 @@ mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls
         DispositionSummeryReportCount:dispositionSummeryReportCount,
         DispositionDetailsReport:dispositionDetailsReport,
         DispositionDetailsReportCount:dispositionDetailsReportCount,
-        DispositionSummeryAgentWiseReport: dispositionSummeryAgentWiseReport
+        DispositionSummeryAgentWiseReport: dispositionSummeryAgentWiseReport,
+        LoadUsersByPage: LoadUsersByPage,
+        getUserCount: getUserCount
     }
 
 });

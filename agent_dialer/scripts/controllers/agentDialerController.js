@@ -165,7 +165,51 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
     };
 
     $scope.GetAgentList = function () {
-        agentDialService.GetProfileDetails().then(function (response) {
+        $scope.availableAgentList=[];
+        agentDialService.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(agentDialService.LoadUsersByPage(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+                        $scope.availableAgentList = data.map(function (item) {
+                            //item.displayName = item.firstname + " " + item.lastname; combank
+                            item.displayName = item.username;
+                            return item;
+                        })
+                    });
+
+                }
+
+
+
+            }).catch(function (err) {
+                console.error(err);
+
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+            });
+
+
+
+        }, function (err) {
+
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+
+
+
+
+       /* agentDialService.GetProfileDetails().then(function (response) {
             if (response) {
                 $scope.availableAgentList = response.map(function (item) {
                     //item.displayName = item.firstname + " " + item.lastname; combank
@@ -176,7 +220,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
         }, function (error) {
             console.error("GetAgentList err");
-        });
+        });*/
     };
     $scope.GetAgentList();
 

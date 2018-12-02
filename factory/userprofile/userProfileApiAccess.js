@@ -349,6 +349,35 @@
             })
         };
 
+        var getUserCount =  function (activeState) {
+            return $http({
+                method: 'GET',
+                url:  baseUrls.UserServiceBaseUrl + "UserCount?active="+activeState
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+            });
+        };
+        var LoadUsersByPage =  function (activeState,pagesize,pageno) {
+            var postData = [];
+            postData['Page'] = pageno;
+            postData['Size'] = pagesize;
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'Users?active='+activeState,
+                params: postData
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data;
+                } else {
+                    return undefined;
+                }
+            });
+        };
+
 
 
 
@@ -386,7 +415,10 @@
             getExternalUserFields:getExternalUserFields,
             addGroupsToBUnit:addGroupsToBUnit,
             addHeadUserToBUnit:addHeadUserToBUnit,
-            removeHeadUserToBUnit:removeHeadUserToBUnit
+            removeHeadUserToBUnit:removeHeadUserToBUnit,
+            getUserCount:getUserCount,
+            LoadUsersByPage:LoadUsersByPage
+
         };
     };
 

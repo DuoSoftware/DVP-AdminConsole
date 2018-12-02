@@ -1161,6 +1161,86 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
 
     $scope.loadUsers = function () {
+
+
+        notifiSenderService.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(notifiSenderService.LoadUsersByPage(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+                        data.map(function (item) {
+                            item.status = 'offline';
+                            item.callstatus = 'offline';
+                            item.callstatusstyle = 'call-status-offline';
+                            $scope.users.push(item);
+                        });
+                    });
+
+                }
+
+
+
+            }).catch(function (err) {
+                console.error(err);
+                loginService.isCheckResponse(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+            });
+
+
+            // load notification message
+            $scope.userShowDropDown = 0;
+
+            subscribeServices.Request('pendingall');
+            subscribeServices.Request('allstatus');
+            subscribeServices.Request('allcallstatus');
+
+            // load notification message
+            if (!isPersistanceLoaded) {
+                subscribeServices.GetPersistenceMessages().then(function (response) {
+
+                    if (response.data.IsSuccess) {
+                        isPersistanceLoaded = true;
+
+                        angular.forEach(response.data.Result, function (value) {
+
+                            var valObj = JSON.parse(value.Callback);
+
+                            if (valObj.eventName == "todo_reminder") {
+                                //$scope.todoRemind($scope.MakeNotificationObject(value));
+                            }
+                            else {
+                                $scope.OnMessage($scope.MakeNotificationObject(value));
+                            }
+
+
+                        });
+
+                    }
+
+
+                }, function (err) {
+
+                });
+            }
+
+
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+
+/*
         notifiSenderService.getUserList().then(function (response) {
 
             if (response) {
@@ -1171,14 +1251,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     return item;
                 });
             }
-            /*for (var i = 0; i < response.length; i++) {
+            /!*for (var i = 0; i < response.length; i++) {
 
              response[i].status = 'offline';
              response[i].callstatus = 'offline';
              response[i].callstatusstyle = 'call-status-offline';
 
              }
-             $scope.users = response;*/
+             $scope.users = response;*!/
 
 
             $scope.userShowDropDown = 0;
@@ -1219,7 +1299,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-        });
+        });*/
     };
     $scope.loadUsers();
 

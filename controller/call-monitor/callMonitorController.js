@@ -1,6 +1,6 @@
 mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $uibModal, $timeout,
                                                  callMonitorSrv, notificationService,
-                                                 jwtHelper, authService, loginService, $anchorScroll, ShareData) {
+                                                 jwtHelper, authService, loginService, $anchorScroll, ShareData,subscribeServices) {
 
     $anchorScroll();
     $scope.CallObj = [];
@@ -23,6 +23,61 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
     var protocol = "user";
     var actionObject = {};
+
+
+    subscribeServices.SubscribeEvents(function (event, data) {
+        switch (event) {
+
+            case 'agent_found':
+
+                if(data && data.Message)
+                {
+                    dataArr = data.Message.split("|");
+                }
+
+                ShareData.listeningCallId = dataArr[1];
+
+                break;
+
+            case 'agent_disconnected':
+
+                ShareData.listeningCallId =null;
+                $scope.inCall = false;
+
+                break;
+
+            case 'agent_rejected':
+                ShareData.listeningCallId =null;
+                $scope.inCall = false;
+                break;
+
+
+            /*
+                                    case 'agent_found':
+
+                                    $scope.agentFound(data);
+
+                                    break;
+
+                                    case 'agent_rejected':
+                                    $scope.agentRejected(data);
+                                    break;
+
+                                    case 'todo_reminder':
+
+                                    $scope.todoRemind(data);
+
+                                    break;
+
+                                    case 'notice':
+
+                                    $scope.OnMessage(data);
+
+                                    break;
+                                    */
+
+        }
+    });
 
     var onCallsDataReceived = function (response) {
 
@@ -73,10 +128,10 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
                         callObject.isListning=false;
 
-                       /* if($scope.IsListingCall(callObject.BargeID))
-                        {
-                            callObject.isListning=true;
-                        }*/
+                        /* if($scope.IsListingCall(callObject.BargeID))
+                         {
+                             callObject.isListning=true;
+                         }*/
                         $scope.CallObj.push(callObject);
                     }
 
@@ -312,7 +367,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
 
         if ($scope.isRegistered && actionObject && actionObject.action == "LISTEN") {
-            $scope.currentSessionID = actionObject.BargeID;
+            //  $scope.currentSessionID = actionObject.BargeID;
             callMonitorSrv.listenCall(actionObject.BargeID, actionObject.protocol, actionObject.displayname).then(function (listenData) {
                 actionObject = {};
                 if (!listenData.data.IsSuccess) {
@@ -367,7 +422,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                         CallStatus: "LISTEN"
                     }
                 $rootScope.$emit("call_listning", listenObj);
-                ShareData.listeningCallId=$scope.currentSessionID;
+                // ShareData.listeningCallId=$scope.currentSessionID;
                 callData.isListning=true;
 
             }
