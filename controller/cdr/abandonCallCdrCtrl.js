@@ -421,7 +421,7 @@
 
 
                 var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
+                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit, $scope.priorityFilter).then(function (cdrResp) {
                     if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var count = 0;
@@ -666,12 +666,12 @@
                     tempBUnit = ShareData.BusinessUnit;
                 }
 
-                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function(cdrCntRsp)
+                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit, $scope.priotityFilter).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess)
                     {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
-                        cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
+                        cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit, $scope.priotityFilter).then(function (cdrResp) {
                             if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
 
                                 $scope.cdrList = cdrResp.Result;
