@@ -58,6 +58,22 @@
             });
         };
 
+        $scope.convertToMMSS = function (sec) {
+            var minutes = Math.floor(sec / 60);
+
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+
+            var seconds = sec - minutes * 60;
+
+            if (seconds < 10) {
+                seconds = '0' + seconds;
+            }
+
+            return minutes + ':' + seconds;
+        };
+
         $scope.pagination = {
             currentPage: 1,
             maxSize: 5,
