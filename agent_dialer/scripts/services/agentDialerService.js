@@ -188,13 +188,13 @@ mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls
             }
         });
     };
-    var LoadUsersByPage =  function (activeState,pagesize,pageno) {
+    var LoadUsersByPage =  function (pagesize,pageno) {
         var postData = [];
         postData['Page'] = pageno;
         postData['Size'] = pagesize;
         return $http({
             method: 'GET',
-            url: baseUrls.UserServiceBaseUrl + 'Users?active='+activeState,
+            url: baseUrls.UserServiceBaseUrl + 'Users',
             params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
