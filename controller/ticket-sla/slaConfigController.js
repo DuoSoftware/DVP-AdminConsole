@@ -6,7 +6,7 @@
     var app = angular.module('veeryConsoleApp');
 
     var slaConfigController = function ($scope, $state, $stateParams, $uibModal, slaApiAccess, triggerUserServiceAccess,
-                                        triggerTemplateServiceAccess, triggerArdsServiceAccess, loginService) {
+                                        triggerTemplateServiceAccess, triggerArdsServiceAccess, loginService,$q) {
         $scope.title = $stateParams.title;
         $scope.slaId = $stateParams.slaId;
         $scope.slaFilter = {};
@@ -19,7 +19,7 @@
         $scope.matrix.on_threshold = [];
         $scope.filterTypeAny = "any";
         $scope.filterTypeAll = "all";
-        $scope.users = {};
+        $scope.users = [];
         $scope.userGroups = {};
         $scope.addNewMatrix = false;
 
@@ -186,7 +186,7 @@
                             var Result= data.Result;
                             Result.map(function (item) {
 
-                                $scope.userList.push(item);
+                                $scope.users.push(item);
                             });
                         });
 
