@@ -303,6 +303,19 @@ window.SE = function (e) {
             //console.log("Agent found data " + data);
         });
 
+        socket.on('listen_connected', function (data) {
+            //var displayMsg = "Company : " + data.Company + "<br> Company No : " + values[5] + "<br> Caller : " + values[3] + "<br> Skill : " + values[6];
+            if (callBack.OnEvent)
+                callBack.OnEvent('listen_connected',data);
+            //console.log("Agent found data " + data);
+        });
+        socket.on('listen_disconnected', function (data) {
+            //var displayMsg = "Company : " + data.Company + "<br> Company No : " + values[5] + "<br> Caller : " + values[3] + "<br> Skill : " + values[6];
+            if (callBack.OnEvent)
+                callBack.OnEvent('listen_disconnected',data);
+            //console.log("Agent found data " + data);
+        });
+
         socket.on('agent_disconnected', function (data) {
             data.messageType = "agent_disconnected";
             if (callBack.OnEvent)

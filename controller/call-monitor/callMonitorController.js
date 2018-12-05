@@ -39,45 +39,34 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
                 break;
 
-            case 'agent_disconnected':
+            case 'listen_connected':
 
-                ShareData.listeningCallId =null;
-                $scope.inCall = false;
+                if(data && data.Message)
+                {
+                    dataArr = data.Message.split("|");
+                }
+                console.log("Call listening");
+                ShareData.listeningCallId = dataArr[1]
+                ShareData.IsListingCall=true;
 
                 break;
 
-            case 'agent_rejected':
+            case 'listen_disconnected':
+
                 ShareData.listeningCallId =null;
+                $scope.IsListingCall (null);
                 $scope.inCall = false;
+                ShareData.IsListingCall=$scope.inCall;
+
                 break;
 
-
-            /*
-                                    case 'agent_found':
-
-                                    $scope.agentFound(data);
-
-                                    break;
-
-                                    case 'agent_rejected':
-                                    $scope.agentRejected(data);
-                                    break;
-
-                                    case 'todo_reminder':
-
-                                    $scope.todoRemind(data);
-
-                                    break;
-
-                                    case 'notice':
-
-                                    $scope.OnMessage(data);
-
-                                    break;
-                                    */
 
         }
     });
+
+
+
+
 
     var onCallsDataReceived = function (response) {
 
@@ -367,7 +356,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
 
         if ($scope.isRegistered && actionObject && actionObject.action == "LISTEN") {
-            //  $scope.currentSessionID = actionObject.BargeID;
+            $scope.currentSessionID = actionObject.BargeID;
             callMonitorSrv.listenCall(actionObject.BargeID, actionObject.protocol, actionObject.displayname).then(function (listenData) {
                 actionObject = {};
                 if (!listenData.data.IsSuccess) {
@@ -422,7 +411,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                         CallStatus: "LISTEN"
                     }
                 $rootScope.$emit("call_listning", listenObj);
-                // ShareData.listeningCallId=$scope.currentSessionID;
+                ShareData.listeningCallId=$scope.currentSessionID;
                 callData.isListning=true;
 
             }

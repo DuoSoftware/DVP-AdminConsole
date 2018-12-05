@@ -13,5 +13,5 @@ mainApp.factory('ShareData', function ($http) {
             }
             return [];
         });
-    },listeningCallId:""};
+    },listeningCallId:"",isInCall:false};
 });

@@ -883,6 +883,46 @@
         //get all agents
         //onload
         $scope.loadAllAgents = function () {
+            $scope.agents=[];
+            userProfileApiAccess.getUserCount('all').then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(userProfileApiAccess.LoadUsersByPage('all',pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (data) {
+                            var Result= data.Result;
+                            Result.map(function (item) {
+
+                                $scope.agents.push(item);
+                            });
+                        });
+
+                    }
+                    removeAllocatedAgents();
+
+
+                }).catch(function (err) {
+                    $scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
+                });
+
+
+
+            }, function (err) {
+
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+
+
+           /*
             userProfileApiAccess.getUsers().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.agents = data.Result;
@@ -890,7 +930,7 @@
                 }
             }, function (error) {
                 $scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
-            });
+            });*/
         };
         $scope.loadAllAgents();
 

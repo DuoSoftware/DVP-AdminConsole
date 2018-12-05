@@ -169,6 +169,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     subscribeServices.SubscribeEvents(function (event, data) {
         switch (event) {
 
+            case 'listen_disconnected':
+
+                ShareData.listeningCallId =null;
+                ShareData.IsListingCall=false;
+
+                break;
+
+
             /*case 'agent_connected':
 
              $scope.agentConnected(data);
