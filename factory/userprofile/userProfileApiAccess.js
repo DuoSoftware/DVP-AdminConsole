@@ -350,9 +350,16 @@
         };
 
         var getUserCount =  function (activeState) {
+
+            var urlString = baseUrls.UserServiceBaseUrl + "UserCount";
+            if(activeState)
+            {
+                urlString = baseUrls.UserServiceBaseUrl + "UserCount?active="+activeState;
+            }
+
             return $http({
                 method: 'GET',
-                url:  baseUrls.UserServiceBaseUrl + "UserCount?active="+activeState
+                url:  urlString
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
@@ -365,9 +372,16 @@
             var postData = [];
             postData['Page'] = pageno;
             postData['Size'] = pagesize;
+
+            var urlString = baseUrls.UserServiceBaseUrl + "Users";
+            if(activeState)
+            {
+                urlString=baseUrls.UserServiceBaseUrl + 'Users?active='+activeState;
+            }
+
             return $http({
                 method: 'GET',
-                url: baseUrls.UserServiceBaseUrl + 'Users?active='+activeState,
+                url: urlString,
                 params: postData
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {

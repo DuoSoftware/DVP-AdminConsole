@@ -163,10 +163,15 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
-    var getUserCount =  function () {
+    var getUserCount =  function (state) {
+        var urlString = baseUrls.UserServiceBaseUrl + "UserCount";
+        if(state)
+        {
+            urlString = baseUrls.UserServiceBaseUrl + "UserCount?active="+state;
+        }
         return $http({
             method: 'GET',
-            url:  baseUrls.UserServiceBaseUrl + "UserCount"
+            url:  urlString
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
