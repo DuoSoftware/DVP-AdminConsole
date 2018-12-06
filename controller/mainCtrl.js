@@ -172,7 +172,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             case 'listen_disconnected':
 
                 ShareData.listeningCallId =null;
-                ShareData.IsListingCall=false;
+                ShareData.isInCall=false;
 
                 break;
 

@@ -35,11 +35,11 @@ mainApp.factory('callMonitorSrv', function ($http, authService,baseUrls) {
             });
         },
 
-        listenCall: function (bargeID,protocol,destinationKey) {
+        listenCall: function (bargeID,protocol,destinationKey,fromNum,Skill) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/listen",
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/listen?callernum="+fromNum+"&listenskill="+Skill,
                 data:
                 {
                     protocol:protocol,

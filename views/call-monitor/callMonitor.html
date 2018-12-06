@@ -72,7 +72,7 @@
                         </thead>
 
                         <tbody>
-                        <tr class="even pointer veery-tbl-body"  ng-repeat="call in CallObj | filterBy: [filterMode]: searchCriteria" ng-class="{'selectRw': call.BargeID == $scope.currentSessionID}"  >
+                        <tr class="even pointer veery-tbl-body"  ng-repeat="call in CallObj | filterBy: [filterMode]: searchCriteria" ng-class="{'selectRw': call.BargeID == currentSessionID}"  >
                             <div ng-show="call.BusinessUnit==selectedBUnit || selectedBUnit.toLocaleLowerCase()=='all'">
 
                                 <td class="valAlgn">{{call.BargeID}}</td>
