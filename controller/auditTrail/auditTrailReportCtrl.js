@@ -96,7 +96,59 @@
 
         var getUserList = function () {
 
-            ticketReportsService.getUsers().then(function (userList) {
+
+            $scope.userList=[];
+
+            ticketReportsService.getUserCount('all').then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(ticketReportsService.LoadUsersByPage('all',pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (data) {
+                            var Result= data.Result;
+                            Result.map(function (item) {
+
+                                var rObj = {
+                                    UniqueId: item._id,
+                                    Display: item.name
+                                };
+
+                                $scope.userList.push(rObj);
+                            });
+                        });
+
+                    }
+
+                    /* $scope.userList = userList.Result.map(function (obj) {
+                         var rObj = {
+                             UniqueId: obj._id,
+                             Display: obj.name
+                         };
+
+                         return rObj;
+                     });*/
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    //$scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                // $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+            /*ticketReportsService.getUsers().then(function (userList) {
                 if (userList && userList.Result && userList.Result.length > 0) {
                     //$scope.userList = userList.Result;
 
@@ -113,7 +165,7 @@
 
             }).catch(function (err) {
                 loginService.isCheckResponse(err);
-            });
+            });*/
         };
 
         getUserList();

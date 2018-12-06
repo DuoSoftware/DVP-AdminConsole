@@ -163,6 +163,40 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
+    var getUserCount =  function (state) {
+        var urlString = baseUrls.UserServiceBaseUrl + "UserCount";
+        if(state)
+        {
+            urlString = baseUrls.UserServiceBaseUrl + "UserCount?active="+state;
+        }
+        return $http({
+            method: 'GET',
+            url:  urlString
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+    var LoadUsersByPage =  function (pagesize,pageno) {
+        var postData = [];
+        postData['Page'] = pageno;
+        postData['Size'] = pagesize;
+        return $http({
+            method: 'GET',
+            url: baseUrls.UserServiceBaseUrl + 'Users',
+            params: postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
+            }
+        });
+    };
+
     return {
         GetUserList: getUserList,
         AddConsoleToUser: addConsoleToUser,
@@ -174,7 +208,9 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         GetUserAssignableScope: getUserAssignableScope,
         GetUserAssignedScope: getUserAssignedScope,
         AssignScopeToUser:assignScopeToUser,
-        RemoveAssignedScope:removeAssignedScope
+        RemoveAssignedScope:removeAssignedScope,
+        getUserCount:getUserCount,
+        LoadUsersByPage:LoadUsersByPage
     }
 
 });

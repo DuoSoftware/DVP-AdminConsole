@@ -5,7 +5,7 @@
     var app = angular.module("veeryConsoleApp").constant('_', window._);
 
 
-    var qaRatingReportCtrl = function ($scope, $uibModal, $location, $anchorScroll, loginService,qaModuleService,userProfileApiAccess,$anchorScroll) {
+    var qaRatingReportCtrl = function ($scope, $uibModal, $location, $anchorScroll, loginService,qaModuleService,userProfileApiAccess,$anchorScroll,$q) {
 
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
@@ -315,7 +315,47 @@
 
 
         var loadUsers = function () {
-            userProfileApiAccess.getUsers().then(function (data)
+
+            $scope.userList=[];
+            userProfileApiAccess.getUserCount('all').then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(userProfileApiAccess.LoadUsersByPage('all',pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (data) {
+                            var Result= data.Result;
+                            Result.map(function (item) {
+
+                                $scope.userList.push(item);
+                            });
+                        });
+
+                    }
+
+
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+
+            /*userProfileApiAccess.getUsers().then(function (data)
             {
                 if (data.IsSuccess)
                 {
@@ -341,7 +381,7 @@
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
-            });
+            });*/
         };
 
         loadUsers();

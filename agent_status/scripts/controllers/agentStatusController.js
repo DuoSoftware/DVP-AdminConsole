@@ -811,7 +811,49 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     //GetUserProfileList
     notifiSenderService.getUserList().then(function (response) {
-        $scope.userList = response;
+
+        $scope.userList=[];
+
+        notifiSenderService.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(notifiSenderService.LoadUsersByPage(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+                        data.map(function (item) {
+                            item.status = 'offline';
+                            item.callstatus = 'offline';
+                            item.callstatusstyle = 'call-status-offline';
+                            $scope.userList.push(item);
+                        });
+                    });
+
+                }
+
+
+
+            }).catch(function (err) {
+                console.error(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+            });
+
+
+
+        }, function (err) {
+
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+       /* $scope.userList = response;*/
     }, function (error) {
         $log.debug("get user list error.....");
     });
