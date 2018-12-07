@@ -15,13 +15,22 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Agents</label>
-                    <select class="form-control" ng-model="obj.resourceId"
+
+
+                        <input type="text" class="form-control" ng-model="obj.resourceId" data-min-length="1" data-html="1"
+                               data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
+                               bs-options="user as user.ResourceName for user in resourceDetails"
+                               placeholder="Agent" bs-typeahead>
+
+
+
+                    <!--<select class="form-control" ng-model="obj.resourceId"
                             ng-model-options="{trackBy: '$value'}">
                         <option value=""></option>
                         <option ng-repeat="resourceDetail in resourceDetails" value="{{resourceDetail.ResourceId}}">
                             {{resourceDetail.ResourceName}}
                         </option>
-                    </select>
+                    </select>-->
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Queue</label>

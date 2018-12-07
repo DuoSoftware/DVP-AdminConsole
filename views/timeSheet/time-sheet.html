@@ -14,13 +14,22 @@
             <div class="x_content" ng-if="!showFilter">
                 <div class="col-md-6 col-sm-4 col-xs-12">
                 <label>Agent Name</label>
-                <select name="datatable-responsive_length" ng-model="searchObj.userId"
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="searchObj.userId" data-min-length="1" data-html="1"
+                               data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
+                               bs-options="user as user.username for user in userDataList"
+                               placeholder="Agent" bs-typeahead>
+                    </div>
+
+
+               <!-- <select name="datatable-responsive_length" ng-model="searchObj.userId"
                         aria-controls="datatable-responsive" class="form-control">
                     <option value="" disabled selected>Select User</option>
                     <option ng-repeat="user in userDataList" value="{{user._id}}">
                         {{user.username}}
                     </option>
-                </select>
+                </select>-->
             </div>
                 <div class="col-md-3 col-sm-4 col-xs-12">
                 <label>From</label>

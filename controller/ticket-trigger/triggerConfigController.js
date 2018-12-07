@@ -295,6 +295,11 @@
             });
         };
 
+
+
+
+
+
         $scope.loadUsers = function () {
             $scope.users =[];
             triggerUserServiceAccess.getUserCount().then(function (row_count) {
@@ -313,6 +318,8 @@
                         resolveData.map(function (data) {
                             var Result= data.Result;
                             Result.map(function (item) {
+
+                                item.Display = item.firstname+" " +item.lastname;
 
                                 $scope.users.push(item);
                             });

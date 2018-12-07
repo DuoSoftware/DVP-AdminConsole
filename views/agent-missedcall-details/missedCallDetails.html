@@ -13,13 +13,19 @@
             <div class="x_content" ng-show="!showFilter">
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <label>Agents</label>
-                    <select class="form-control has-feedback-left" ng-model="obj.resourceId"
+                    <!--<div class="form-group">-->
+                        <input type="text" class="form-control" ng-model="obj.resourceId" data-min-length="1" data-html="1"
+                               data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
+                               bs-options="agent as agent.ResourceName for agent in resourceDetails"
+                               placeholder="Agent" bs-typeahead>
+                  <!--  </div>-->
+                    <!--<select class="form-control has-feedback-left" ng-model="obj.resourceId"
                             ng-model-options="{trackBy: '$value'}">
                         <option value=""></option>
                         <option ng-repeat="resourceDetail in resourceDetails" value="{{resourceDetail.ResourceId}}">
                             {{resourceDetail.ResourceName}}
                         </option>
-                    </select>
+                    </select>-->
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Start Date</label>

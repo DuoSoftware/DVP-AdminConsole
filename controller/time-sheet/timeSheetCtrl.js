@@ -17,6 +17,38 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
         });
     };
 
+    $scope.querySearch = function (query) {
+        var emptyArr = [];
+        if (query === "*" || query === "") {
+            if ($scope.userDataList) {
+                return $scope.userDataList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.userDataList) {
+                return $scope.userDataList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.username) {
+                        return item.username.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
     $scope.searchObj = {userId:undefined, startDate:undefined, endDate:undefined};
 
     $scope.gridOptions = {
@@ -142,7 +174,7 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
     };
 
     $scope.searchSheetData = function(){
-        timerServiceAccess.getTimersByUser($scope.searchObj.userId, $scope.searchObj.startDate, $scope.searchObj.endDate).then(function (response) {
+        timerServiceAccess.getTimersByUser($scope.searchObj.userId._id, $scope.searchObj.startDate, $scope.searchObj.endDate).then(function (response) {
             if(response){
                 if(response.IsSuccess){
                     if(response.Result) {

@@ -17,6 +17,38 @@
             endDay: moment().format("YYYY-MM-DD")
         };
 
+        $scope.querySearch = function (query) {
+            var emptyArr = [];
+            if (query === "*" || query === "") {
+                if ($scope.resourceDetails) {
+                    return $scope.resourceDetails;
+                }
+                else {
+                    return emptyArr;
+                }
+
+            }
+            else {
+                if ($scope.resourceDetails) {
+                    return $scope.resourceDetails.filter(function (item) {
+                        var regEx = "^(" + query + ")";
+
+                        if (item.ResourceName) {
+                            return item.ResourceName.match(regEx);
+                        }
+                        else {
+                            return false;
+                        }
+
+                    });
+                }
+                else {
+                    return emptyArr;
+                }
+            }
+
+        };
+
 		$scope.onDateChange = function () {
 
 			if (moment($scope.obj.startDay, "YYYY-MM-DD").isValid() && moment($scope.obj.endDay, "YYYY-MM-DD").isValid()) {
@@ -131,7 +163,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.getAllAcwRecords($scope.obj.resourceId, startDate, endDate, $scope.skillFilter,ShareData.BusinessUnit).then(function(response){
+            acwDetailApiAccess.getAllAcwRecords($scope.obj.resourceId.ResourceId, startDate, endDate, $scope.skillFilter,ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     var downloadFilename = response.Result;
@@ -233,7 +265,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetAcwSummeryDetails($scope.obj.resourceId, startDate, endDate, $scope.skillFilter,ShareData.BusinessUnit).then(function(response){
+            acwDetailApiAccess.GetAcwSummeryDetails($scope.obj.resourceId.ResourceId, startDate, endDate, $scope.skillFilter,ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     if(response.Result) {
@@ -283,7 +315,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.pagination.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter, ShareData.BusinessUnit).then(function(response){
+            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId.ResourceId, $scope.pagination.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter, ShareData.BusinessUnit).then(function(response){
                 if(response.IsSuccess)
                 {
                     $scope.showTable = true;

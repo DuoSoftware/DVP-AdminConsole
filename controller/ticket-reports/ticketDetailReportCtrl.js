@@ -16,6 +16,38 @@
             });
         };
 
+        $scope.querySearch = function (query) {
+            var emptyArr = [];
+            if (query === "*" || query === "") {
+                if ($scope.userList) {
+                    return $scope.userList;
+                }
+                else {
+                    return emptyArr;
+                }
+
+            }
+            else {
+                if ($scope.userList) {
+                    return $scope.userList.filter(function (item) {
+                        var regEx = "^(" + query + ")";
+
+                        if (item.Display) {
+                            return item.Display.match(regEx);
+                        }
+                        else {
+                            return false;
+                        }
+
+                    });
+                }
+                else {
+                    return emptyArr;
+                }
+            }
+
+        };
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
 
         $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
@@ -387,9 +419,9 @@
                     edate: endDate,
                     limitCount: limit,
                     skipCount: 0,
-                    requester: $scope.selectedExtUser,
-                    assignee: $scope.selectedAssignee,
-                    submitter: $scope.selectedSubmitter,
+                    requester: $scope.selectedExtUser.UniqueId,
+                    assignee: $scope.selectedAssignee.UniqueId,
+                    submitter: $scope.selectedSubmitter.UniqueId,
                     tag: tagName,
                     channel: $scope.channelType,
                     priority: $scope.priorityType,
@@ -494,9 +526,9 @@
             $scope.FilterData = {
                 sdate: startDate,
                 edate: endDate,
-                requester: $scope.selectedExtUser,
-                assignee: $scope.selectedAssignee,
-                submitter: $scope.selectedSubmitter,
+                requester: $scope.selectedExtUser.UniqueId,
+                assignee: $scope.selectedAssignee.UniqueId,
+                submitter: $scope.selectedSubmitter.UniqueId,
                 tag: tagName,
                 channel: $scope.channelType,
                 priority: $scope.priorityType,
@@ -667,9 +699,9 @@
             $scope.FilterData = {
                 sdate: startDate,
                 edate: endDate,
-                requester: $scope.selectedExtUser,
-                assignee: $scope.selectedAssignee,
-                submitter: $scope.selectedSubmitter,
+                requester: $scope.selectedExtUser.UniqueId,
+                assignee: $scope.selectedAssignee.UniqueId,
+                submitter: $scope.selectedSubmitter.UniqueId,
                 tag: tagName,
                 channel: $scope.channelType,
                 priority: $scope.priorityType,

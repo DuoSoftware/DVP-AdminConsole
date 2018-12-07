@@ -23,6 +23,38 @@
         $scope.questionArray={};
 
 
+        $scope.querySearch = function (query) {
+            var emptyArr = [];
+            if (query === "*" || query === "") {
+                if ($scope.userList) {
+                    return $scope.userList;
+                }
+                else {
+                    return emptyArr;
+                }
+
+            }
+            else {
+                if ($scope.userList) {
+                    return $scope.userList.filter(function (item) {
+                        var regEx = "^(" + query + ")";
+
+                        if (item.username) {
+                            return item.username.match(regEx);
+                        }
+                        else {
+                            return false;
+                        }
+
+                    });
+                }
+                else {
+                    return emptyArr;
+                }
+            }
+
+        };
+
         var pickAllSubmittedPapersByDateRange  = function (owner,sDate,eDate) {
 
             qaModuleService.getAllSubmissionsByOwnerAndTimeRange(owner,sDate,eDate).then(function (resPapers) {

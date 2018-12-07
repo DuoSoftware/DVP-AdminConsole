@@ -15,6 +15,39 @@
             },
             template: 'Select Field to continue',
             link: function (scope, element) {
+
+                scope.querySearch = function (query) {
+                    var emptyArr = [];
+                    if (query === "*" || query === "") {
+                        if (scope.companyUsers) {
+                            return scope.companyUsers;
+                        }
+                        else {
+                            return emptyArr;
+                        }
+
+                    }
+                    else {
+                        if (scope.companyUsers) {
+                            return scope.companyUsers.filter(function (item) {
+                                var regEx = "(" + query + ")";
+
+                                if (item.Display) {
+                                    return item.Display.match(regEx);
+                                }
+                                else {
+                                    return false;
+                                }
+
+                            });
+                        }
+                        else {
+                            return emptyArr;
+                        }
+                    }
+
+                };
+
                 scope.securityLevel = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 scope.channel = ["call", "skype", "facebook", "slack", "viber", "webchat"];
                 scope.$watch('ticketField', function (newValue, oldValue) {
@@ -81,7 +114,11 @@
                         case "collaborators":
                         case "watchers":
                             if (companyUsers) {
-                                return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>Select User</option> <option ng-repeat="user in companyUsers" value="{{user._id}}"> {{user.firstname}} {{user.lastname}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                                //return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>Select User</option> <option ng-repeat="user in companyUsers" value="{{user._id}}"> {{user.firstname}} {{user.lastname}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+
+                                return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback">' +
+                                    '<input type="text" class="form-control" ng-model="ngModel.value" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr._id as usr.Display for usr in companyUsers" placeholder="Assignee" bs-typeahead> </div>';
+
                             } else {
                                 return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>No User</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                             }
