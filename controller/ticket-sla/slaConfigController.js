@@ -186,6 +186,8 @@
                             var Result= data.Result;
                             Result.map(function (item) {
 
+                                item.Display = item.firstname+" "+item.lastname;
+
                                 $scope.users.push(item);
                             });
                         });

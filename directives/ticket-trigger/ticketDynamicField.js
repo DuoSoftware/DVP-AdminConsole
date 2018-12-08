@@ -18,6 +18,12 @@
 
                 scope.querySearch = function (query) {
                     var emptyArr = [];
+                    var result =[];
+                    if(query)
+                    {
+                        query = query.toLowerCase();
+                    }
+
                     if (query === "*" || query === "") {
                         if (scope.companyUsers) {
                             return scope.companyUsers;
@@ -29,17 +35,30 @@
                     }
                     else {
                         if (scope.companyUsers) {
-                            return scope.companyUsers.filter(function (item) {
-                                var regEx = "(" + query + ")";
 
-                                if (item.Display) {
-                                    return item.Display.match(regEx);
+
+                            angular.forEach(scope.companyUsers, function(item){
+
+                                if(item.Display.toLowerCase().indexOf(query)!==-1){
+                                    result.push(item);
+                                }
+
+                            });
+
+                            return result;
+
+
+                            /*return scope.companyUsers.filter(function (item) {
+                                var regEx = "^(" + query + ")";
+
+                                if (item.Display.toLowerCase().indexOf(query)!==-1) {
+                                    return item;
                                 }
                                 else {
                                     return false;
                                 }
 
-                            });
+                            });*/
                         }
                         else {
                             return emptyArr;
@@ -116,8 +135,12 @@
                             if (companyUsers) {
                                 //return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>Select User</option> <option ng-repeat="user in companyUsers" value="{{user._id}}"> {{user.firstname}} {{user.lastname}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
 
-                                return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback">' +
-                                    '<input type="text" class="form-control" ng-model="ngModel.value" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr._id as usr.Display for usr in companyUsers" placeholder="Assignee" bs-typeahead> </div>';
+                                return '<div class="col-md-10 col-sm-10 col-xs-12 " style="height: 150px">' +
+                                    '<input type="text" class="form-control" ng-model="ngModel.value" data-min-length="1" data-html="1"\n' +
+                                    '                               data-limit="1000" data-auto-select="true" data-animation="am-flip-x"\n' +
+                                    '                               bs-options="user.Display as user.Display for user in querySearch($viewValue)"\n' +
+                                    '                               placeholder="Agent" bs-typeahead> </div>'
+                                   /* '<input type="text" class="form-control" ng-model="ngModel.value" data-min-length="0" data-html="1" data-limit="1000" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.Display as usr.Display for usr in companyUsers" placeholder="Assignee" bs-typeahead> </div>';*/
 
                             } else {
                                 return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>No User</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';

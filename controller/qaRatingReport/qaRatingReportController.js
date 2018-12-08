@@ -25,6 +25,11 @@
 
         $scope.querySearch = function (query) {
             var emptyArr = [];
+            var result =[];
+            if(query)
+            {
+                query = query.toLowerCase();
+            }
             if (query === "*" || query === "") {
                 if ($scope.userList) {
                     return $scope.userList;
@@ -36,7 +41,18 @@
             }
             else {
                 if ($scope.userList) {
-                    return $scope.userList.filter(function (item) {
+
+                    angular.forEach($scope.userList, function(item){
+
+                        if(item.username.toLowerCase().indexOf(query)!==-1){
+                            result.push(item);
+                        }
+
+                    });
+
+                    return result;
+
+                    /*return $scope.userList.filter(function (item) {
                         var regEx = "^(" + query + ")";
 
                         if (item.username) {
@@ -46,7 +62,7 @@
                             return false;
                         }
 
-                    });
+                    });*/
                 }
                 else {
                     return emptyArr;

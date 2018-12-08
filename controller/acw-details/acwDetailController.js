@@ -19,6 +19,11 @@
 
         $scope.querySearch = function (query) {
             var emptyArr = [];
+            var result =[];
+            if(query)
+            {
+                query = query.toLowerCase();
+            }
             if (query === "*" || query === "") {
                 if ($scope.resourceDetails) {
                     return $scope.resourceDetails;
@@ -30,7 +35,7 @@
             }
             else {
                 if ($scope.resourceDetails) {
-                    return $scope.resourceDetails.filter(function (item) {
+                    /*return $scope.resourceDetails.filter(function (item) {
                         var regEx = "^(" + query + ")";
 
                         if (item.ResourceName) {
@@ -40,7 +45,17 @@
                             return false;
                         }
 
+                    });*/
+
+                    angular.forEach($scope.resourceDetails, function(item){
+
+                        if(item.ResourceName.toLowerCase().indexOf(query)!==-1){
+                            result.push(item);
+                        }
+
                     });
+
+                    return result;
                 }
                 else {
                     return emptyArr;
