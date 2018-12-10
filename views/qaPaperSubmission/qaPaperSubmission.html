@@ -28,11 +28,17 @@
 
                         <div class="col-md-2 col-sm-2 col-xs-12">
                             <label>User</label>
-                            <select name="datatable-responsive_length" class="select2_single form-control"
+
+                            <input type="text" class="form-control" ng-model="searchObj.userId" data-min-length="1" data-html="1"
+                                   data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
+                                   bs-options="user as user.username for user in userList"
+                                   placeholder="Agent" bs-typeahead>
+
+                            <!--<select name="datatable-responsive_length" class="select2_single form-control"
                                     aria-hidden="true"
                                     ng-options="user as user.username for user in userList track by user._id"
                                     ng-model="agentSelected" ng-change="getScore(agentSelected)">
-                            </select>
+                            </select>-->
                         </div>
 
 

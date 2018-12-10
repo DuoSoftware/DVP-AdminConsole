@@ -34,6 +34,7 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
                 SE.subscribe({room: 'CONNECTED:TotalTime'});
                 SE.subscribe({room: 'QUEUEANSWERED:TotalCount'});
                 SE.subscribe({room: 'BRIDGE:TotalCount'});
+                SE.subscribe({room: 'QUEUE:ResetAll'});
 
                 SE.subscribe({room: 'CALLS:TotalCount'});
                 SE.subscribe({room: 'CALLS:CurrentCount'});

@@ -73,6 +73,25 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         }
         else {
             if ($scope.Agents) {
+                var filteredArr = $scope.Agents.filter(function (item) {
+
+                    if (item.ResourceName) {
+                        return item.ResourceName.toString().toLowerCase().match(query);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return emptyArr;
+            }
+
+
+           /* if ($scope.Agents) {
                 return $scope.Agents.filter(function (item) {
                     var regEx = "^(" + query + ")";
 
@@ -87,7 +106,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
             }
             else {
                 return emptyArr;
-            }
+            }*/
         }
 
     };

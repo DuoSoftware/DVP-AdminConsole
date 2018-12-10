@@ -344,6 +344,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
                         }
                     }
                     break;
+                    case 'QUEUE:ResetAll':
+
+                        reload_dashboard_data();
+
+                    break;
+
                 default:
                     //console.log(event);
                     break;
