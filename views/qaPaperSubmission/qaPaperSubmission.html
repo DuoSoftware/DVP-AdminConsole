@@ -29,9 +29,9 @@
                         <div class="col-md-2 col-sm-2 col-xs-12">
                             <label>User</label>
 
-                            <input type="text" class="form-control" ng-model="searchObj.userId" data-min-length="1" data-html="1"
+                            <input type="text" class="form-control" ng-model="agentSelected" data-min-length="1" data-html="1"
                                    data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
-                                   bs-options="user as user.username for user in userList"
+                                   bs-options="user._id as user.username for user in userList"
                                    placeholder="Agent" bs-typeahead>
 
                             <!--<select name="datatable-responsive_length" class="select2_single form-control"
@@ -82,7 +82,11 @@
 
                         <div class="col-md-2 col-sm-2 col-xs-2">
                             <div class="x_content btn-wrap-header">
-                                <button ng-if="!showCancel" ng-disabled="!paperSelected || !engType || !agentSelected"
+                                <!--<button ng-if="!showCancel" ng-disabled="!paperSelected || !engType || !agentSelected"
+                                        type="button" class="btn btn-success" ng-click="getRecords()">
+                                    Search
+                                </button>-->
+                                <button ng-if="!showCancel"
                                         type="button" class="btn btn-success" ng-click="getRecords()">
                                     Search
                                 </button>
