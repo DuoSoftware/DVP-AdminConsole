@@ -344,7 +344,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
                         }
                     }
                     break;
-                    case 'QUEUE:ResetAll':
+                    case 'DASHBOARD:RESETALL':
 
                         reload_dashboard_data();
 

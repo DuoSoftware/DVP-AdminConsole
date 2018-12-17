@@ -55,6 +55,10 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
                 SE.subscribe({room: 'BREAK:TotalTime'});
                 SE.subscribe({room: 'AGENTHOLD:TotalTime'});
 
+
+
+                SE.subscribe({room: 'DASHBOARD:RESETALL'});
+
             },
             error: function (data) {
                 //console.log("authenticate error..............");
