@@ -4,7 +4,7 @@
 
 var clusterModule = angular.module("resourceProductivityServiceModule", []);
 
-clusterModule.factory("resourceProductivityService", function ($http, $log, authService, baseUrls) {
+clusterModule.factory("resourceProductivityService", function ($http, $log, authService, baseUrls,ShareData) {
 
     var postdata = {bu:ShareData.BusinessUnit};
     if(ShareData.BusinessUnit.toLowerCase()==="all"){
