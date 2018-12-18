@@ -810,8 +810,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
     //GetUserProfileList
-    notifiSenderService.getUserList().then(function (response) {
 
+    $scope.loadUserList = function()
+    {
         $scope.userList=[];
 
         notifiSenderService.getUserCount().then(function (row_count) {
@@ -851,12 +852,18 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
         });
+    };
+
+    $scope.loadUserList();
+    /*notifiSenderService.getUserList().then(function (response) {
 
 
-       /* $scope.userList = response;*/
+
+
+       /!* $scope.userList = response;*!/
     }, function (error) {
         $log.debug("get user list error.....");
-    });
+    });*/
 
     $scope.querySearch = function (query) {
         if (query === "*" || query === "") {
