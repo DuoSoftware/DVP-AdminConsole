@@ -6,15 +6,22 @@ var clusterModule = angular.module("resourceProductivityServiceModule", []);
 
 clusterModule.factory("resourceProductivityService", function ($http, $log, authService, baseUrls) {
 
+    var postdata = {bu:ShareData.BusinessUnit};
+    if(ShareData.BusinessUnit.toLowerCase()==="all"){
+        postdata = {};
+    }
     var getProductivity = function () {
-
-        return $http.get(baseUrls.resourceServiceBaseUrl + "Resources/Productivity").then(function (response) {
-                if (response.data && response.data.IsSuccess) {
-                    return response.data.Result;
-                } else {
-                    return {};
-                }
-            });
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + "Resources/Productivity",
+            params:postdata
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
+            }
+        });
     };
 
     var getOnlineAgents = function () {
