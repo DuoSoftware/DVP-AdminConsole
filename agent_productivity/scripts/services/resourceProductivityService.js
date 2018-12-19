@@ -6,11 +6,12 @@ var clusterModule = angular.module("resourceProductivityServiceModule", []);
 
 clusterModule.factory("resourceProductivityService", function ($http, $log, authService, baseUrls,ShareData) {
 
-    var postdata = {bu:ShareData.BusinessUnit};
-    if(ShareData.BusinessUnit.toLowerCase()==="all"){
-        postdata = {};
-    }
+
     var getProductivity = function () {
+        var postdata = {bu:ShareData.BusinessUnit};
+        if(ShareData.BusinessUnit.toLowerCase()==="all"){
+            postdata = {};
+        }
         return $http({
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + "Resources/Productivity",
