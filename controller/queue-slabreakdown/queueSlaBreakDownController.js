@@ -18,6 +18,59 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     };
 
 
+    var timeFormatCreator = function (arrVal) {
+
+        return arrVal.map(function (item) {
+
+            if(item && item.BreakDown)
+            {
+                // Check between times (ex:- 10-20 , 40-50)
+                var valArr = item.BreakDown.trim().split("-");
+
+                if(valArr.length>1)
+                {
+                    var rangeStr = "Between" ;
+                    valArr.forEach(function (val,i) {
+
+                       // From the second value concat with & sign
+                        i==0?rangeStr=rangeStr.concat(" ",val):rangeStr = rangeStr.concat(" & ",val);
+
+                    });
+
+                    item.BreakDown = rangeStr;
+                }
+                else
+                {
+                    var lessArr = item.BreakDown.trim().split("<").filter(function(val) {
+
+                        return val !="" && !isNaN(val);
+
+                    });
+                    var gtrArr = item.BreakDown.trim().split(">").filter(function(val) {
+
+                        return val !="" && !isNaN(val);
+
+                    });
+
+                        // Check Less than ranges (ex:- 10< , 120<)
+                    if(lessArr.length==1)
+                    {
+                        item.BreakDown = "Less than "+lessArr[0];
+                    }
+                    else
+                    {
+                        // Check Greater than ranges (ex:- >10 , >120)
+                        item.BreakDown = "Greater than "+gtrArr[0];
+                    }
+
+                }
+
+                return item;
+            }
+
+        });
+    }
+
     var createDailyGraph = function () {
         $scope.dailySLAbreakObj = [];
         $scope.isTableLoading = 0;
@@ -25,7 +78,11 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         queueSummaryBackendService.getQueueDailySlaBreakDown($scope.param.qDate).then(function (response) {
             if (response && response.data && response.data.Result) {
                 $scope.isTableLoading = 1;
-                $scope.dailiySummaryList = response.data.Result;
+
+
+
+                $scope.dailiySummaryList = timeFormatCreator(response.data.Result);
+
                 response.data.Result.forEach(function (value, key) {
                     var chartData = {
                         name: '',
@@ -95,7 +152,8 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
                 }
                 else {
                     $scope.isTableLoading = 1;
-                    $scope.queueSummaryList = response.data.Result;
+                    $scope.queueSummaryList = timeFormatCreator(response.data.Result);
+
                 }
 
             }, function (error) {
@@ -116,7 +174,8 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
                 console.log("Queue Summary loading failed ", response.data.Exception);
             }
             else {
-                $scope.dailyQueueSummaryList = response.data.Result;
+                $scope.dailyQueueSummaryList = timeFormatCreator(response.data.Result);
+
                 $scope.isTableLoading = 1;
                 console.log($scope.dailyQueueSummaryList);
             }
@@ -142,7 +201,8 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
                     deferred.resolve(queueSummaryListForCsv);
                 }
                 else {
-                    queueSummaryListForCsv = response.data.Result;
+                    queueSummaryListForCsv = timeFormatCreator(response.data.Result);
+
                     deferred.resolve(queueSummaryListForCsv);
 
                     console.log(queueSummaryListForCsv);
@@ -163,7 +223,8 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
                     deferred.resolve(queueSummaryListForCsv);
                 }
                 else {
-                    queueSummaryListForCsv = response.data.Result;
+                    queueSummaryListForCsv = timeFormatCreator(response.data.Result);
+
                     deferred.resolve(queueSummaryListForCsv);
 
                     console.log(queueSummaryListForCsv);
