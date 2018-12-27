@@ -20,12 +20,12 @@
                 </div>
                 <div class="col-md-3 col-sm-3 col-xs-12" style="padding-top: 20px">
                     <div>
-                        <input type="radio" name="slaBreakOption" ng-model="searchOption"
+                        <input type="radio" name="slaBreakOption" ng-model="searchOption.name"
                                id="hourly"
                                value="hourly" ng-checked="true"> Hourly SLA Breakdown
                     </div>
                     <div>
-                        <input type="radio" ng-model="searchOption" name="slaBreakOption" id="daily"
+                        <input type="radio" ng-model="searchOption.name" name="slaBreakOption" id="daily"
                                value="daily"> Daily SLA Breakdown
                     </div>
                 </div>
@@ -35,8 +35,8 @@
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-12 text-right" style="padding-top: 20px">
                     <button type="button" class="btn btn-success"
-                        csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)']"
-                        csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average']"
+                        csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)','Business Unit']"
+                        csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average' ,'BusinessUnit']"
                         ng-csv="getProcessedSlaCSVDownload()" filename="SLA_BreakDown_{{param.qDate}}.csv">CSV <i class="fa fa-download"></i></button>
                 </div>
             </div>
@@ -57,10 +57,10 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title bottom-gray-200 m-bottom20">
-                            <h4 ng-if="searchOption == 'hourly'" class="font-robot font-300 text-uppercase font-15">
+                            <h4 ng-if="searchOption.name == 'hourly'" class="font-robot font-300 text-uppercase font-15">
                                 Hourly SLA Breakdown
                             </h4>
-                            <h4 ng-if="searchOption == 'daily'" class="font-robot font-300 text-uppercase font-15">
+                            <h4 ng-if="searchOption.name == 'daily'" class="font-robot font-300 text-uppercase font-15">
                                 Daily SLA Breakdown
                                 <div class="btn-group pull-right">
                                     <label class="btn btn-sm btn-default" ng-click="changeView('table');" ng-model="viewMode"
@@ -75,7 +75,7 @@
                         </div>
 
                         <!-- Start SLA hourly wrapper -->
-                        <div class="x_content" ng-if="searchOption == 'hourly'">
+                        <div class="x_content" ng-if="searchOption.name == 'hourly'">
                             <div id="datatable-responsive_wrapper"
 
                                  class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -124,6 +124,11 @@
                                                         rowspan="1"
                                                         colspan="1" aria-label="Average">Average ((Count/TotalQueueCount) *100)
                                                     </th>
+                                                    <th class="sorting" tabindex="0"
+                                                        aria-controls="datatable-responsive"
+                                                        rowspan="1"
+                                                        colspan="1" aria-label="BusinessUnit">Business Unit
+                                                    </th>
 
                                                 </thead>
                                                 <tbody>
@@ -134,7 +139,8 @@
                                                     <td>{{queueSummary.BreakDown}}</td>
                                                     <td>{{queueSummary.ThresholdCount}}</td>
                                                     <td>{{queueSummary.SlaViolated}}</td>
-                                                    <td>{{queueSummary.Average}}%</td>
+                                                    <td>{{queueSummary.Average | number : 0}}%</td>
+                                                    <td>{{queueSummary.BusinessUnit}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -145,7 +151,7 @@
                         </div>
 
                         <!-- Daily SLA hourly wrapper -->
-                        <div class="x_content" ng-if="searchOption == 'daily'">
+                        <div class="x_content" ng-if="searchOption.name == 'daily'">
                             <div ng-if="viewMode=='graph'" class="row">
                                 <div ng-if="dailySLAbreakObj.length==0">
                                     DATA NOT FOUND
@@ -208,6 +214,11 @@
                                                             rowspan="1"
                                                             colspan="1" aria-label="Average">Average ((Count/TotalQueueCount) *100)
                                                         </th>
+                                                        <th class="sorting" tabindex="0"
+                                                            aria-controls="datatable-responsive"
+                                                            rowspan="1"
+                                                            colspan="1" aria-label="Average">Business Unit
+                                                        </th>
 
                                                     </thead>
                                                     <tbody>
@@ -217,7 +228,8 @@
                                                         <td>{{queueSummary.BreakDown}}</td>
                                                         <td>{{queueSummary.ThresholdCount}}</td>
                                                         <td>{{queueSummary.SlaViolated}}</td>
-                                                        <td>{{queueSummary.Average}}%</td>
+                                                        <td>{{queueSummary.Average | number : 0 }}%</td>
+                                                        <td>{{queueSummary.BusinessUnit}}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

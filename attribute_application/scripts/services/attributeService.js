@@ -80,11 +80,52 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getAllowedGroups = function (rowCount, pageNo) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'AllowedGroups/'+rowCount+'/'+pageNo
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
+    var getSkillsForUserGroup = function (groupId) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'UserGroupSkill/'+groupId
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var getSkillsForBusinessUnits = function (bUnits) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl + 'BusinessUnitSkills',
+            data: bUnits
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
     var GroupsCount = function () {
 
         return $http({
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + 'GroupsCount'
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
+    var getAllowedGroupsCount = function () {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'AllowedGroupsCount'
         }).then(function (response) {
             return response.data.Result;
         });
@@ -96,6 +137,48 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'post',
             url: baseUrls.resourceServiceBaseUrl + 'Group',
             data: item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var addAttributeToBusinessUnit = function (item) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl + 'BusinessUnit/Skill',
+            data: item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var addAttributeToUserGroup = function (item) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl + 'UserGroup/Skill',
+            data: item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var removeAttributeFromUserGroup = function (grpId, attrId) {
+
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl + 'UserGroup/' + grpId + '/Skill/' + attrId
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var removeAttributeFromBusinessUnit = function (buId, attrId) {
+
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl + 'BusinessUnit/' + buId + '/Skill/' + attrId
         }).then(function (response) {
             return response.data;
         });
@@ -204,6 +287,16 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getGroupByName = function (groupName) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'Group/Name/' + groupName
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     return {
         GetAttributes: getattributes,
         GetAttributeCount: getattributeCount,
@@ -221,7 +314,16 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         DeleteOneAttribute:deleteOneAttribute,
         GetAttributeByGroupId:getAttributeByGroupId,
         getGroupNames:getGroupNames,
-        getAttributeDetails:getAttributeDetails
+        getAttributeDetails:getAttributeDetails,
+        getAllowedGroups: getAllowedGroups,
+        getAllowedGroupsCount: getAllowedGroupsCount,
+        getGroupByName: getGroupByName,
+        addAttributeToUserGroup: addAttributeToUserGroup,
+        removeAttributeFromUserGroup: removeAttributeFromUserGroup,
+        getSkillsForUserGroup: getSkillsForUserGroup,
+        getSkillsForBusinessUnits: getSkillsForBusinessUnits,
+        addAttributeToBusinessUnit: addAttributeToBusinessUnit,
+        removeAttributeFromBusinessUnit: removeAttributeFromBusinessUnit
     }
 
 });

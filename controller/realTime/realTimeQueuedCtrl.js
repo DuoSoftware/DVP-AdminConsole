@@ -22,48 +22,54 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         subscribeServices.subscribe('queuedetail');
         //subscribe services
         subscribeServices.subscribeDashboard('realtime', function (event) {
+            if (event && event.Message && event.Message.businessUnit
+                && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (ShareData.BusinessUnit.toLowerCase() === 'all' && event.From === "ArdsMonitoringService") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
 
-            switch (event.roomName) {
-                case 'QUEUE:QueueDetail':
-                    if (event.Message) {
-                        var item = event.Message.queueDetail.QueueInfo;
-                        if (item.CurrentMaxWaitTime) {
-                            var d = moment(item.CurrentMaxWaitTime).valueOf();
-                            item.MaxWaitingMS = d;
+                switch (event.roomName) {
+                    case 'QUEUE:QueueDetail':
+                        if (event.Message) {
+                            var item = event.Message.queueDetail.QueueInfo;
+                            if (item.CurrentMaxWaitTime) {
+                                var d = moment(item.CurrentMaxWaitTime).valueOf();
+                                item.MaxWaitingMS = d;
 
-                            if (item.EventTime) {
+                                if (item.EventTime) {
 
-                                var serverTime = moment(item.EventTime).valueOf();
-                                tempMaxWaitingMS = serverTime - d;
-                                item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+                                    var serverTime = moment(item.EventTime).valueOf();
+                                    tempMaxWaitingMS = serverTime - d;
+                                    item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                                }
 
                             }
 
+                            //
+                            item.id = event.Message.queueDetail.QueueId;
+                            item.BusinessUnit = event.Message.businessUnit;
+
+                            item.QueueName = event.Message.queueDetail.QueueName;
+                            item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+
+                            if (item.TotalQueued > 0) {
+                                item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
+                            }
+
+                            if (!$scope.queues[event.Message.queueDetail.QueueId]) {
+                                $scope.queueList.push(item);
+                            }
+
+                            $scope.safeApply(function () {
+                                item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
+                                $scope.queues[event.Message.queueDetail.QueueId] = item;
+                            });
+
+                            setGridData();
                         }
-
-                        //
-                        item.id = event.Message.queueDetail.QueueId;
-                        item.BusinessUnit = event.Message.businessUnit;
-
-                        item.QueueName = event.Message.queueDetail.QueueName;
-                        item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
-
-                        if (item.TotalQueued > 0) {
-                            item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
-                        }
-
-                        if (!$scope.queues[event.Message.queueDetail.QueueId]) {
-                            $scope.queueList.push(item);
-                        }
-
-                        $scope.safeApply(function () {
-                            item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
-                            $scope.queues[event.Message.queueDetail.QueueId] = item;
-                        });
-
-                        setGridData();
-                    }
-                    break;
+                        break;
+                }
+            }
+            else {
+                console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
             }
         });
 

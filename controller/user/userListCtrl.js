@@ -4,11 +4,12 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService, resourceService, $rootScope) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, attributeService, companyConfigBackendService, resourceService, $rootScope, $q) {
 
 		/** Kasun_Wijeratne_21_MARCH_2018
 		 * --------------------------------------------------------------*/
     	$scope.newUserView = false;
+        $scope.grpSkills = [];
     	$scope.toggleNewUserView = function () {
 			$scope.newUserView = !$scope.newUserView;
 		};
@@ -21,6 +22,16 @@
 		});
 		/** --------------------------------------------------------------
 		 * Kasun_Wijeratne_21_MARCH_2018*/
+
+        $scope.showAlert = function (title, type, content) {
+
+            new PNotify({
+                title: title,
+                text: content,
+                type: type,
+                styling: 'bootstrap3'
+            });
+        };
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -59,6 +70,50 @@
 
         };
 
+        $scope.onChipDeleteAttr = function (chip) {
+
+            console.log($scope.grpSkills);
+
+            attributeService.removeAttributeFromUserGroup($scope.selectedGroup._id, chip.AttributeId).then(function (response) {
+                if (response) {
+                    console.info("AddAttributeToGroup : " + response);
+                    return true;
+                }
+                else {
+
+                    $scope.showAlert("Error", "error", "Failed to save " + chip.Attribute);
+                    return false;
+                }
+            }, function (error) {
+                $scope.showError("Error", "error", "Failed to save " + chip.Attribute);
+                return false;
+            });
+        };
+
+        $scope.onChipAddAttr = function (chip) {
+
+            var addObj = {
+                GroupId: $scope.selectedGroup._id,
+                GroupName: $scope.selectedGroup.name,
+                AttributeId: chip.AttributeId,
+                AttributeGroupId: chip.AttributeGroupId
+            };
+            attributeService.addAttributeToUserGroup(addObj).then(function (response) {
+                if (response) {
+                    console.info("AddAttributeToGroup : " + response);
+                    return true;
+                }
+                else {
+
+                    $scope.showAlert("Error", "error", "Failed to save " + chip.Attribute);
+                    return false;
+                }
+            }, function (error) {
+                $scope.showError("Error", "error", "Failed to save " + chip.Attribute);
+                return false;
+            });
+        };
+
         $scope.onChipAdd = function (chip) {
 
             chip.isTemp = true;
@@ -67,14 +122,30 @@
         };
 
         $anchorScroll();
-        $scope.showAlert = function (title, type, content) {
 
-            new PNotify({
-                title: title,
-                text: content,
-                type: type,
-                styling: 'bootstrap3'
-            });
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(group) {
+                return (group.Attribute.toLowerCase().indexOf(lowercaseQuery) != -1);
+                ;
+            };
+        }
+
+        $scope.querySearchSkills = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.attribinfo) {
+                    return $scope.attribinfo;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                return results = query ? $scope.attribinfo.filter(createFilterFor(query)) : [];
+            }
+
         };
 
         $scope.isEditing = false;
@@ -86,6 +157,7 @@
         $scope.newGroupUsers = [];
         $scope.addMemRole = "user";
         $scope.isScrolled = false;
+        $scope.attribinfo = [];
 
         $scope.searchCriteria = "";
 
@@ -120,9 +192,93 @@
             $state.go('console.applicationAccessManager', {username: item.username, role: item.user_meta.role});
         };
 
+        var getUserGrpGroup = function()
+        {
+            attributeService.getGroupByName('User Group').then(function(response)
+            {
+                if(!response.data || !response.data.IsSuccess)
+                {
+                    $scope.showAlert("Error", "error", "Error loading fixed group for user groups");
+
+                }
+                else
+                {
+                    if(response.data.Result)
+                    {
+                        attributeService.GetAttributeByGroupId(response.data.Result.GroupId).then(function (response) {
+                            /*scope.attachedAttributes = response.ResAttribute;*/
+
+                            response.forEach(res => {
+                                if(res.ResAttribute)
+                                {
+                                    res.ResAttribute.AttributeGroupId = res.AttributeGroupId;
+                                    $scope.attribinfo.push(res.ResAttribute)
+                                }});
+
+                            loadUserGroups();
+
+
+                        }, function (error) {
+                            $log.debug("GetAttributeByGroupId err");
+                            $scope.showError("Error", "Error", "ok", "There is an error ");
+                        });
+
+                    }
+                    else
+                    {
+                        $scope.attribinfo = [];
+                    }
+
+                }
+            })
+        };
+
+        getUserGrpGroup();
+        $scope.userList=[];
+
 
         var loadUsers = function () {
-            userProfileApiAccess.getUsers('all').then(function (data) {
+
+            userProfileApiAccess.getUserCount('all').then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(userProfileApiAccess.LoadUsersByPage('all',pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (data) {
+                            var Result= data.Result;
+                            Result.map(function (item) {
+
+                                $scope.userList.push(item);
+                            });
+                        });
+
+                    }
+                    $scope.getUsersFromActiveDirectory();
+
+
+                }).catch(function (err) {
+                    console.error(err);
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+
+            /*userProfileApiAccess.getUsers('all').then(function (data) {
                 if (data.IsSuccess) {
                     $scope.userList = data.Result;
                 }
@@ -146,7 +302,7 @@
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
-            });
+            });*/
         };
 
         var loadAdminUsers = function () {
@@ -340,7 +496,6 @@
 		}
 
         loadUsers();
-        loadUserGroups();
         loadAdminUsers();
 
 
@@ -575,9 +730,35 @@
         $scope.loadGroupMembers = function (group) {
 
             if (!$scope.isEditing) {
+                $scope.grpSkills = [];
                 $scope.groupMemberlist = [];
                 $scope.isLoadingUsers = true;
                 $scope.selectedGroup = group;
+
+                attributeService.getSkillsForUserGroup(group._id).then(function(sRes)
+                {
+                    if(sRes.IsSuccess && sRes.Result && sRes.Result.length > 0)
+                    {
+                        if($scope.attribinfo && $scope.attribinfo.length > 0)
+                        {
+                            $scope.attribinfo.filter(attr => {
+                                sRes.Result.forEach(sg => {
+                                    if(sg.AttributeId === attr.AttributeId)
+                                    {
+                                        $scope.grpSkills.push(attr);
+                                    }
+
+                                })
+                            });
+                        }
+
+                    }
+
+                }).catch(function(err)
+                {
+                    $scope.showAlert("Error", "error", "Error loading user group skills");
+
+                });
 
                 userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
                     if (response.IsSuccess) {
@@ -702,6 +883,46 @@
         //get all agents
         //onload
         $scope.loadAllAgents = function () {
+            $scope.agents=[];
+            userProfileApiAccess.getUserCount('all').then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(userProfileApiAccess.LoadUsersByPage('all',pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (data) {
+                            var Result= data.Result;
+                            Result.map(function (item) {
+
+                                $scope.agents.push(item);
+                            });
+                        });
+
+                    }
+                    removeAllocatedAgents();
+
+
+                }).catch(function (err) {
+                    $scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
+                });
+
+
+
+            }, function (err) {
+
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+
+
+           /*
             userProfileApiAccess.getUsers().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.agents = data.Result;
@@ -709,7 +930,7 @@
                 }
             }, function (error) {
                 $scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
-            });
+            });*/
         };
         $scope.loadAllAgents();
 

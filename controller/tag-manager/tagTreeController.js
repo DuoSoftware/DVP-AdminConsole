@@ -84,6 +84,7 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
 
     $scope.childTreeGenerator = function (childTags, motherBranch) {
 
+
         for (var i = 0; i < childTags.length; i++) {
             $scope.loadTagDetails(childTags[i], function (error, tagResponse) {
                 if (error) {
@@ -93,9 +94,9 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
 
                     var newChild = $scope.try_adding_a_branch(motherBranch, tagResponse);
 
-                    if (tagResponse.tags.length > 0) {
+                   /* if (tagResponse.tags.length > 0) {
                         $scope.childTreeGenerator(tagResponse.tags, newChild)
-                    }
+                    }*/
 
 
                 }
@@ -126,6 +127,43 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
 
 
     };
+
+    $scope.loadImmediateChildren = function ()
+    {
+        var selectedBranch;
+        selectedBranch = tree.get_selected_branch();
+
+
+        $scope.loadTagDetails(selectedBranch,function (errChild,resChild) {
+            if(errChild)
+            {
+                console.info("Error in getting child tags  " + errChild);
+            }
+            else
+            {
+                if(resChild && resChild.tags)
+                {
+                    if( resChild.tags.length == 0)
+                    {
+                        $scope.showAlert("Info", "No children to load", "info");
+                    }
+                    else
+                    {
+                        $scope.childTreeGenerator(resChild.tags,selectedBranch);
+                    }
+                }
+                else
+                {
+                    $scope.showAlert("Info", "Child Tags already loaded", "info");
+                }
+
+
+            }
+        });
+
+
+
+    }
 
     $scope.saveNewTagData = function (parentTag, newTagData) {
 
@@ -316,6 +354,8 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
             $scope.showAlert("Error", "Tag deletion failed", "error");
         });
     };
+
+
     $scope.deleteCategory = function (tagCat) {
         tagBackendService.deleteTagCategoryFromDB(tagCat._id).then(function (response) {
             if (response) {
@@ -549,6 +589,7 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
     return $scope.try_adding_a_branch = function (currentBranch, childDetails) {
 
         var parentBranch = tree.get_selected_branch();
+
 
         return tree.add_branch(currentBranch, {
             label: childDetails.name,

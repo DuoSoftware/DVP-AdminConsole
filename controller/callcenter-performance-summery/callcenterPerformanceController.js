@@ -5,8 +5,8 @@
 
 (function () {
 
-    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll, subscribeServices) {
-
+    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll, subscribeServices,ShareData) {
+        $scope.isLoading = -1;
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
             if (phase == '$apply' || phase == '$digest') {
@@ -483,7 +483,7 @@
 
         var getCounts = function () {
 
-
+            $scope.isLoading = 0;
             $q.all([
                 getTotalInboundCalls(),
                 getTotalOutboundCalls(),
@@ -502,6 +502,7 @@
                     $scope.callCenterPerformance.totalQueueDropped
                 ];
                 window.callCenterPerformanceChart.update();
+                $scope.isLoading++
             });
 
             //getCountTimer = $timeout(getCounts, 60000);
@@ -526,7 +527,7 @@
                 $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
                 $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter(averageTalkTimeInbound);
                 $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter(averageTalkTimeOutbound);
-
+                $scope.isLoading++
             });
 
             //getTimesTimer = $timeout(getTimes, 30000);
@@ -568,156 +569,172 @@
 
 
         subscribeServices.subscribeDashboard('ccperformance',function (event) {
-            switch (event.roomName) {
-                case 'CALLS:TotalCount':
-                    if (event.Message) {
-                        if (event.Message.window === 'CALLS' && event.Message.param1 === 'inbound') {
-                            $scope.callCenterPerformance.totalInbound = event.Message.TotalCountParam1;
-                            $scope.callCenterPerformanceChartConfig.data.datasets[0].data[0] = $scope.callCenterPerformance.totalInbound;
-                            $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter($scope.callCenterPerformance.totalInbound ? ($scope.callCenterPerformance.totalTalkTimeInboundValue / $scope.callCenterPerformance.totalInbound).toFixed(2) : 0);
-                        } else if (event.Message.window === 'CALLS' && event.Message.param1 === 'outbound') {
-                            $scope.callCenterPerformance.totalOutbound = event.Message.TotalCountParam1;
-                            $scope.callCenterPerformanceChartConfig.data.datasets[0].data[1] = $scope.callCenterPerformance.totalOutbound;
-                            $scope.callCenterPerformance.AverageOutboundCallsPerAgent = $scope.callCenterPerformance.TotalOutboundAgentCount ? ($scope.callCenterPerformance.totalOutbound / $scope.callCenterPerformance.TotalOutboundAgentCount).toFixed(2) : 0;
-                            $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter($scope.callCenterPerformance.totalOutbound ? ($scope.callCenterPerformance.totalTalkTimeOutboundValue / $scope.callCenterPerformance.totalOutbound).toFixed(2) : 0);
+            if (event && event.Message && event.Message.businessUnit
+                && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (ShareData.BusinessUnit.toLowerCase() === 'all' && event.From === "ArdsMonitoringService") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+
+                switch (event.roomName) {
+                    case 'CALLS:TotalCount':
+                        if (event.Message) {
+                            if (event.Message.window === 'CALLS' && event.Message.param1 === 'inbound') {
+                                $scope.callCenterPerformance.totalInbound = event.Message.TotalCountParam1;
+                                $scope.callCenterPerformanceChartConfig.data.datasets[0].data[0] = $scope.callCenterPerformance.totalInbound;
+                                $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter($scope.callCenterPerformance.totalInbound ? ($scope.callCenterPerformance.totalTalkTimeInboundValue / $scope.callCenterPerformance.totalInbound).toFixed(2) : 0);
+                            } else if (event.Message.window === 'CALLS' && event.Message.param1 === 'outbound') {
+                                $scope.callCenterPerformance.totalOutbound = event.Message.TotalCountParam1;
+                                $scope.callCenterPerformanceChartConfig.data.datasets[0].data[1] = $scope.callCenterPerformance.totalOutbound;
+                                $scope.callCenterPerformance.AverageOutboundCallsPerAgent = $scope.callCenterPerformance.TotalOutboundAgentCount ? ($scope.callCenterPerformance.totalOutbound / $scope.callCenterPerformance.TotalOutboundAgentCount).toFixed(2) : 0;
+                                $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter($scope.callCenterPerformance.totalOutbound ? ($scope.callCenterPerformance.totalTalkTimeOutboundValue / $scope.callCenterPerformance.totalOutbound).toFixed(2) : 0);
+                            }
+
+                            window.callCenterPerformanceChart.update();
                         }
+                        break;
 
-                        window.callCenterPerformanceChart.update();
-                    }
-                    break;
-
-                case 'QUEUE:TotalCount':
-                    if (event.Message) {
-                        if (event.Message.window === 'QUEUE') {
-                            $scope.callCenterPerformance.totalQueued = event.Message.TotalCountWindow;
-                            $scope.callCenterPerformanceChartConfig.data.datasets[0].data[2] = $scope.callCenterPerformance.totalQueued;
+                    case 'QUEUE:TotalCount':
+                        if (event.Message) {
+                            if (event.Message.window === 'QUEUE') {
+                                $scope.callCenterPerformance.totalQueued = event.Message.TotalCountWindow;
+                                $scope.callCenterPerformanceChartConfig.data.datasets[0].data[2] = $scope.callCenterPerformance.totalQueued;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'QUEUEANSWERED:TotalCount':
-                    if (event.Message) {
-                        if (event.Message.window === 'QUEUEANSWERED') {
-                            $scope.callCenterPerformance.totalQueueAnswered = event.Message.TotalCountWindow;
-                            $scope.callCenterPerformanceChartConfig.data.datasets[0].data[3] = $scope.callCenterPerformance.totalQueueAnswered;
+                    case 'QUEUEANSWERED:TotalCount':
+                        if (event.Message) {
+                            if (event.Message.window === 'QUEUEANSWERED') {
+                                $scope.callCenterPerformance.totalQueueAnswered = event.Message.TotalCountWindow;
+                                $scope.callCenterPerformanceChartConfig.data.datasets[0].data[3] = $scope.callCenterPerformance.totalQueueAnswered;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'QUEUEDROPPED:TotalCount':
-                    if (event.Message) {
-                        if (event.Message.window === 'QUEUEDROPPED') {
-                            $scope.callCenterPerformance.totalQueueDropped = event.Message.TotalCountWindow;
-                            $scope.callCenterPerformanceChartConfig.data.datasets[0].data[4] = $scope.callCenterPerformance.totalQueueDropped;
+                    case 'QUEUEDROPPED:TotalCount':
+                        if (event.Message) {
+                            if (event.Message.window === 'QUEUEDROPPED') {
+                                $scope.callCenterPerformance.totalQueueDropped = event.Message.TotalCountWindow;
+                                $scope.callCenterPerformanceChartConfig.data.datasets[0].data[4] = $scope.callCenterPerformance.totalQueueDropped;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'AFTERWORK:TotalTime':
-                    if (event.Message) {
-                        if (event.Message.window === 'AFTERWORK') {
-                            $scope.safeApply(function () {
-                                $scope.callCenterPerformance.totalAcwTime = TimeFormatter(event.Message.TotalTimeWindow);
-                                $scope.callCenterPerformance.totalAcwTimeValue = event.Message.TotalTimeWindow;
-                                $scope.callCenterPerformance.AverageAcwTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalAcwTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
+                    case 'AFTERWORK:TotalTime':
+                        if (event.Message) {
+                            if (event.Message.window === 'AFTERWORK') {
+                                $scope.safeApply(function () {
+                                    $scope.callCenterPerformance.totalAcwTime = TimeFormatter(event.Message.TotalTimeWindow);
+                                    $scope.callCenterPerformance.totalAcwTimeValue = event.Message.TotalTimeWindow;
+                                    $scope.callCenterPerformance.AverageAcwTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalAcwTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
+                                    $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
+                                });
+                            }
+                        }
+                        break;
+
+                    case 'LOGIN:TotalTimeWithCurrentSession':
+                        if (event.Message) {
+
+                            if (event.Message.window === 'LOGIN' && event.Message.param2 === 'Register') {
+                                $scope.callCenterPerformance.totalStaffTime = TimeFormatter(event.Message.TotalTimeParam2);
+                                $scope.callCenterPerformance.totalStaffTimeValue = event.Message.TotalTimeParam2;
+                                $scope.callCenterPerformance.AverageStaffTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalStaffTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
                                 $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
-                            });
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'LOGIN:TotalTimeWithCurrentSession':
-                    if (event.Message) {
+                    case 'LOGIN:TotalKeyCount':
+                        if (event.Message) {
 
-                        if (event.Message.window === 'LOGIN' && event.Message.param2 === 'Register') {
-                            $scope.callCenterPerformance.totalStaffTime = TimeFormatter(event.Message.TotalTimeParam2);
-                            $scope.callCenterPerformance.totalStaffTimeValue = event.Message.TotalTimeParam2;
-                            $scope.callCenterPerformance.AverageStaffTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalStaffTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
+                            if (event.Message.window === 'LOGIN' && event.Message.param2 === 'Register') {
+                                $scope.callCenterPerformance.TotalLoginAgents = event.Message.TotalCountParam2;
+                                $scope.callCenterPerformance.AverageStaffTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalStaffTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
+                                $scope.callCenterPerformance.AverageAcwTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalAcwTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
+                            }
+                        }
+                        break;
+
+                    case 'CONNECTED:TotalKeyCount':
+                        if (event.Message) {
+
+                            if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLoutbound') {
+
+                                $scope.callCenterPerformance.TotalOutboundAgentCount = event.Message.TotalCountParam2;
+                                $scope.callCenterPerformance.AverageOutboundCallsPerAgent = $scope.callCenterPerformance.TotalOutboundAgentCount ? ($scope.callCenterPerformance.totalOutbound / $scope.callCenterPerformance.TotalOutboundAgentCount).toFixed(2) : 0;
+
+                            } else if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLinbound') {
+
+                                $scope.callCenterPerformance.TotalInboundAgentCount = event.Message.TotalCountParam2;
+                                $scope.callCenterPerformance.AverageInboundCallsPerAgent = $scope.callCenterPerformance.TotalInboundAgentCount ? ($scope.callCenterPerformance.TotalInboundAnswerCount / $scope.callCenterPerformance.TotalInboundAgentCount).toFixed(2) : 0;
+
+                            }
+                        }
+                        break;
+
+                    case 'CONNECTED:TotalCount':
+                        if (event.Message) {
+
+                            if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLinbound') {
+                                $scope.callCenterPerformance.TotalInboundAnswerCount = event.Message.TotalCountParam2;
+                                $scope.callCenterPerformance.AverageInboundCallsPerAgent = $scope.callCenterPerformance.TotalInboundAgentCount ? ($scope.callCenterPerformance.TotalInboundAnswerCount / $scope.callCenterPerformance.TotalInboundAgentCount).toFixed(2) : 0;
+                            }
+                        }
+                        break;
+
+                    case 'CONNECTED:TotalTime':
+                        if (event.Message) {
+                            if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLinbound') {
+                                $scope.callCenterPerformance.totalTalkTimeInbound = TimeFormatter(event.Message.TotalTimeParam2);
+                                $scope.callCenterPerformance.totalTalkTimeInboundValue = event.Message.TotalTimeParam2;
+                                $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter($scope.callCenterPerformance.totalInbound ? ($scope.callCenterPerformance.totalTalkTimeInboundValue / $scope.callCenterPerformance.totalInbound).toFixed(2) : 0);
+                            } else if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLoutbound') {
+                                $scope.callCenterPerformance.totalTalkTimeOutbound = TimeFormatter(event.Message.TotalTimeParam2);
+                                $scope.callCenterPerformance.totalTalkTimeOutboundValue = event.Message.TotalTimeParam2;
+                                $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter($scope.callCenterPerformance.totalOutbound ? ($scope.callCenterPerformance.totalTalkTimeOutboundValue / $scope.callCenterPerformance.totalOutbound).toFixed(2) : 0);
+                            }
                             $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
                         }
-                    }
-                    break;
+                        break;
 
-                case 'LOGIN:TotalKeyCount':
-                    if (event.Message) {
-
-                        if (event.Message.window === 'LOGIN' && event.Message.param2 === 'Register') {
-                            $scope.callCenterPerformance.TotalLoginAgents = event.Message.TotalCountParam2;
-                            $scope.callCenterPerformance.AverageStaffTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalStaffTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
-                            $scope.callCenterPerformance.AverageAcwTime = TimeFormatter($scope.callCenterPerformance.TotalLoginAgents ? ($scope.callCenterPerformance.totalAcwTimeValue / $scope.callCenterPerformance.TotalLoginAgents).toFixed(2) : 0);
+                    case 'BREAK:TotalTime':
+                        if (event.Message) {
+                            if (event.Message.window === 'BREAK') {
+                                $scope.callCenterPerformance.totalBreakTime = TimeFormatter(event.Message.TotalTimeWindow);
+                                $scope.callCenterPerformance.totalBreakTimeValue = event.Message.TotalTimeWindow;
+                                $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'CONNECTED:TotalKeyCount':
-                    if (event.Message) {
-
-                        if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLoutbound') {
-
-                            $scope.callCenterPerformance.TotalOutboundAgentCount = event.Message.TotalCountParam2;
-                            $scope.callCenterPerformance.AverageOutboundCallsPerAgent = $scope.callCenterPerformance.TotalOutboundAgentCount ? ($scope.callCenterPerformance.totalOutbound / $scope.callCenterPerformance.TotalOutboundAgentCount).toFixed(2) : 0;
-
-                        } else if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLinbound') {
-
-                            $scope.callCenterPerformance.TotalInboundAgentCount = event.Message.TotalCountParam2;
-                            $scope.callCenterPerformance.AverageInboundCallsPerAgent = $scope.callCenterPerformance.TotalInboundAgentCount ? ($scope.callCenterPerformance.TotalInboundAnswerCount / $scope.callCenterPerformance.TotalInboundAgentCount).toFixed(2) : 0;
-
+                    case 'AGENTHOLD:TotalTime':
+                        if (event.Message) {
+                            if (event.Message.window === 'AGENTHOLD') {
+                                $scope.callCenterPerformance.totalHoldTime = TimeFormatter(event.Message.TotalTimeWindow);
+                                $scope.callCenterPerformance.totalHoldTimeValue = event.Message.TotalTimeWindow;
+                                $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
+                            }
                         }
-                    }
-                    break;
+                        break;
+                    default:
+                        //console.log(event);
+                        break;
 
-                case 'CONNECTED:TotalCount':
-                    if (event.Message) {
-
-                        if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLinbound') {
-                            $scope.callCenterPerformance.TotalInboundAnswerCount = event.Message.TotalCountParam2;
-                            $scope.callCenterPerformance.AverageInboundCallsPerAgent = $scope.callCenterPerformance.TotalInboundAgentCount ? ($scope.callCenterPerformance.TotalInboundAnswerCount / $scope.callCenterPerformance.TotalInboundAgentCount).toFixed(2) : 0;
-                        }
-                    }
-                    break;
-
-                case 'CONNECTED:TotalTime':
-                    if (event.Message) {
-                        if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLinbound') {
-                            $scope.callCenterPerformance.totalTalkTimeInbound = TimeFormatter(event.Message.TotalTimeParam2);
-                            $scope.callCenterPerformance.totalTalkTimeInboundValue = event.Message.TotalTimeParam2;
-                            $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter($scope.callCenterPerformance.totalInbound ? ($scope.callCenterPerformance.totalTalkTimeInboundValue / $scope.callCenterPerformance.totalInbound).toFixed(2) : 0);
-                        } else if (event.Message.window === 'CONNECTED' && event.Message.param2 === 'CALLoutbound') {
-                            $scope.callCenterPerformance.totalTalkTimeOutbound = TimeFormatter(event.Message.TotalTimeParam2);
-                            $scope.callCenterPerformance.totalTalkTimeOutboundValue = event.Message.TotalTimeParam2;
-                            $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter($scope.callCenterPerformance.totalOutbound ? ($scope.callCenterPerformance.totalTalkTimeOutboundValue / $scope.callCenterPerformance.totalOutbound).toFixed(2) : 0);
-                        }
-                        $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
-                    }
-                    break;
-
-                case 'BREAK:TotalTime':
-                    if (event.Message) {
-                        if (event.Message.window === 'BREAK') {
-                            $scope.callCenterPerformance.totalBreakTime = TimeFormatter(event.Message.TotalTimeWindow);
-                            $scope.callCenterPerformance.totalBreakTimeValue = event.Message.TotalTimeWindow;
-                            $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
-                        }
-                    }
-                    break;
-
-                case 'AGENTHOLD:TotalTime':
-                    if (event.Message) {
-                        if (event.Message.window === 'AGENTHOLD') {
-                            $scope.callCenterPerformance.totalHoldTime = TimeFormatter(event.Message.TotalTimeWindow);
-                            $scope.callCenterPerformance.totalHoldTimeValue = event.Message.TotalTimeWindow;
-                            $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
-                        }
-                    }
-                    break;
-                default:
-                    //console.log(event);
-                    break;
-
+                }
+            }
+            else {
+                console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
             }
         });
 
 
+        $scope.$watch(function () {
+            return ShareData.BusinessUnit;
+        }, function (newValue, oldValue) {
+            if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+                getCounts();
+                getTimes();
+
+            }
+        });
     });
 
 }());

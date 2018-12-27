@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 3/22/2017.
  */
-mainApp.controller("noticeConfigController", function ($scope, $state, noticeBackendService, loginService,$anchorScroll,notifiSenderService,FileUploader,fileService,attachmentBackendService) {
+mainApp.controller("noticeConfigController", function ($scope, $state, noticeBackendService, loginService,$anchorScroll,notifiSenderService,FileUploader,fileService,attachmentBackendService,$q) {
 
 
     $anchorScroll();
@@ -268,7 +268,52 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
     $scope.attributeGroup;
     $scope.loadUsers = function () {
 
-        notifiSenderService.getUserList().then(function (response) {
+
+        $scope.userList = [];
+        $scope.userObjects=[];
+
+        notifiSenderService.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(notifiSenderService.LoadUsersByPage(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+                        data.map(function (item) {
+                            item.status = 'offline';
+                            item.callstatus = 'offline';
+                            item.callstatusstyle = 'call-status-offline';
+                            $scope.userObjects.push(item);
+
+                        });
+                    });
+
+                }
+
+                $scope.userList=$scope.userObjects;
+
+            }).catch(function (err) {
+                console.error(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+            });
+
+
+
+        }, function (err) {
+
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+
+        /*notifiSenderService.getUserList().then(function (response) {
             if(response)
             {
                 $scope.userObjects=response;
@@ -277,7 +322,7 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
 
         }, function (error) {
             console.log("Getting user groups failed");
-        })
+        })*/
     };
 
     $scope.loadUserGroups();

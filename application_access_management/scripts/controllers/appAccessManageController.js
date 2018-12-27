@@ -30,12 +30,54 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
     $scope.userList = [];
     $scope.GetUserList = function () {
+        $scope.userList=[];
 
-        appAccessManageService.GetUserList().then(function (response) {
+        appAccessManageService.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(appAccessManageService.LoadUsersByPage(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+
+                        data.map(function (item) {
+
+                            $scope.userList.push(item);
+                        });
+                    });
+
+                }
+
+
+
+            }).catch(function (err) {
+                console.error(err);
+                loginService.isCheckResponse(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+            });
+
+
+
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+
+
+        /*appAccessManageService.GetUserList().then(function (response) {
             $scope.userList = response;
         }, function (error) {
             $scope.showError("Error", "Error", "ok", "There is an error ");
-        });
+        });*/
 
     };
     // $scope.GetUserList();

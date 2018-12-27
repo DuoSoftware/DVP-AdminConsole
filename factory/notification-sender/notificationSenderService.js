@@ -90,6 +90,41 @@ mainApp.factory('notifiSenderService', function ($http, baseUrls)
             }).then(function (response) {
                 return response;
             });
+        },
+        LoadUsersByPage: function (pagesize,pageno) {
+            var postData = [];
+            postData['Page'] = pageno;
+            postData['Size'] = pagesize;
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + "Users",
+                params: postData
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
+        getUserCount: function (state) {
+
+            var valUrl= baseUrls.UserServiceBaseUrl + "UserCount";
+            if(state)
+            {
+                valUrl= baseUrls.UserServiceBaseUrl + "UserCount?active="+state;
+            }
+
+            return $http({
+                method: 'GET',
+                url:  valUrl
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+            });
         }
 
 

@@ -164,7 +164,7 @@
 
                     <div class="row" ng-hide="isLoading">
 
-                        <div class="col-md-55" ng-repeat="file in files | filter:txtSearch">
+                        <div class="col-md-55" ng-repeat="file in files | filter:txtSearch| orderBy:'-createdAt'">
                             <div class="thumbnail">
                                 <div class="image view view-first">
 
@@ -187,7 +187,7 @@
                                                                              ng-click="playVideo(file)"></i></a>
                                             <a href="javascript:void(0);"><i class="fa fa-cloud-download"
                                                                              ng-click="downloadFile(file)"></i></a>
-                                            <a href="javascript:void(0);"><i class="fa fa-times"
+                                            <a ng-hide="file.FileCategory.Category === 'CONVERSATION'" href="javascript:void(0);"><i class="fa fa-times"
                                                                              ng-click="deleteFile(file)"></i></a>
                                         </div>
                                     </div>

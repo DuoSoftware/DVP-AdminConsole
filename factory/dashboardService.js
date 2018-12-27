@@ -823,7 +823,10 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.ardsmonitoringBaseUrl + "MONITORING/callCenter/from/" + startDate + "/to/" + endDate + "?reqType=" + requestType
+            url: baseUrls.ardsmonitoringBaseUrl + "MONITORING/callCenter/from/" + startDate + "/to/" + endDate + "?reqType=" + requestType,
+            params: {
+                businessUnit:businessUnit
+            }
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {

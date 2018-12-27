@@ -82,9 +82,10 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         }
     };
 
-    $scope.searchOption = 'hourly';
+    $scope.searchOption  = {}
+    $scope.searchOption.name = 'hourly';
     $scope.getQueueSummary = function () {
-        if ($scope.searchOption == 'hourly') {
+        if ($scope.searchOption.name == 'hourly') {
             $scope.queueSummaryList = [];
             $scope.isTableLoading = 0;
             queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
@@ -102,7 +103,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
                 console.log("Error in Queue Summary loading ", error);
                 $scope.isTableLoading = 2;
             });
-        } else if ($scope.searchOption == 'daily') {
+        } else if ($scope.searchOption.name == 'daily') {
             createDailyGraph();
         }
     };
@@ -131,24 +132,50 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         var deferred = $q.defer();
 
         var queueSummaryListForCsv = [];
-        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
 
-            if (!response.data.IsSuccess) {
-                console.log("Queue Summary loading failed ", response.data.Exception);
+        if($scope.searchOption.name == 'hourly')
+        {
+            queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.param.qDate).then(function (response) {
+
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    deferred.resolve(queueSummaryListForCsv);
+                }
+                else {
+                    queueSummaryListForCsv = response.data.Result;
+                    deferred.resolve(queueSummaryListForCsv);
+
+                    console.log(queueSummaryListForCsv);
+                }
+
+            }, function (error) {
+                loginService.isCheckResponse(error);
                 deferred.resolve(queueSummaryListForCsv);
-            }
-            else {
-                queueSummaryListForCsv = response.data.Result;
+                console.log("Error in Queue Hourly Summary loading ", error);
+            });
+        }
+        else
+        {
+            queueSummaryBackendService.getQueueSlaBreakDown($scope.param.qDate).then(function (response) {
+
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    deferred.resolve(queueSummaryListForCsv);
+                }
+                else {
+                    queueSummaryListForCsv = response.data.Result;
+                    deferred.resolve(queueSummaryListForCsv);
+
+                    console.log(queueSummaryListForCsv);
+                }
+
+            }, function (error) {
+                loginService.isCheckResponse(error);
                 deferred.resolve(queueSummaryListForCsv);
+                console.log("Error in Queue Daily Summary loading ", error);
+            });
+        }
 
-                console.log(queueSummaryListForCsv);
-            }
-
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            deferred.resolve(queueSummaryListForCsv);
-            console.log("Error in Queue Summary loading ", error);
-        });
 
         return deferred.promise;
 

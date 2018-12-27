@@ -273,7 +273,31 @@
 
         $scope.getPageWiseDownloadCSV = function()
         {
-            return $scope.cdrList;
+            var listOfCdr = angular.copy($scope.cdrList);
+            var newCdrList = listOfCdr.map(function (item) {
+                if(item.CreatedTime)
+                {
+                    item.CreatedTime = moment(item.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")
+                }
+                if(item.Duration)
+                {
+                    item.Duration = $scope.convertToMMSS(item.Duration);
+                }
+                if(item.AnswerSec)
+                {
+                    item.AnswerSec = $scope.convertToMMSS(item.AnswerSec);
+                }
+                if(item.QueueSec)
+                {
+                    item.QueueSec = $scope.convertToMMSS(item.QueueSec);
+                }
+
+                return item;
+
+            });
+
+            return newCdrList;
+
         };
 
 
@@ -397,7 +421,7 @@
 
 
                 var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
+                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit, $scope.priorityFilter).then(function (cdrResp) {
                     if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var count = 0;
@@ -562,6 +586,7 @@
                                     Duration: cdrAppendObj.Duration,
                                     AnswerSec: cdrAppendObj.AnswerSec,
                                     QueueSec: cdrAppendObj.QueueSec,
+                                    HangupParty:cdrAppendObj.HangupParty,
                                     ObjType: cdrAppendObj.ObjType,
                                     ObjCategory: cdrAppendObj.ObjCategory
                                 };
@@ -641,12 +666,12 @@
                     tempBUnit = ShareData.BusinessUnit;
                 }
 
-                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function(cdrCntRsp)
+                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit, $scope.priotityFilter).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess)
                     {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
-                        cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
+                        cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit, $scope.priotityFilter).then(function (cdrResp) {
                             if (cdrResp && !cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
 
                                 $scope.cdrList = cdrResp.Result;

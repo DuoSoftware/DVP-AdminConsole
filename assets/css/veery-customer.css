@@ -4692,6 +4692,50 @@ tags-input .tags {
     text-align: center;
 }
 
+.knob-container {
+    border-radius:10px;padding: 20px 10px 0 10px;
+    position: relative;
+}
+
+.knob-container > div {
+    pointer-events: none!important;
+}
+
+.knob-container.knob-container-active {
+    -webkit-box-shadow: 0 1px 7px #aaa!important;
+    -moz-box-shadow: 0 1px 7px #aaa!important;
+    box-shadow: 0 1px 7px #aaa!important;
+}
+
+.knob-container.knob-container-active > div {
+    pointer-events: all!important;
+}
+
+.knob-container:hover {
+    -webkit-box-shadow: 0 1px 5px #bbb;
+    -moz-box-shadow: 0 1px 5px #bbb;
+    box-shadow: 0 1px 5px #bbb;
+}
+.knob-container .knob-edit {
+    position:absolute;
+    top: 10px;
+    right: 10px;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.knob-container .knob-done {
+    color: limegreen;
+    position:absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.knob-container:hover .knob-edit {
+   visibility: visible;
+}
+
 .resource-skill {
     display: inline-table !important
 }
@@ -9152,4 +9196,12 @@ circle {
 
 .x_panel .iconed-status-pill-header> b> i.fa{
     color: #aaa;
+}
+
+.blur-filter {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
 }

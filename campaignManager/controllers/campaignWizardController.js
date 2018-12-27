@@ -1753,7 +1753,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 if ($scope.data.length != numbers.length) {
                     $scope.showAlert("Campaign", "Delete All Invalid Numbers.", 'success');
                 }
-                $scope.data = numbers;
+                //$scope.data = numbers;
                 console.log(JSON.stringify(numbers));
                 $scope.validation_numbers = false;
             });

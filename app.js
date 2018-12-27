@@ -85,14 +85,14 @@ mainApp.config(function (scrollableTabsetConfigProvider) {
     scrollableTabsetConfigProvider.setTooltipLeftPlacement('bottom');
     scrollableTabsetConfigProvider.setTooltipRightPlacement('left');
 });
-//resourceservice.app1.veery.cloud
+//resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
     'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app1.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
+    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
     'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
     'fileServiceUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/FileService/',
@@ -108,7 +108,7 @@ var baseUrls = {
     'socialConnectorUrl': 'http://socialconnector.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'mailSenderUrl': 'http://mailsender.app.veery.cloud/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'notification': 'http://notificationservice.app1.veery.cloud/',//notificationservice.app1.veery.cloud
-    'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/', //cdrprocessor.app1.veery.cloud
     'scheduleWorker': 'http://scheduleworker.app1.veery.cloud/DVP/API/1.0.0.0/',
     'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app1.veery.cloud/DVP/API/1.0.0.0/',
@@ -279,7 +279,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "detailsDashBoardController",
             data: {
                 requireLogin: true,
-                navigation: "AGENT_DASHBOARD"
+                navigation: "DASHBOARD"
             }
         }).state('console.filegallery', {
             url: "/filegallery",

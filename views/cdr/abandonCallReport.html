@@ -18,8 +18,11 @@
                     <!--<div class="col-md-4 col-sm-4 col-xs-4">
                         <input type="text" class="form-control" ng-model="agentFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.SipUsername as usr.SipUsername for usr in userList" placeholder="Agent" bs-typeahead>
                     </div>-->
-                    <div class="col-md-5 col-sm-5 col-xs-12">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
                         <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="queue.QueueName as queue.QueueName for queue in qList" placeholder="Skill" bs-typeahead>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-12">
+                        <input type="number" min="0" max="1000" class="form-control" name="priorityFilter" ng-model="priorityFilter" placeholder="Priority">
                     </div>
                     <div class="col-md-5 col-sm-5 col-xs-12">
                         <input type="text" class="form-control" name="custFilter" ng-model="custFilter" placeholder="Customer Number">
@@ -153,6 +156,10 @@
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
+                                            colspan="1" aria-label="Hangup Party">Hangup Party
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
                                             colspan="1" aria-label="Call Type">Call Type
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -176,6 +183,7 @@
                                         <td>{{convertToMMSS(cdr.Duration)}}</td>
                                         <td>{{convertToMMSS(cdr.AnswerSec)}}</td>
                                         <td>{{convertToMMSS(cdr.QueueSec)}}</td>
+                                        <td>{{cdr.HangupParty}}</td>
                                         <td>{{cdr.ObjType}}</td>
                                         <td>{{cdr.ObjCategory}}</td>
                                         <td>{{cdr.BusinessUnit}}</td>
@@ -192,8 +200,8 @@
                         <div class="col-sm-7">
                             <button type="button" class="btn" ng-disabled="!(cdrList && cdrList.length > 0)"
                                     style="background-color: #aad154; color: #000000; font-weight: 500"
-                                    csv-header="['Call Direction', 'From', 'To', 'Received By', 'Agent Skill', 'Call Time', 'Total Duration', 'Ring Duration', 'Queue Duration', 'Call Type', 'Call Category']"
-                                    csv-column-order="['DVPCallDirection', 'SipFromUser', 'SipToUser', 'RecievedBy', 'AgentSkill', 'CreatedTime', 'Duration', 'AnswerSec', 'QueueSec', 'ObjType', 'ObjCategory']" ng-csv="getPageWiseDownloadCSV()"
+                                    csv-header="['Call Direction', 'From', 'To', 'Received By', 'Agent Skill', 'Queue Priority', 'Call Time', 'Total Duration', 'Ring Duration', 'Queue Duration', 'Hangup Party', 'Call Type', 'Call Category']"
+                                    csv-column-order="['DVPCallDirection', 'SipFromUser', 'SipToUser', 'RecievedBy', 'AgentSkill', 'QueuePriority', 'CreatedTime', 'Duration', 'AnswerSec', 'QueueSec', 'HangupParty', 'ObjType', 'ObjCategory']" ng-csv="getPageWiseDownloadCSV()"
                                     filename="AbandonCDR_PageWise_{{startDate}}_{{endDate}}_{{pageStack.length + 1}}.csv">
                                 Download Page&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-download"></i>

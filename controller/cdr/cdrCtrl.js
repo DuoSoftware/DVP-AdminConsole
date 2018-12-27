@@ -492,7 +492,7 @@
                 tempBUnit = ShareData.BusinessUnit;
             }
 
-            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, 'csv', momentTz, tempBUnit).then(function (cdrResp)
+            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, 'csv', momentTz, tempBUnit, $scope.priorityFilter).then(function (cdrResp)
                 //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
             {
                 if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
@@ -587,7 +587,7 @@
                 }
 
 
-                cdrApiHandler.getCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, null, tempBUnit).then(function (cdrResp) {
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, null, tempBUnit, $scope.priorityFilter).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var count = 0;
@@ -925,12 +925,12 @@
                     tempBUnit = ShareData.BusinessUnit;
                 }
 
-                cdrApiHandler.getCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, tempBUnit).then(function(cdrCntRsp)
+                cdrApiHandler.getCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, tempBUnit, $scope.priorityFilter).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess) {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
 
-                        cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, tempBUnit).then(function (cdrResp) {
+                        cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, tempBUnit, $scope.priorityFilter).then(function (cdrResp) {
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 

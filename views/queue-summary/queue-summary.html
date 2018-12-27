@@ -46,8 +46,8 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-12" style="padding-top: 25px">
                     <button type="button" class="btn btn-success"
-                            csv-header="['Queue', 'Date', 'Total Queued', 'Max Time', 'SLA (%)', 'Queue Answered (Count)', 'Queue Answered (%)', 'Queue Dropped (Count)', 'Queue Dropped (%)', 'Average QueueTime']"
-                            csv-column-order="[ 'Queue', 'Date', 'TotalQueued', 'MaxTime', 'SLA', 'QueueAnswered', 'QueueAnsweredPercentage', 'QueueDropped', 'QueueDroppedPercentage', 'AverageQueueTime']"
+                            csv-header="['Queue', 'Date', 'Total Queued', 'Max Time', 'SLA (%)', 'Queue Answered (Count)', 'Queue Answered (%)', 'Queue Dropped (Count)', 'Queue Dropped (%)', 'Average QueueTime' , 'Business Unit']"
+                            csv-column-order="[ 'Queue', 'Date', 'TotalQueued', 'MaxTime', 'SLA', 'QueueAnswered', 'QueueAnsweredPercentage', 'QueueDropped', 'QueueDroppedPercentage', 'AverageQueueTime','BusinessUnit']"
                             ng-csv="getQueueSummaryCSV()" filename="{{DownloadFileName}}.csv">
                         CSV&nbsp;&nbsp;&nbsp;&nbsp;
                         <i class="fa fa-download"></i>
@@ -124,6 +124,10 @@
                                                 rowspan="1"
                                                 colspan="1" aria-label="ReceivedBy">Average QueueTime
                                             </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
+                                                colspan="1" aria-label="ReceivedBy">Business Unit
+                                            </th>
 
 
                                         </thead>
@@ -140,6 +144,7 @@
                                             <td>{{queueSummary.QueueDropped}}</td>
                                             <td>{{queueSummary.QueueDroppedPercentage}}</td>
                                             <td>{{queueSummary.AverageQueueTime}}</td>
+                                            <td>{{queueSummary.BusinessUnit}}</td>
                                             <!--<td>
                                             <span ng-show="cdr.ShowButton">
                                                 <i class="fa fa-stop"
@@ -213,8 +218,8 @@
 
                     <div class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 25px">
                         <button type="button" class="btn btn-success"
-                                csv-header="['Queue', 'Total Queued', 'Max Time', 'SLA (%)', 'Queue Answered (Count)', 'Queue Answered (%)', 'Queue Dropped (Count)', 'Queue Dropped (%)', 'Average QueueTime']"
-                                csv-column-order="[ 'Queue', 'TotalQueued', 'MaxTime', 'SLA', 'QueueAnswered', 'QueueAnsweredPercentage', 'QueueDropped', 'QueueDroppedPercentage', 'AverageQueueTime']"
+                                csv-header="['Queue', 'Total Queued', 'Max Time', 'SLA (%)', 'Queue Answered (Count)', 'Queue Answered (%)', 'Queue Dropped (Count)', 'Queue Dropped (%)', 'Average QueueTime','Business Unit']"
+                                csv-column-order="[ 'Queue', 'TotalQueued', 'MaxTime', 'SLA', 'QueueAnswered', 'QueueAnsweredPercentage', 'QueueDropped', 'QueueDroppedPercentage', 'AverageQueueTime','BusinessUnit']"
                                 ng-csv="getQueueSummaryCSV2()" filename="{{DownloadFileName2}}.csv">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fa fa-download"></i>
@@ -289,6 +294,10 @@
                                                 rowspan="1"
                                                 colspan="1" aria-label="ReceivedBy">Average QueueTime
                                             </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
+                                                colspan="1" aria-label="ReceivedBy">Business Unit
+                                            </th>
 
 
                                         </thead>
@@ -304,6 +313,7 @@
                                             <td>{{queueSummary.QueueDropped}}</td>
                                             <td>{{queueSummary.QueueDroppedPercentage}}</td>
                                             <td>{{queueSummary.AverageQueueTime}}</td>
+                                            <td>{{queueSummary.BusinessUnit}}</td>
                                             <!--<td>
                                 <span ng-show="cdr.ShowButton">
                                     <i class="fa fa-stop"

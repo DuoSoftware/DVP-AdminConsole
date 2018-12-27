@@ -16,6 +16,38 @@
             });
         };
 
+        $scope.querySearch = function (query) {
+            var emptyArr = [];
+            if (query === "*" || query === "") {
+                if ($scope.userList) {
+                    return $scope.userList;
+                }
+                else {
+                    return emptyArr;
+                }
+
+            }
+            else {
+                if ($scope.userList) {
+                    return $scope.userList.filter(function (item) {
+                        var regEx = "^(" + query + ")";
+
+                        if (item.Display) {
+                            return item.Display.match(regEx);
+                        }
+                        else {
+                            return false;
+                        }
+
+                    });
+                }
+                else {
+                    return emptyArr;
+                }
+            }
+
+        };
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
 
         $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
@@ -112,7 +144,59 @@
 
         var getUserList = function () {
 
-            ticketReportsService.getUsers().then(function (userList) {
+            $scope.userList=[];
+
+            ticketReportsService.getUserCount('all').then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(ticketReportsService.LoadUsersByPage('all',pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (data) {
+                            var Result= data.Result;
+                            Result.map(function (item) {
+
+                                var rObj = {
+                                    UniqueId: item._id,
+                                    Display: item.name
+                                };
+
+                                $scope.userList.push(rObj);
+                            });
+                        });
+
+                    }
+
+                   /* $scope.userList = userList.Result.map(function (obj) {
+                        var rObj = {
+                            UniqueId: obj._id,
+                            Display: obj.name
+                        };
+
+                        return rObj;
+                    });*/
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    //$scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                // $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+
+           /* ticketReportsService.getUsers().then(function (userList) {
                 if (userList && userList.Result && userList.Result.length > 0) {
                     //$scope.userList = userList.Result;
 
@@ -129,7 +213,7 @@
 
             }).catch(function (err) {
                 loginService.isCheckResponse(err);
-            });
+            });*/
         };
 
 
@@ -335,9 +419,9 @@
                     edate: endDate,
                     limitCount: limit,
                     skipCount: 0,
-                    requester: $scope.selectedExtUser,
-                    assignee: $scope.selectedAssignee,
-                    submitter: $scope.selectedSubmitter,
+                    requester: $scope.selectedExtUser.UniqueId,
+                    assignee: $scope.selectedAssignee.UniqueId,
+                    submitter: $scope.selectedSubmitter.UniqueId,
                     tag: tagName,
                     channel: $scope.channelType,
                     priority: $scope.priorityType,
@@ -442,9 +526,9 @@
             $scope.FilterData = {
                 sdate: startDate,
                 edate: endDate,
-                requester: $scope.selectedExtUser,
-                assignee: $scope.selectedAssignee,
-                submitter: $scope.selectedSubmitter,
+                requester: $scope.selectedExtUser.UniqueId,
+                assignee: $scope.selectedAssignee.UniqueId,
+                submitter: $scope.selectedSubmitter.UniqueId,
                 tag: tagName,
                 channel: $scope.channelType,
                 priority: $scope.priorityType,
@@ -615,9 +699,9 @@
             $scope.FilterData = {
                 sdate: startDate,
                 edate: endDate,
-                requester: $scope.selectedExtUser,
-                assignee: $scope.selectedAssignee,
-                submitter: $scope.selectedSubmitter,
+                requester: $scope.selectedExtUser.UniqueId,
+                assignee: $scope.selectedAssignee.UniqueId,
+                submitter: $scope.selectedSubmitter.UniqueId,
                 tag: tagName,
                 channel: $scope.channelType,
                 priority: $scope.priorityType,

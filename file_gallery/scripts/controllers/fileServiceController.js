@@ -1,6 +1,6 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller('FileEditController', function ($scope, $filter, FileUploader, fileService,userProfileApiAccess,$anchorScroll)
+app.controller('FileEditController', function ($scope, $filter,$q, FileUploader, fileService,userProfileApiAccess,$anchorScroll)
 {
     $anchorScroll();
     $scope.file = {};
@@ -276,7 +276,7 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
 
 });
 
-app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state, $uibModal, $anchorScroll, fileService, jwtHelper, authService, baseUrls,userProfileApiAccess) {
+app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state, $uibModal, $anchorScroll,$q, fileService, jwtHelper, authService, baseUrls,userProfileApiAccess) {
 
     $anchorScroll();
     $scope.countByCategory = [];
@@ -291,12 +291,25 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         $scope.files = [];
         $scope.noDataToshow = false;
         if ($scope.categoryId) {
-            fileService.GetFilesCategoryID($scope.categoryId, pageSize, page).then(function (response) {
-                $scope.files = response;
-                $scope.noDataToshow = response ? (response.length == 0) : true;
-            }, function (err) {
-            });
 
+            if($scope.searchFiles){
+                fileService.searchFilesWithCategories($scope.fileSerach.StartTime, $scope.fileSerach.EndTime,$scope.searchCatObj,pageSize, page).then(function (response) {
+                    $scope.files = response;
+                    $scope.noDataToshow = response ? (response.length == 0) : true;
+                }, function (err) {
+                    $scope.showError("Error", "Error occurred while Loading Data.");
+                    console.error(err);
+                });
+            }
+            else {
+                fileService.GetFilesCategoryID($scope.categoryId, pageSize, page).then(function (response) {
+                 $scope.files = response;
+                 $scope.noDataToshow = response ? (response.length == 0) : true;
+             }, function (err) {
+                    $scope.showError("Error", "Error occurred while Loading Data.");
+                    console.error(err);
+             });
+            }
         }
         else {
             $scope.loadFileList(pageSize, page);
@@ -524,6 +537,8 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     };
 
     $scope.loadFilesByCat = function (cat) {
+        $scope.searchFiles = false;
+        $scope.searchCatObj.categoryList.push(cat.Category);
         $scope.getFilesCategoryID(cat, 1);
     };
 
@@ -532,7 +547,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         $scope.noDataToshow = false;
         $scope.pageSize = "50";
         $scope.pageTotal = category.fileCount.Count;
-        $scope.currentPage = 1;
+        $scope.currentPage = currentPage;
         $scope.categoryId = category.id;
         $scope.showPaging = false;
         fileService.GetFilesCategoryID(category.id, $scope.pageSize, currentPage).then(function (response) {
@@ -611,6 +626,10 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         });
     };
     $scope.deleteFile = function (file) {
+        if(file&&file.FileCategory&&file.FileCategory.Category === "CONVERSATION"){
+            $scope.showError("File Delete","Not Allowed To Delete Conversation Files");
+            return;
+        }
 
         $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " + file.Filename, function (obj) {
 
@@ -638,19 +657,24 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             var delCount = 0;
             angular.forEach($scope.fileToDelete, function (file) {
 
-                fileService.DeleteFile(file).then(function (response) {
-                    delCount++;
-                    if ($scope.fileToDelete.length === delCount) {
-                        $scope.reloadPage();
-                        $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
-                    }
-                }, function (error) {
-                    delCount++;
-                    if ($scope.fileToDelete.length === delCount) {
-                        $scope.reloadPage();
-                        $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
-                    }
-                });
+                if(file&&file.FileCategory&&file.FileCategory.Category === "CONVERSATION"){
+                    $scope.showError("File Delete","Not Allowed To Delete Conversation Files");
+                }
+                else{
+                    fileService.DeleteFile(file).then(function (response) {
+                        delCount++;
+                        if ($scope.fileToDelete.length === delCount) {
+                            $scope.reloadPage();
+                            $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
+                        }
+                    }, function (error) {
+                        delCount++;
+                        if ($scope.fileToDelete.length === delCount) {
+                            $scope.reloadPage();
+                            $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
+                        }
+                    });
+                }
 
             });
 
@@ -744,15 +768,22 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.fileSerach.StartTime = new Date();
     $scope.fileSerach.EndTime = new Date();
 
+    $scope.searchCatObj={
+        categoryList:[]
+    };
+
+    $scope.searchFiles = false;
     $scope.SearchFiles = function () {
+        $scope.searchFiles = true;
+        $scope.currentPage = "1";
         $scope.files = [];
-        var searchCatObj={
+        $scope.searchCatObj={
             categoryList:[]
         };
         $scope.noDataToshow = false;
         if ($scope.categoryId <= 0) {
             $scope.categoryId = -1;
-            searchCatObj=categoryObj;
+            $scope.searchCatObj=categoryObj;
 
         }
         else
@@ -764,7 +795,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
             if(catName.length>0 && catName[0].Category)
             {
-                searchCatObj.categoryList.push(catName[0].Category);
+                $scope.searchCatObj.categoryList.push(catName[0].Category);
             }
         }
 
@@ -774,18 +805,32 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         }
 
 
+        var promiseSet = [];
+        promiseSet.push(fileService.GetFileCountByCategory($scope.searchCatObj,$scope.fileSerach.StartTime, $scope.fileSerach.EndTime));
+        promiseSet.push(fileService.searchFilesWithCategories( $scope.fileSerach.StartTime, $scope.fileSerach.EndTime,$scope.searchCatObj,50,1));
+
+        $q.all(promiseSet).then(function (data) {
+
+            $scope.pageTotal = data[0];
+            $scope.files = data[1];
+            $scope.noDataToshow = $scope.files ? ($scope.files.length == 0) : true;
+            $scope.isLoading = false;
+            $scope.showPaging = true;
+        }).catch(function (e) {
+            $scope.showAlert("File Search", 'error', "Fail To Load File Details.");
+            $scope.isLoading = false;
+        });
 
 
-
-        fileService.searchFilesWithCategories( $scope.fileSerach.StartTime, $scope.fileSerach.EndTime,searchCatObj).then(function (response) {
+        /*fileService.searchFilesWithCategories( $scope.fileSerach.StartTime, $scope.fileSerach.EndTime,searchCatObj).then(function (response) {
             $scope.files = response;
             $scope.noDataToshow = response ? (response.length == 0) : true;
             $scope.isLoading = false;
-            $scope.showPaging = false;
+            $scope.showPaging = true;
             //$scope.pageSize = "50";
         }, function (err) {
             $scope.isLoading = false;
-        });
+        });*/
     };
 
 

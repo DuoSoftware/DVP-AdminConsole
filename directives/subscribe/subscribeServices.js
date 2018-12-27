@@ -7,7 +7,7 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
 
     //local  variable
-    var connectionSubscribers;
+    var connectionSubscribers={};
     var dashboardSubscriber = {};
     var eventSubscriber;
     var callSubscribers = {};
@@ -20,10 +20,12 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
             success: function (data) {
                 //console.log("authenticate..............");
 
-                if (connectionSubscribers) {
+                /*if (connectionSubscribers) {
                     connectionSubscribers(true);
-                }
-
+                }*/
+                angular.forEach(connectionSubscribers,function (func,key) {
+                    func(true);
+                });
                 //subscribe room
                 SE.subscribe({room: 'QUEUE:QueueDetail'});
                 SE.subscribe({room: 'QUEUE:CurrentCount'});
@@ -32,6 +34,7 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
                 SE.subscribe({room: 'CONNECTED:TotalTime'});
                 SE.subscribe({room: 'QUEUEANSWERED:TotalCount'});
                 SE.subscribe({room: 'BRIDGE:TotalCount'});
+                SE.subscribe({room: 'QUEUE:ResetAll'});
 
                 SE.subscribe({room: 'CALLS:TotalCount'});
                 SE.subscribe({room: 'CALLS:CurrentCount'});
@@ -52,6 +55,10 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
                 SE.subscribe({room: 'BREAK:TotalTime'});
                 SE.subscribe({room: 'AGENTHOLD:TotalTime'});
 
+
+
+                SE.subscribe({room: 'DASHBOARD:RESETALL'});
+
             },
             error: function (data) {
                 //console.log("authenticate error..............");
@@ -62,8 +69,11 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
     var OnDisconnect = function (o) {
         //console.log("OnDisconnect..............");
-        if (connectionSubscribers)
-            connectionSubscribers(false);
+        /*if (connectionSubscribers)
+            connectionSubscribers(false);*/
+        angular.forEach(connectionSubscribers,function (func,key) {
+            func(false);
+        });
     };
 
     var OnDashBoardEvent = function (event) {
@@ -126,12 +136,22 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
 
     //********  subscribe function ********//
-    var connect = function (callbck) {
-        connectionSubscribers = callbck;
+    var connect = function () {
         SE.init({
             serverUrl: baseUrls.ipMessageURL,
             callBackEvents: callBackEvents
         });
+    };
+    var disconnect = function () {
+        SE.disconnect();
+    };
+    var subscribeConnection = function (name,callbck) {
+        connectionSubscribers[name] = callbck;
+
+    };
+    var unSubscribeConnection = function (name) {
+        delete connectionSubscribers[name];
+
     };
     var subscribeDashboard = function (key, func) {
         dashboardSubscriber[key] = func;
@@ -221,9 +241,14 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
         });
     };
 
+
+
     return {
+        Disconnect:disconnect,
         Request: request,
-        connectSubscribeServer: connect,
+        Connect: connect,
+        SubscribeConnection:subscribeConnection,
+        UnSubscribeConnection: unSubscribeConnection,
         subscribeDashboard: subscribeDashboard,
         unSubscribeDashboard: unSubscribeDashboard,
         unsubscribe: unsubscribe,

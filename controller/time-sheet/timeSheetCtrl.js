@@ -4,7 +4,7 @@
 
 mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGroupingConstants, userProfileApiAccess,
                                               loginService,
-                                              timerServiceAccess) {
+                                              timerServiceAccess,$q) {
 
 
     $scope.showAlert = function (tittle, type, msg) {
@@ -15,6 +15,38 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
             styling: 'bootstrap3',
             icon: false
         });
+    };
+
+    $scope.querySearch = function (query) {
+        var emptyArr = [];
+        if (query === "*" || query === "") {
+            if ($scope.userDataList) {
+                return $scope.userDataList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.userDataList) {
+                return $scope.userDataList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.username) {
+                        return item.username.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
     };
 
     $scope.searchObj = {userId:undefined, startDate:undefined, endDate:undefined};
@@ -74,7 +106,53 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
     };
 
     $scope.loadUserData = function(){
-        userProfileApiAccess.getUsers().then(function (response) {
+
+        $scope.userDataList=[];
+
+        userProfileApiAccess.getUserCount('all').then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(userProfileApiAccess.LoadUsersByPage('all',pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+                        var Result= data.Result;
+                        Result.map(function (item) {
+
+                            $scope.userDataList.push(item);
+                        });
+                    });
+
+                }
+
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+                $scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
+            });
+
+
+
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+
+
+
+
+
+       /* userProfileApiAccess.getUsers().then(function (response) {
             if(response){
                 if(response.IsSuccess){
                     $scope.userDataList = response.Result;
@@ -92,11 +170,11 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
                 errMsg = err.statusText;
             }
             $scope.showAlert('Error', 'error', errMsg);
-        });
+        });*/
     };
 
     $scope.searchSheetData = function(){
-        timerServiceAccess.getTimersByUser($scope.searchObj.userId, $scope.searchObj.startDate, $scope.searchObj.endDate).then(function (response) {
+        timerServiceAccess.getTimersByUser($scope.searchObj.userId._id, $scope.searchObj.startDate, $scope.searchObj.endDate).then(function (response) {
             if(response){
                 if(response.IsSuccess){
                     if(response.Result) {

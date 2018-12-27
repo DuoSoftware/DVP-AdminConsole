@@ -1,15 +1,20 @@
 mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $uibModal, $timeout,
                                                  callMonitorSrv, notificationService,
-                                                 jwtHelper, authService, loginService, $anchorScroll, ShareData) {
+                                                 jwtHelper, authService, loginService, $anchorScroll, ShareData,subscribeServices) {
 
     $anchorScroll();
+
     $scope.CallObj = [];
+
     $scope.FullCallObj = [];
     $scope.isRegistered = false;
-    $scope.currentSessionID = null;
+    $scope.currentSessionID=ShareData.listeningCallId;
+    $scope.inCall=ShareData.isInCall;
     var authToken = authService.GetToken();
     $scope.selectedBUnit = "ALL";
     $scope.filterMode = "FromID";
+
+
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
@@ -24,6 +29,89 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
     var protocol = "user";
     var actionObject = {};
 
+
+    subscribeServices.SubscribeEvents(function (event, data) {
+        switch (event) {
+
+            case 'agent_found':
+
+                if(data && data.Message)
+                {
+                    dataArr = data.Message.split("|");
+                }
+
+                ShareData.listeningCallId = dataArr[1];
+
+                break;
+
+            case 'listen_connected':
+
+                if(data && data.Message)
+                {
+                    dataArr = data.Message.split("|");
+                }
+                console.log("Call listening");
+                ShareData.listeningCallId = dataArr[1];
+                ShareData.IsListingCall=true;
+
+                break;
+
+            case 'listen_disconnected':
+
+                ShareData.listeningCallId =null;
+
+               /* $scope.IsListingCall (null);*/
+                $scope.inCall = false;
+                ShareData.isInCall=false;
+
+                $timeout(function () {
+                    $scope.currentSessionID = null;
+                },0);
+
+
+
+                break;
+
+            /*case 'agent_disconnected':
+
+                ShareData.listeningCallId =null;
+                $scope.inCall = false;
+
+                break;*/
+
+            /*case 'agent_rejected':
+                ShareData.listeningCallId =null;
+                $scope.inCall = false;
+                break;*/
+
+
+            /*
+                                    case 'agent_found':
+
+                                    $scope.agentFound(data);
+
+                                    break;
+
+                                    case 'agent_rejected':
+                                    $scope.agentRejected(data);
+                                    break;
+
+                                    case 'todo_reminder':
+
+                                    $scope.todoRemind(data);
+
+                                    break;
+
+                                    case 'notice':
+
+                                    $scope.OnMessage(data);
+
+                                    break;
+                                    */
+
+        }
+    });
+
     var onCallsDataReceived = function (response) {
 
         if (!response.data.IsSuccess) {
@@ -32,7 +120,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         else {
 
             ValidCallsPicker(response.data);
-            $scope.inCall = false;
+           /* $scope.inCall = false;
+            ShareData.IsListingCall=$scope.inCall;*/
 
         }
 
@@ -41,6 +130,17 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         console.log(error);
     };
 
+
+    $scope.$watch(function () {
+        return $scope.inCall;
+    }, function (newValue, oldValue) {
+
+        if (newValue.toString() != oldValue.toString()) {
+            ShareData.isInCall =$scope.inCall;
+        }
+
+
+    });
 
     $scope.$watch(function () {
         return ShareData.BusinessUnit;
@@ -70,6 +170,13 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 if (keyObj.length > 1) {
                     var callObject = CallObjectCreator(keyObj);
                     if (callObject && (callObject.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")) {
+
+                        callObject.isListning=false;
+
+                        /* if($scope.IsListingCall(callObject.BargeID))
+                         {
+                             callObject.isListning=true;
+                         }*/
                         $scope.CallObj.push(callObject);
                     }
 
@@ -111,7 +218,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 FromID = objKey[j]['Caller-Caller-ID-Number'];
                 ToID = objKey[j]['Caller-Destination-Number'];
                 otherID = objKey[j]['Caller-Unique-ID'];
-                ;
+
 
                 if (objKey[j]['Bridge-State'] == "Bridged") {
                     Bridged = true;
@@ -234,10 +341,17 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         });
     };
 
+    $scope.addSamples = function()
+    {
+        $scope.CallObj.push({BargeID:5});
+    }
 
     $scope.LoadCurrentCalls = function () {
         $rootScope.$emit("monitor_panel", false);
+
         callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
+
+
     };
 
     $scope.RegisterThePhone = function () {
@@ -305,7 +419,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
 
         if ($scope.isRegistered && actionObject && actionObject.action == "LISTEN") {
-            $scope.currentSessionID = actionObject.BargeID;
+            //  $scope.currentSessionID = actionObject.BargeID;
             callMonitorSrv.listenCall(actionObject.BargeID, actionObject.protocol, actionObject.displayname).then(function (listenData) {
                 actionObject = {};
                 if (!listenData.data.IsSuccess) {
@@ -321,6 +435,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                             legID: listenData.data.Result
                         }
                     $rootScope.$emit("call_listning", listenObj);
+
                 }
 
 
@@ -337,18 +452,24 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
     $scope.ListenCall = function (callData) {
         //alert("barged: "+bargeID);
+        ShareData.listeningCallId=callData.BargeID;
+       /* $scope.IsListingCall(callData.BargeID);*/
         $scope.isRegistered = true;
         $scope.inCall = true;
+        ShareData.IsListingCall=true;
 
         getRegistrationData(authToken);
         $scope.currentSessionID = callData.BargeID;
-        callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
+        callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname,callData.FromID,callData.Skill).then(function (listenData) {
 
             if (!listenData.data.IsSuccess) {
                 console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
                 $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
                 $scope.LoadCurrentCalls();
                 $scope.inCall = false;
+                ShareData.IsListingCall=$scope.inCall;
+                ShareData.listeningCallId=null;
+                $scope.currentSessionID=null;
             } else {
 
                 var listenObj =
@@ -359,6 +480,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                         CallStatus: "LISTEN"
                     }
                 $rootScope.$emit("call_listning", listenObj);
+                // ShareData.listeningCallId=$scope.currentSessionID;
+                callData.isListning=true;
 
             }
 
@@ -367,6 +490,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
             console.log("Invalid or Disconnected call, Loading Current list ", error);
             $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
             $scope.inCall = false;
+            ShareData.IsListingCall=$scope.inCall;
+            ShareData.listeningCallId=null;
+            $scope.currentSessionID=null;
             $scope.LoadCurrentCalls();
 
         });
@@ -423,6 +549,17 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         console.log("going to register");
         //$scope.RegisterThePhone();
     }
+
+
+    /*$scope.IsListingCall = function (sId) {
+        // debugger
+        // if(!sid)
+        // {
+        //     return false;
+        // }
+        sId==ShareData.listeningCallId ? $scope.currentSessionID = sId : $scope.currentSessionID = null;
+        // return sId;
+    }*/
 
 
 });

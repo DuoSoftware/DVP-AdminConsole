@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll) {
+    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll,ShareData) {
 
         $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
@@ -208,7 +208,7 @@
 
         var buildSummaryListByHr = function (day, hr, attribute, recId, momentTz, callback)
         {
-            cdrApiHandler.getCallSummaryForQueueByHr(day, attribute, hr, momentTz).then(function (sumResp)
+            cdrApiHandler.getCallSummaryForQueueByHr(day, attribute, hr, momentTz,ShareData.BusinessUnit).then(function (sumResp)
             {
                 if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
                 {
@@ -336,7 +336,7 @@
                 curCount = 0;
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
-                momentTz = momentTz.replace("+", "%2B");
+                //momentTz = momentTz.replace("+", "%2B");
 
                 $scope.obj.isTableLoadingHr = 0;
 
@@ -398,17 +398,6 @@
         };
 
         $scope.getCallSummaryDownload = function () {
-            if ($scope.DownloadButtonName === 'CSV') {
-                $scope.cancelDownload = false;
-                $scope.buttonClass = 'fa fa-spinner fa-spin';
-            }
-            else {
-                $scope.cancelDownload = true;
-                $scope.buttonClass = 'fa fa-file-text';
-            }
-
-            $scope.DownloadButtonName = 'PROCESSING...';
-
 
             try {
                 $scope.summaryArr = [];
@@ -417,10 +406,22 @@
                     return item.QueueName;
                 });
 
-                var momentTz = moment.parseZone(new Date()).format('Z');
-                momentTz = momentTz.replace("+", "%2B");
+                if ($scope.DownloadButtonName === 'CSV') {
+                    $scope.cancelDownload = false;
+                    $scope.buttonClass = 'fa fa-spinner fa-spin';
+                }
+                else {
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                }
 
-                cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, attribArray, momentTz, 'csv').then(function (sumResp) {
+                $scope.DownloadButtonName = 'PROCESSING...';
+
+
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                //momentTz = momentTz.replace("+", "%2B");
+
+                cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, attribArray, momentTz, 'csv',ShareData.BusinessUnit).then(function (sumResp) {
                     if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
                         var downloadFilename = sumResp.Result;
 

@@ -71,7 +71,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
                 default:
 
             }
-         });
+        });
 
 
     };
@@ -82,13 +82,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
         //var elementAttr = this.$element.attr('data');
         // console.log(elementAttr);
         var index = e.item.index;
-        setAgentCurrentState(index-4);
+        setAgentCurrentState(index - 4);
     });
 
     var carouselAutoplay = true;
-    $scope.stoppedState=false;
-    $scope.currItem=-1;
-
+    $scope.stoppedState = false;
+    $scope.currItem = -1;
 
 
     $scope.carouselAutoplay = function (itemNo) {
@@ -108,17 +107,48 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
             owlCarousel.trigger('stop.owl.autoplay');
 
         }
-        $scope.stoppedState=!carouselAutoplay;
+        $scope.stoppedState = !carouselAutoplay;
         setAgentCurrentState(itemNo);
-        $scope.currItem =itemNo;
+        $scope.currItem = itemNo;
 
 
     };
 
+    var reload_dashboard_data = function () {
+        $scope.StatusList = {
+            ReservedProfile: [],
+            AvailableProfile: [],
+            ConnectedProfile: [],
+            AfterWorkProfile: [],
+            OutboundProfile: [],
+            SuspendedProfile: [],
+            BreakProfile: [],
+            profile: []
+        };
+
+        ServerHandler.callAllServices();
+        ServerHandler.getAllNumTotal();
+        ServerHandler.updateRelaTimeFuntion();
+        GetD1AllQueueStatistics();
+        $scope.getProfileDetails();
+        console.log("Reload Dashboard ****************************************");
+    };
+
+    subscribeServices.SubscribeConnection('dashboard_socket', function (isConnected) {
+        if (isConnected) {
+            $('#dashbooad_info').removeClass('blur-filter');
+            $('#dashbooad_info_error').addClass('display-none');
+            reload_dashboard_data();
+        } else {
+            $('#dashbooad_info').addClass('blur-filter');
+            $('#dashbooad_info_error').removeClass('display-none');
+        }
+
+    });
 
     subscribeServices.subscribeDashboard('dashboard', function (event) {
         if (event && event.Message && event.Message.businessUnit
-            && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*')||(ShareData.BusinessUnit.toLowerCase() === 'all' && event.From ==="ArdsMonitoringService" )|| (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+            && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (ShareData.BusinessUnit.toLowerCase() === 'all' && event.From === "ArdsMonitoringService") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
             switch (event.roomName) {
                 case 'ARDS:ResourceStatus':
                     if (event.Message) {
@@ -314,13 +344,19 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
                         }
                     }
                     break;
+                    case 'DASHBOARD:RESETALL':
+
+                        reload_dashboard_data();
+
+                    break;
+
                 default:
                     //console.log(event);
                     break;
 
             }
         } else {
-            console.info("Subscribe Dashboard Event Recive For Invalid Business Unit");
+            console.info("Subscribe Dashboard Event Receive For Invalid Business Unit");
         }
     });
 
@@ -410,8 +446,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
                     }
 
                     deferred.resolve(true);
-                }).catch(function(err)
-                {
+                }).catch(function (err) {
                     deferred.resolve(true);
                 });
                 return deferred.promise;
@@ -632,11 +667,9 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
                 arr.push(ServerHandler.getAllBriged());
                 arr.push(ServerHandler.getTotalQueueHit());
 
-                $q.all(arr).then(function(resolveData)
-                {
+                $q.all(arr).then(function (resolveData) {
                     deferred.resolve(true);
-                }).catch(function(err)
-                {
+                }).catch(function (err) {
                     deferred.resolve(true);
                 });
 
@@ -678,11 +711,9 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
 
 
     var countAllCallServices = function () {
-        ServerHandler.callAllServices().then(function(resp)
-        {
+        ServerHandler.callAllServices().then(function (resp) {
             countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
-        }).catch(function(err)
-        {
+        }).catch(function (err) {
             countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
         });
 
@@ -727,7 +758,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
 
         //subscribeServices.unsubscribe('dashoboard');
         subscribeServices.unSubscribeDashboard('dashboard');
-
+        subscribeServices.UnSubscribeConnection('dashboard_socket');
 
     });
 
@@ -875,7 +906,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
     $scope.queuesLength = false;
     //get all queued
     var GetD1AllQueueStatistics = function () {
-        $scope.queues ={};
+        $scope.queues = {};
         queueMonitorService.GetAllQueueStats().then(function (response) {
 
             if (response) {
@@ -1008,7 +1039,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
     $scope.refreshTime = 1000;
 
 
-
     $scope.getProfileDetails = function () {
         dashboardService.GetProfileDetails().then(function (response) {
             $scope.StatusList = {
@@ -1024,7 +1054,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
                     //agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")
-                    if ((response[i] && response[i].BusinessUnit && response[i].BusinessUnit.toLowerCase()) === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all") {
+                    if ((response[i] && response[i].BusinessUnit && response[i].BusinessUnit.toLowerCase()) === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all") {
                         var profile = {
                             name: '',
                             slotState: null,
@@ -1234,23 +1264,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout, $q,
         return ShareData.BusinessUnit;
     }, function (newValue, oldValue) {
         if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
-            $scope.StatusList = {
-                ReservedProfile: [],
-                AvailableProfile: [],
-                ConnectedProfile: [],
-                AfterWorkProfile: [],
-                OutboundProfile: [],
-                SuspendedProfile: [],
-                BreakProfile: [],
-                profile: []
-            };
-
-            ServerHandler.callAllServices();
-            ServerHandler.getAllNumTotal();
-            ServerHandler.updateRelaTimeFuntion();
-            GetD1AllQueueStatistics();
-            $scope.getProfileDetails();
-            console.log("Reload Dashboard ****************************************");
+            reload_dashboard_data();
         }
 
     });

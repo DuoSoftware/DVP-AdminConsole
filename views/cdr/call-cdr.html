@@ -27,31 +27,37 @@
                             <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="queue.QueueName as queue.QueueName for queue in qList" placeholder="Skill" bs-typeahead>
 
                         </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <input type="number" min="0" max="1000" class="form-control" name="priorityFilter" ng-model="priorityFilter" placeholder="Priority">
+                        </div>
                         <div class="col-md-2 col-sm-2 col-xs-2">
                             <input type="text" class="form-control" name="custFilter" ng-model="custFilter" placeholder="Customer Number">
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2">
                             <input type="text" class="form-control" name="didFilter" ng-model="didFilter" placeholder="DID Number">
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <div class="col-md-7 col-sm-7 col-xs-7">
                             <select name="directionFilter" ng-model="directionFilter"
                                     aria-controls="datatable-responsive" class="form-control">
-                                <option value="">DIRECTION - ANY</option>
-                                <option value="inbound">DIRECTION - INBOUND</option>
-                                <option value="outbound">DIRECTION - OUTBOUND</option>
+                                <option value="">ANY</option>
+                                <option value="inbound">INBOUND</option>
+                                <option value="outbound">OUTBOUND</option>
                             </select>
-                        </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2 text-right">
-                            <div>
-                                <a ng-if="fileDownloadState === 'READY'" class="btn btn-success" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-download"></i></a>
-                                <button ng-if="fileDownloadState === 'RESET'" ng-disabled="!cancelDownload" class="btn btn-success" type="button" ng-click="getProcessedCDRCSVDownload()">
-                                CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                                <i ng-class="buttonClass"></i>
-                                </button>
-                                <!--<button type="button" style="width:60px; height:30px; background-image: url(assets/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
+                            </div>
+                            <div class="col-md-5 col-sm-5 col-xs-5 text-right">
+                                <div>
+                                    <a ng-if="fileDownloadState === 'READY'" class="btn btn-success" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-download"></i></a>
+                                    <button ng-if="fileDownloadState === 'RESET'" ng-disabled="!cancelDownload" class="btn btn-success" type="button" ng-click="getProcessedCDRCSVDownload()">
+                                        CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i ng-class="buttonClass"></i>
+                                    </button>
+                                    <!--<button type="button" style="width:60px; height:30px; background-image: url(assets/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
+                                </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="row clearfix">
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -155,6 +161,10 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
+                                                colspan="1" aria-label="Queue Priority">Queue Priority
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
                                                 colspan="1" aria-label="Answered">Answered
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -214,6 +224,7 @@
                                             <td>{{cdr.SipToUser}}</td>
                                             <td>{{cdr.RecievedBy}}</td>
                                             <td>{{cdr.AgentSkill}}</td>
+                                            <td>{{cdr.QueuePriority}}</td>
                                             <td>{{cdr.IsAnswered}}</td>
                                             <td>{{moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                                             <td>{{convertToMMSS(cdr.Duration)}}</td>
