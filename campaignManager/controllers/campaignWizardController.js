@@ -25,6 +25,20 @@ mainApp.controller("campaignWizardController", function ($scope,
             {name: 'AGENT'}
         ];
 
+        $scope.integrationConf = {
+            "params": [
+                "SessionId",
+                "CampaignId",
+                "CampaignName",
+                "Reason",
+                "Number",
+                "CompanyId",
+                "Agent",
+                "ResourceId",
+            ],
+            "methods": [ "POST" ]
+        };
+
         $scope.step = 1;
         if (queryCampaignId && queryCampaignId.id != 0) {
 
@@ -144,6 +158,16 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.active = 1;
         $scope.callback = {};
+
+        $scope.IntegrationData = {
+            "Agent": {
+                "Params": []
+            },
+            "Customer": {
+                "Params": []
+            },
+        };
+
         var step01UIFun = function () {
             return {
                 onLoadWizard: function () {
@@ -457,6 +481,23 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         };
 
+        // integration chip add / delete
+
+        $scope.onChipAddParam = function (chip, key) {
+            // console.log(chip, key);
+            // $scope.callback.IntegrationData[key].Params.push(chip);
+
+        };
+        $scope.onChipDeleteParam = function (chip) {
+
+            // var index = $scope.callback.IntegrationData[key].Params.indexOf(chip.Name);
+            // if (index > -1) {
+            //     $scope.callback.IntegrationData[key].Params.splice(index, 1);
+            // }
+
+
+        };
+
         $scope.GetCampaignAdditionalData = function () {
             $scope.isLoadingData = true;
             $scope.isTemplateConfigLoading = true;
@@ -547,6 +588,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
 
+        //#region < commented code >
         //#end
 
 
@@ -592,7 +634,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         //
         //
         // $scope.loadNewlyCreatedCampaigns();
-
+        //#endregion
 
         //create new campaign
         $scope.campaign = {
@@ -1243,6 +1285,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 else {
                     $scope.callback = {AllowCallBack: false};
                 }
+
+                $scope.callback.IntegrationData = angular.merge($scope.IntegrationData, $scope.callback.IntegrationData || {});
             }, function (error) {
 
             });

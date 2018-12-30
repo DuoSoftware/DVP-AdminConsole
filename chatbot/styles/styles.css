@@ -23,11 +23,11 @@
 }
 
 tags-input .tags{
-    width: 470px !important;
-    margin-left: -6px !important;
-    margin-top: -4px !important;
-    padding: 2px !important;
-    border: none !important;
+    width: 470px;
+    margin-left: -6px;
+    margin-top: -4px;
+    padding: 2px;
+    border: none;
 }
 
 .edit-card--btn-circle {
