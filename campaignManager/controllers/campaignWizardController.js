@@ -35,6 +35,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 "CompanyId",
                 "Agent",
                 "ResourceId",
+                "EventType"
             ],
             "methods": [ "POST" ]
         };
@@ -481,22 +482,6 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         };
 
-        // integration chip add / delete
-
-        $scope.onChipAddParam = function (chip, key) {
-            // console.log(chip, key);
-            // $scope.callback.IntegrationData[key].Params.push(chip);
-
-        };
-        $scope.onChipDeleteParam = function (chip) {
-
-            // var index = $scope.callback.IntegrationData[key].Params.indexOf(chip.Name);
-            // if (index > -1) {
-            //     $scope.callback.IntegrationData[key].Params.splice(index, 1);
-            // }
-
-
-        };
 
         $scope.GetCampaignAdditionalData = function () {
             $scope.isLoadingData = true;
