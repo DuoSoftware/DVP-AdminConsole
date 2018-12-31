@@ -550,7 +550,7 @@
             });
         };
 
-        var getCallSummaryForQueueByHr = function (date, skill, hr, tz,businessUnit) {
+        var getCallSummaryForQueueByHr = function (date, skills, hr, tz,businessUnit) {
             var qData = [];
             if(businessUnit && businessUnit !='ALL')
             {
@@ -559,7 +559,7 @@
 
             qData['date'] = date;
             qData['tz'] = tz;
-            qData['skill'] = skill;
+            qData['skills'] = skills;
             qData['hour'] = hr;
 
             //var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill + '&hour=' + hr;
