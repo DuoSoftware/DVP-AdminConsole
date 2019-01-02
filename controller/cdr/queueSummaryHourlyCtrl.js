@@ -367,12 +367,12 @@
 
                 if($scope.skillFilter && $scope.skillFilter.length > 0)
                 {
-                    skillArr = [];
+                    var skillArr = [];
                     for (var i=0; i<$scope.skillFilter.length; i++){
                         skillArr.push($scope.skillFilter[i].QueueName)
                     }
 
-                    skillString = skillArr.join(',');
+                    var skillString = skillArr.join(',');
 
                     buildSummaryListByHr($scope.obj.day, 1, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
                     {
