@@ -44,9 +44,36 @@ clusterModule.factory("resourceProductivityService", function ($http, $log, auth
             });
     };
 
+    var getUserCountByBusinessUnit = function(BusinessUnit) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.UserServiceBaseUrl + "BusinessUnit/"+BusinessUnit+"/UserCount"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }
+            return [];
+        });
+    }
+
+    var getUserByBusinessUnit = function(BusinessUnit,pagesize,page) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.UserServiceBaseUrl + "BusinessUnit/"+BusinessUnit+"/Users?Page="+page+"&Size="+pagesize
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }
+            return [];
+        });
+    }
+
     return {
         GetProductivity: getProductivity,
-        GetOnlineAgents: getOnlineAgents
+        GetOnlineAgents: getOnlineAgents,
+        getUserByBusinessUnit: getUserByBusinessUnit,
+        getUserCountByBusinessUnit: getUserCountByBusinessUnit
+
 
     }
 

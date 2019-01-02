@@ -23,7 +23,7 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
 
             scope.paramList=[];
             scope.renderedTemplate="";
-            console.log(scope.template);
+
 
 
             scope.StyleList = [];
@@ -350,7 +350,7 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                 {
                     for(var i=0;i<splitList.length;i++)
                     {
-                        console.log("name data "+splitList[i].match(/([a-zA-Z])\w+/g));
+                       // console.log("name data "+splitList[i].match(/([a-zA-Z])\w+/g));
 
                         if(splitList.indexOf({name:splitList[i].match(/([a-zA-Z])\w+/g)})==-1)
                         {

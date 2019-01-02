@@ -6,7 +6,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxCtrl = function ($scope, $rootScope, $uibModal, pbxUserApiHandler, loginService,$anchorScroll) {
+    var pbxCtrl = function ($scope, $rootScope, $uibModal, pbxUserApiHandler, loginService,$anchorScroll,$q,$log) {
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
@@ -47,14 +47,63 @@
         };
 
         var loadPABXBasicConf = function () {
-            pbxUserApiHandler.getSIPUsers().then(function (data) {
+
+
+            $scope.sipUserList = [];
+
+            pbxUserApiHandler.getSipUsersCount().then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(pbxUserApiHandler.getSipUsersWithPaging(i,pagesize));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (response) {
+
+                            response.map(function (item) {
+
+                                $scope.sipUserList.push(item);
+
+                            });
+
+
+                        });
+
+                    }
+
+
+                }).catch(function (err) {
+                    $log.debug("Get Sip user count  err");
+                    loginService.isCheckResponse(err);
+                    $scope.showError("Error", "Error in loading sip users");
+
+                });
+
+
+
+            }, function (err) {
+                $log.debug("Get Sip user count  err");
+                loginService.isCheckResponse(err);
+                $scope.showError("Error", "Error in loading sip users");
+
+
+            });
+
+
+           /* pbxUserApiHandler.getSIPUsers().then(function (data) {
                 $scope.sipUserList = data.Result;
 
             }, function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'Error loading user list');
 
-            });
+            });*/
         };
 
         loadPABXBasicConf();

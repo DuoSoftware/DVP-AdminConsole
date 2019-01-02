@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 5/29/2017.
  */
-mainApp.controller("fileCatRestrictController", function ($scope, $state, userProfileApiAccess,fileService, loginService,$anchorScroll) {
+mainApp.controller("fileCatRestrictController", function ($scope, $state, userProfileApiAccess,fileService, loginService,$anchorScroll,ShareData,$q) {
 
     $anchorScroll();
     $scope.addNew = false;
@@ -29,7 +29,51 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
 
     $scope.loadUsers = function () {
 
-        userProfileApiAccess.getUsersByRole().then(function (response) {
+        ShareData.getUsersCountByRole().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(ShareData.getUsersByRoleWithPaging(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+
+                    resolveData.map(function (data) {
+
+                        data.map(function (item) {
+
+                            $scope.AdminUsers.push(item);
+                        });
+                    });
+
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in loading Admin user details","error");
+                }
+
+
+
+            }).catch(function (err) {
+                console.error(err);
+
+                $scope.showAlert("Error","Error in loading Admin user details","error");
+            });
+
+
+
+        }, function (err) {
+            $scope.showAlert("Error","Error in loading Admin user details","error");
+        });
+
+
+
+       /* userProfileApiAccess.getUsersByRole().then(function (response) {
 
             if(response.IsSuccess)
             {
@@ -42,7 +86,7 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
         },function (error) {
             $scope.showAlert("Error","Error in loading Admin user details","error");
             console.log(error);
-        });
+        });*/
     };
 
     $scope.loadFileCategoryList = function () {

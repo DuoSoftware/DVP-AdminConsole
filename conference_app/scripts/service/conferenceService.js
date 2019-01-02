@@ -19,6 +19,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         });
     };
 
+
     var getDomains = function () {
         return $http({
             method: 'GET',
@@ -288,6 +289,35 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         });
     };
 
+    var getSipUsersCount = function () {
+
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.sipUserendpoint +"SipUser/"  + "Users/Count"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+    var getSipUsersWithPaging = function (page,size) {
+
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.sipUserendpoint +"SipUser/"  + "Users?page="+page+"&size="+size
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
     return {
         GetSipUsers: getSipUsers,
         getDomains: getDomains,
@@ -308,7 +338,9 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         GetActiveConference:getActiveConference,
         GetActiveConferenceUserCount:getActiveConferenceUserCount,
         UserOperations:userOperations,
-        GetRoomsCount:getRoomsCount
+        GetRoomsCount:getRoomsCount,
+        getSipUsersCount:getSipUsersCount,
+        getSipUsersWithPaging:getSipUsersWithPaging
 
 
     }

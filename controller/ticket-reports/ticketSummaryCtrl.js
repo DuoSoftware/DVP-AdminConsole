@@ -116,7 +116,7 @@
 
                     $scope.tagList.push.apply($scope.tagList, newTagCategories);
 
-                    console.log($scope.tagList);
+                    //console.log($scope.tagList);
                 }
 
                 if (tagObj && tagObj.AllTags) {

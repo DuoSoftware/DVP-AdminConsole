@@ -122,7 +122,7 @@ mainApp.controller("extensionController", function ($scope, $state, extensionBac
             }
             else {
                 $scope.Extensions = response.data.Result;
-                console.log($scope.Extensions);
+
                 //$scope.MasterAppList = response.data.Result;
             }
 
