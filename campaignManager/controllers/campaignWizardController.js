@@ -215,6 +215,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                     }
 
                     if (step == 2) {
+                        //set the active tab to 0 when navigate back between steps.
+                        $scope.$root.active = 1;
+
                         $scope.safeApply(function () {
                             $scope.step = 2;
                         });
