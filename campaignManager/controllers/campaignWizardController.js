@@ -37,7 +37,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 "ResourceId",
                 "EventType"
             ],
-            "methods": [ "POST" ]
+            "methods": [ "POST", "GET", "PUT", "PATCH" ]
         };
 
         $scope.step = 1;
