@@ -14,7 +14,7 @@
 
 
         $anchorScroll();
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [7, 'desc']};
 
         $scope.config = {
             preload: "auto",
