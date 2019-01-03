@@ -2,7 +2,7 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, attributeService, loginService,$anchorScroll,userProfileApiAccess) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, attributeService, loginService,$anchorScroll,userProfileApiAccess,ShareData,$q) {
 
     $anchorScroll();
     $scope.scrlTabsApi = {};
@@ -1191,7 +1191,50 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
     $scope.getAdminUsers = function () {
 
-        userProfileApiAccess.getUsersByRole().then(function (resAdmins) {
+        ShareData.getUsersCountByRole().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(ShareData.getUsersByRoleWithPaging(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+
+                    resolveData.map(function (data) {
+
+                        data.map(function (item) {
+
+                            $scope.headUsers.push(item);
+                        });
+                    });
+
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in loading Admin user details","error");
+                }
+
+
+
+            }).catch(function (err) {
+                console.error(err);
+
+                $scope.showAlert("Error","Error in loading Admin user details","error");
+            });
+
+
+
+        }, function (err) {
+            $scope.showAlert("Error","Error in loading Admin user details","error");
+        });
+
+
+        /*userProfileApiAccess.getUsersByRole().then(function (resAdmins) {
 
             if(resAdmins.IsSuccess)
             {
@@ -1203,7 +1246,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             }
         },function (errAdmins) {
             $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
-        });
+        });*/
     };
     $scope.nonAlocatedGroups =[];
 

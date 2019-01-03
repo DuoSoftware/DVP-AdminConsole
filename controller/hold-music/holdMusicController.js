@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 6/13/2016.
  */
-mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBackendService, loginService,userProfileApiAccess,$anchorScroll) {
+mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBackendService, loginService,userProfileApiAccess,$anchorScroll,ShareData) {
 
     $scope.holdMusicList = [];
     $scope.holdMusicFiles = [];
@@ -320,17 +320,26 @@ mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBac
     };
 
     $scope.loadBusinessUnits = function () {
-        userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
-            if(resUnits.IsSuccess)
-            {
-                $scope.businessUnits=resUnits.Result;
-            }
-            else {
-                $scope.showAlert("Business Unit","No Business Units found","error");
-            }
-        },function (errUnits) {
-            $scope.showAlert("Business Unit","Error in searching Business Units","error");
-        });
+
+        if(ShareData.BusinessUnits && ShareData.BusinessUnits.length>0)
+        {
+            $scope.businessUnits=ShareData.BusinessUnits
+        }
+        else
+        {
+            userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
+                if(resUnits.IsSuccess)
+                {
+                    $scope.businessUnits=resUnits.Result;
+                }
+                else {
+                    $scope.showAlert("Business Unit","No Business Units found","error");
+                }
+            },function (errUnits) {
+                $scope.showAlert("Business Unit","Error in searching Business Units","error");
+            });
+        }
+
     }
     $scope.loadBusinessUnits();
 

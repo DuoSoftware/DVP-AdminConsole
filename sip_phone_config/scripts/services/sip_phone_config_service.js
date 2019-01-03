@@ -32,10 +32,14 @@
                 return resp.data.IsSuccess;
             })
         };
+
+
+
         return {
             reassignIpPhoneToCompany: reassignIpPhoneToCompany,
             getPhoneConfigs: getPhoneConfigs,
             add_sip_account_to_phone: add_sip_account_to_phone
+
         };
     };
 

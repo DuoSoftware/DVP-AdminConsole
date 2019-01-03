@@ -4,10 +4,11 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, attributeService, companyConfigBackendService, resourceService, $rootScope, $q) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, attributeService, companyConfigBackendService, resourceService, $rootScope, $q,ShareData) {
 
 		/** Kasun_Wijeratne_21_MARCH_2018
 		 * --------------------------------------------------------------*/
+        $scope.adminUserList=[];
     	$scope.newUserView = false;
         $scope.grpSkills = [];
     	$scope.toggleNewUserView = function () {
@@ -235,6 +236,7 @@
 
         getUserGrpGroup();
         $scope.userList=[];
+        $scope.agents=[];
 
 
         var loadUsers = function () {
@@ -257,6 +259,7 @@
                             Result.map(function (item) {
 
                                 $scope.userList.push(item);
+                                $scope.agents.push(item);
                             });
                         });
 
@@ -306,7 +309,49 @@
         };
 
         var loadAdminUsers = function () {
-            userProfileApiAccess.getUsersByRole().then(function (data) {
+
+            ShareData.getUsersCountByRole().then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(ShareData.getUsersByRoleWithPaging(pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+
+                        resolveData.map(function (data) {
+
+                            data.map(function (item) {
+
+                                $scope.adminUserList.push(item);
+                            });
+                        });
+
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error","Error in loading Admin user details","error");
+                    }
+
+
+
+                }).catch(function (err) {
+                    console.error(err);
+
+                    $scope.showAlert("Error","Error in loading Admin user details","error");
+                });
+
+
+
+            }, function (err) {
+                $scope.showAlert("Error","Error in loading Admin user details","error");
+            });
+            /*userProfileApiAccess.getUsersByRole().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.adminUserList = data.Result;
                 }
@@ -325,7 +370,7 @@
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
-            })
+            })*/
         };
 
 
@@ -879,12 +924,12 @@
 
 
         //add user to group
-        $scope.agents = [];
+
         //get all agents
         //onload
         $scope.loadAllAgents = function () {
-            $scope.agents=[];
-            userProfileApiAccess.getUserCount('all').then(function (row_count) {
+
+            /*userProfileApiAccess.getUserCount('all').then(function (row_count) {
                 var pagesize = 20;
                 var pagecount = Math.ceil(row_count / pagesize);
 
@@ -918,8 +963,8 @@
             }, function (err) {
 
                 $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-            });
-
+            });*/
+            removeAllocatedAgents();
 
 
            /*
@@ -1105,16 +1150,25 @@
         }
 
         $scope.loadBusinessUnits = function () {
-            userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
-                if (resUnits.IsSuccess) {
-                    $scope.businessUnits = resUnits.Result;
-                }
-                else {
-                    $scope.showAlert("Business Unit", "error", "No Business Units found");
-                }
-            }, function (errUnits) {
-                $scope.showAlert("Business Unit", "error", "Error in searching Business Units");
-            });
+
+            if(ShareData.BusinessUnits && ShareData.BusinessUnits.length>0)
+            {
+                $scope.businessUnits = ShareData.BusinessUnits;
+            }
+            else {
+                userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
+                    if (resUnits.IsSuccess) {
+                        $scope.businessUnits = resUnits.Result;
+                    }
+                    else {
+                        $scope.showAlert("Business Unit", "error", "No Business Units found");
+                    }
+                }, function (errUnits) {
+                    $scope.showAlert("Business Unit", "error", "Error in searching Business Units");
+                });
+            }
+
+
         }
         $scope.loadBusinessUnits();
 

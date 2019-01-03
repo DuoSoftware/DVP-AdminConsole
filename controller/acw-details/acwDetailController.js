@@ -6,8 +6,9 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var acwDetailController = function($scope, $state, $timeout, acwDetailApiAccess, resourceService, cdrApiHandler, loginService, filterDateRangeValidation, ShareData) {
+    var acwDetailController = function($scope, $state, $timeout, acwDetailApiAccess, resourceService, cdrApiHandler, loginService, filterDateRangeValidation, ShareData,$q) {
 
+        $scope.resourceDetails=[];
         $scope.pagination = {
             currentPage : 1
         };
@@ -229,7 +230,55 @@
         getQueueList();
 
         $scope.getResourceDetails = function(){
-            acwDetailApiAccess.GetResourceDetails().then(function(response){
+
+
+            ShareData.getAgentDetailsCount().then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(ShareData.getAgentDetailsWithPaging(pagesize, i));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+
+                        resolveData.map(function (data) {
+
+                            data.map(function (item) {
+
+                                $scope.resourceDetails.push(item);
+                            });
+                        });
+
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error","Error in loading agent details","error");
+                    }
+
+
+
+                }).catch(function (err) {
+                    console.log("Error in Agent details picking " + err);
+
+                    $scope.showAlert("Error","Error in loading Agent details","error");
+                });
+
+
+
+            }, function (err) {
+                console.log("Error in Agent details picking " + err);
+                $scope.showAlert("Error","Error in loading Agent details","error");
+            });
+
+
+
+
+            /*acwDetailApiAccess.GetResourceDetails().then(function(response){
                 if(response.IsSuccess)
                 {
                     $scope.resourceDetails = response.Result;
@@ -252,7 +301,7 @@
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('ACW Details', errMsg, 'error');
-            });
+            });*/
         };
 
         $scope.getAcwSummery = function(){

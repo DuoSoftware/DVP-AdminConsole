@@ -348,6 +348,35 @@
       })
     };
 
+      var getSipUsersCount = function () {
+
+
+          return $http({
+              method: 'GET',
+              url: baseUrls.sipUserendpoint +"SipUser/"  + "Users/Count"
+          }).then(function (response) {
+              if (response.data && response.data.IsSuccess) {
+                  return response.data.Result;
+              } else {
+                  return 0;
+              }
+          });
+      };
+      var getSipUsersWithPaging = function (page,size) {
+
+
+          return $http({
+              method: 'GET',
+              url: baseUrls.sipUserendpoint +"SipUser/"  + "Users?page="+page+"&size="+size
+          }).then(function (response) {
+              if (response.data && response.data.IsSuccess) {
+                  return response.data.Result;
+              } else {
+                  return 0;
+              }
+          });
+      };
+
     return {
       getGreetingFileMetadata: getGreetingFileMetadata,
       getSIPUsers: getSIPUsers,
@@ -376,7 +405,9 @@
       deleteExtension: deleteExtension,
       validateUsername: validateUsername,
       validateExtension: validateExtension,
-      deleteSipUser: deleteSipUser
+      deleteSipUser: deleteSipUser,
+        getSipUsersCount: getSipUsersCount,
+        getSipUsersWithPaging: getSipUsersWithPaging
 
     };
   };

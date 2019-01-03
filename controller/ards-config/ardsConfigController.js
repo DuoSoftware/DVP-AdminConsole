@@ -137,7 +137,7 @@ mainApp.controller("ardsController", function ($scope, $state, ardsBackendServic
         ardsBackendService.getTasks().then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.tasks = response.data.Result;
-                console.log($scope.tasks);
+
             }
             else {
                 console.log("Task loading failed");
@@ -151,7 +151,7 @@ mainApp.controller("ardsController", function ($scope, $state, ardsBackendServic
         ardsBackendService.getGroups().then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.groups = response.data.Result;
-                console.log($scope.groups);
+
             }
             else {
                 console.log("group loading failed");
@@ -165,7 +165,7 @@ mainApp.controller("ardsController", function ($scope, $state, ardsBackendServic
         ardsBackendService.getRequestServers().then(function (response) {
             if (response.data.IsSuccess) {
                 $scope.RequestServers = response.data.Result;
-                console.log("Servers ", $scope.RequestServers);
+
             }
             else {
                 console.log("server loading failed");
