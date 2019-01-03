@@ -8,14 +8,15 @@ clusterModule.factory("resourceProductivityService", function ($http, $log, auth
 
 
     var getProductivity = function () {
-        var postdata = {bu:ShareData.BusinessUnit};
+        var postData = [];
+        postData['bu'] = ShareData.BusinessUnit;
         if(ShareData.BusinessUnit.toLowerCase()==="all"){
-            postdata = {};
+            postData = [];
         }
         return $http({
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + "Resources/Productivity",
-            params:postdata
+            params:postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
