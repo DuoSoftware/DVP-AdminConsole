@@ -90,11 +90,15 @@
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                             rowspan="1"
-                                                            colspan="1" aria-label="AbandonCount">Abandon Calls (Count)
+                                                            colspan="1" aria-label="AbandonCount">Abandoned Calls (Count)
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                             rowspan="1"
-                                                            colspan="1" aria-label="Abandon">Abandon Calls (%)
+                                                            colspan="1" aria-label="Abandon">Abandoned Calls (%)
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                            rowspan="1"
+                                                            colspan="1" aria-label="AbandonQueue">Avg Abandoned Queue Time (sec)
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                             rowspan="1"
@@ -126,21 +130,26 @@
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                             rowspan="1"
-                                                            colspan="1" aria-label="AnswerCount">Answererd Calls (Count)
+                                                            colspan="1" aria-label="AnswerCount">Answered Calls (Count)
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                             rowspan="1"
                                                             colspan="1" aria-label="AnswerPercentage">Answer Percentage (%)
                                                         </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                            rowspan="1"
+                                                            colspan="1" aria-label="AnswerQueue">Avg Answer Queue Time (sec)
+                                                        </th>
                                                     </thead>
                                                     <tbody>
                                                     <tr role="row" class="odd"
                                                         ng-repeat="sumDay in records">
-                                                        <td>{{sumDay.Caption}}</td>
+                                                        <td>{{sumDay.hour}}</td>
                                                         <td>{{sumDay.IVRCallsCount}}</td>
                                                         <td>{{sumDay.QueuedCallsCount}}</td>
                                                         <td>{{sumDay.AbandonCallsCount}}</td>
                                                         <td>{{sumDay.AbandonPercentage}}</td>
+                                                        <td>{{sumDay.AbandonedQueueAvg}}</td>
                                                         <td>{{sumDay.DropCallsCount}}</td>
                                                         <td>{{sumDay.DropPercentage}}</td>
                                                         <td>{{sumDay.HoldAverage}}</td>
@@ -150,6 +159,7 @@
                                                         <td>{{sumDay.TalkAverage}}</td>
                                                         <td>{{sumDay.AnswerCount}}</td>
                                                         <td>{{sumDay.AnswerPercentage}}</td>
+                                                        <td>{{sumDay.AnsweredQueueAvg}}</td>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -166,7 +176,6 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="data-state-wrap">
                     Please Wait...
-                    <uib-progressbar class="progress-striped" value="progressSumVal" type="warning">{{progressSumVal}}%</uib-progressbar>
                 </div>
 
             </div>

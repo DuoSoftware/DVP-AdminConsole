@@ -819,9 +819,55 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
     };
 
     $scope.getAgents = function () {
-        agentSummaryBackendService.getAgentDetails().then(function (response) {
+
+        ShareData.getAgentDetailsCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(ShareData.getAgentDetailsWithPaging(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+
+                    resolveData.map(function (data) {
+
+                        data.map(function (item) {
+
+                            $scope.Agents.push(item);
+                        });
+                    });
+
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in loading agent details","error");
+                }
+
+
+
+            }).catch(function (err) {
+                console.log("Error in Agent details picking " + err);
+
+                $scope.showAlert("Error","Error in loading Agent details","error");
+            });
+
+
+
+        }, function (err) {
+            console.log("Error in Agent details picking " + err);
+            $scope.showAlert("Error","Error in loading Agent details","error");
+        });
+
+
+
+        /*agentSummaryBackendService.getAgentDetails().then(function (response) {
             if (response.data.IsSuccess) {
-                console.log("Agents " + response.data.Result);
+
                 console.log(response.data.Result.length + " Agent records found");
                 $scope.Agents = response.data.Result;
             }
@@ -831,7 +877,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         }, function (error) {
             loginService.isCheckResponse(error);
             console.log("Error in Agent details picking " + error);
-        });
+        });*/
     };
 
     $scope.AgentDetailsAssignToSummery = function () {

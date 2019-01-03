@@ -39,7 +39,7 @@ mainApp.controller("fileSlotController", function ($scope, $state, $filter,tagBa
         tagBackendService.getAllTags().then(function (response) {
             $scope.tagList = response.data.Result;
             $scope.availableTags = $scope.availableTags.concat($scope.tagList);
-            console.log($scope.availableTags);
+
         }, function (err) {
             $scope.showAlert("Load Tags", "Fail To Get Tag List.","error");
         });
@@ -51,7 +51,7 @@ mainApp.controller("fileSlotController", function ($scope, $state, $filter,tagBa
         tagBackendService.getTagCategories().then(function (response) {
             $scope.tagCategoryList = response.data.Result;
             $scope.availableTags = $scope.availableTags.concat($scope.tagCategoryList);
-            console.log($scope.availableTags);
+
         }, function (err) {
             //$scope.showAlert("Load Tags", "error", "Fail To Get Tag List.")
         });

@@ -205,70 +205,16 @@
 
         var tempQueueArr = {};
         var curCount = 0;
-
-        var buildSummaryListByHr = function (day, hr, attribute, recId, momentTz, callback)
+//---
+        var buildSummaryListByHr = function (day, hr, attributes, recId, momentTz, callback)
         {
-            cdrApiHandler.getCallSummaryForQueueByHr(day, attribute, hr, momentTz,ShareData.BusinessUnit).then(function (sumResp)
+            cdrApiHandler.getCallSummaryForQueueByHr(day, attributes, hr, momentTz,ShareData.BusinessUnit).then(function (sumResp)
             {
                 if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
                 {
-                    if (typeof sumResp.Result.IvrAverage === "number") {
-                        sumResp.Result.IvrAverage = convertToMMSS(sumResp.Result.IvrAverage);
-                    }
 
-                    if (typeof sumResp.Result.HoldAverage === "number") {
-                        sumResp.Result.HoldAverage = convertToMMSS(sumResp.Result.HoldAverage);
-                    }
-
-                    if (typeof sumResp.Result.RingAverage === "number") {
-                        sumResp.Result.RingAverage = convertToMMSS(sumResp.Result.RingAverage);
-                    }
-
-                    if (typeof sumResp.Result.TalkAverage === "number") {
-                        sumResp.Result.TalkAverage = convertToMMSS(sumResp.Result.TalkAverage);
-                    }
-
-                    if(tempQueueArr[attribute])
-                    {
-                        tempQueueArr[attribute].push(sumResp.Result);
-                    }
-                    else
-                    {
-                        tempQueueArr[attribute] = [];
-                        tempQueueArr[attribute].push(sumResp.Result);
-                    }
-
-                    var maxCount = $scope.skillFilter.length * 24;
-                    curCount++;
-
-                    $scope.progressSumVal = ((curCount/maxCount)*100).toFixed(2);
-
-                    var newHr = hr + 1;
-
-                    if(newHr < 25)
-                    {
-                        buildSummaryListByHr(day, newHr, attribute, recId, momentTz, function(err, resp)
-                        {
-                            callback(null, true);
-                        });
-                    }
-                    else
-                    {
-                        var curSkillIndex = _.findIndex($scope.skillFilter, {RecordID: recId});
-
-                        if($scope.skillFilter.length > curSkillIndex + 1)
-                        {
-                            buildSummaryListByHr(day, 1, $scope.skillFilter[curSkillIndex+1].QueueName, $scope.skillFilter[curSkillIndex+1].RecordID, momentTz, function(err, resp)
-                            {
-                                callback(null, true);
-                            });
-                        }
-                        else
-                        {
-                            callback(null, true);
-                        }
-
-                    }
+                    tempQueueArr = sumResp.Result;
+                    callback(null, true);
 
                 }
                 else
@@ -282,6 +228,85 @@
                 callback(err, false);
             })
         };
+
+        // -----
+
+        // var buildSummaryListByHr = function (day, hr, attribute, recId, momentTz, callback)
+        // {
+        //     cdrApiHandler.getCallSummaryForQueueByHr(day, attribute, hr, momentTz,ShareData.BusinessUnit).then(function (sumResp)
+        //     {
+        //         if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
+        //         {
+        //             if (typeof sumResp.Result.IvrAverage === "number") {
+        //                 sumResp.Result.IvrAverage = convertToMMSS(sumResp.Result.IvrAverage);
+        //             }
+        //
+        //             if (typeof sumResp.Result.HoldAverage === "number") {
+        //                 sumResp.Result.HoldAverage = convertToMMSS(sumResp.Result.HoldAverage);
+        //             }
+        //
+        //             if (typeof sumResp.Result.RingAverage === "number") {
+        //                 sumResp.Result.RingAverage = convertToMMSS(sumResp.Result.RingAverage);
+        //             }
+        //
+        //             if (typeof sumResp.Result.TalkAverage === "number") {
+        //                 sumResp.Result.TalkAverage = convertToMMSS(sumResp.Result.TalkAverage);
+        //             }
+        //
+        //             if(tempQueueArr[attribute])
+        //             {
+        //                 tempQueueArr[attribute].push(sumResp.Result);
+        //             }
+        //             else
+        //             {
+        //                 tempQueueArr[attribute] = [];
+        //                 tempQueueArr[attribute].push(sumResp.Result);
+        //             }
+        //
+        //             var maxCount = $scope.skillFilter.length * 24;
+        //             curCount++;
+        //
+        //             $scope.progressSumVal = ((curCount/maxCount)*100).toFixed(2);
+        //
+        //             var newHr = hr + 1;
+        //
+        //             if(newHr < 25)
+        //             {
+        //                 buildSummaryListByHr(day, newHr, attribute, recId, momentTz, function(err, resp)
+        //                 {
+        //                     callback(null, true);
+        //                 });
+        //             }
+        //             else
+        //             {
+        //                 var curSkillIndex = _.findIndex($scope.skillFilter, {RecordID: recId});
+        //
+        //                 if($scope.skillFilter.length > curSkillIndex + 1)
+        //                 {
+        //                     buildSummaryListByHr(day, 1, $scope.skillFilter[curSkillIndex+1].QueueName, $scope.skillFilter[curSkillIndex+1].RecordID, momentTz, function(err, resp)
+        //                     {
+        //                         callback(null, true);
+        //                     });
+        //                 }
+        //                 else
+        //                 {
+        //                     callback(null, true);
+        //                 }
+        //
+        //             }
+        //
+        //         }
+        //         else
+        //         {
+        //             callback(null, false);
+        //         }
+        //
+        //
+        //     }, function (err) {
+        //         loginService.isCheckResponse(err);
+        //         callback(err, false);
+        //     })
+        // };
 
         var buildSummaryList = function (day, attribute, momentTz, summaryArrItem, callback) {
             cdrApiHandler.getCallSummaryForQueueHr(day, attribute, momentTz).then(function (sumResp) {
@@ -342,7 +367,14 @@
 
                 if($scope.skillFilter && $scope.skillFilter.length > 0)
                 {
-                    buildSummaryListByHr($scope.obj.day, 1, $scope.skillFilter[0].QueueName, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
+                    var skillArr = [];
+                    for (var i=0; i<$scope.skillFilter.length; i++){
+                        skillArr.push($scope.skillFilter[i].QueueName)
+                    }
+
+                    var skillString = skillArr.join(',');
+
+                    buildSummaryListByHr($scope.obj.day, 1, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
                     {
                         if(err)
                         {

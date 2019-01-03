@@ -5,24 +5,25 @@
     </div>
 
     <div class="cam-create-form">
+        
         <div ng-show="campaign.CampaignChannel=='SMS' || campaign.CampaignChannel=='EMAIL' ">
             <div ng-include="'campaignManager/template/new-campaign/step3-config/template-config.html'"></div>
         </div>
-
-        <div ng-show="campaign.CampaignChannel=='CALL' && campaign.DialoutMechanism!='PREVIEW'">
-            <div ng-include="'campaignManager/template/new-campaign/step3-config/callback-config.html'"></div>
-        </div>
-
-        <div ng-show="campaign.CampaignChannel=='CALL' && campaign.DialoutMechanism=='PREVIEW' ">
-            <uib-tabset class="camp-tab"
-                        active="active">
-                <uib-tab index="1" heading="Config to Preview">
+        <div ng-show="campaign.CampaignChannel=='CALL'">
+            <uib-tabset class="camp-tab" active="$root.active">
+                <uib-tab index="1" heading="Config To Callback">
                     <div class="animated fadeIn"
-                         ng-include="'campaignManager/template/new-campaign/step3-config/preview-config.html'"></div>
+                        ng-include="'campaignManager/template/new-campaign/step3-config/callback-config.html'"></div>
                 </uib-tab>
-                <uib-tab index="2" heading="Config To Callback">
+
+                <uib-tab index="2" heading="Integrations">
                     <div class="animated fadeIn"
-                         ng-include="'campaignManager/template/new-campaign/step3-config/callback-config.html'"></div>
+                        ng-include="'campaignManager/template/new-campaign/step3-config/integration-config.html'"></div>
+                </uib-tab>
+                
+                <uib-tab index="3" heading="Config to Preview" ng-show="campaign.DialoutMechanism=='PREVIEW' || campaign.DialoutMechanism=='AGENT'">
+                    <div class="animated fadeIn"
+                        ng-include="'campaignManager/template/new-campaign/step3-config/preview-config.html'"></div>
                 </uib-tab>
             </uib-tabset>
         </div>
