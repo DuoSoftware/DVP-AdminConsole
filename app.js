@@ -807,6 +807,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "QUEUE_HOURLY_BREAKDOWN_REPORT"
             }
+        }).state('console.hourlyBandReport', {
+            url: "/hourlyBandReport",
+            templateUrl: "views/cdr/hourlyBandReport.html",
+            controller: "hourlyBandReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUEUE_HOURLY_BREAKDOWN_REPORT"
+            }
         }).state('console.sla', {
             url: "/sla",
             templateUrl: "views/ticket-sla/sla.html",

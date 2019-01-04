@@ -1,12 +1,209 @@
 /**
- * Created by dinusha on 9/6/2016.
+ * Created by marlon on 9/6/2016.
  */
+
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll,ShareData) {
+    var hourlyBandReportCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll,ShareData, uiGridConstants, uiGridGroupingConstants) {
+        $scope.hourlyBandGridOptions = {
+            enableFiltering: true,
+            enableColumnResizing: true,
+            enableRowSelection: true,
+            enableRowHeaderSelection: true,
+            multiSelect: false,
+            modifierKeysToMultiSelect: false,
+            noUnselect: false, enableHorizontalScrollbar: true,
+            columnDefs: [
+                {
+                    name: 'Date',
+                    field: 'date',
+                    headerTooltip: 'Date',
+                    enableFiltering: true,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: '8%',
+                    grouping: { groupPriority: 0 },
+                    sort: {
+                        priority: 0,
+                        direction: uiGridConstants.ASC
+                    }
+                },
+                {
+                    name: 'Hour',
+                    field: 'hour',
+                    headerTooltip: 'Hour',
+                    enableFiltering: true,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: '5%', cellClass: 'table-number',
+                    grouping: { groupPriority: 1 },
+                    sort: {
+                        priority: 1,
+                        direction: uiGridConstants.ASC
+                    }
+                },
+                {
+                    name: 'agentskill',
+                    field: 'agentskill',
+                    headerTooltip: 'Date',
+                    enableFiltering: true,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: '10%',
+                    grouping: { groupPriority: 2 },
+                    sort: {
+                        priority: 2,
+                        direction: uiGridConstants.ASC
+                    }
+                },
+
+                {
+                    name: 'IVRCallsCount',
+                    field: 'IVRCallsCount',
+                    headerTooltip: 'Agent Mode',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*" , cellClass: 'table-number',
+                    treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+                        aggregation.rendered = aggregation.value;
+                    }
+                    },
+                {
+                    name: 'QueuedCallsCount',
+                    field: 'QueuedCallsCount',
+                    headerTooltip: 'State Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-number'
+                },
+                {
+                    name: 'AbandonCallsCount',
+                    field: 'AbandonCallsCount',
+                    headerTooltip: 'Incoming Call Count',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-number'
+                },
+                {
+                    name: 'AbandonPercentage',
+                    field: 'AbandonPercentage',
+                    headerTooltip: 'Outgoing Call Count',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-number'
+                },
+                {
+                    name: 'DropCallsCount',
+                    field: 'DropCallsCount',
+                    headerTooltip: 'MissCall Count',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-number'
+                },
+                {
+                    name: 'DropCallsCount',
+                    field: 'DropCallsCount',
+                    headerTooltip: 'Transfer Call Count',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-number'
+                },
+                {
+                    name: 'HoldAverage',
+                    field: 'HoldAverage',
+                    headerTooltip: 'Acw Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'IvrAverage',
+                    field: 'IvrAverage',
+                    headerTooltip: 'Break Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'RingAverage',
+                    field: 'RingAverage',
+                    headerTooltip: 'OnCall Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'TalkAverage',
+                    field: 'TalkAverage',
+                    headerTooltip: 'Hold Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'AnswerCount',
+                    field: 'AnswerCount',
+                    headerTooltip: 'Idle Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time',
+                },
+                {
+                    name: 'QueueAverage',
+                    field: 'QueueAverage',
+                    headerTooltip: 'Staffed Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'AnswerPercentage',
+                    field: 'AnswerPercentage',
+                    headerTooltip: 'Staffed Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'AbandonedQueueAvg',
+                    field: 'AbandonedQueueAvg',
+                    headerTooltip: 'Staffed Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'AnsweredQueueAvg',
+                    field: 'AnsweredQueueAvg',
+                    headerTooltip: 'Staffed Time',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                }
+
+            ],
+            data: [{test: "loading"}]
+        };
 
         $anchorScroll();
+
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
 
         $scope.showAlert = function (tittle, type, content) {
@@ -29,25 +226,13 @@
         $scope.currentCSVFilename = '';
         $scope.DownloadButtonName = 'CSV';
 
-        var convertToMMSS = function (sec) {
-            var minutes = Math.floor(sec / 60);
-
-            if (minutes < 10) {
-                minutes = '0' + minutes;
-            }
-
-            var seconds = sec - minutes * 60;
-
-            if (seconds < 10) {
-                seconds = '0' + seconds;
-            }
-
-            return minutes + ':' + seconds;
-        };
 
 
         $scope.obj = {
-            day: moment().format("YYYY-MM-DD")
+            fromdate: moment().format("YYYY-MM-DD"),
+            todate: moment().format("YYYY-MM-DD"),
+            fromhour: moment().format("H"),
+            tohour: moment().format("m")
         };
 
         var checkFileReady = function (fileName) {
@@ -159,25 +344,6 @@
         };
 
 
-        /*$scope.loadAttrList = function () {
-            cdrApiHandler.getAttributeList().then(function (attrList) {
-                if (attrList && attrList.Result) {
-                    $scope.attrList = attrList.Result;
-                }
-                else {
-                    $scope.attrList = [];
-                }
-
-
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-                $scope.showAlert('Queue wise summary', 'error', 'Failed to bind agent auto complete list');
-
-            })
-        };
-
-        $scope.loadAttrList();*/
-
         var getQueueList = function () {
 
             resourceService.getQueueSettings().then(function (qList) {
@@ -206,9 +372,9 @@
         var tempQueueArr = {};
         var curCount = 0;
 //---
-        var buildSummaryListByHr = function (day, attributes, recId, momentTz, callback)
+        var buildSummaryListByHr = function (fromdate, todate, fromhour, tohour, attributes, recId, momentTz, callback)
         {
-            cdrApiHandler.getCallSummaryForQueueByHr(day, undefined, undefined, undefined, attributes, momentTz,ShareData.BusinessUnit).then(function (sumResp)
+            cdrApiHandler.getCallSummaryForQueueByHr(fromdate, todate, fromhour, tohour, attributes, momentTz,ShareData.BusinessUnit).then(function (sumResp)
             {
                 if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
                 {
@@ -229,134 +395,13 @@
             })
         };
 
-        // -----
-
-        // var buildSummaryListByHr = function (day, hr, attribute, recId, momentTz, callback)
-        // {
-        //     cdrApiHandler.getCallSummaryForQueueByHr(day, attribute, hr, momentTz,ShareData.BusinessUnit).then(function (sumResp)
-        //     {
-        //         if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
-        //         {
-        //             if (typeof sumResp.Result.IvrAverage === "number") {
-        //                 sumResp.Result.IvrAverage = convertToMMSS(sumResp.Result.IvrAverage);
-        //             }
-        //
-        //             if (typeof sumResp.Result.HoldAverage === "number") {
-        //                 sumResp.Result.HoldAverage = convertToMMSS(sumResp.Result.HoldAverage);
-        //             }
-        //
-        //             if (typeof sumResp.Result.RingAverage === "number") {
-        //                 sumResp.Result.RingAverage = convertToMMSS(sumResp.Result.RingAverage);
-        //             }
-        //
-        //             if (typeof sumResp.Result.TalkAverage === "number") {
-        //                 sumResp.Result.TalkAverage = convertToMMSS(sumResp.Result.TalkAverage);
-        //             }
-        //
-        //             if(tempQueueArr[attribute])
-        //             {
-        //                 tempQueueArr[attribute].push(sumResp.Result);
-        //             }
-        //             else
-        //             {
-        //                 tempQueueArr[attribute] = [];
-        //                 tempQueueArr[attribute].push(sumResp.Result);
-        //             }
-        //
-        //             var maxCount = $scope.skillFilter.length * 24;
-        //             curCount++;
-        //
-        //             $scope.progressSumVal = ((curCount/maxCount)*100).toFixed(2);
-        //
-        //             var newHr = hr + 1;
-        //
-        //             if(newHr < 25)
-        //             {
-        //                 buildSummaryListByHr(day, newHr, attribute, recId, momentTz, function(err, resp)
-        //                 {
-        //                     callback(null, true);
-        //                 });
-        //             }
-        //             else
-        //             {
-        //                 var curSkillIndex = _.findIndex($scope.skillFilter, {RecordID: recId});
-        //
-        //                 if($scope.skillFilter.length > curSkillIndex + 1)
-        //                 {
-        //                     buildSummaryListByHr(day, 1, $scope.skillFilter[curSkillIndex+1].QueueName, $scope.skillFilter[curSkillIndex+1].RecordID, momentTz, function(err, resp)
-        //                     {
-        //                         callback(null, true);
-        //                     });
-        //                 }
-        //                 else
-        //                 {
-        //                     callback(null, true);
-        //                 }
-        //
-        //             }
-        //
-        //         }
-        //         else
-        //         {
-        //             callback(null, false);
-        //         }
-        //
-        //
-        //     }, function (err) {
-        //         loginService.isCheckResponse(err);
-        //         callback(err, false);
-        //     })
-        // };
-
-        var buildSummaryList = function (day, attribute, momentTz, summaryArrItem, callback) {
-            cdrApiHandler.getCallSummaryForQueueHr(day, attribute, momentTz).then(function (sumResp) {
-                if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
-                    if (!isEmpty(sumResp.Result)) {
-                        var newSummary = sumResp.Result.map(function (sumr) {
-
-                            if (typeof sumr.IvrAverage === "number") {
-                                sumr.IvrAverage = convertToMMSS(sumr.IvrAverage);
-                            }
-
-                            if (typeof sumr.HoldAverage === "number") {
-                                sumr.HoldAverage = convertToMMSS(sumr.HoldAverage);
-                            }
-
-                            if (typeof sumr.RingAverage === "number") {
-                                sumr.RingAverage = convertToMMSS(sumr.RingAverage);
-                            }
-
-                            if (typeof sumr.TalkAverage === "number") {
-                                sumr.TalkAverage = convertToMMSS(sumr.TalkAverage);
-                            }
-
-                            return sumr;
-                        });
-
-                        summaryArrItem.Data = newSummary;
-                    }
-
-                    callback(null, true);
-
-
-                }
-                else {
-                    callback(null, true);
-                }
-
-
-            }, function (err) {
-                loginService.isCheckResponse(err);
-                callback(err, false);
-            })
-        };
 
         $scope.getCallSummaryByHr = function () {
 
             try
             {
                 $scope.summaryArr = [];
-                tempQueueArr = {};
+                $scope.hourlyBandGridOptions.data = {};
                 $scope.progressSumVal = 0;
                 curCount = 0;
 
@@ -374,13 +419,13 @@
 
                     var skillString = skillArr.join(',');
 
-                    buildSummaryListByHr($scope.obj.day, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
+                    buildSummaryListByHr($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
                     {
                         if(err)
                         {
                             $scope.showAlert('Queue wise summary', 'error', 'Error occurred');
                         }
-                        $scope.summaryArr = tempQueueArr;
+                        $scope.hourlyBandGridOptions.data = tempQueueArr;
                         $scope.obj.isTableLoadingHr = 1;
 
                     });
@@ -395,35 +440,6 @@
             }
             catch (ex) {
                 $scope.showAlert('Queue wise summary', 'error', 'Error occurred while loading call summary');
-                $scope.obj.isTableLoadingHr = 1;
-            }
-
-        };
-
-        $scope.getCallSummary = function () {
-
-            try {
-                $scope.summaryArr = [];
-
-                var momentTz = moment.parseZone(new Date()).format('Z');
-                momentTz = momentTz.replace("+", "%2B");
-
-                $scope.obj.isTableLoadingHr = 0;
-
-                $scope.skillFilter.forEach(function (skill) {
-                    var arrayItem = {Skill: skill.Attribute, Data: []};
-                    $scope.summaryArr.push(arrayItem);
-
-                    buildSummaryList($scope.obj.day, skill.Attribute, momentTz, arrayItem, function (err, processDoneResp) {
-                        $scope.obj.isTableLoadingHr = 1;
-
-                    });
-                });
-
-
-            }
-            catch (ex) {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading call summary');
                 $scope.obj.isTableLoadingHr = 1;
             }
 
@@ -486,7 +502,7 @@
 
 
     };
-    app.controller("queueSummaryHourlyCtrl", queueSummaryHourlyCtrl);
+    app.controller("hourlyBandReportCtrl", hourlyBandReportCtrl);
 
 }());
 
