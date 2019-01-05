@@ -206,9 +206,9 @@
         var tempQueueArr = {};
         var curCount = 0;
 //---
-        var buildSummaryListByHr = function (day, hr, attributes, recId, momentTz, callback)
+        var buildSummaryListByHr = function (day, attributes, recId, momentTz, callback)
         {
-            cdrApiHandler.getCallSummaryForQueueByHr(day, attributes, hr, momentTz,ShareData.BusinessUnit).then(function (sumResp)
+            cdrApiHandler.getCallSummaryForQueueByHr(day, undefined, undefined, undefined, attributes, momentTz,ShareData.BusinessUnit).then(function (sumResp)
             {
                 if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
                 {
@@ -374,7 +374,7 @@
 
                     var skillString = skillArr.join(',');
 
-                    buildSummaryListByHr($scope.obj.day, 1, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
+                    buildSummaryListByHr($scope.obj.day, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
                     {
                         if(err)
                         {
