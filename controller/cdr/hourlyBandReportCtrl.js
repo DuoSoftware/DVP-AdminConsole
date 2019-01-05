@@ -44,9 +44,9 @@
                     }
                 },
                 {
-                    name: 'agentskill',
+                    name: 'Agent Skill',
                     field: 'agentskill',
-                    headerTooltip: 'Date',
+                    headerTooltip: 'Agent Skill',
                     enableFiltering: true,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -59,9 +59,9 @@
                 },
 
                 {
-                    name: 'IVRCallsCount',
+                    name: 'IVR Calls (Count)',
                     field: 'IVRCallsCount',
-                    headerTooltip: 'Agent Mode',
+                    headerTooltip: 'IVR Calls (Count)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -71,126 +71,138 @@
                     }
                     },
                 {
-                    name: 'QueuedCallsCount',
+                    name: 'Queued Calls (Count)',
                     field: 'QueuedCallsCount',
-                    headerTooltip: 'State Time',
+                    headerTooltip: 'Queued Calls (Count)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-number'
+                    width: "*", cellClass: 'table-number',
+                    treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+                        aggregation.rendered = aggregation.value;
+                    }
                 },
                 {
-                    name: 'AbandonCallsCount',
+                    name: 'Abandoned Calls (Count)',
                     field: 'AbandonCallsCount',
-                    headerTooltip: 'Incoming Call Count',
+                    headerTooltip: 'Abandoned Calls (Count)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-number'
+                    width: "*", cellClass: 'table-number',
+                    treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+                        aggregation.rendered = aggregation.value;
+                    }
                 },
                 {
-                    name: 'AbandonPercentage',
+                    name: 'Abandoned Calls (%)',
                     field: 'AbandonPercentage',
-                    headerTooltip: 'Outgoing Call Count',
+                    headerTooltip: 'Abandoned Percentage',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-number'
                 },
                 {
-                    name: 'DropCallsCount',
+                    name: 'Avg Abandoned Queue Time (sec)',
+                    field: 'AbandonedQueueAvg',
+                    headerTooltip: 'Avg Abandoned Queue Time (sec)',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'Dropped Calls (Count)',
                     field: 'DropCallsCount',
-                    headerTooltip: 'MissCall Count',
+                    headerTooltip: 'Dropped Calls (Count)',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-number',
+                    treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+                        aggregation.rendered = aggregation.value;
+                    }
+                },
+                {
+                    name: 'Dropped Calls (%)',
+                    field: 'DropPercentage',
+                    headerTooltip: 'Dropped Calls (%)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-number'
                 },
                 {
-                    name: 'DropCallsCount',
-                    field: 'DropCallsCount',
-                    headerTooltip: 'Transfer Call Count',
-                    enableFiltering: false,
-                    enableCellEdit: false,
-                    enableSorting: true,
-                    width: "*", cellClass: 'table-number'
-                },
-                {
-                    name: 'HoldAverage',
+                    name: 'Avg Hold Time (sec)',
                     field: 'HoldAverage',
-                    headerTooltip: 'Acw Time',
+                    headerTooltip: 'Avg Hold Time (sec)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'IvrAverage',
+                    name: 'Avg IVR Time (sec)',
                     field: 'IvrAverage',
-                    headerTooltip: 'Break Time',
+                    headerTooltip: 'Avg IVR Time (sec)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'RingAverage',
+                    name: 'Avg Queue Time (sec)',
+                    field: 'QueueAverage',
+                    headerTooltip: 'Avg Queue Time (sec)',
+                    enableFiltering: false,
+                    enableCellEdit: false,
+                    enableSorting: true,
+                    width: "*", cellClass: 'table-time'
+                },
+                {
+                    name: 'Avg Answer Speed (sec)',
                     field: 'RingAverage',
-                    headerTooltip: 'OnCall Time',
+                    headerTooltip: 'Avg Answer Speed (sec)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'TalkAverage',
+                    name: 'Avg Talk Time (sec)',
                     field: 'TalkAverage',
-                    headerTooltip: 'Hold Time',
+                    headerTooltip: 'Avg Talk Time (sec)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'AnswerCount',
+                    name: 'Answered Calls (Count)',
                     field: 'AnswerCount',
-                    headerTooltip: 'Idle Time',
+                    headerTooltip: 'Answered Calls (Count)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time',
+                    treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+                        aggregation.rendered = aggregation.value;
+                    }
                 },
                 {
-                    name: 'QueueAverage',
-                    field: 'QueueAverage',
-                    headerTooltip: 'Staffed Time',
-                    enableFiltering: false,
-                    enableCellEdit: false,
-                    enableSorting: true,
-                    width: "*", cellClass: 'table-time'
-                },
-                {
-                    name: 'AnswerPercentage',
+                    name: 'Answer Percentage (%)',
                     field: 'AnswerPercentage',
-                    headerTooltip: 'Staffed Time',
+                    headerTooltip: 'Answer Percentage (%)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'AbandonedQueueAvg',
-                    field: 'AbandonedQueueAvg',
-                    headerTooltip: 'Staffed Time',
-                    enableFiltering: false,
-                    enableCellEdit: false,
-                    enableSorting: true,
-                    width: "*", cellClass: 'table-time'
-                },
-                {
-                    name: 'AnsweredQueueAvg',
+                    name: 'Avg Answer Queue Time (sec)',
                     field: 'AnsweredQueueAvg',
-                    headerTooltip: 'Staffed Time',
+                    headerTooltip: 'Avg Answer Queue Time (sec)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -199,6 +211,7 @@
 
             ],
             data: [{test: "loading"}]
+
         };
 
         $anchorScroll();
@@ -231,8 +244,8 @@
         $scope.obj = {
             fromdate: moment().format("YYYY-MM-DD"),
             todate: moment().format("YYYY-MM-DD"),
-            fromhour: moment().format("H"),
-            tohour: moment().format("m")
+            fromhour: parseInt(moment().format("H")),
+            tohour: parseInt(moment().format("H"))
         };
 
         var checkFileReady = function (fileName) {
