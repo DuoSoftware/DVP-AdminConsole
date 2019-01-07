@@ -149,7 +149,8 @@ mainApp.constant('baseUrls', baseUrls);
 mainApp.constant('turnServers', [{url: "stun:stun.l.google.com:19302"}, {url: "stun:stun.counterpath.net:3478"}, {url: "stun:numb.viagenie.ca:3478"}]);
 
 var applicationConfig = {
-    'captchaEnable': false
+    'captchaEnable': false,
+    'repMaxDateRangeHourlyBand': 30
 };
 mainApp.constant('applicationConfig', applicationConfig);
 
@@ -803,6 +804,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/queueHourlySummary",
             templateUrl: "views/cdr/queueSummaryHourly.html",
             controller: "queueSummaryHourlyCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUEUE_HOURLY_BREAKDOWN_REPORT"
+            }
+        }).state('console.hourlyBandReport', {
+            url: "/hourlyBandReport",
+            templateUrl: "views/cdr/hourlyBandReport.html",
+            controller: "hourlyBandReportCtrl",
             data: {
                 requireLogin: true,
                 navigation: "QUEUE_HOURLY_BREAKDOWN_REPORT"

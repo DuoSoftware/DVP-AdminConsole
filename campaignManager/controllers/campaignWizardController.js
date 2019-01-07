@@ -25,6 +25,21 @@ mainApp.controller("campaignWizardController", function ($scope,
             {name: 'AGENT'}
         ];
 
+        $scope.integrationConf = {
+            "params": [
+                "SessionId",
+                "CampaignId",
+                "CampaignName",
+                "Reason",
+                "Number",
+                "CompanyId",
+                "Agent",
+                "ResourceId",
+                "EventType"
+            ],
+            "methods": [ "POST", "GET", "PUT", "PATCH" ]
+        };
+
         $scope.step = 1;
         if (queryCampaignId && queryCampaignId.id != 0) {
 
@@ -144,6 +159,16 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.active = 1;
         $scope.callback = {};
+
+        $scope.IntegrationData = {
+            "Agent": {
+                "Params": []
+            },
+            "Customer": {
+                "Params": []
+            },
+        };
+
         var step01UIFun = function () {
             return {
                 onLoadWizard: function () {
@@ -190,6 +215,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                     }
 
                     if (step == 2) {
+                        //set the active tab to 0 when navigate back between steps.
+                        $scope.$root.active = 1;
+
                         $scope.safeApply(function () {
                             $scope.step = 2;
                         });
@@ -443,8 +471,13 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.campAttribute;
         $scope.onChipAddAttribute = function (chip) {
-
-            $scope.campaignAttributes.push(chip.Id);
+            if($scope.campaignAttributes.length === 0){
+                $scope.campaignAttributes.push(chip.Id);
+                return true;
+            }else{
+                return false;
+            }
+            
 
         };
         $scope.onChipDeleteAttribute = function (chip) {
@@ -456,6 +489,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
 
         };
+
 
         $scope.GetCampaignAdditionalData = function () {
             $scope.isLoadingData = true;
@@ -478,7 +512,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     response.map(function (item) {
                         $scope.currentConfigTemplate = item.Category != "ATTACHMENT" ? item : '';
                     });
-                    if ($scope.campaign.DialoutMechanism === "PREVIEW") {
+                    if ($scope.campaign.DialoutMechanism === "PREVIEW" || $scope.campaign.DialoutMechanism === "AGENT") {
                         if (response.length > 0) {
                             $scope.campAttribute = [];
                             $scope.AdditionalDataRecordId = response[0].AdditionalDataId;
@@ -547,6 +581,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
 
+        //#region < commented code >
         //#end
 
 
@@ -592,7 +627,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         //
         //
         // $scope.loadNewlyCreatedCampaigns();
-
+        //#endregion
 
         //create new campaign
         $scope.campaign = {
@@ -1243,6 +1278,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 else {
                     $scope.callback = {AllowCallBack: false};
                 }
+
+                $scope.callback.IntegrationData = angular.merge($scope.IntegrationData, $scope.callback.IntegrationData || {});
             }, function (error) {
 
             });

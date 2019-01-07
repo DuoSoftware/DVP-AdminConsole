@@ -147,6 +147,10 @@
                                             rowspan="1"
                                             colspan="1" aria-label="RejectCount">Reject Count
                                         </th>
+                                        <th class="sorting" tabindex="4" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="RejectCount">Reject Reason(s)
+                                        </th>
                                         <th class="sorting" tabindex="5" aria-controls="datatable-responsive"
                                             rowspan="1"
                                             colspan="1" aria-label="From">From
@@ -174,6 +178,7 @@
                                         <td>{{missedCall.cdrInfo.AgentSkill}}</td>
                                         <td>{{missedCall.cdrInfo.QueueSec}}</td>
                                         <td>{{missedCall.RejectCount}}</td>
+                                        <td>{{missedCall.Causes}}</td>
                                         <td>{{missedCall.cdrInfo.SipFromUser}}</td>
                                         <td>{{missedCall.cdrInfo.SipToUser}}</td>
                                         <td>{{missedCall.cdrInfo.AgentAnswered}}</td>

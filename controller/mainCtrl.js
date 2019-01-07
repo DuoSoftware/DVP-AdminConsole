@@ -563,6 +563,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goQueueHourlySummary: function () {
             $state.go('console.queueHourlySummary');
         },
+        goHourlyBandReport: function (){
+            $state.go('console.hourlyBandReport')
+        },
         goAgentSummary: function () {
             $state.go('console.agentsummary');
         },

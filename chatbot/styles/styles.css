@@ -22,13 +22,17 @@
     width: 100%;
 }
 
-tags-input .tags{
+/* 
+following block is commented to prevent overrding any styles 
+used in other interfaces. Please inform before enabling. 
+*/
+/* tags-input .tags{
     width: 470px !important;
     margin-left: -6px !important;
     margin-top: -4px !important;
     padding: 2px !important;
     border: none !important;
-}
+} */
 
 .edit-card--btn-circle {
     
