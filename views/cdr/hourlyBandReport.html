@@ -54,7 +54,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group">
                         <label>Queues</label>
                         <tags-input ng-model="skillFilter" display-property="QueueName" key-property="RecordID" add-from-autocomplete-only="true" min-length="1">
@@ -86,7 +86,7 @@
                     </div>
 
                     <div ng-show="hourlyBandGridOptions.data.length>0" ui-grid="hourlyBandGridOptions" class="agentSummarygrid"
-                         ui-grid-move-columns ui-grid-resize-columns ui-grid-grouping ui-grid-auto-resize ui-grid-pinning ></div>
+                         ui-grid-move-columns ui-grid-resize-columns ui-grid-grouping ui-grid-auto-resize ui-grid-pinning style="height:1000px !important;" ></div>
 
                 </div>
             </div>
