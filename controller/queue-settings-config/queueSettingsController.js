@@ -67,8 +67,8 @@ mainApp.controller("queueSettingsController", function ($scope, $state, loginSer
 
     $scope.querySearch = function (query) {
         if (query === "*" || query === "") {
-            if ($scope.groups) {
-                return $scope.groups;
+            if ($scope.attributeSkills) {
+                return $scope.attributeSkills;
             }
             else {
                 return [];
@@ -76,7 +76,12 @@ mainApp.controller("queueSettingsController", function ($scope, $state, loginSer
 
         }
         else {
-            var results = query ? $scope.groups.filter(createFilterFor(query)) : [];
+            var results;
+            if($scope.attributeSkills)
+            {
+                results = query ? $scope.attributeSkills.filter(createFilterFor(query)) : [];
+
+            }
             return results;
         }
 

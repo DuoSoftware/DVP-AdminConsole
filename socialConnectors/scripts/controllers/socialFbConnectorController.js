@@ -25,10 +25,14 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
 
         
         FB.init({
-            appId: '1653017581444883',
+            appId: '360342124769139',
             cookie: true,
             xfbml: true,
-            version: 'v2.12'
+            version: 'v3.2'
+        });
+
+        FB.getLoginStatus(function(response) {
+            console.log(response);
         });
 
         /* FB.init({
@@ -70,7 +74,19 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
             } else {
                 console.log('User cancelled login or did not fully authorize.');
             }
-        }, {scope: 'manage_pages,publish_pages,publish_actions,email'});
+        }, {scope: 'manage_pages,publish_pages,email'});
+
+       /* FB.login(function(response) {
+            if (response.authResponse) {
+                $scope.getUserPageList(response.authResponse);
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me', function(response) {
+                    console.log('Good to see you, ' + response.name + '.');
+                });
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        }, {scope: 'manage_pages,email,publish_pages '});*/
 
         //scope: 'public_profile,user_posts,email,manage_pages,publish_pages,read_page_mailboxes,read_page_mailboxes,pages_show_list,pages_manage_cta,pages_manage_instant_articles'
         //scope=manage_pages,publish_pages,publish_actions
@@ -81,13 +97,18 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     $scope.getUserPageList = function (auth) {
         FB.api('/me?fields=accounts{access_token,category,name,id,picture.type(large)},picture,email,name&access_token=', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
             $scope.safeApply(function () {
-                $scope.fbPageList = response.accounts.data.map(function (item, index) {
-                    item.auth = auth;
-                    item.email = response.email;
-                    item.profileID = response.id;
-                    item.profileName = response.name;
-                    return item;
-                });
+                if(response.accounts && response.accounts.data && response.accounts.data.length>0)
+                {
+                    $scope.fbPageList = response.accounts.data.map(function (item, index) {
+                        item.auth = auth;
+                        item.email = response.email;
+                        item.profileID = response.id;
+                        item.profileName = response.name;
+                        return item;
+                    });
+                }
+
+
             });
             $scope.auth = auth.accessToken;
 
@@ -247,15 +268,11 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     };
 
 // Load the SDK asynchronously
-    (function (d) {
-        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement('script');
-        js.id = id;
-        js.async = true;
-        js.src = "//connect.facebook.net/en_US/all.js";
-        ref.parentNode.insertBefore(js, ref);
-    }(document));
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 });
