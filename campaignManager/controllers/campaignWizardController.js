@@ -471,8 +471,13 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.campAttribute;
         $scope.onChipAddAttribute = function (chip) {
-
-            $scope.campaignAttributes.push(chip.Id);
+            if($scope.campaignAttributes.length === 0){
+                $scope.campaignAttributes.push(chip.Id);
+                return true;
+            }else{
+                return false;
+            }
+            
 
         };
         $scope.onChipDeleteAttribute = function (chip) {
@@ -507,7 +512,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     response.map(function (item) {
                         $scope.currentConfigTemplate = item.Category != "ATTACHMENT" ? item : '';
                     });
-                    if ($scope.campaign.DialoutMechanism === "PREVIEW") {
+                    if ($scope.campaign.DialoutMechanism === "PREVIEW" || $scope.campaign.DialoutMechanism === "AGENT") {
                         if (response.length > 0) {
                             $scope.campAttribute = [];
                             $scope.AdditionalDataRecordId = response[0].AdditionalDataId;
