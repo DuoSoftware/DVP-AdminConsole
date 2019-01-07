@@ -836,6 +836,17 @@ mainApp.controller("campaignWizardController", function ($scope,
                     });
                 },
                 updateCampaignConfig: function (_callback, callback) {
+                    //set the intergration data parameters as string array.
+                    if(_callback.IntegrationData){
+                        angular.forEach(_callback.IntegrationData, function(val, key, object){
+                            var params = object[key].Params;
+                            object[key].Params = [];
+                            angular.forEach(params, function(param){
+                                object[key].Params.push(param.Name);
+                            });
+                        });
+                    }
+
                     $scope.isCampaignUpdateConfig = true;
                     $scope.isCreateNewCampaign = true;
                     if (_callback.ConfigureId > 0) {
