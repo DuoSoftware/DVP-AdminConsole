@@ -6,6 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
     var hourlyBandReportCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll,ShareData, uiGridConstants, uiGridGroupingConstants) {
+
         $scope.hourlyBandGridOptions = {
             enableFiltering: true,
             enableColumnResizing: true,
@@ -419,40 +420,45 @@
                 curCount = 0;
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
-                //momentTz = momentTz.replace("+", "%2B");
 
                 $scope.obj.isTableLoadingHr = 0;
 
                 if($scope.skillFilter && $scope.skillFilter.length > 0)
                 {
-                    var skillArr = [];
-                    for (var i=0; i<$scope.skillFilter.length; i++){
-                        skillArr.push($scope.skillFilter[i].QueueName)
-                    }
+                    var duration = moment($scope.obj.todate, 'YYYY-MM-DD').diff(moment($scope.obj.fromdate, 'YYYY-MM-DD'), 'days');
 
-                    var skillString = skillArr.join(',');
-
-                    buildSummaryListByHr($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
-                    {
-                        if(err)
-                        {
-                            $scope.showAlert('Queue wise summary', 'error', 'Error occurred');
+                    if(duration <= applicationConfig.repMaxDateRangeHourlyBand) {
+                        var skillArr = [];
+                        for (var i = 0; i < $scope.skillFilter.length; i++) {
+                            skillArr.push($scope.skillFilter[i].QueueName)
                         }
-                        $scope.hourlyBandGridOptions.data = tempQueueArr;
-                        $scope.obj.isTableLoadingHr = 1;
 
-                    });
+                        var skillString = skillArr.join(',');
+
+                        buildSummaryListByHr($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp) {
+                            if (err) {
+                                $scope.showAlert('Hourly Band Report', 'error', 'Error occurred');
+                            }
+                            $scope.hourlyBandGridOptions.data = tempQueueArr;
+                            $scope.obj.isTableLoadingHr = 1;
+
+                        });
+                    }
+                    else{
+                        $scope.showAlert('Hourly Band Report', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeHourlyBand + ' days exceeded');
+                        $scope.obj.isTableLoadingHr = 1;
+                    }
                 }
                 else
                 {
-                    $scope.showAlert('Queue wise summary', 'error', 'No queues added');
+                    $scope.showAlert('Hourly Band Report', 'error', 'No queues added');
                     $scope.obj.isTableLoadingHr = 1;
                 }
 
 
             }
             catch (ex) {
-                $scope.showAlert('Queue wise summary', 'error', 'Error occurred while loading call summary');
+                $scope.showAlert('Hourly Band Report', 'error', 'Error occurred while loading hourly summary');
                 $scope.obj.isTableLoadingHr = 1;
             }
 
