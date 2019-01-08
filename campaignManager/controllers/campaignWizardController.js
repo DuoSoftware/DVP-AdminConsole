@@ -471,14 +471,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.campAttribute;
         $scope.onChipAddAttribute = function (chip) {
-            if($scope.campaignAttributes.length === 0){
-                $scope.campaignAttributes.push(chip.Id);
-                return true;
-            }else{
-                return false;
-            }
-            
-
+            $scope.campaignAttributes.push(chip.Id);
         };
         $scope.onChipDeleteAttribute = function (chip) {
 
