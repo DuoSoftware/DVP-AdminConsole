@@ -1107,12 +1107,16 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
              unitName:$scope.newBUnit.unitName,
              description:$scope.newBUnit.description
              }*/
+            if($scope.newBUnit&& $scope.newBUnit.headUserObjs)
+            {
+                $scope.newBUnit.headUsers = $scope.newBUnit.headUserObjs.map(function (item) {
+                    return item._id;
+                });
+                delete $scope.newBUnit.headUserObjs;
+            }
 
-            $scope.newBUnit.headUsers = $scope.newBUnit.headUserObjs.map(function (item) {
-                return item._id;
-            });
 
-            delete $scope.newBUnit.headUserObjs;
+
 
             userProfileApiAccess.saveBusinessUnit($scope.newBUnit).then(function (resSave) {
 

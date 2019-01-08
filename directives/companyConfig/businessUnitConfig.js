@@ -156,7 +156,7 @@ mainApp.directive("bisunit", function (userProfileApiAccess, attributeService) {
 
                 var addObj = {
                     BUId: scope.unit._id,
-                    UnitName: scope.unit.UnitName,
+                    UnitName: scope.unit.unitName,
                     AttributeId: chip.AttributeId,
                     AttributeGroupId: chip.AttributeGroupId
                 };

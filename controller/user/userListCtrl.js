@@ -78,6 +78,7 @@
             attributeService.removeAttributeFromUserGroup($scope.selectedGroup._id, chip.AttributeId).then(function (response) {
                 if (response) {
                     console.info("AddAttributeToGroup : " + response);
+                    $scope.showAlert("Info", "info", "Successfully removed " + chip.Attribute);
                     return true;
                 }
                 else {
@@ -102,6 +103,7 @@
             attributeService.addAttributeToUserGroup(addObj).then(function (response) {
                 if (response) {
                     console.info("AddAttributeToGroup : " + response);
+                    $scope.showAlert("Info", "info", "Successfully added " + chip.Attribute);
                     return true;
                 }
                 else {

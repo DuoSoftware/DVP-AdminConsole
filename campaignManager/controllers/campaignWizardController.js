@@ -471,14 +471,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.campAttribute;
         $scope.onChipAddAttribute = function (chip) {
-            if($scope.campaignAttributes.length === 0){
-                $scope.campaignAttributes.push(chip.Id);
-                return true;
-            }else{
-                return false;
-            }
-            
-
+            $scope.campaignAttributes.push(chip.Id);
         };
         $scope.onChipDeleteAttribute = function (chip) {
 
@@ -836,6 +829,17 @@ mainApp.controller("campaignWizardController", function ($scope,
                     });
                 },
                 updateCampaignConfig: function (_callback, callback) {
+                    //set the intergration data parameters as string array.
+                    if(_callback.IntegrationData){
+                        angular.forEach(_callback.IntegrationData, function(val, key, object){
+                            var params = object[key].Params;
+                            object[key].Params = [];
+                            angular.forEach(params, function(param){
+                                object[key].Params.push(param.Name);
+                            });
+                        });
+                    }
+
                     $scope.isCampaignUpdateConfig = true;
                     $scope.isCreateNewCampaign = true;
                     if (_callback.ConfigureId > 0) {
