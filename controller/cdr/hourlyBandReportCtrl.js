@@ -7,8 +7,12 @@
 
     var hourlyBandReportCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll,ShareData, uiGridConstants, uiGridGroupingConstants) {
 
+        $scope.dateValid = true;
+        $scope.gridApi;
+
         $scope.hourlyBandGridOptions = {
             enableFiltering: true,
+            enableExpandable: true,
             enableColumnResizing: true,
             enableRowSelection: true,
             enableRowHeaderSelection: true,
@@ -23,7 +27,7 @@
                     enableFiltering: true,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: '8%',
+                    width: '10%',
                     grouping: { groupPriority: 0 },
                     sort: {
                         priority: 0,
@@ -52,7 +56,6 @@
                     enableCellEdit: false,
                     enableSorting: true,
                     width: '10%',
-                    grouping: { groupPriority: 2 },
                     sort: {
                         priority: 2,
                         direction: uiGridConstants.ASC
@@ -211,14 +214,33 @@
                 }
 
             ],
-            data: [{test: "loading"}]
-
+            data: [{test: "loading"}],
+            onRegisterApi: function (gridApi) {
+                $scope.gridApi = gridApi;
+            }
         };
 
         $anchorScroll();
 
+        $scope.getTableHeight = function() {
+            var rowHeight = 30;
+            var headerHeight = 50; // your header height
+            console.log($scope.gridApi.core.getVisibleRows().length);
+            return "height:" + ($scope.gridApi.core.getVisibleRows().length * rowHeight + headerHeight) + "px !important;"
+        };
+
+
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
+
+        $scope.onDateChange = function () {
+            if (moment($scope.obj.fromdate, "YYYY-MM-DD").isValid() && moment($scope.obj.todate, "YYYY-MM-DD").isValid()) {
+                $scope.dateValid = true;
+            }
+            else {
+                $scope.dateValid = false;
+            }
+        };
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -425,27 +447,35 @@
 
                 if($scope.skillFilter && $scope.skillFilter.length > 0)
                 {
-                    var duration = moment($scope.obj.todate, 'YYYY-MM-DD').diff(moment($scope.obj.fromdate, 'YYYY-MM-DD'), 'days');
 
-                    if(duration <= applicationConfig.repMaxDateRangeHourlyBand) {
-                        var skillArr = [];
-                        for (var i = 0; i < $scope.skillFilter.length; i++) {
-                            skillArr.push($scope.skillFilter[i].QueueName)
-                        }
+                    if((moment($scope.obj.fromdate).isBefore($scope.obj.todate) || moment($scope.obj.fromdate).isSame($scope.obj.todate)) && $scope.obj.fromhour <= $scope.obj.tohour) {
 
-                        var skillString = skillArr.join(',');
+                        var duration = moment($scope.obj.todate, 'YYYY-MM-DD').diff(moment($scope.obj.fromdate, 'YYYY-MM-DD'), 'days');
 
-                        buildSummaryListByHr($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp) {
-                            if (err) {
-                                $scope.showAlert('Hourly Band Report', 'error', 'Error occurred');
+                        if (duration <= applicationConfig.repMaxDateRangeHourlyBand) {
+                            var skillArr = [];
+                            for (var i = 0; i < $scope.skillFilter.length; i++) {
+                                skillArr.push($scope.skillFilter[i].QueueName)
                             }
-                            $scope.hourlyBandGridOptions.data = tempQueueArr;
-                            $scope.obj.isTableLoadingHr = 1;
 
-                        });
+                            var skillString = skillArr.join(',');
+
+                            buildSummaryListByHr($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp) {
+                                if (err) {
+                                    $scope.showAlert('Hourly Band Report', 'error', 'Error occurred');
+                                }
+                                $scope.hourlyBandGridOptions.data = tempQueueArr;
+                                $scope.obj.isTableLoadingHr = 1;
+
+                            });
+                        }
+                        else {
+                            $scope.showAlert('Hourly Band Report', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeHourlyBand + ' days exceeded');
+                            $scope.obj.isTableLoadingHr = 1;
+                        }
                     }
                     else{
-                        $scope.showAlert('Hourly Band Report', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeHourlyBand + ' days exceeded');
+                        $scope.showAlert('Hourly Band Report', 'error', 'To date and hour need to be same as From date and hour or should occur after');
                         $scope.obj.isTableLoadingHr = 1;
                     }
                 }
