@@ -7,8 +7,12 @@
 
     var hourlyBandReportCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll,ShareData, uiGridConstants, uiGridGroupingConstants) {
 
+        $scope.dateValid = true;
+        $scope.gridApi;
+
         $scope.hourlyBandGridOptions = {
             enableFiltering: true,
+            enableExpandable: true,
             enableColumnResizing: true,
             enableRowSelection: true,
             enableRowHeaderSelection: true,
@@ -23,7 +27,7 @@
                     enableFiltering: true,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: '8%',
+                    width: '10%',
                     grouping: { groupPriority: 0 },
                     sort: {
                         priority: 0,
@@ -52,7 +56,6 @@
                     enableCellEdit: false,
                     enableSorting: true,
                     width: '10%',
-                    grouping: { groupPriority: 2 },
                     sort: {
                         priority: 2,
                         direction: uiGridConstants.ASC
@@ -105,9 +108,9 @@
                     width: "*", cellClass: 'table-number'
                 },
                 {
-                    name: 'Avg Abandoned Queue Time (sec)',
+                    name: 'Abandoned Queue Time (Avg)',
                     field: 'AbandonedQueueAvg',
-                    headerTooltip: 'Avg Abandoned Queue Time (sec)',
+                    headerTooltip: 'Abandoned Queue Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -135,45 +138,45 @@
                     width: "*", cellClass: 'table-number'
                 },
                 {
-                    name: 'Avg Hold Time (sec)',
+                    name: 'Hold Time (Avg)',
                     field: 'HoldAverage',
-                    headerTooltip: 'Avg Hold Time (sec)',
+                    headerTooltip: 'Hold Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg IVR Time (sec)',
+                    name: 'IVR Time (Avg)',
                     field: 'IvrAverage',
-                    headerTooltip: 'Avg IVR Time (sec)',
+                    headerTooltip: 'IVR Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Queue Time (sec)',
+                    name: 'Queue Time (Avg)',
                     field: 'QueueAverage',
-                    headerTooltip: 'Avg Queue Time (sec)',
+                    headerTooltip: 'Queue Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Answer Speed (sec)',
+                    name: 'Answer Speed (Avg)',
                     field: 'RingAverage',
-                    headerTooltip: 'Avg Answer Speed (sec)',
+                    headerTooltip: 'Answer Speed (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Talk Time (sec)',
+                    name: 'Talk Time (Avg)',
                     field: 'TalkAverage',
-                    headerTooltip: 'Avg Talk Time (sec)',
+                    headerTooltip: 'Talk Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -201,9 +204,9 @@
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Answer Queue Time (sec)',
+                    name: 'Answer Queue Time (Avg)',
                     field: 'AnsweredQueueAvg',
-                    headerTooltip: 'Avg Answer Queue Time (sec)',
+                    headerTooltip: 'Answer Queue Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -211,14 +214,32 @@
                 }
 
             ],
-            data: [{test: "loading"}]
-
+            data: [{test: "loading"}],
+            onRegisterApi: function (gridApi) {
+                $scope.gridApi = gridApi;
+            }
         };
 
         $anchorScroll();
 
+        $scope.getTableHeight = function() {
+            var rowHeight = 30;
+            var headerHeight = 50; // your header height
+            return "height:" + ($scope.gridApi.core.getVisibleRows().length * rowHeight + headerHeight) + "px !important;"
+        };
+
+
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
+
+        $scope.onDateChange = function () {
+            if (moment($scope.obj.fromdate, "YYYY-MM-DD").isValid() && moment($scope.obj.todate, "YYYY-MM-DD").isValid()) {
+                $scope.dateValid = true;
+            }
+            else {
+                $scope.dateValid = false;
+            }
+        };
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -328,10 +349,10 @@
             else {
                 if ($scope.qList) {
                     var filteredArr = $scope.qList.filter(function (item) {
-                        var regEx = "^(" + query + ")";
+                        //var regEx = "^(" + query + ")";
 
                         if (item.Attribute) {
-                            return item.Attribute.match(regEx);
+                            return item.Attribute.match(query);
                         }
                         else {
                             return false;
@@ -425,27 +446,35 @@
 
                 if($scope.skillFilter && $scope.skillFilter.length > 0)
                 {
-                    var duration = moment($scope.obj.todate, 'YYYY-MM-DD').diff(moment($scope.obj.fromdate, 'YYYY-MM-DD'), 'days');
 
-                    if(duration <= applicationConfig.repMaxDateRangeHourlyBand) {
-                        var skillArr = [];
-                        for (var i = 0; i < $scope.skillFilter.length; i++) {
-                            skillArr.push($scope.skillFilter[i].QueueName)
-                        }
+                    if((moment($scope.obj.fromdate).isBefore($scope.obj.todate) || moment($scope.obj.fromdate).isSame($scope.obj.todate)) && $scope.obj.fromhour <= $scope.obj.tohour) {
 
-                        var skillString = skillArr.join(',');
+                        var duration = moment($scope.obj.todate, 'YYYY-MM-DD').diff(moment($scope.obj.fromdate, 'YYYY-MM-DD'), 'days');
 
-                        buildSummaryListByHr($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp) {
-                            if (err) {
-                                $scope.showAlert('Hourly Band Report', 'error', 'Error occurred');
+                        if (duration <= applicationConfig.repMaxDateRangeHourlyBand) {
+                            var skillArr = [];
+                            for (var i = 0; i < $scope.skillFilter.length; i++) {
+                                skillArr.push($scope.skillFilter[i].QueueName)
                             }
-                            $scope.hourlyBandGridOptions.data = tempQueueArr;
-                            $scope.obj.isTableLoadingHr = 1;
 
-                        });
+                            var skillString = skillArr.join(',');
+
+                            buildSummaryListByHr($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp) {
+                                if (err) {
+                                    $scope.showAlert('Hourly Band Report', 'error', 'Error occurred');
+                                }
+                                $scope.hourlyBandGridOptions.data = tempQueueArr;
+                                $scope.obj.isTableLoadingHr = 1;
+
+                            });
+                        }
+                        else {
+                            $scope.showAlert('Hourly Band Report', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeHourlyBand + ' days exceeded');
+                            $scope.obj.isTableLoadingHr = 1;
+                        }
                     }
                     else{
-                        $scope.showAlert('Hourly Band Report', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeHourlyBand + ' days exceeded');
+                        $scope.showAlert('Hourly Band Report', 'error', 'To date and hour need to be same as From date and hour or should occur after');
                         $scope.obj.isTableLoadingHr = 1;
                     }
                 }
