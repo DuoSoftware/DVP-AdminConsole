@@ -108,9 +108,9 @@
                     width: "*", cellClass: 'table-number'
                 },
                 {
-                    name: 'Avg Abandoned Queue Time (sec)',
+                    name: 'Abandoned Queue Time (Avg)',
                     field: 'AbandonedQueueAvg',
-                    headerTooltip: 'Avg Abandoned Queue Time (sec)',
+                    headerTooltip: 'Abandoned Queue Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -138,45 +138,45 @@
                     width: "*", cellClass: 'table-number'
                 },
                 {
-                    name: 'Avg Hold Time (sec)',
+                    name: 'Hold Time (Avg)',
                     field: 'HoldAverage',
-                    headerTooltip: 'Avg Hold Time (sec)',
+                    headerTooltip: 'Hold Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg IVR Time (sec)',
+                    name: 'IVR Time (Avg)',
                     field: 'IvrAverage',
-                    headerTooltip: 'Avg IVR Time (sec)',
+                    headerTooltip: 'IVR Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Queue Time (sec)',
+                    name: 'Queue Time (Avg)',
                     field: 'QueueAverage',
-                    headerTooltip: 'Avg Queue Time (sec)',
+                    headerTooltip: 'Queue Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Answer Speed (sec)',
+                    name: 'Answer Speed (Avg)',
                     field: 'RingAverage',
-                    headerTooltip: 'Avg Answer Speed (sec)',
+                    headerTooltip: 'Answer Speed (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Talk Time (sec)',
+                    name: 'Talk Time (Avg)',
                     field: 'TalkAverage',
-                    headerTooltip: 'Avg Talk Time (sec)',
+                    headerTooltip: 'Talk Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -204,9 +204,9 @@
                     width: "*", cellClass: 'table-time'
                 },
                 {
-                    name: 'Avg Answer Queue Time (sec)',
+                    name: 'Answer Queue Time (Avg)',
                     field: 'AnsweredQueueAvg',
-                    headerTooltip: 'Avg Answer Queue Time (sec)',
+                    headerTooltip: 'Answer Queue Time (Avg)',
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
@@ -225,7 +225,6 @@
         $scope.getTableHeight = function() {
             var rowHeight = 30;
             var headerHeight = 50; // your header height
-            console.log($scope.gridApi.core.getVisibleRows().length);
             return "height:" + ($scope.gridApi.core.getVisibleRows().length * rowHeight + headerHeight) + "px !important;"
         };
 
@@ -350,10 +349,10 @@
             else {
                 if ($scope.qList) {
                     var filteredArr = $scope.qList.filter(function (item) {
-                        var regEx = "^(" + query + ")";
+                        //var regEx = "^(" + query + ")";
 
                         if (item.Attribute) {
-                            return item.Attribute.match(regEx);
+                            return item.Attribute.match(query);
                         }
                         else {
                             return false;
