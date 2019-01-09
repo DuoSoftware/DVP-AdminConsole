@@ -130,7 +130,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
     };
 
-    
+
 
     $scope.assignedNavigations = [];
     $scope.GetNavigationAssignToUser = function (userName) {
@@ -138,7 +138,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
             if (response.IsSuccess) {
 
                 angular.forEach(response.Result.client_scopes, function (item) {
-                    var items = $filter('filter')($scope.assignableNavigations, {consoleName: item.consoleName})
+                    var items = $filter('filter')($scope.assignableNavigations, {consoleName: item.consoleName},true);
                     if (items) {
                         var index = $scope.assignableNavigations.indexOf(items[0]);
                         if (index > -1) {
@@ -179,7 +179,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
 
         angular.forEach(ShareData.MyProfile.client_scopes,function (item) {
-            var items = $filter('filter')($scope.assignedNavigations, {consoleName: item.consoleName});
+            var items = $filter('filter')($scope.assignedNavigations, {consoleName: item.consoleName},true);
             if (items) {
                 var index = $scope.assignedNavigations.indexOf(items[0]);
                 console.log($scope.assignedNavigations[index]);
@@ -189,7 +189,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
                     angular.forEach(item.menus, function (menu) {
                         // Menus ex- AGENT_WIDGET
                         var menuItem = menu.menuItem;
-                        var navItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation, {navigationName: menuItem});
+                        var navItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation, {navigationName: menuItem},true);
 
                         var navIndex= $scope.assignedNavigations[index].consoleNavigation.indexOf(navItems[0]);
                        if(navIndex > -1)
@@ -203,7 +203,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
                                });
 
-                               var actItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation[navIndex].resources, {scopeName: scope});
+                               var actItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation[navIndex].resources, {scopeName: scope},true);
 
                                var actIndex = $scope.assignedNavigations[index].consoleNavigation[navIndex].resources.indexOf(actItems[0]);
 
@@ -237,15 +237,18 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
                        }
 
                     });
-
+                    var saveItems = $scope.assignedNavigations[index].consoleNavigation.saveItem;
+                    $scope.assignedNavigations[index].consoleNavigation = $scope.availableNav;
+                    $scope.assignedNavigations[index].consoleNavigation.saveItem = saveItems;
+                    $scope.availableNav=[];
                 }
+
+
             }
 
 
         });
-        var saveItems = $scope.assignedNavigations[0].consoleNavigation.saveItem;
-        $scope.assignedNavigations[0].consoleNavigation = $scope.availableNav;
-        $scope.assignedNavigations[0].consoleNavigation.saveItem = saveItems;
+
 
 
     }
@@ -287,6 +290,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
     $scope.showEditWindow = false;
     $scope.selectedConsole = {};
     $scope.showEditView = function (item) {
+        $scope.selectedConsole={};
         $scope.selectedConsole = item;
         $scope.showEditWindow = true;
     };
@@ -317,7 +321,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
 
             angular.forEach(response, function (item) {
-                var items = $filter('filter')($scope.assignableScope, {resource: item.resource})
+                var items = $filter('filter')($scope.assignableScope, {resource: item.resource},true);
                 if (items) {
                     var index = $scope.assignableScope.indexOf(items[0]);
                     if (index > -1) {
