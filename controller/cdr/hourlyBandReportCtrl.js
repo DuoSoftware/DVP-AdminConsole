@@ -27,6 +27,7 @@
                     enableFiltering: true,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: '10%',
                     grouping: { groupPriority: 0 },
                     sort: {
@@ -41,6 +42,7 @@
                     enableFiltering: true,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: '5%', cellClass: 'table-number',
                     grouping: { groupPriority: 1 },
                     sort: {
@@ -55,6 +57,7 @@
                     enableFiltering: true,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: '10%',
                     sort: {
                         priority: 2,
@@ -69,6 +72,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*" , cellClass: 'table-number',
                     treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
                         aggregation.rendered = aggregation.value;
@@ -81,6 +85,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*", cellClass: 'table-number',
                     treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
                         aggregation.rendered = aggregation.value;
@@ -93,6 +98,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*", cellClass: 'table-number',
                     treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
                         aggregation.rendered = aggregation.value;
@@ -105,6 +111,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*", cellClass: 'table-number'
                 },
                 {
@@ -114,7 +121,8 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-time'
+                    groupingShowAggregationMenu: false,
+                    width: "6%", cellClass: 'table-time'
                 },
                 {
                     name: 'Dropped Calls (Count)',
@@ -123,6 +131,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*", cellClass: 'table-number',
                     treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
                         aggregation.rendered = aggregation.value;
@@ -135,6 +144,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*", cellClass: 'table-number'
                 },
                 {
@@ -144,7 +154,8 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-time'
+                    groupingShowAggregationMenu: false,
+                    width: "6%", cellClass: 'table-time'
                 },
                 {
                     name: 'IVR Time (Avg)',
@@ -153,7 +164,8 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-time'
+                    groupingShowAggregationMenu: false,
+                    width: "6%", cellClass: 'table-time'
                 },
                 {
                     name: 'Queue Time (Avg)',
@@ -162,7 +174,8 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-time'
+                    groupingShowAggregationMenu: false,
+                    width: "6%", cellClass: 'table-time'
                 },
                 {
                     name: 'Answer Speed (Avg)',
@@ -171,7 +184,8 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-time'
+                    groupingShowAggregationMenu: false,
+                    width: "6%", cellClass: 'table-time'
                 },
                 {
                     name: 'Talk Time (Avg)',
@@ -180,7 +194,8 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-time'
+                    groupingShowAggregationMenu: false,
+                    width: "6%", cellClass: 'table-time'
                 },
                 {
                     name: 'Answered Calls (Count)',
@@ -189,6 +204,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*", cellClass: 'table-time',
                     treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
                         aggregation.rendered = aggregation.value;
@@ -201,6 +217,7 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
+                    groupingShowAggregationMenu: false,
                     width: "*", cellClass: 'table-time'
                 },
                 {
@@ -210,7 +227,8 @@
                     enableFiltering: false,
                     enableCellEdit: false,
                     enableSorting: true,
-                    width: "*", cellClass: 'table-time'
+                    groupingShowAggregationMenu: false,
+                    width: "6%", cellClass: 'table-time'
                 }
 
             ],
@@ -225,7 +243,11 @@
         $scope.getTableHeight = function() {
             var rowHeight = 30;
             var headerHeight = 50; // your header height
-            return "height:" + ($scope.gridApi.core.getVisibleRows().length * rowHeight + headerHeight) + "px !important;"
+            var height = 300 + headerHeight;
+            if ($scope.gridApi.core.getVisibleRows().length * rowHeight > 200){
+                height = $scope.gridApi.core.getVisibleRows().length * rowHeight + headerHeight;
+            }
+            return "height:" + height + "px !important;"
         };
 
 
