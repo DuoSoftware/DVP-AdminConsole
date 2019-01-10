@@ -177,69 +177,158 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
             })
         }
 
+        /*filterNavigationData();*/
 
+        if($scope.assignedNavigations && $scope.assignedNavigations.length==0)
+        {
+            filterNavigationData($scope.assignableNavigations);
+        }
+        else {
+            /*angular.forEach(ShareData.MyProfile.client_scopes,function (item) {
+                var items = $filter('filter')($scope.assignedNavigations, {consoleName: item.consoleName},true);
+                if (items) {
+                    var index = $scope.assignedNavigations.indexOf(items[0]);
+                    console.log($scope.assignedNavigations[index]);
+                    if (index > -1) {
+                        //consoles ex- Agent console
+
+                        angular.forEach(item.menus, function (menu) {
+                            // Menus ex- AGENT_WIDGET
+                            var menuItem = menu.menuItem;
+                            var navItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation, {navigationName: menuItem},true);
+
+                            var navIndex= $scope.assignedNavigations[index].consoleNavigation.indexOf(navItems[0]);
+                            if(navIndex > -1)
+                            {
+                                angular.forEach(menu.menuAction,function (menuAction) {
+                                    //ACTIONS ex- Read , Write, Delete
+                                    var scope= menuAction.scope;
+
+                                    var objActions =Object.keys(menuAction).filter(function (act) {
+                                        return (act !="scope"&& act !="feature") && menuAction[act];
+
+                                    });
+
+                                    var actItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation[navIndex].resources, {scopeName: scope},true);
+
+                                    var actIndex = $scope.assignedNavigations[index].consoleNavigation[navIndex].resources.indexOf(actItems[0]);
+
+                                    if(actIndex > -1)
+                                    {
+                                        $scope.assignedNavigations[index].consoleNavigation[navIndex].resources[actIndex].actions=objActions;
+
+                                    }
+
+                                    /!*$scope.availableNav = $scope.assignedNavigations[index].consoleNavigation.filter(function (navigation) {
+                                        if(menuItem == navigation.navigationName)
+                                        {
+                                            return angular.forEach(navigation.resources,function (resource) {
+
+                                                if(resource.scopeName == scope )
+                                                {
+                                                    resource.actions = objActions;
+                                                    return resource;
+                                                }
+
+                                            })
+                                        }
+
+
+                                    })  ;
+
+                                    console.log("Available Nav -------------------"+$scope.availableNav);*!/
+                                });
+
+                                $scope.availableNav.push($scope.assignedNavigations[index].consoleNavigation[navIndex]);
+                            }
+
+                        });
+                        var saveItems = $scope.assignedNavigations[index].consoleNavigation.saveItem;
+                        $scope.assignedNavigations[index].consoleNavigation = $scope.availableNav;
+                        $scope.assignedNavigations[index].consoleNavigation.saveItem = saveItems;
+                        $scope.availableNav=[];
+                    }
+
+
+                }
+
+
+            });*/
+            filterNavigationData($scope.assignedNavigations);
+        }
+
+
+
+
+
+    }
+
+
+
+    var filterNavigationData = function(navArray)
+    {
         angular.forEach(ShareData.MyProfile.client_scopes,function (item) {
-            var items = $filter('filter')($scope.assignedNavigations, {consoleName: item.consoleName},true);
+            var items = $filter('filter')(navArray, {consoleName: item.consoleName},true);
             if (items) {
-                var index = $scope.assignedNavigations.indexOf(items[0]);
-                console.log($scope.assignedNavigations[index]);
+                var index = navArray.indexOf(items[0]);
+                console.log(navArray[index]);
                 if (index > -1) {
                     //consoles ex- Agent console
 
                     angular.forEach(item.menus, function (menu) {
                         // Menus ex- AGENT_WIDGET
                         var menuItem = menu.menuItem;
-                        var navItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation, {navigationName: menuItem},true);
+                        var navItems = $filter('filter')(navArray[index].consoleNavigation, {navigationName: menuItem},true);
 
-                        var navIndex= $scope.assignedNavigations[index].consoleNavigation.indexOf(navItems[0]);
-                       if(navIndex > -1)
-                       {
-                           angular.forEach(menu.menuAction,function (menuAction) {
-                               //ACTIONS ex- Read , Write, Delete
-                               var scope= menuAction.scope;
+                        var navIndex= navArray[index].consoleNavigation.indexOf(navItems[0]);
+                        if(navIndex > -1)
+                        {
+                            angular.forEach(menu.menuAction,function (menuAction) {
+                                //ACTIONS ex- Read , Write, Delete
+                                var scope= menuAction.scope;
 
-                               var objActions =Object.keys(menuAction).filter(function (act) {
-                                   return (act !="scope"&& act !="feature") && menuAction[act];
+                                var objActions =Object.keys(menuAction).filter(function (act) {
+                                    return (act !="scope"&& act !="feature") && menuAction[act];
 
-                               });
+                                });
 
-                               var actItems = $filter('filter')($scope.assignedNavigations[index].consoleNavigation[navIndex].resources, {scopeName: scope},true);
+                                var actItems = $filter('filter')(navArray[index].consoleNavigation[navIndex].resources, {scopeName: scope},true);
 
-                               var actIndex = $scope.assignedNavigations[index].consoleNavigation[navIndex].resources.indexOf(actItems[0]);
+                                var actIndex = navArray[index].consoleNavigation[navIndex].resources.indexOf(actItems[0]);
 
-                               if(actIndex > -1)
-                               {
-                                   $scope.assignedNavigations[index].consoleNavigation[navIndex].resources[actIndex].actions=objActions;
+                                if(actIndex > -1)
+                                {
+                                    navArray[index].consoleNavigation[navIndex].resources[actIndex].actions=objActions;
 
-                               }
+                                }
 
-                               /*$scope.availableNav = $scope.assignedNavigations[index].consoleNavigation.filter(function (navigation) {
-                                   if(menuItem == navigation.navigationName)
-                                   {
-                                       return angular.forEach(navigation.resources,function (resource) {
+                                /*$scope.availableNav = $scope.assignedNavigations[index].consoleNavigation.filter(function (navigation) {
+                                    if(menuItem == navigation.navigationName)
+                                    {
+                                        return angular.forEach(navigation.resources,function (resource) {
 
-                                           if(resource.scopeName == scope )
-                                           {
-                                               resource.actions = objActions;
-                                               return resource;
-                                           }
+                                            if(resource.scopeName == scope )
+                                            {
+                                                resource.actions = objActions;
+                                                return resource;
+                                            }
 
-                                       })
-                                   }
+                                        })
+                                    }
 
 
-                               })  ;
+                                })  ;
 
-                               console.log("Available Nav -------------------"+$scope.availableNav);*/
-                           });
+                                console.log("Available Nav -------------------"+$scope.availableNav);*/
+                            });
 
-                           $scope.availableNav.push($scope.assignedNavigations[index].consoleNavigation[navIndex]);
-                       }
+                            $scope.availableNav.push(navArray[index].consoleNavigation[navIndex]);
+                        }
 
                     });
-                    var saveItems = $scope.assignedNavigations[index].consoleNavigation.saveItem;
-                    $scope.assignedNavigations[index].consoleNavigation = $scope.availableNav;
-                    $scope.assignedNavigations[index].consoleNavigation.saveItem = saveItems;
+                    var saveItems = navArray[index].consoleNavigation.saveItem;
+                    navArray[index].consoleNavigation = $scope.availableNav;
+                    navArray[index].consoleNavigation.saveItem = saveItems;
                     $scope.availableNav=[];
                 }
 
@@ -248,10 +337,8 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
 
         });
-
-
-
     }
+
     $scope.assignNavigation = function () {
         appAccessManageService.AddConsoleToUser($scope.selectedUser, $scope.DragObject.consoleName).then(function (response) {
             if (!response) {
