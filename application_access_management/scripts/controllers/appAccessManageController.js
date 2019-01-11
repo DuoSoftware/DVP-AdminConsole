@@ -271,14 +271,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
         var tempAssignableNav =[];
         angular.forEach(ShareData.MyProfile.client_scopes,function (item) {
             var items = $filter('filter')(navArray, {consoleName: item.consoleName},true);
-            var assignItems = $filter('filter')($scope.assignableNavigations, {consoleName: item.consoleName},true);
 
-
-                var assIndex = $scope.assignableNavigations.indexOf(assignItems[0]);
-                if(assIndex > -1)
-                {
-                   tempAssignableNav.push($scope.assignableNavigations[assIndex]);
-                }
 
 
             if (items) {
@@ -346,7 +339,14 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
 
 
             }
+            var assignItems = $filter('filter')($scope.assignableNavigations, {consoleName: item.consoleName},true);
 
+
+            var assIndex = $scope.assignableNavigations.indexOf(assignItems[0]);
+            if(assIndex > -1)
+            {
+                tempAssignableNav.push($scope.assignableNavigations[assIndex]);
+            }
 
         });
 
