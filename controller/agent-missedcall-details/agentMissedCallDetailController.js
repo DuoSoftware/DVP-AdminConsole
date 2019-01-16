@@ -17,7 +17,7 @@
         $scope.currentCSVFilename = '';
         $scope.DownloadButtonName = 'CSV';
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
         $scope.obj = {
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
