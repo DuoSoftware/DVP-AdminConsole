@@ -835,7 +835,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                             var params = object[key].Params;
                             object[key].Params = [];
                             angular.forEach(params, function(param){
-                                object[key].Params.push(param.Name);
+                                if(param.Name){
+                                    object[key].Params.push(param.Name);
+                                }else{
+                                    object[key].Params.push(param);
+                                }
+                                
                             });
                         });
                     }
