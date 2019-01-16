@@ -25,7 +25,7 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
 
         
         FB.init({
-            appId: '360342124769139',
+            appId: '341368403128273',
             cookie: true,
             xfbml: true,
             version: 'v3.2'
