@@ -162,6 +162,18 @@
                     </div>
                 </div>
 
+                <div class="col-lg-4">
+                    <div id="frmNumberLoadMethod"
+                         class="form-group cam-form-grp"
+                         ng-class="{ 'has-error' : campaingForm.NumberLoadMethod.$invalid && !campaingForm.NumberLoadMethod.$pristine }">
+                        <label for="DialoutMechanism" class="cam-label">Number loading method * </label>
+                        <select class="form-control cam-textbox" ng-model="callback.NumberLoadingMethod" id="NumberLoadMethod">
+                            <option ng-repeat="lmethod in numberLoadingMethodObj" 
+                                value="{{lmethod.name}}">{{lmethod.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
             </div>
 
