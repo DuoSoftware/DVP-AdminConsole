@@ -5,7 +5,7 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls, $anchorScroll, filterDateRangeValidation, ShareData) {
+    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, $uibModal, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls, $anchorScroll, filterDateRangeValidation, ShareData) {
 
         $anchorScroll();
         $scope.resourceDetails =[];
@@ -17,7 +17,7 @@
         $scope.currentCSVFilename = '';
         $scope.DownloadButtonName = 'CSV';
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
         $scope.obj = {
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
@@ -143,6 +143,20 @@
             $scope.DownloadButtonName = 'CSV';
             $scope.cancelDownload = true;
             $scope.buttonClass = 'fa fa-file-text';
+        };
+
+        $scope.showMessage= function (causes) {
+
+            $scope.missedCallCauses = causes;
+            //modal show
+            $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title-top',
+                ariaDescribedBy: 'modal-body-top',
+                templateUrl: "views/agent-missedcall-details/reasonTemplate.html",
+                size: 'sm',
+                scope: $scope
+            });
         };
 
 

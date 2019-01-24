@@ -152,7 +152,7 @@
 
             return $http({
                 method: 'GET',
-                url: bu,
+                url: url,
                 headers: {
                     'Content-Type': 'application/json'
                 }
