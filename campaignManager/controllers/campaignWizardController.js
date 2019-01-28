@@ -40,6 +40,11 @@ mainApp.controller("campaignWizardController", function ($scope,
             "methods": [ "POST", "GET", "PUT", "PATCH" ]
         };
 
+        $scope.numberLoadingMethodObj = [
+            {name: 'CONTACT'},
+            {name: 'NUMBER'},
+        ];
+
         $scope.step = 1;
         if (queryCampaignId && queryCampaignId.id != 0) {
 
@@ -725,7 +730,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idExtension,
                 idCampaignMode,
                 idDialoutMechanism,
-                idChannelConcurrency;
+                idChannelConcurrency,
+                idNumberLoadMethod;
 
             var clearAllValidation = function () {
                 idCampaign = $('#frmCampaign');
@@ -733,6 +739,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idCampaignMode = $('#frmCampaignMode');
                 idDialoutMechanism = $('#frmDialoutMechanism');
                 idChannelConcurrency = $('#frmChannelConcurrency');
+                idNumberLoadMethod = $('#frmNumberLoadMethod');
 
 
                 //remove all validations
@@ -741,6 +748,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idCampaignMode.removeClass('has-error');
                 idDialoutMechanism.removeClass('has-error');
                 idChannelConcurrency.removeClass('has-error');
+                idNumberLoadMethod.removeClass('has-error');
             };
 
 
@@ -789,6 +797,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                         if (!campaignCallBack.ChannelConcurrency) {
                             $scope.showAlert("Campaign", "Please Enter Campaign Channel Concurrency", 'error');
                             idChannelConcurrency.addClass('has-error');
+                            return false;
+                        }
+
+                        if (!campaignCallBack.NumberLoadingMethod) {
+                            $scope.showAlert("Campaign", "Please Select Number Loading Method", 'error');
+                            idNumberLoadMethod.addClass('has-error');
                             return false;
                         }
 
@@ -1214,9 +1228,17 @@ mainApp.controller("campaignWizardController", function ($scope,
 
                     break;
                 case '4':
-                    step01UIFun.moveWizard(_wizard);
-                    $scope.getInputFileValue();
-                    break;
+                    if($scope.callback.NumberLoadingMethod == 'NUMBER') {
+                        step01UIFun.moveWizard(_wizard);
+                        $scope.getInputFileValue();
+                        break;
+                    }else{
+                        $state.go('console.campaign-console');
+                        $scope.showAlert('Campaign', 'Campaign saved successfully', 'success');
+                        $scope.refreshAllWizard();
+                        break;
+                    }
+                    
                 case 'back':
                     $state.go('console.campaign-console');
                     break;

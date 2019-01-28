@@ -467,7 +467,7 @@
                             <li ng-show="accessNavigation.CDR ||accessNavigation.ABANDONED_CALL_REPORT ||accessNavigation.CALL_SUMMARY_REPORT
                              ||accessNavigation.QUEUE_SUMMARY_REPORT ||accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT
                               ||accessNavigation.SLA_BREAKDOWN ||accessNavigation.IVR_NODE_COUNT_REPORT || accessNavigation.QUEUE_SUMMARY_REPORT
-                               ||accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT">
+                               ||accessNavigation.HOURLY_BAND_REPORT">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-volume-control-phone"></i> Call Reports
                                     <span
@@ -503,7 +503,7 @@
                                             href="javascript:void(0);"
                                             ng-click="clickDirective.goToCallCenterPerformanceReport()">Call
                                         Center Performance</a></li>
-                                    <li ng-show="accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT"><a
+                                    <li ng-show="accessNavigation.HOURLY_BAND_REPORT"><a
                                             href="javascript:void(0);"
                                             ng-click="clickDirective.goHourlyBandReport()">Call
                                         Center Performance</a></li>
