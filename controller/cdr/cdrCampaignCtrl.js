@@ -228,7 +228,7 @@
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                    var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/'+uuid+'.mp3?Authorization='+$auth.getToken();
+                    var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/'+uuid+'.mp3';
 
                     $http({
                         method: 'GET',
@@ -422,7 +422,64 @@
 
         var getUserList = function () {
 
-            sipUserApiHandler.getSIPUsers().then(function (userList) {
+            $scope.userList = [];
+
+            sipUserApiHandler.getSipUsersCount().then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(sipUserApiHandler.getSipUsersWithPaging(i,pagesize));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (response) {
+
+                            response.map(function (item) {
+
+                                $scope.userList.push(item);
+
+                            });
+
+
+                        });
+
+                    }
+
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    var errMsg = "Error occurred while getting user list";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while getting user list";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+
+
+
+            });
+
+
+
+
+           /* sipUserApiHandler.getSIPUsers().then(function (userList) {
                 if (userList && userList.Result && userList.Result.length > 0) {
                     $scope.userList = userList.Result;
                 }
@@ -430,7 +487,7 @@
 
             }).catch(function (err) {
                 loginService.isCheckResponse(err);
-            });
+            });*/
         };
 
         var getQueueList = function () {

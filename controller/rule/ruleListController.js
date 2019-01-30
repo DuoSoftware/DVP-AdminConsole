@@ -62,7 +62,7 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
 
             $scope.isInbound=true;
             $scope.ruleObj =response.data.Result ;
-            console.log($scope.ruleObj);
+
         }
 
     };

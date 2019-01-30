@@ -10,6 +10,7 @@
                             <div class="tile-stats m-top15">
                                 <form class="form-horizontal form-label-left input_mask">
                                     <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <label for=""> Field</label>
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
                                                 ng-model="filter.field"  ng-change="updateValue()">
                                             <option value="" disabled selected>Select Field</option>
@@ -20,6 +21,7 @@
                                         <span class="glyphicon glyphicon-list form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                     <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <label for=""> Filter Type</label>
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
                                                 ng-model="filter.type">
                                             <option value="" disabled selected>Select Fiter Type</option>
@@ -29,6 +31,7 @@
                                         <span class="glyphicon glyphicon-list form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                     <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <label for="">  Operator Type</label>
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
                                                 ng-model="filter.operator">
                                             <option value="" disabled selected>Select Operator Type</option>
@@ -44,7 +47,7 @@
                                         <span class="glyphicon glyphicon-list form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                        <div><ticket-dynamic-field   company-users="users" company-user-groups="userGroups" ng-model="filter" ticket-field="filter.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
+                                        <div><ticket-dynamic-field   company-users="users" company-user-groups="userGroups" ng-model="filter" ticket-field="filter.field" ticket-schema="ticketSchema" ></ticket-dynamic-field></div>
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "

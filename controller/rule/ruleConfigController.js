@@ -2,7 +2,7 @@
  * Created by Pawan on 6/6/2016.
  */
 'use strict';
-mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, userProfileApiAccess, notificationService, $state, $stateParams, loginService,scheduleBackendService) {
+mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, userProfileApiAccess, notificationService, $state, $stateParams, loginService,scheduleBackendService,ShareData) {
 
 
     $scope.newObj = {};
@@ -288,27 +288,35 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, use
     };
 
     function loadBusinessUnits() {
-        userProfileApiAccess.getBusinessUnits().then(function(result)
+
+        if(ShareData.BusinessUnits && ShareData.BusinessUnits.length>0)
         {
-            if (result && !result.IsSuccess)
+            $scope.BusinessUnits=ShareData.BusinessUnits
+        }
+        else {
+            userProfileApiAccess.getBusinessUnits().then(function(result)
             {
-                var errMsg = "Error occurred while retrieving business units";
-                if(result.CustomMessage)
+                if (result && !result.IsSuccess)
                 {
-                    errMsg = result.CustomMessage;
+                    var errMsg = "Error occurred while retrieving business units";
+                    if(result.CustomMessage)
+                    {
+                        errMsg = result.CustomMessage;
+                    }
+                    $scope.showAlert("Call Rule", errMsg, 'error');
                 }
-                $scope.showAlert("Call Rule", errMsg, 'error');
-            }
-            else
+                else
+                {
+                    $scope.BusinessUnits = result.Result;
+                }
+
+            }, function(err)
             {
-                $scope.BusinessUnits = result.Result;
-            }
+                $scope.showAlert("Call Rule", 'Error occurred while loading business units', 'error');
 
-        }, function(err)
-        {
-            $scope.showAlert("Call Rule", 'Error occurred while loading business units', 'error');
+            });
+        }
 
-        });
     };
 
     $scope.backToList = function () {

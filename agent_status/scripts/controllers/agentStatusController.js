@@ -609,7 +609,52 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.GetAvailableProfile = function () {
         $scope.availableProfile = [];
 
-        ShareData.GetUserByBusinessUnit().then(function (response) {
+        ShareData.getUserCountByBusinessUnit(ShareData.BusinessUnit).then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(ShareData.getUserByBusinessUnit(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (response) {
+
+                        response.map(function (item) {
+                            if(item&&item.resourceid){
+                                $scope.availableProfile.push({
+                                    ResourceName: item.username,
+                                    ResourceId: item.resourceid
+                                });
+                            }
+                        });
+
+
+                    });
+
+                }
+
+
+
+            }).catch(function (err) {
+                $log.debug("GetUserByBusinessUnit err");
+                $scope.showError("Error", "Error in loading users");
+            });
+
+
+
+        }, function (err) {
+            $log.debug("GetUserByBusinessUnit err");
+            $scope.showError("Error", "Error in loading users");
+        });
+
+
+
+        /*ShareData.GetUserByBusinessUnit().then(function (response) {
             if (response) {
 
                 if(response)
@@ -630,7 +675,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         }, function (error) {
             $log.debug("GetUserByBusinessUnit err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
-        });
+        });*/
 
 
 

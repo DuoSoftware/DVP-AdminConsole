@@ -2,7 +2,7 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, $interval, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService, $state, $interval) {
+mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, $interval, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService, $state) {
     $anchorScroll();
     $scope.refreshTime = 10000;
     $rootScope.detailsDashboardState = $state.current.name;
@@ -1602,11 +1602,46 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
 
 
     var GetUserByBusinessUnit = function () {
-        ShareData.GetUserByBusinessUnit().then(function (respond) {
+
+        ShareData.getUserCountByBusinessUnit().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(ShareData.getUserByBusinessUnit(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+
+                    $scope.BusinessUnitUsers = resolveData;
+
+
+                }
+
+
+
+            }).catch(function (err) {
+                $scope.showAlert('Agent List', 'error', 'Failed to load agent list');
+            });
+
+
+
+        }, function (err) {
+            $scope.showAlert('Agent List', 'error', 'Failed to load agent list');
+        });
+
+
+
+
+        /*ShareData.GetUserByBusinessUnit().then(function (respond) {
             $scope.BusinessUnitUsers = respond;
         }, function (error) {
 
-        });
+        });*/
     };
     GetUserByBusinessUnit();
     $scope.statusData = [];

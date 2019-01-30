@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var sipUserCtrl = function ($scope, sipUserApiHandler, loginService, $rootScope) {
+    var sipUserCtrl = function ($scope, sipUserApiHandler, loginService, $rootScope,$q) {
 
 		$rootScope.$on('SIPUserUploadOn', function () {
 			$scope.onSavePressed();
@@ -36,7 +36,75 @@
 
         $scope.reloadUserList = function () {
             $scope.searchCriteria = "";
-            sipUserApiHandler.getSIPUsers().then(function (data) {
+
+            $scope.sipUsrList = [];
+
+            sipUserApiHandler.getSipUsersCount().then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(sipUserApiHandler.getSipUsersWithPaging(i,pagesize));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (response) {
+
+                            response.map(function (item) {
+
+                                $scope.sipUsrList.push(item);
+
+                            });
+
+
+                        });
+
+                    }
+                    if ($scope.sipUsrList.length > 0) {
+                        $scope.FormState = 'New';
+                        $scope.SipUsernameDisplay = $scope.sipUsrList[0].SipUsername;
+                        //$scope.onEditPressed($scope.sipUsrList[0].SipUsername);
+                    }
+
+                    if ($scope.sipUsrList.length == 0) {
+                        $scope.FormState = 'Cancel';
+                        $scope.SipUsernameDisplay = 'NEW SIP USER';
+                    }
+                    $scope.total = $scope.sipUsrList.length;
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    var errMsg = "Error occurred while getting user list";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.dataReady = true;
+
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while getting user list";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+                $scope.dataReady = true;
+
+
+            });
+
+
+
+
+            /*sipUserApiHandler.getSIPUsers().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.sipUsrList = data.Result;
                     if ($scope.sipUsrList.length > 0) {
@@ -71,7 +139,7 @@
                 }
                 $scope.showAlert('Error', 'error', errMsg);
                 $scope.dataReady = true;
-            });
+            });*/
         };
 
         $scope.onDeleteUser = function (username) {
@@ -149,6 +217,7 @@
         };
 
         $scope.reloadUserList();
+
 
         //User Configuration Operations
 

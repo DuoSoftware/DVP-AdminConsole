@@ -2,7 +2,7 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter, ShareData, _,
-                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess, reportQueryFilterService) {
+                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess, reportQueryFilterService,$q) {
     $anchorScroll();
     //var getAllRealTime = function () {
     //    $scope.getProfileDetails();
@@ -155,7 +155,54 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
         var usrMapList = [];
 
-        ShareData.GetUserByBusinessUnit().then(function (response) {
+        ShareData.getUserCountByBusinessUnit().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(ShareData.getUserByBusinessUnit(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (response) {
+
+                        response.map(function (item) {
+                            if(item&&item.resourceid){
+                                usrMapList.push({
+                                    username: item.username
+
+                                });
+                            }
+                        });
+
+
+
+                    });
+
+                }
+
+                $scope.usrList = usrMapList;
+
+            }).catch(function (err) {
+                $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
+            });
+
+
+
+        }, function (err) {
+            $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
+        });
+
+
+
+
+
+
+        /*ShareData.GetUserByBusinessUnit().then(function (response) {
             if (response) {
 
                 angular.forEach(response, function(item)
@@ -169,7 +216,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             $scope.usrList = usrMapList;
         }, function (error) {
             $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
-        });
+        });*/
 
         /*userProfileApiAccess.getUsers().then(function (usrList) {
             if (usrList && usrList.Result) {

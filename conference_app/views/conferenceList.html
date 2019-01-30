@@ -282,8 +282,9 @@
             <div class="x_content" ng-hide="isMonitorApp">
                 <div class="x_content" ng-hide="isLoading">
                     <ul class="list-unstyled timeline">
-                        <li ng-repeat="con in conferences | filterBy: ['ConferenceName']: searchCriteria">
+                        <li ng-repeat="con in conferences | orderBy:'-createdAt' | filterBy: ['ConferenceName'] : searchCriteria">
                             <conferenceitem end-users="endUserList"
+                                            sip-usrs ="sipUsers"
                                             templates-list="Templates" conference-data="con"
                                             reload-page-after-delete="reloadPage()"></conferenceitem>
                         </li>

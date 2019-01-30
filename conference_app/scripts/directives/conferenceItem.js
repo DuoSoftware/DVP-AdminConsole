@@ -1,19 +1,30 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferenceService) {
+mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferenceService,$q) {
 
     return {
         restrict: "EA",
         scope: {
             endUsers: "=",
+            sipUsrs: "=",
             conferenceData: "=",
             templatesList: "=",
             reloadPageAfterDelete: '&'
         },
         templateUrl: 'conference_app/views/conferenceItem.html',
         link: function (scope, element, attributes) {
+            //angular.copy(scope.sipUsrs, scope.sipUsers);
+            scope.sipUsers =[];
+            scope.showError = function (tittle, content) {
 
+                new PNotify({
+                    title: tittle,
+                    text: content,
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+            };
             scope.isLoading = false;
             scope.reloadPage = function () {
                 scope.isLoading = true;
@@ -52,18 +63,72 @@ mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferen
             };
             scope.LoadConferenceUsers();
 
-            scope.sipUsers = [];
+
             scope.sipUserDetailsToMapWithExsiting = [];
+
             scope.LoadSipUsers = function () {
-                conferenceService.GetSipUsers().then(function (response) {
+
+                //scope.sipUsers = scope.sipUsrs;
+                angular.copy(scope.sipUsrs, scope.sipUsers);
+                angular.copy(scope.sipUsers, scope.sipUserDetailsToMapWithExsiting);
+                if(scope.sipUsers)
+                {
+                    scope.removeExistingUsers();
+                }
+
+                //scope.sipUsers = [];
+
+               /* conferenceService.getSipUsersCount().then(function (row_count) {
+                    var pagesize = 20;
+                    var pagecount = Math.ceil(row_count / pagesize);
+
+                    var method_list = [];
+
+                    for (var i = 1; i <= pagecount; i++) {
+                        method_list.push(conferenceService.getSipUsersWithPaging(i,pagesize));
+                    }
+
+
+                    $q.all(method_list).then(function (resolveData) {
+                        if (resolveData) {
+                            resolveData.map(function (response) {
+
+                                response.map(function (item) {
+
+                                        scope.sipUsers.push(item);
+
+                                });
+
+
+                            });
+
+                        }
+
+                        angular.copy(scope.sipUsers, scope.sipUserDetailsToMapWithExsiting);
+                        scope.removeExistingUsers();
+
+                    }).catch(function (err) {
+                        $log.debug("GetUserByBusinessUnit err");
+                        scope.showError("Error", "Error in loading users");
+                    });
+
+
+
+                }, function (err) {
+                    $log.debug("Get Sip user count  err");
+                    scope.showError("Error", "Error in loading sip users");
+                });*/
+
+
+                /*conferenceService.GetSipUsers().then(function (response) {
                     scope.sipUsers = response;
                     angular.copy(scope.sipUsers, scope.sipUserDetailsToMapWithExsiting);
                     scope.removeExistingUsers();
                 }, function (error) {
                     scope.showAlert("Error", "error", "Fail To Get User List.");
-                });
+                });*/
             };
-            scope.LoadSipUsers();
+           //scope.LoadSipUsers();
 
             /*scope.newSipUsers = [];
              scope.handleClick = function (confirmed, user) {
@@ -104,15 +169,20 @@ mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferen
             };
 
             scope.removeExistingUsers = function () {
-                angular.forEach(scope.conferenceExistingUsers, function (item) {
-                    var items = $filter('filter')(scope.sipUserDetailsToMapWithExsiting, {id: item.SipUACEndpointId});
-                    item.sipUser = items[0];
-                    var sipItem = $filter('filter')(scope.sipUsers, {id: item.SipUACEndpointId});
-                    var index = scope.sipUsers.indexOf(sipItem[0]);
-                    if (index > -1) {
-                        scope.sipUsers.splice(index, 1);
-                    }
-                })
+
+                if(scope.sipUsers && !scope.sipUsers.length==0)
+                {
+                    angular.forEach(scope.conferenceExistingUsers, function (item) {
+                        var items = $filter('filter')(scope.sipUserDetailsToMapWithExsiting, {id: item.SipUACEndpointId});
+                        item.sipUser = items[0];
+                        var sipItem = $filter('filter')(scope.sipUsers, {id: item.SipUACEndpointId});
+                        var index = scope.sipUsers.indexOf(sipItem[0]);
+                        if (index > -1) {
+                            scope.sipUsers.splice(index, 1);
+                        }
+                    })
+                }
+
             };
 
             scope.UpdateConferenceUserModes = function (user) {
@@ -226,6 +296,9 @@ mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferen
 
                 scope.editMode = !scope.editMode;
                 scope.addUserMode = false;
+                //scope.LoadSipUsers();
+
+
             };
 
             scope.addUserMode = false;
@@ -236,6 +309,7 @@ mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferen
                 }
                 scope.addUserMode = !scope.addUserMode;
                 scope.editMode = false;
+                scope.LoadSipUsers();
             };
 
             scope.updateConference = function (conference) {

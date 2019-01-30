@@ -15,7 +15,7 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
 
         link: function (scope) {
 
-            console.log(scope.setting);
+
             scope.editMode=false;
             scope.assignedAttributes=[];
 

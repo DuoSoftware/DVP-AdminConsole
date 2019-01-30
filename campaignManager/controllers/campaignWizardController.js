@@ -25,6 +25,26 @@ mainApp.controller("campaignWizardController", function ($scope,
             {name: 'AGENT'}
         ];
 
+        $scope.integrationConf = {
+            "params": [
+                "SessionId",
+                "CampaignId",
+                "CampaignName",
+                "Reason",
+                "Number",
+                "CompanyId",
+                "Agent",
+                "ResourceId",
+                "EventType"
+            ],
+            "methods": [ "POST", "GET", "PUT", "PATCH" ]
+        };
+
+        $scope.numberLoadingMethodObj = [
+            {name: 'CONTACT'},
+            {name: 'NUMBER'},
+        ];
+
         $scope.step = 1;
         if (queryCampaignId && queryCampaignId.id != 0) {
 
@@ -144,6 +164,16 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.active = 1;
         $scope.callback = {};
+
+        $scope.IntegrationData = {
+            "Agent": {
+                "Params": []
+            },
+            "Customer": {
+                "Params": []
+            },
+        };
+
         var step01UIFun = function () {
             return {
                 onLoadWizard: function () {
@@ -190,6 +220,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                     }
 
                     if (step == 2) {
+                        //set the active tab to 0 when navigate back between steps.
+                        $scope.$root.active = 1;
+
                         $scope.safeApply(function () {
                             $scope.step = 2;
                         });
@@ -443,9 +476,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.campAttribute;
         $scope.onChipAddAttribute = function (chip) {
-
             $scope.campaignAttributes.push(chip.Id);
-
         };
         $scope.onChipDeleteAttribute = function (chip) {
 
@@ -456,6 +487,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
 
         };
+
 
         $scope.GetCampaignAdditionalData = function () {
             $scope.isLoadingData = true;
@@ -478,7 +510,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     response.map(function (item) {
                         $scope.currentConfigTemplate = item.Category != "ATTACHMENT" ? item : '';
                     });
-                    if ($scope.campaign.DialoutMechanism === "PREVIEW") {
+                    if ($scope.campaign.DialoutMechanism === "PREVIEW" || $scope.campaign.DialoutMechanism === "AGENT") {
                         if (response.length > 0) {
                             $scope.campAttribute = [];
                             $scope.AdditionalDataRecordId = response[0].AdditionalDataId;
@@ -547,6 +579,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
 
+        //#region < commented code >
         //#end
 
 
@@ -592,7 +625,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         //
         //
         // $scope.loadNewlyCreatedCampaigns();
-
+        //#endregion
 
         //create new campaign
         $scope.campaign = {
@@ -697,7 +730,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idExtension,
                 idCampaignMode,
                 idDialoutMechanism,
-                idChannelConcurrency;
+                idChannelConcurrency,
+                idNumberLoadMethod;
 
             var clearAllValidation = function () {
                 idCampaign = $('#frmCampaign');
@@ -705,6 +739,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idCampaignMode = $('#frmCampaignMode');
                 idDialoutMechanism = $('#frmDialoutMechanism');
                 idChannelConcurrency = $('#frmChannelConcurrency');
+                idNumberLoadMethod = $('#frmNumberLoadMethod');
 
 
                 //remove all validations
@@ -713,6 +748,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idCampaignMode.removeClass('has-error');
                 idDialoutMechanism.removeClass('has-error');
                 idChannelConcurrency.removeClass('has-error');
+                idNumberLoadMethod.removeClass('has-error');
             };
 
 
@@ -764,6 +800,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                             return false;
                         }
 
+                        if (!campaignCallBack.NumberLoadingMethod) {
+                            $scope.showAlert("Campaign", "Please Select Number Loading Method", 'error');
+                            idNumberLoadMethod.addClass('has-error');
+                            return false;
+                        }
+
                         return true;
 
                     }
@@ -801,6 +843,22 @@ mainApp.controller("campaignWizardController", function ($scope,
                     });
                 },
                 updateCampaignConfig: function (_callback, callback) {
+                    //set the intergration data parameters as string array.
+                    if(_callback.IntegrationData){
+                        angular.forEach(_callback.IntegrationData, function(val, key, object){
+                            var params = object[key].Params;
+                            object[key].Params = [];
+                            angular.forEach(params, function(param){
+                                if(param.Name){
+                                    object[key].Params.push(param.Name);
+                                }else{
+                                    object[key].Params.push(param);
+                                }
+                                
+                            });
+                        });
+                    }
+
                     $scope.isCampaignUpdateConfig = true;
                     $scope.isCreateNewCampaign = true;
                     if (_callback.ConfigureId > 0) {
@@ -1170,9 +1228,17 @@ mainApp.controller("campaignWizardController", function ($scope,
 
                     break;
                 case '4':
-                    step01UIFun.moveWizard(_wizard);
-                    $scope.getInputFileValue();
-                    break;
+                    if($scope.callback.NumberLoadingMethod == 'NUMBER') {
+                        step01UIFun.moveWizard(_wizard);
+                        $scope.getInputFileValue();
+                        break;
+                    }else{
+                        $state.go('console.campaign-console');
+                        $scope.showAlert('Campaign', 'Campaign saved successfully', 'success');
+                        $scope.refreshAllWizard();
+                        break;
+                    }
+                    
                 case 'back':
                     $state.go('console.campaign-console');
                     break;
@@ -1243,6 +1309,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 else {
                     $scope.callback = {AllowCallBack: false};
                 }
+
+                $scope.callback.IntegrationData = angular.merge($scope.IntegrationData, $scope.callback.IntegrationData || {});
             }, function (error) {
 
             });

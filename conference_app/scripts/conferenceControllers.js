@@ -2,7 +2,7 @@
  * Created by Rajinda on 6/29/2016.
  */
 
-mainApp.controller("conferenceController", function ($scope, $rootScope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, $timeout, conferenceService) {
+mainApp.controller("conferenceController", function ($scope, $rootScope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, $timeout, conferenceService,$q) {
 
 
     $anchorScroll();
@@ -11,6 +11,16 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
     $scope.isMonitorApp = false;
     $scope.conference = {};
     $scope.searchCriteria = "";
+
+    $scope.showError = function (tittle, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
 
     $scope.switchApps = function (appName) {
         $scope.isLoading = true;
@@ -34,6 +44,7 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
         $scope.LoadExtentions();
         $scope.LoadEnduserList();
         $scope.GetRoomsCount();
+        $scope.LoadSipUsers();
     };
 
     $scope.addNewConference = false;
@@ -193,8 +204,8 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
             return;
         }
 
-        if (conference.StartTime >= new Date()) {
-            scope.showAlert("New Conference", "notify", "Start Time Should Be Greater Than To Current Date Time.");
+        if (conference.StartTime <= new Date()) {
+            $scope.showAlert("New Conference", "notify", "Start Time Should Be Greater Than To Current Date Time.");
             return;
         }
 
@@ -229,7 +240,61 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
         });
     };
 
+    $scope.sipUsers = [];
+    $scope.LoadSipUsers = function () {
 
+        $scope.sipUsers = [];
+
+        conferenceService.getSipUsersCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(conferenceService.getSipUsersWithPaging(i,pagesize));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (response) {
+
+                        response.map(function (item) {
+
+                            $scope.sipUsers.push(item);
+
+                        });
+
+
+                    });
+
+                }
+
+
+            }).catch(function (err) {
+                $log.debug("GetUserByBusinessUnit err");
+                $scope.showError("Error", "Error in loading users");
+            });
+
+
+
+        }, function (err) {
+            $log.debug("Get Sip user count  err");
+            $scope.showError("Error", "Error in loading sip users");
+        });
+
+
+        /*conferenceService.GetSipUsers().then(function (response) {
+            scope.sipUsers = response;
+            angular.copy(scope.sipUsers, scope.sipUserDetailsToMapWithExsiting);
+            scope.removeExistingUsers();
+        }, function (error) {
+            scope.showAlert("Error", "error", "Fail To Get User List.");
+        });*/
+    };
+
+    $scope.LoadSipUsers();
     $scope.showPaging = true;
     $scope.currentPage = "1";
     $scope.pageTotal = "1";

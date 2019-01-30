@@ -178,7 +178,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
             "nodes": nodeList
         };
 
-        ivrNodeCountService.GetEventByNodes($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString(), page, pageSize, nods).then(function (response) {
+        ivrNodeCountService.GetEventByNodes($scope.application, $scope.fileSerach.StartTime, $scope.fileSerach.EndTime, page, pageSize, nods).then(function (response) {
             if (response.length > 0) {
                 $scope.satisfactionRequest = response;
                 $scope.showPaging = true;
@@ -192,7 +192,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
         }, function (err) {
             showAlert("IVR", "error", "Fail To Get IVR Details.");
         });
-        GetEventByNodesCount($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString(), page, pageSize, nods);
+        GetEventByNodesCount($scope.application, $scope.fileSerach.StartTime, $scope.fileSerach.EndTime, page, pageSize, nods);
     };
 
     var GetEventByNodesCount = function (application, startTime, endTime, page, pageSize, nods) {

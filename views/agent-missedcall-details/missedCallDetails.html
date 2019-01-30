@@ -127,10 +127,6 @@
                                        aria-describedby="datatable-responsive_info">
                                     <thead>
                                     <tr role="row">
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                            rowspan="1"
-                                            colspan="1" aria-label="SessionId">SessionId
-                                        </th>
                                         <th class="sorting" tabindex="1" aria-controls="datatable-responsive"
                                             rowspan="1"
                                             colspan="1" aria-label="CallTime">Call Time
@@ -146,6 +142,10 @@
                                         <th class="sorting" tabindex="4" aria-controls="datatable-responsive"
                                             rowspan="1"
                                             colspan="1" aria-label="RejectCount">Reject Count
+                                        </th>
+                                        <th class="sorting" tabindex="4" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="RejectCount">Reject Reason(s)
                                         </th>
                                         <th class="sorting" tabindex="5" aria-controls="datatable-responsive"
                                             rowspan="1"
@@ -169,11 +169,11 @@
                                     <tbody >
                                     <tr role="row" class="odd"
                                         ng-repeat="missedCall in allMissedCallRecords">
-                                        <td>{{missedCall.SessionId}}</td>
                                         <td>{{missedCall.cdrInfo.CreatedTime|date:"yyyy-MM-dd hh:mm:ss"}}</td>
                                         <td>{{missedCall.cdrInfo.AgentSkill}}</td>
                                         <td>{{missedCall.cdrInfo.QueueSec}}</td>
                                         <td>{{missedCall.RejectCount}}</td>
+                                        <td><button ng-click="showMessage(missedCall.Causes)">View</button></td>
                                         <td>{{missedCall.cdrInfo.SipFromUser}}</td>
                                         <td>{{missedCall.cdrInfo.SipToUser}}</td>
                                         <td>{{missedCall.cdrInfo.AgentAnswered}}</td>

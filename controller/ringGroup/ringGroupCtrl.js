@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ringGroupCtrl = function ($scope, $filter, sipUserApiHandler, loginService,$anchorScroll) {
+    var ringGroupCtrl = function ($scope, $filter, sipUserApiHandler, loginService,$anchorScroll,$q) {
 
 
         $anchorScroll();
@@ -66,7 +66,64 @@
         };
 
         $scope.reloadUserList = function () {
-            sipUserApiHandler.getSIPUsers().then(function (data) {
+
+
+            $scope.sipUsrList = [];
+
+            sipUserApiHandler.getSipUsersCount().then(function (row_count) {
+                var pagesize = 20;
+                var pagecount = Math.ceil(row_count / pagesize);
+
+                var method_list = [];
+
+                for (var i = 1; i <= pagecount; i++) {
+                    method_list.push(sipUserApiHandler.getSipUsersWithPaging(i,pagesize));
+                }
+
+
+                $q.all(method_list).then(function (resolveData) {
+                    if (resolveData) {
+                        resolveData.map(function (response) {
+
+                            response.map(function (item) {
+
+                                var tempUsr =
+                                    {
+                                        SipUsername: item.SipUsername,
+                                        id: item.id
+                                    };
+
+                                $scope.sipUsrList.push(tempUsr);
+
+
+
+                            });
+
+
+                        });
+
+                    }
+                    $scope.dataReady = true;
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert('Error', 'error', err);
+                    $scope.dataReady = true;
+                });
+
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                $scope.showAlert('Error', 'error', err);
+                $scope.dataReady = true;
+
+
+            });
+
+
+
+           /* sipUserApiHandler.getSIPUsers().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.sipUsrList = data.Result.map(function (item) {
                         var tempUsr =
@@ -97,7 +154,7 @@
                 }
                 $scope.showAlert('Error', 'error', errMsg);
                 $scope.dataReady = true;
-            });
+            });*/
         };
 
         $scope.reloadGroupList = function () {
