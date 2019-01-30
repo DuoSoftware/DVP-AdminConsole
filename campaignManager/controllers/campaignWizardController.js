@@ -41,8 +41,8 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
         $scope.numberLoadingMethodObj = [
-            {name: 'CONTACT'},
-            {name: 'NUMBER'},
+            {name: 'CONTACT', label: 'PROFILE'},
+            {name: 'NUMBER', label: 'CONTACT'},
         ];
 
         $scope.step = 1;
