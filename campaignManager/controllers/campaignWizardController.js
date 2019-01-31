@@ -41,8 +41,8 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
         $scope.numberLoadingMethodObj = [
-            {name: 'CONTACT'},
-            {name: 'NUMBER'},
+            {name: 'CONTACT', label: 'PROFILE'},
+            {name: 'NUMBER', label: 'CONTACT'},
         ];
 
         $scope.step = 1;
@@ -1723,11 +1723,14 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
         function validateNumbers(data, filter, previewFilter) {
+            var tempdata = [];
+
+            angular.copy(data, tempdata);
             var deferred = $q.defer();
             setTimeout(function () {
                 var numbers = [];
                 var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
-                data.forEach(function (data) {
+                tempdata.forEach(function (data) {
                     var tempNumber = data[filter];
 
                     if ($scope.campaignNumberObj.CategoryID && !$scope.campaign) {
@@ -1765,7 +1768,13 @@ mainApp.controller("campaignWizardController", function ($scope,
                                         numbers.push(numberWithPreviewData2);
                                     } else {
 
-                                        numbers.push(data[filter]);
+
+                                        let _contact = {contact: data[filter]};
+                                        delete data[filter];
+                                        _contact.otherdata = data;
+                                        numbers.push(_contact);
+
+
                                     }
                                 }
                                 else {
