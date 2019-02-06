@@ -453,7 +453,9 @@
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //momentTz = momentTz.replace("+", "%2B");
 
-                cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, attribArray, momentTz, 'csv',ShareData.BusinessUnit).then(function (sumResp) {
+                var skillString = attribArray.join(',');
+
+                cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, skillString, momentTz, 'csv',ShareData.BusinessUnit).then(function (sumResp) {
                     if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
                         var downloadFilename = sumResp.Result;
 
