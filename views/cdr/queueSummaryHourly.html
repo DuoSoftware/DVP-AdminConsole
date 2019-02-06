@@ -54,19 +54,19 @@
 
         </div>
 
-        <div class="col-md-6 col-sm-6 col-xs-6" style="z-index:0" ng-if="obj.isTableLoadingHr==1">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="z-index:0" ng-if="obj.isTableLoadingHr==1">
             <uib-accordion>
                 <div uib-accordion-group class="panel-default" ng-repeat="(skill, records) in summaryArr">
                     <uib-accordion-heading>
                         {{skill}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
                     </uib-accordion-heading>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_content">
                                 <div id="datatable-responsive_wrapper_1"
                                      class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
 
                                             <div class="table-wrapper"
                                                  ng-slimscroll horizontal-scroll="true"
