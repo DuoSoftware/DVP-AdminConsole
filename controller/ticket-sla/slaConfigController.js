@@ -6,7 +6,7 @@
     var app = angular.module('veeryConsoleApp');
 
     var slaConfigController = function ($scope, $state, $stateParams, $uibModal, slaApiAccess, triggerUserServiceAccess,
-                                        triggerTemplateServiceAccess, triggerArdsServiceAccess, loginService,$q) {
+                                        triggerTemplateServiceAccess, triggerArdsServiceAccess, loginService,$q,ticketFlowService) {
         $scope.title = $stateParams.title;
         $scope.slaId = $stateParams.slaId;
         $scope.slaFilter = {};
@@ -22,6 +22,7 @@
         $scope.users = [];
         $scope.userGroups = {};
         $scope.addNewMatrix = false;
+        $scope.types=["question", "complain", "incident", "action"];
 
         $scope.ticketSchemaKeys = [
             "due_at",
@@ -39,11 +40,27 @@
             "tags",
             "SLAViolated"
         ];
+
+        $scope.loadTicketTypes = function()
+        {
+            ticketFlowService.getAvailableTicketTypes().then(function (res) {
+                //var connections = [];
+                if (res.data.IsSuccess && res.status == '200') {
+                    // var connection = [];
+                    $scope.ticketSchema.type = {type: "String", enum: res.data.Result};
+                }
+            }, function (err) {
+                console.log(err);
+            });
+        };
+
+        $scope.loadTicketTypes();
+
         $scope.ticketSchema = {
             due_at: {type: "Date"},
             active: {type: "Boolean"},
             is_sub_ticket: {type: "Boolean"},
-            type: {type: "String", enum: ["question", "complain", "incident", "action"]},
+            type: {type: "String", enum: $scope.types},
             subject: {type: "String"},
             reference: {type: "String"},
             description: {type: "String"},
