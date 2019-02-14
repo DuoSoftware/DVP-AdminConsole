@@ -455,7 +455,7 @@
 
                 var skillString = attribArray.join(',');
 
-                cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, skillString, momentTz, 'csv',ShareData.BusinessUnit).then(function (sumResp) {
+                cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, undefined, undefined, undefined, skillString, momentTz, 'csv',ShareData.BusinessUnit).then(function (sumResp) {
                     if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
                         var downloadFilename = sumResp.Result;
 

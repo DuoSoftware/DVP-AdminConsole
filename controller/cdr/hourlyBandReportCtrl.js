@@ -532,33 +532,45 @@
                     $scope.cancelDownload = true;
                     $scope.buttonClass = 'fa fa-file-text';
                 }
+                var duration = moment($scope.obj.todate, 'YYYY-MM-DD').diff(moment($scope.obj.fromdate, 'YYYY-MM-DD'), 'days');
 
-                $scope.DownloadButtonName = 'PROCESSING...';
+                if (duration <= applicationConfig.repMaxDateRangeHourlyBand) {
+
+                    $scope.DownloadButtonName = 'PROCESSING...';
+
+                    var momentTz = moment.parseZone(new Date()).format('Z');
+                    //momentTz = momentTz.replace("+", "%2B");
+
+                    var skillString = attribArray.join(',');
+
+                    cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.fromdate, $scope.obj.todate, $scope.obj.fromhour, $scope.obj.tohour, skillString, momentTz, 'csv', ShareData.BusinessUnit).then(function (sumResp) {
+                        if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
+                            var downloadFilename = sumResp.Result;
+
+                            checkFileReady(downloadFilename);
+
+                        }
+                        else {
+                            $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                            $scope.fileDownloadState = 'RESET';
+                            $scope.DownloadButtonName = 'CSV';
+                        }
 
 
-                var momentTz = moment.parseZone(new Date()).format('Z');
-                //momentTz = momentTz.replace("+", "%2B");
-
-                cdrApiHandler.getCallSummaryForQueueHrDownload($scope.obj.day, attribArray, momentTz, 'csv',ShareData.BusinessUnit).then(function (sumResp) {
-                    if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
-                        var downloadFilename = sumResp.Result;
-
-                        checkFileReady(downloadFilename);
-
-                    }
-                    else {
+                    }, function (err) {
+                        loginService.isCheckResponse(err);
                         $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
                         $scope.fileDownloadState = 'RESET';
                         $scope.DownloadButtonName = 'CSV';
-                    }
-
-
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                    });
+            }
+                else {
+                    $scope.showAlert('Hourly Band Report', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeHourlyBand + ' days exceeded');
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
-                });
+                    $scope.buttonClass = 'fa fa-file-text';
+                    $scope.cancelDownload = true;
+                }
 
 
             }

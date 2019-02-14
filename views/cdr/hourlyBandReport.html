@@ -24,10 +24,22 @@
                         <label>To Date</label>
                         <input type="text" class="form-control" ng-model="obj.todate" ng-change="onDateChange()" name="todate" datepicker>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 25px">
+                    <div class="col-md-1 col-sm-1 col-xs-1" style="padding-top: 25px">
                         <button ng-disabled="obj.isTableLoadingHr===0 || !dateValid" type="button" class="btn btn-success" ng-click="getCallSummaryByHr()">
                             Search
                         </button>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 text-right" style="padding-top: 25px">
+                        <div>
+                            <a ng-if="fileDownloadState === 'READY'" class="btn btn-success" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-download"></i></a>
+                            <button ng-if="fileDownloadState === 'RESET'" class="btn btn-success" ng-if="fileDownloadState === 'RESET'" type="button" ng-disabled="!dateValid || !cancelDownload" ng-click="getCallSummaryDownload()">
+                                CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i ng-class="buttonClass"></i>
+                            </button>
+                            <!--<a ng-if="fileDownloadState === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">Download</a>
+                            <button ng-if="fileDownloadState === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getCallSummaryDownload()">{{DownloadButtonName}}</button>-->
+                        </div>
                     </div>
                 </div>
 
