@@ -32,7 +32,7 @@
                         </select>-->
 
                         <div class="form-group">
-                            <input type="text" class="form-control" ng-model="selectedExtUser" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="extUsr as extUsr.Display for extUsr in extUserList" placeholder="Requester" bs-typeahead>
+                            <input type="text" class="form-control" ng-model="selectedExtUser" ng-keypress = "onExtUserKey()" data-min-length="0" data-html="4" data-auto-select="true" data-animation="am-flip-x" bs-options="extUsr as extUsr.Display for extUsr in extUserList" placeholder="Requester" bs-typeahead>
                         </div>
 
                         <!--<div class="form-group">

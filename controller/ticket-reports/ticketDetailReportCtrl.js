@@ -114,6 +114,39 @@
             return true;
         };
 
+
+        $scope.onExtUserKey = function () {
+
+            ($scope.selectedExtUser && $scope.selectedExtUser.length>4)?getExternalUserListByHint($scope.selectedExtUser):[];
+        }
+
+        var getExternalUserListByHint = function (nameHint) {
+
+            ticketReportsService.getExternalUsersByHint(nameHint).then(function (extUserList) {
+                if (extUserList && extUserList.Result && extUserList.Result.length > 0) {
+                    //$scope.extUserList.push.apply($scope.extUserList, extUserList.Result);
+
+                    $scope.extUserList = extUserList.Result.map(function (obj) {
+                        var rObj = {
+                            UniqueId: obj._id,
+                            Display: obj.firstname + ' ' + obj.lastname
+                        };
+
+                        return rObj;
+                    });
+
+
+                    /*$scope.extUserList.push({name: 'sukitha', age:'rrr'});
+                     $scope.extUserList.push({name: 'ddd', age:'eee'});
+                     $scope.extUserList.push({name: 'eeee', age:'rrrs'});*/
+                    //$scope.extUserList = extUserList.Result;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
         var getExternalUserList = function () {
 
             ticketReportsService.getExternalUsers().then(function (extUserList) {
@@ -141,6 +174,7 @@
                 loginService.isCheckResponse(err);
             });
         };
+
 
         var getUserList = function () {
 
