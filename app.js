@@ -41,7 +41,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     "chart.js",
     'schemaForm',
     'angular-timezone-selector',
-    'ds.objectDiff', 'htmlToPdfSave',
+    'ds.objectDiff',
     'ui.grid.selection',
     'ngFileSaver',
     'timer',
