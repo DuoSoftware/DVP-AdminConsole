@@ -115,10 +115,20 @@
             return true;
         };
 
-
+var extUserCurrChars=0;
+var extUserMaxChars=0;
 
         $scope.$watch('selectedExtUser', function() {
-            ($scope.selectedExtUser && $scope.selectedExtUser.length>=3)?getExternalUserListByHint($scope.selectedExtUser):[];
+
+            var input = document.getElementById("extUser");
+            extUserCurrChars=input.value.length;
+            if(extUserCurrChars>extUserMaxChars)
+            {
+                extUserMaxChars=extUserCurrChars;
+            }
+
+                (input.value && input.value.length>=3)?getExternalUserListByHint($scope.selectedExtUser):[];
+            (input.value=="")?emptyExternalUserList():[];
         });
 
         /*$scope.onExtUserKey = function () {
@@ -128,33 +138,53 @@
 
 
         var getExternalUserListByHint = function (nameHint) {
-            $scope.isReqLoading=true;
-            ticketReportsService.getExternalUsersByHint(nameHint).then(function (extUserList) {
-                if (extUserList && extUserList.Result && extUserList.Result.length > 0) {
-                    //$scope.extUserList.push.apply($scope.extUserList, extUserList.Result);
 
-                    $scope.extUserList = extUserList.Result.map(function (obj) {
-                        var rObj = {
-                            UniqueId: obj._id,
-                            Display: obj.firstname + ' ' + obj.lastname
-                        };
-
-                        return rObj;
-                    });
-
-
-                    /*$scope.extUserList.push({name: 'sukitha', age:'rrr'});
-                     $scope.extUserList.push({name: 'ddd', age:'eee'});
-                     $scope.extUserList.push({name: 'eeee', age:'rrrs'});*/
-                    //$scope.extUserList = extUserList.Result;
+            if(extUserCurrChars>=extUserMaxChars)
+            {
+                if(document.getElementById("extUser").value.length>3)
+                {
+                    $scope.isReqLoading=true;
                 }
 
+                ticketReportsService.getExternalUsersByHint(nameHint).then(function (extUserList) {
+                    if (extUserList && extUserList.Result && extUserList.Result.length > 0) {
+                        //$scope.extUserList.push.apply($scope.extUserList, extUserList.Result);
+
+                        $scope.extUserList = extUserList.Result.map(function (obj) {
+                            var rObj = {
+                                UniqueId: obj._id,
+                                Display: obj.firstname + ' ' + obj.lastname
+                            };
+
+                            return rObj;
+                        });
+
+
+                        /*$scope.extUserList.push({name: 'sukitha', age:'rrr'});
+                         $scope.extUserList.push({name: 'ddd', age:'eee'});
+                         $scope.extUserList.push({name: 'eeee', age:'rrrs'});*/
+                        //$scope.extUserList = extUserList.Result;
+                    }
+
+                    $scope.isReqLoading=false;
+                }).catch(function (err) {
+                    $scope.isReqLoading=false;
+                    loginService.isCheckResponse(err);
+                });
+            }
+            else
+            {
                 $scope.isReqLoading=false;
-            }).catch(function (err) {
-                $scope.isReqLoading=false;
-                loginService.isCheckResponse(err);
-            });
+            }
+
         };
+
+        var emptyExternalUserList = function () {
+            $scope.extUserList=[];
+            extUserCurrChars=0;
+            extUserMaxChars=0;
+            $scope.isReqLoading=false;
+        }
         var getExternalUserList = function () {
 
             ticketReportsService.getExternalUsers().then(function (extUserList) {
