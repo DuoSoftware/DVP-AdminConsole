@@ -45,7 +45,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                             <label>Queues</label>
-                            <tags-input ng-model="skillFilter" display-property="QueueName" key-property="RecordID" add-from-autocomplete-only="true" min-length="1">
+                            <tags-input ng-model="skillFilter" display-property="QueueName" key-property="RecordID" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" min-length="1">
                                 <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
                             </tags-input>
                     </div>
