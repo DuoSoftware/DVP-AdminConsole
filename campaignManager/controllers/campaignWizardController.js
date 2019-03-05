@@ -638,7 +638,8 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
         $scope.callback = {
-            AllowCallBack: false
+            AllowCallBack: false,
+            DuplicateNumTimeout: 0
         };
 
 
@@ -732,7 +733,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idCampaignMode,
                 idDialoutMechanism,
                 idChannelConcurrency,
-                idNumberLoadMethod;
+                idNumberLoadMethod,
+                idDuplicateNumTimeout;
 
             var clearAllValidation = function () {
                 idCampaign = $('#frmCampaign');
@@ -741,6 +743,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idDialoutMechanism = $('#frmDialoutMechanism');
                 idChannelConcurrency = $('#frmChannelConcurrency');
                 idNumberLoadMethod = $('#frmNumberLoadMethod');
+                idDuplicateNumTimeout = $('#frmDuplicateNumTimeout');
 
 
                 //remove all validations
@@ -750,6 +753,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idDialoutMechanism.removeClass('has-error');
                 idChannelConcurrency.removeClass('has-error');
                 idNumberLoadMethod.removeClass('has-error');
+                idDuplicateNumTimeout.removeClass('has-error');
             };
 
 
@@ -798,6 +802,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                         if (!campaignCallBack.ChannelConcurrency) {
                             $scope.showAlert("Campaign", "Please Enter Campaign Channel Concurrency", 'error');
                             idChannelConcurrency.addClass('has-error');
+                            return false;
+                        }
+
+                        if (campaignCallBack.DuplicateNumTimeout < 0) {
+                            $scope.showAlert("Campaign", "Please Enter Valid Timeout in Seconds", 'error');
+                            idDuplicateNumTimeout.addClass('has-error');
                             return false;
                         }
 

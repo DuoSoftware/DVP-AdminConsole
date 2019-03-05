@@ -177,6 +177,24 @@
 
             </div>
 
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <div class="col-lg-3 col-md-3">
+                    <div id="frmDuplicateNumTimeout"
+                         class="form-group cam-form-grp"
+                         ng-class="{ 'has-error' : campaignFrmStep1.DuplicateNumTimeout.$invalid &&
+                     !campaignFrmStep1.DuplicateNumTimeout.$pristine }">
+                        <label for="duplicatenumtout" class="cam-label">Duplicate Number Timeout *</label>
+                        <input type="number" min="0"
+                               ng-model="callback.DuplicateNumTimeout"
+                               name="DuplicateNumTimeout"
+                               class="form-control cam-textbox"
+                               id="duplicatenumtout"
+                               placeholder="In Seconds">
+                    </div>
+                </div>
+
+            </div>
+
 
             <!--<div id="callBackOption"-->
             <!--class="col-lg-3 display-none">-->
