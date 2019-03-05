@@ -64,6 +64,7 @@
         };
 
         $scope.recLimit = '10';
+        $scope.isReqLoading = false;
 
 
         $scope.obj = {
@@ -71,15 +72,15 @@
             endDay: moment().format("YYYY-MM-DD")
         };
 
-		$scope.onDateChange = function () {
+        $scope.onDateChange = function () {
 
-			if (moment($scope.obj.startDay, "YYYY-MM-DD").isValid() && moment($scope.obj.endDay, "YYYY-MM-DD").isValid()) {
-				$scope.dateValid = true;
-			}
-			else {
-				$scope.dateValid = false;
-			}
-		};
+            if (moment($scope.obj.startDay, "YYYY-MM-DD").isValid() && moment($scope.obj.endDay, "YYYY-MM-DD").isValid()) {
+                $scope.dateValid = true;
+            }
+            else {
+                $scope.dateValid = false;
+            }
+        };
 
         $scope.ticketList = [];
         $scope.extUserList = [];
@@ -114,39 +115,76 @@
             return true;
         };
 
+var extUserCurrChars=0;
+var extUserMaxChars=0;
 
-        $scope.onExtUserKey = function () {
+        $scope.$watch('selectedExtUser', function() {
 
-            ($scope.selectedExtUser && $scope.selectedExtUser.length>4)?getExternalUserListByHint($scope.selectedExtUser):[];
-        }
+            var input = document.getElementById("extUser");
+            extUserCurrChars=input.value.length;
+            if(extUserCurrChars>extUserMaxChars)
+            {
+                extUserMaxChars=extUserCurrChars;
+            }
+
+                (input.value && input.value.length>=3)?getExternalUserListByHint($scope.selectedExtUser):[];
+            (input.value=="")?emptyExternalUserList():[];
+        });
+
+        /*$scope.onExtUserKey = function () {
+
+            ($scope.selectedExtUser && $scope.selectedExtUser.length>=3)?getExternalUserListByHint($scope.selectedExtUser):[];
+        }*/
+
 
         var getExternalUserListByHint = function (nameHint) {
 
-            ticketReportsService.getExternalUsersByHint(nameHint).then(function (extUserList) {
-                if (extUserList && extUserList.Result && extUserList.Result.length > 0) {
-                    //$scope.extUserList.push.apply($scope.extUserList, extUserList.Result);
-
-                    $scope.extUserList = extUserList.Result.map(function (obj) {
-                        var rObj = {
-                            UniqueId: obj._id,
-                            Display: obj.firstname + ' ' + obj.lastname
-                        };
-
-                        return rObj;
-                    });
-
-
-                    /*$scope.extUserList.push({name: 'sukitha', age:'rrr'});
-                     $scope.extUserList.push({name: 'ddd', age:'eee'});
-                     $scope.extUserList.push({name: 'eeee', age:'rrrs'});*/
-                    //$scope.extUserList = extUserList.Result;
+            if(extUserCurrChars>=extUserMaxChars)
+            {
+                if(document.getElementById("extUser").value.length>3)
+                {
+                    $scope.isReqLoading=true;
                 }
 
+                ticketReportsService.getExternalUsersByHint(nameHint).then(function (extUserList) {
+                    if (extUserList && extUserList.Result && extUserList.Result.length > 0) {
+                        //$scope.extUserList.push.apply($scope.extUserList, extUserList.Result);
 
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-            });
+                        $scope.extUserList = extUserList.Result.map(function (obj) {
+                            var rObj = {
+                                UniqueId: obj._id,
+                                Display: obj.firstname + ' ' + obj.lastname
+                            };
+
+                            return rObj;
+                        });
+
+
+                        /*$scope.extUserList.push({name: 'sukitha', age:'rrr'});
+                         $scope.extUserList.push({name: 'ddd', age:'eee'});
+                         $scope.extUserList.push({name: 'eeee', age:'rrrs'});*/
+                        //$scope.extUserList = extUserList.Result;
+                    }
+
+                    $scope.isReqLoading=false;
+                }).catch(function (err) {
+                    $scope.isReqLoading=false;
+                    loginService.isCheckResponse(err);
+                });
+            }
+            else
+            {
+                $scope.isReqLoading=false;
+            }
+
         };
+
+        var emptyExternalUserList = function () {
+            $scope.extUserList=[];
+            extUserCurrChars=0;
+            extUserMaxChars=0;
+            $scope.isReqLoading=false;
+        }
         var getExternalUserList = function () {
 
             ticketReportsService.getExternalUsers().then(function (extUserList) {
@@ -208,14 +246,14 @@
 
                     }
 
-                   /* $scope.userList = userList.Result.map(function (obj) {
-                        var rObj = {
-                            UniqueId: obj._id,
-                            Display: obj.name
-                        };
+                    /* $scope.userList = userList.Result.map(function (obj) {
+                         var rObj = {
+                             UniqueId: obj._id,
+                             Display: obj.name
+                         };
 
-                        return rObj;
-                    });*/
+                         return rObj;
+                     });*/
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
@@ -230,24 +268,24 @@
             });
 
 
-           /* ticketReportsService.getUsers().then(function (userList) {
-                if (userList && userList.Result && userList.Result.length > 0) {
-                    //$scope.userList = userList.Result;
+            /* ticketReportsService.getUsers().then(function (userList) {
+                 if (userList && userList.Result && userList.Result.length > 0) {
+                     //$scope.userList = userList.Result;
 
-                    $scope.userList = userList.Result.map(function (obj) {
-                        var rObj = {
-                            UniqueId: obj._id,
-                            Display: obj.name
-                        };
+                     $scope.userList = userList.Result.map(function (obj) {
+                         var rObj = {
+                             UniqueId: obj._id,
+                             Display: obj.name
+                         };
 
-                        return rObj;
-                    });
-                }
+                         return rObj;
+                     });
+                 }
 
 
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-            });*/
+             }).catch(function (err) {
+                 loginService.isCheckResponse(err);
+             });*/
         };
 
 
@@ -337,7 +375,7 @@
 
                     $scope.tagList.push.apply($scope.tagList, newTagCategories);
 
-                   // console.log($scope.tagList);
+                    // console.log($scope.tagList);
                 }
 
                 if (tagObj && tagObj.AllTags) {
@@ -601,27 +639,27 @@
 
                         ticketDetailsResp.Result.forEach(function (ticketInfo) {
                             var ticketInfoTemp =
-                            {
-                                reference: ticketInfo.reference,
-                                subject: ticketInfo.subject,
-                                phoneNumber: (ticketInfo.requester ? ticketInfo.requester.phone : ''),
-                                email: (ticketInfo.requester ? ticketInfo.requester.email : ''),
-                                ssn: (ticketInfo.requester ? ticketInfo.requester.ssn : ''),
-                                firstname: (ticketInfo.requester ? ticketInfo.requester.firstname : ''),
-                                lastname: (ticketInfo.requester ? ticketInfo.requester.lastname : ''),
-                                address: '',
-                                fromNumber: (ticketInfo.engagement_session ? ticketInfo.engagement_session.channel_from : ''),
-                                createdDate: moment(ticketInfo.created_at).local().format("YYYY-MM-DD HH:mm:ss"),
-                                assignee: (ticketInfo.assignee ? ticketInfo.assignee.name : ''),
-                                submitter: (ticketInfo.submitter ? ticketInfo.submitter.name : ''),
-                                requester: (ticketInfo.requester ? ticketInfo.requester.name : ''),
-                                channel: ticketInfo.channel,
-                                status: ticketInfo.status,
-                                priority: ticketInfo.priority,
-                                type: ticketInfo.type,
-                                slaViolated: (ticketInfo.ticket_matrix ? ticketInfo.ticket_matrix.sla_violated : false)
+                                {
+                                    reference: ticketInfo.reference,
+                                    subject: ticketInfo.subject,
+                                    phoneNumber: (ticketInfo.requester ? ticketInfo.requester.phone : ''),
+                                    email: (ticketInfo.requester ? ticketInfo.requester.email : ''),
+                                    ssn: (ticketInfo.requester ? ticketInfo.requester.ssn : ''),
+                                    firstname: (ticketInfo.requester ? ticketInfo.requester.firstname : ''),
+                                    lastname: (ticketInfo.requester ? ticketInfo.requester.lastname : ''),
+                                    address: '',
+                                    fromNumber: (ticketInfo.engagement_session ? ticketInfo.engagement_session.channel_from : ''),
+                                    createdDate: moment(ticketInfo.created_at).local().format("YYYY-MM-DD HH:mm:ss"),
+                                    assignee: (ticketInfo.assignee ? ticketInfo.assignee.name : ''),
+                                    submitter: (ticketInfo.submitter ? ticketInfo.submitter.name : ''),
+                                    requester: (ticketInfo.requester ? ticketInfo.requester.name : ''),
+                                    channel: ticketInfo.channel,
+                                    status: ticketInfo.status,
+                                    priority: ticketInfo.priority,
+                                    type: ticketInfo.type,
+                                    slaViolated: (ticketInfo.ticket_matrix ? ticketInfo.ticket_matrix.sla_violated : false)
 
-                            };
+                                };
 
                             if(ticketInfo.requester && ticketInfo.requester.address)
                             {
@@ -711,14 +749,14 @@
 
         $scope.getTicketSummaryCSVPrepare = function ()
         {
-			/** Kasun_Wijeratne_5_MARCH_2018
-			 * ----------------------------------------*/
-			if(filterDateRangeValidation.validateDateRange($scope.obj.startDay, $scope.obj.endDay) == false){
-				$scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
-				return -1;
-			}
-			/** ----------------------------------------
-			 * Kasun_Wijeratne_5_MARCH_2018*/
+            /** Kasun_Wijeratne_5_MARCH_2018
+             * ----------------------------------------*/
+            if(filterDateRangeValidation.validateDateRange($scope.obj.startDay, $scope.obj.endDay) == false){
+                $scope.showAlert("Invalid End Date", 'error', "End Date should not exceed 31 days from Start Date");
+                return -1;
+            }
+            /** ----------------------------------------
+             * Kasun_Wijeratne_5_MARCH_2018*/
 
             if ($scope.DownloadButtonName === 'CSV') {
                 $scope.cancelDownload = false;
