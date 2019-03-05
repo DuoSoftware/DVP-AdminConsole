@@ -35,7 +35,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 "CompanyId",
                 "Agent",
                 "ResourceId",
-                "EventType"
+                "EventType",
+                "ThirdPartyReference"
             ],
             "methods": [ "POST", "GET", "PUT", "PATCH" ]
         };
