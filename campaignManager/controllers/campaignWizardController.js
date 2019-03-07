@@ -805,17 +805,21 @@ mainApp.controller("campaignWizardController", function ($scope,
                             return false;
                         }
 
-                        if (campaignCallBack.DuplicateNumTimeout < 0) {
-                            $scope.showAlert("Campaign", "Please Enter Valid Timeout in Seconds", 'error');
-                            idDuplicateNumTimeout.addClass('has-error');
-                            return false;
-                        }
-
                         if (!campaignCallBack.NumberLoadingMethod) {
                             $scope.showAlert("Campaign", "Please Select Number Loading Method", 'error');
                             idNumberLoadMethod.addClass('has-error');
                             return false;
                         }
+
+                        if ($scope.campaign.CampaignChannel == 'CALL')
+                        {
+                            if (!Number.isInteger(campaignCallBack.DuplicateNumTimeout) || campaignCallBack.DuplicateNumTimeout < 0) {
+                                $scope.showAlert("Campaign", "Please Enter Valid Timeout in Seconds", 'error');
+                                idDuplicateNumTimeout.addClass('has-error');
+                                return false;
+                            }
+                        }
+
 
                         return true;
 
