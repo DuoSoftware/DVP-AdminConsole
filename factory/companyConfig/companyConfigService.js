@@ -328,6 +328,20 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 }
             });
         },
+        getChatConfig: function (config) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"Chat/Config",
+                data: config
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
         createPhoneConfig: function (config) {
             return $http({
                 method: 'POST',

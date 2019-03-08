@@ -8,7 +8,7 @@
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
 
-                    <li><a class="close-link"><i class="fa fa-trash-o" ng-click="deletePhoneConfig(phoneConfig);"></i></a>
+                    <li><a class="close-link"><i class="fa fa-trash-o" ng-click="deleteChatConfig();"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -27,7 +27,7 @@
 
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group  ">
                                 <label>Welcome Message</label>
-                                <input type="text" class="form-control  ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern" ng-model="chatConfig.WelcomeMessage" name="WelcomeMessage"  placeholder="WelcomeMessage" required>
+                                <input type="text" class="form-control  ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern" ng-model="chatConfig.welcomeMessage" name="WelcomeMessage"  placeholder="Welcome Message" required>
                             </div>
                             <div class="clearfix"></div>
                             <div class="ln_solid"></div>

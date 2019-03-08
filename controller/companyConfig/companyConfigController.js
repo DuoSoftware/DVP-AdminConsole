@@ -615,24 +615,56 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.getCustomTicketStatus();
 
     //-----------------------------Chat Config----------------------------------------------------
-
+    $scope.chatConfig = {WelcomeMessage : ""};
     $scope.createChatConfig = function (config) {
         companyConfigBackendService.createChatConfig(config).then(function (response) {
             if(response.IsSuccess)
             {
-                $scope.ChatConfig = response.Result;
-                $scope.showAlert('Chat Config', "Chat Successfully Saved.", 'success');
-
+                $scope.showAlert('Chat Config', "Welcome Chat Message Successfully Saved.", 'success');
             }
             else
             {
-                $scope.showAlert('Chat Config', "Fail To Save Phone Config.", 'error');
+                $scope.showAlert('Chat Config', "Fail To Save Welcome Chat Message Config.", 'error');
             }
         }, function(err){
-            $scope.showAlert('Chat Config', "Fail To Save Phone Config.", 'error');
+            $scope.showAlert('Chat Config', "Fail To Save Chat Config.", 'error');
         });
     };
 
+    $scope.deleteChatConfig = function () {
+        var config = {
+            welcomeMessage : ""
+        };
+        companyConfigBackendService.createChatConfig(config).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.chatConfig = {WelcomeMessage : ""};
+                $scope.showAlert('Chat Config', "Welcome Chat Message Successfully Deleted.", 'success');
+            }
+            else
+            {
+                $scope.showAlert('Chat Config', "Fail To Delete Welcome Chat Message Config.", 'error');
+            }
+        }, function(err){
+            $scope.showAlert('Chat Config', "Fail To Delete Chat Config.", 'error');
+        });
+    };
+
+    $scope.GetChatConfig = function () {
+        companyConfigBackendService.getChatConfig().then(function (response) {
+            if(response)
+            {
+                $scope.chatConfig =response;
+            }
+            else
+            {
+                $scope.showAlert('Chat Config', "Fail To Get Welcome Chat Message Config.", 'error');
+            }
+        }, function(err){
+            $scope.showAlert('Chat Config', "Fail To Get Chat Config.", 'error');
+        });
+    };
+    $scope.GetChatConfig();
     //-----------------------------Phone Config----------------------------------------------------
     $scope.createPhoneConfig = function (config) {
         companyConfigBackendService.createPhoneConfig(config).then(function (response) {
