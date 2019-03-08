@@ -614,8 +614,26 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.getCustomTicketStatus();
 
-    //-----------------------------Phone Config----------------------------------------------------
+    //-----------------------------Chat Config----------------------------------------------------
 
+    $scope.createChatConfig = function (config) {
+        companyConfigBackendService.createChatConfig(config).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.ChatConfig = response.Result;
+                $scope.showAlert('Chat Config', "Chat Successfully Saved.", 'success');
+
+            }
+            else
+            {
+                $scope.showAlert('Chat Config', "Fail To Save Phone Config.", 'error');
+            }
+        }, function(err){
+            $scope.showAlert('Chat Config', "Fail To Save Phone Config.", 'error');
+        });
+    };
+
+    //-----------------------------Phone Config----------------------------------------------------
     $scope.createPhoneConfig = function (config) {
         companyConfigBackendService.createPhoneConfig(config).then(function (response) {
             if(response.IsSuccess)

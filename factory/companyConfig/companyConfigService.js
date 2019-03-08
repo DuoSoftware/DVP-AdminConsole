@@ -314,6 +314,20 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 return response;
             });
         },
+        createChatConfig: function (config) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl +"Chat/Config",
+                data: config
+            }).then(function(response)
+            {
+                if (response.data) {
+                    return response.data;
+                } else {
+                    return false;
+                }
+            });
+        },
         createPhoneConfig: function (config) {
             return $http({
                 method: 'POST',
