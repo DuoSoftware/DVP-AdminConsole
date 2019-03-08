@@ -35,10 +35,16 @@ mainApp.controller("campaignWizardController", function ($scope,
                 "CompanyId",
                 "Agent",
                 "ResourceId",
-                "EventType"
+                "EventType",
+                "ThirdPartyReference"
             ],
             "methods": [ "POST", "GET", "PUT", "PATCH" ]
         };
+
+        $scope.numberLoadingMethodObj = [
+            {name: 'CONTACT', label: 'PROFILE'},
+            {name: 'NUMBER', label: 'CONTACT'},
+        ];
 
         $scope.step = 1;
         if (queryCampaignId && queryCampaignId.id != 0) {
@@ -471,14 +477,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.campAttribute;
         $scope.onChipAddAttribute = function (chip) {
-            if($scope.campaignAttributes.length === 0){
-                $scope.campaignAttributes.push(chip.Id);
-                return true;
-            }else{
-                return false;
-            }
-            
-
+            $scope.campaignAttributes.push(chip.Id);
         };
         $scope.onChipDeleteAttribute = function (chip) {
 
@@ -639,7 +638,8 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
         $scope.callback = {
-            AllowCallBack: false
+            AllowCallBack: false,
+            DuplicateNumTimeout: 0
         };
 
 
@@ -732,7 +732,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idExtension,
                 idCampaignMode,
                 idDialoutMechanism,
-                idChannelConcurrency;
+                idChannelConcurrency,
+                idNumberLoadMethod,
+                idDuplicateNumTimeout;
 
             var clearAllValidation = function () {
                 idCampaign = $('#frmCampaign');
@@ -740,6 +742,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idCampaignMode = $('#frmCampaignMode');
                 idDialoutMechanism = $('#frmDialoutMechanism');
                 idChannelConcurrency = $('#frmChannelConcurrency');
+                idNumberLoadMethod = $('#frmNumberLoadMethod');
+                idDuplicateNumTimeout = $('#frmDuplicateNumTimeout');
 
 
                 //remove all validations
@@ -748,6 +752,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idCampaignMode.removeClass('has-error');
                 idDialoutMechanism.removeClass('has-error');
                 idChannelConcurrency.removeClass('has-error');
+                idNumberLoadMethod.removeClass('has-error');
+                idDuplicateNumTimeout.removeClass('has-error');
             };
 
 
@@ -799,6 +805,22 @@ mainApp.controller("campaignWizardController", function ($scope,
                             return false;
                         }
 
+                        if (!campaignCallBack.NumberLoadingMethod) {
+                            $scope.showAlert("Campaign", "Please Select Number Loading Method", 'error');
+                            idNumberLoadMethod.addClass('has-error');
+                            return false;
+                        }
+
+                        if ($scope.campaign.CampaignChannel == 'CALL')
+                        {
+                            if (!Number.isInteger(campaignCallBack.DuplicateNumTimeout) || campaignCallBack.DuplicateNumTimeout < 0) {
+                                $scope.showAlert("Campaign", "Please Enter Valid Timeout in Seconds", 'error');
+                                idDuplicateNumTimeout.addClass('has-error');
+                                return false;
+                            }
+                        }
+
+
                         return true;
 
                     }
@@ -842,7 +864,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                             var params = object[key].Params;
                             object[key].Params = [];
                             angular.forEach(params, function(param){
-                                object[key].Params.push(param.Name);
+                                if(param.Name){
+                                    object[key].Params.push(param.Name);
+                                }else{
+                                    object[key].Params.push(param);
+                                }
+                                
                             });
                         });
                     }
@@ -1216,9 +1243,17 @@ mainApp.controller("campaignWizardController", function ($scope,
 
                     break;
                 case '4':
-                    step01UIFun.moveWizard(_wizard);
-                    $scope.getInputFileValue();
-                    break;
+                    if($scope.callback.NumberLoadingMethod == 'NUMBER') {
+                        step01UIFun.moveWizard(_wizard);
+                        $scope.getInputFileValue();
+                        break;
+                    }else{
+                        $state.go('console.campaign-console');
+                        $scope.showAlert('Campaign', 'Campaign saved successfully', 'success');
+                        $scope.refreshAllWizard();
+                        break;
+                    }
+                    
                 case 'back':
                     $state.go('console.campaign-console');
                     break;
@@ -1703,11 +1738,14 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
         function validateNumbers(data, filter, previewFilter) {
+            var tempdata = [];
+
+            angular.copy(data, tempdata);
             var deferred = $q.defer();
             setTimeout(function () {
                 var numbers = [];
                 var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
-                data.forEach(function (data) {
+                tempdata.forEach(function (data) {
                     var tempNumber = data[filter];
 
                     if ($scope.campaignNumberObj.CategoryID && !$scope.campaign) {
@@ -1745,7 +1783,13 @@ mainApp.controller("campaignWizardController", function ($scope,
                                         numbers.push(numberWithPreviewData2);
                                     } else {
 
-                                        numbers.push(data[filter]);
+
+                                        let _contact = {contact: data[filter]};
+                                        delete data[filter];
+                                        _contact.otherdata = data;
+                                        numbers.push(_contact);
+
+
                                     }
                                 }
                                 else {

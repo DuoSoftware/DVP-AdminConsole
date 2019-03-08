@@ -41,7 +41,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     "chart.js",
     'schemaForm',
     'angular-timezone-selector',
-    'ds.objectDiff', 'htmlToPdfSave',
+    'ds.objectDiff',
     'ui.grid.selection',
     'ngFileSaver',
     'timer',
@@ -814,7 +814,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "hourlyBandReportCtrl",
             data: {
                 requireLogin: true,
-                navigation: "QUEUE_HOURLY_BREAKDOWN_REPORT"
+                navigation: "HOURLY_BAND_REPORT"
             }
         }).state('console.sla', {
             url: "/sla",

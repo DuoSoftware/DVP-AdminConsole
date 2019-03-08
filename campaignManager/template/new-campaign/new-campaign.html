@@ -43,7 +43,7 @@
                             </li>
 
 
-                            <li id="4ndStepWizard" class="">
+                            <li id="4ndStepWizard" class="" ng-if="callback.NumberLoadingMethod == 'NUMBER'">
                                 <div id="numberFour" class="t-line wizard-count active">
                                     4
                                 </div>
@@ -191,15 +191,15 @@
                                 <button ng-if="addedSchedule.length!=0"
                                         class="btn btn-wizard"
                                         ng-click="changeFormWizard('4')">
-                                    Next
-                                    <i class="ti-angle-right"></i>
+                                    {{ callback.NumberLoadingMethod == 'CONTACT' ? 'Done':'Next' }}
+                                    <i class="ti-angle-right" ng-if="callback.NumberLoadingMethod == 'NUMBER'"></i>
                                 </button>
 
                                 <button class="btn btn-wizard"
                                         ng-if="addedSchedule.length==0"
                                         disabled>
-                                    Next
-                                    <i class="ti-angle-right"></i>
+                                    {{ callback.NumberLoadingMethod == 'CONTACT' ? 'Done':'Next' }}
+                                    <i class="ti-angle-right" ng-if="callback.NumberLoadingMethod == 'NUMBER'"></i>
                                 </button>
                             </li>
                         </ul>

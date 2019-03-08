@@ -5,13 +5,13 @@
             <div class="col-md-12 col-sm-12 col-xs-12 form-group"
                  ng-show="(campaign.CampaignChannel === 'CALL' )">
                 <div class="col-md-12 col-sm-12 col-xs-12 form-group ">
-                    <label for="exampleInputEmail1" class="cam-label">Add A Campaign Attribute</label>
+                    <label for="exampleInputEmail1" class="cam-label">Add campaign skills</label>
                     <tags-input ng-model="campAttribute"
                                 display-property="Name"
                                 add-from-autocomplete-only="true"
                                 on-tag-added="onChipAddAttribute($tag)"
                                 on-tag-removed="onChipDeleteAttribute($tag)"
-                                ng-disabled="AdditionalDataRecordId" min-length="1" max-tags="1">
+                                ng-disabled="AdditionalDataRecordId" min-length="1">
                         <auto-complete source="querySearchAttribute($query)"
                                        load-on-empty="true"
                                        load-on-focus="true"

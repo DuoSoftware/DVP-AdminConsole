@@ -577,7 +577,7 @@
             });
         };
 
-        var getCallSummaryForQueueHrDownload = function (date, skills, tz, fileType,businessUnit) {
+        var getCallSummaryForQueueHrDownload = function (fromdate, todate, fromhour, tohour, skills, tz, fileType,businessUnit) {
 
             var qData = [];
             if(businessUnit && businessUnit !='ALL')
@@ -585,7 +585,10 @@
                 qData['businessunit'] = businessUnit;
             }
 
-            qData['date'] = date;
+            qData['fromdate'] = fromdate;
+            qData['todate'] = todate;
+            qData['fromhour'] = fromhour;
+            qData['tohour'] = tohour;
             qData['tz'] = tz;
 
             //var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly/Download?date=' + date + '&tz=' + tz;

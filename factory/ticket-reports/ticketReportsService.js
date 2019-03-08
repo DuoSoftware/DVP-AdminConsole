@@ -306,6 +306,20 @@
             });
 
         };
+        var getExternalUsersByHint = function(hint)
+        {
+
+            var url = baseUrls.UserServiceBaseUrl + 'ExternalUsersByHint/'+hint;
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            });
+
+        };
 
         var getUsers = function()
         {
@@ -430,7 +444,8 @@
             getTicketStatusList: getTicketStatusList,
             getTicketSummaryTagWise: getTicketSummaryTagWise,
             getUserCount: getUserCount,
-            LoadUsersByPage: LoadUsersByPage
+            LoadUsersByPage: LoadUsersByPage,
+            getExternalUsersByHint: getExternalUsersByHint
         };
     };
 
