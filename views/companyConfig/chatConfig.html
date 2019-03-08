@@ -27,14 +27,13 @@
 
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group  ">
                                 <label>Welcome Message</label>
-                                <input type="text" class="form-control  ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern" ng-model="newBUnit.unitName" name="businessUnitName" ng-pattern="/^[a-zA-Z0-9-_\\s]+$/" placeholder="Unit Name" required="">
-                                <span class="error-msg ng-hide" ng-show="frmbUnit.businessUnitName.$error.pattern">Welcome Message</span>
+                                <input type="text" class="form-control  ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern" ng-model="chatConfig.WelcomeMessage" name="WelcomeMessage"  placeholder="WelcomeMessage" required>
                             </div>
                             <div class="clearfix"></div>
                             <div class="ln_solid"></div>
 
                             <div class="form-group">
-                                <button class="btn btn-success" ng-click="createPhoneConfig(phoneConfig)"
+                                <button class="btn btn-success" ng-click="createChatConfig(chatConfig)"
                                         ng-disabled="userForm.$invalid">
                                     Save
                                 </button>

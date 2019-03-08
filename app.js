@@ -88,10 +88,10 @@ mainApp.config(function (scrollableTabsetConfigProvider) {
 //resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
-    'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://localhost:3638/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
-    'authProviderUrl': 'http://userservice.app1.veery.cloud/',
+    'authServiceBaseUrl': 'http://localhost:3638/oauth/',
+    'authProviderUrl': 'http://localhost:3638/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
     'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
@@ -158,7 +158,7 @@ mainApp.constant('applicationConfig', applicationConfig);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
-        var authProviderUrl = 'http://userservice.app1.veery.cloud/auth/';
+        var authProviderUrl = 'http://localhost:3638/auth/';
         //var authProviderUrl = 'http://192.168.0.132:3637/auth/';
         vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI');
 
