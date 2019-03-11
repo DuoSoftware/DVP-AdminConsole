@@ -5,7 +5,7 @@
 
 var app =angular.module('veeryConsoleApp');
 
-var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, loginService, ShareData) {
+var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, loginService, userProfileApiAccess, ShareData) {
 
     $scope.showAlert = function (title, type, content) {
         ngNotify.set(content, {
@@ -17,6 +17,16 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
     };
 
 
+    userProfileApiAccess.getUserGroups().then(function (response) {
+        if (response.Result) {
+            $scope.userGroupData = response.Result.map(function (item) {
+                return {
+                    groupId: item._id,
+                    groupName: item.name
+                };
+            });
+        }
+    });
 
 
     var data = [];
@@ -27,6 +37,14 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
 
                 response.map(function (user) {
                     if (user.user_meta !== undefined) {  //ignore wrong data
+
+                        var groupName = '-';
+                        $scope.userGroupData.some(function (el) {
+                            if (el.groupId === user.group) {
+                                groupName = el.groupName;
+                                return true;
+                            }
+                        });
 
                         if (user.veeryaccount === undefined){
                             user.veeryaccount = {};
@@ -39,8 +57,8 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
                                         createdDate: user.created_at,
                                         updatedDate: user.updated_at,
                                         role: user.user_meta.role,
-                                        sipAccount: user.veeryaccount.contact,
-                                        userScopes: user.user_scopes
+                                        groupName: groupName,
+                                        sipAccount: user.veeryaccount.contact
                                     };
                         if ($scope.roleFilter !== undefined && $scope.roleFilter.length > 0) {
                             $scope.roleFilter.some(function (el) {
@@ -126,29 +144,6 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
     };
 
 
-    $scope.showMessage= function (scopes) {
-        $scope.userScopesArr = scopes.sort(function(a, b) {
-            if (a.scope.toUpperCase() < b.scope.toUpperCase()) {
-                return -1;
-            }
-            if (a.scope.toUpperCase() > b.scope.toUpperCase()) {
-                return 1;
-            }
-
-            // if names are equal
-            return 0;
-        });
-        //modal show
-        $uibModal.open({
-            animation: true,
-            ariaLabelledBy: 'modal-title-top',
-            ariaDescribedBy: 'modal-body-top',
-            templateUrl: "views/user-details/partials/scopeTemplate.html",
-            size: 'md',
-            scope: $scope
-        });
-    };
-
     $scope.getTableHeight = function () {
         var rowHeight = 30; // row height
         var headerHeight = 50; // header height
@@ -192,6 +187,17 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
                 },
                 headerTooltip: 'Role'
             },
+            {
+                enableFiltering: false,
+                width: '100',
+                name: 'User Group ',
+                field: 'groupName',
+                headerTooltip: 'User Group',
+                sort: {
+                    direction: uiGridConstants.ASC,
+                    priority: 2,
+                },
+            },
              {
                 enableFiltering: true,
                 width: '150',
@@ -200,7 +206,7 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
                 headerTooltip: 'User',
                 sort: {
                      direction: uiGridConstants.ASC,
-                     priority: 2,
+                     priority: 3,
                  },
             },
             {
@@ -226,15 +232,7 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
                 headerTooltip: 'Updated Date',
                 cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.updatedDate| date:'MM/dd/yyyy'}}</div>"
-            }, {
-                enableFiltering: false,
-                width: '150',
-                name: 'User Scopes',
-                field: 'userScopes',
-                headerTooltip: 'User Scopes',
-                cellTemplate : '<div style="text-align:center;"><button ng-click="grid.appScope.showMessage(row.entity.userScopes)">View</button></div>'
             }
-
         ],
         data: [],
         onRegisterApi: function (gridApi) {
