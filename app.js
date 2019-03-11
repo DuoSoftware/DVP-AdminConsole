@@ -816,6 +816,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "HOURLY_BAND_REPORT"
             }
+        }).state('console.userDetailReport', {
+            url: "/userDetailReport",
+            templateUrl: "views/user-details/userDetails.html",
+            controller: "userReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "HOURLY_BAND_REPORT"
+            }
         }).state('console.sla', {
             url: "/sla",
             templateUrl: "views/ticket-sla/sla.html",
