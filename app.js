@@ -992,7 +992,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaign', {
             url: "/campaign",
-            templateUrl: "campaignManager/campaignList.html",
+            templateUrl: "campaignManager/view/campaignList.html",
             controller: "campaignController",
             data: {
                 requireLogin: true,
@@ -1000,7 +1000,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignmonitor', {
             url: "/campaign/monitor",
-            templateUrl: "campaignManager/campaignMonitor.html",
+            templateUrl: "campaignManager/view/campaignMonitor.html",
             controller: "campaignMonitorController",
             data: {
                 requireLogin: true,
@@ -1008,7 +1008,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignsummeryreport', {
             url: "/campaign/report/summery",
-            templateUrl: "campaignManager/campaignSummeryReport.html",
+            templateUrl: "campaignManager/view/report/campaignSummeryReport.html",
             controller: "campaignReportController",
             data: {
                 requireLogin: true,
@@ -1016,7 +1016,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaigndispositionreport', {
             url: "/campaign/report/disposition",
-            templateUrl: "campaignManager/campaignDispositionReport.html",
+            templateUrl: "campaignManager/view/report/campaignDispositionReport.html",
             controller: "campaignDispositionReportController",
             data: {
                 requireLogin: true,
@@ -1024,7 +1024,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaigncallbackreport', {
             url: "/campaign/report/callback",
-            templateUrl: "campaignManager/campaignCallbackReport.html",
+            templateUrl: "campaignManager/view/report/campaignCallbackReport.html",
             controller: "campaignCallbackReportController",
             data: {
                 requireLogin: true,
@@ -1032,7 +1032,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignattemptreport', {
             url: "/campaign/report/attempt",
-            templateUrl: "campaignManager/campaignAttemptReport.html",
+            templateUrl: "campaignManager/view/report/campaignAttemptReport.html",
             controller: "campaignAttemptReportController",
             data: {
                 requireLogin: true,
