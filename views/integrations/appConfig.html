@@ -1,0 +1,183 @@
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>{{ currentApp.name }}
+                <small>Configuration</small>
+            </h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <button class="btn btn-success pull-right" ng-click="clickDirective.goAppIntegration()" title="Back">Back</button>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+
+        <div class="x_panel" ng-show="isProcessing">
+            <div class="x_content">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="data-state-wrap">
+                        Processing...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="x_panel">
+            <!-- <div class="well well-sm" data-toggle="collapse" data-target="#default_url" style="cursor:pointer">
+                Default URL: {{ currentApp.default_integration.url }}
+                <span class="fa fa-arrow-down pull-right"></span>
+            </div> -->
+
+            <h4>
+                Default URL: {{ currentApp.default_integration.url || "not set" }}
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a data-toggle="collapse" data-target="#default_url" title="Configure URL" ng-click="showParameters()" class="close-link"><i class="fa fa-cogs pull-right"></i></a>
+                    </li>
+                </ul>
+            </h4>
+            <div class="ln_solid"></div>
+            <div id="default_url" class="collapse">
+                <url-config integration-obj="currentApp.default_integration" reference-objects='["User"]' css-class="well"></url-config>
+            </div>
+            
+
+            <h4>
+                Actions
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a title="Add Action" ng-click="showConfigurations()" class="close-link"><i class="fa fa-plus"></i></a>
+                    </li>
+                </ul>
+            </h4>
+
+            <div class="ln_solid"></div>
+
+            <div ng-show="showConfiguration" class="well" style="overflow: auto" id="appEditWindow" tabindex="0">
+                <ng-form class="" name="fOuter" novalidate>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group"
+                                                ng-class="{ 'has-error' : fOuter.name.$invalid && !fOuter.name.$pristine }">
+                                            <span>Name</span>
+                                            <input type="text" class="form-control" name="name"
+                                                    ng-model="appData.name" id="int_app_name" required>
+                                            <p ng-show="fOuter.name.$invalid && !fOuter.name.$pristine"
+                                                class="help-block">Name is required.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.trycount.$invalid && !fOuter.trycount.$pristine }">
+                                            <span>Try Count</span>
+                                            <input type="number" class="form-control" name="trycount"
+                                                    ng-model="appData.trycount" required>
+                                            <p ng-show="fOuter.trycount.$invalid && !fOuter.trycount.$pristine" class="help-block">Try Count is invalid.</p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.timeout.$invalid && !fOuter.timeout.$pristine }">
+                                            <span>Timeout</span>
+                                            <input type="number" class="form-control" name="timeout"
+                                                    ng-model="appData.timeout" required>
+                                            <p ng-show="fOuter.timeout.$invalid && !fOuter.timeout.$pristine" class="help-block">Timeout is invalid.</p>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <span>Description</span>
+                                        <textarea name="description" ng-model="appData.description" class="form-control" style="height:114px"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <url-config integration-obj="{}" reference-objects='["User"]' css-class=""></url-config>
+
+                    
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                            <button ng-disabled="fOuter.name.$invalid||fOuter.trycount.$invalid||fOuter.timeout.$invalid"
+                                    class="btn btn-success pull-right" ng-click="saveApp(appData)" title="Save App">Save
+                            </button>
+                        </div>
+                    </div>
+    
+                </ng-form>
+            </div>
+
+            <div class="x_panel" ng-hide="currentApp.actions.length">
+                <div class="x_content">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap">
+                            No Actions Configured.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="currentApp.actions.length">
+                <div class="x_content">
+                    <ul class="list-unstyled timeline">
+                        <li ng-repeat="action in currentApp.actions">
+                            <div class="block">
+                                <div class="tags">
+                                    <a href="" class="tag">
+                                        <span>{{action.name}}</span>
+                                    </a>
+                                </div>
+                                <div class="block_content">
+                                    <h2 class="title">
+                                        <a>{{data.description}}</a>
+                                        <i class="fa fa-trash-o pull-right cursor-pointer" ng-click="deleteApp(data)" title="Delete App"></i>
+                                        <i class="fa fa-pencil-square-o pull-right cursor-pointer" ng-click="editApp(data)" title="Edit App"></i>
+                                        <i class="fa fa-cog pull-right cursor-pointer" ng-click="configureApp(data._id)" title="Configure App"></i>
+                                    </h2>
+                                    <div class="byline">
+                                        <span>{{data.method}} </span> : <a>{{data.url}}</a>
+                                    </div>
+                                    <div class="tile-stats" ng-if="data.parameters.length">
+                                        <h3>Parameters</h3>
+                                        <div class="panel-body">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Parameter Name</th>
+                                                    <th>Reference Name</th>
+                                                    <th>Parameter Type</th>
+                                                    <th>Parameter Location</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="para in data.parameters">
+                                                    <th>{{para.name}}</th>
+                                                    <td>{{para.referenceName}}</td>
+                                                    <td>{{para.parameterType}}</td>
+                                                    <td>{{para.parameterLocation}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+    
+    
+                                </div>
+                            </div>
+                        </li>
+    
+    
+                    </ul>
+    
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

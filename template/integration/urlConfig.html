@@ -1,0 +1,140 @@
+<div ng-class="cssClass" style="overflow: auto">
+    <ng-form class="" name="fOuter" novalidate>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.method.$invalid && !fOuter.method.$pristine }">
+                    <span>Method</span>
+                    <select required class="form-control" name="method" ng-model="integrationObj.method">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                    <p ng-show="fOuter.method.$invalid && !fOuter.method.$pristine" class="help-block">method is required.</p>
+                </div>
+
+                <div class="col-md-9 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.url.$invalid && !fOuter.url.$pristine }">
+                    <span>URL</span>
+                    <input type="text" class="form-control" name="url" ng-model="integrationObj.url" required>
+                    <p ng-show="fOuter.url.$invalid && !fOuter.url.$pristine" class="help-block">URL is required.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.auth_type.$invalid && !fOuter.auth_type.$pristine }">
+                    <span>Authentication</span>
+                    <select required class="form-control" name="auth_type" ng-model="integrationObj.auth_type">
+                        <option value="Basic">Basic</option>
+                        <option value="Bearer">Bearer</option>
+                    </select>
+                    <p ng-show="fOuter.auth_type.$invalid && !fOuter.auth_type.$pristine"
+                        class="help-block">Auth type is required.</p>
+               </div>
+                <div class="col-md-9 col-sm-12 col-xs-12 form-group form-group" ng-class="{ 'has-error' : fOuter.token.$invalid && !fOuter.token.$pristine }">
+                    <span>Token</span>
+                    <input required type="text" class="form-control" name="token" ng-model="integrationObj.token">
+                    <p ng-show="fOuter.token.$invalid && !fOuter.token.$pristine" class="help-block">Token is required.</p>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Parameters
+                                <small>List</small>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a title="Add Parameters" ng-click="showParameters()" class="close-link"><i class="fa fa-plus"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div ng-show="showParameter" class="col-md-12 col-sm-12 col-xs-12">
+
+                            <ng-form class="form-horizontal form-label-left" name="fInner" novalidate>
+                                <div class="x_panel">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-grou"
+                                            ng-class="{ 'has-error' : fInner.parameterLocation.$invalid && !fInner.parameterLocation.$pristine }">
+                                            
+                                            <span>Parameter Location</span>
+                                            <select required class="form-control" name="parameterLocation" ng-model="params.parameterLocation" required>
+                                                <option value="QUERY">QUERY</option>
+                                                <option value="BODY">BODY</option>
+                                                <option value="PARAMS">PARAMS</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group"
+                                            ng-class="{ 'has-error' : fInner.parameterName.$invalid && !fInner.parameterName.$pristine }">
+                                            <span>Parameter Name</span>
+                                            <input required type="text" class="form-control" name="parameterName" ng-model="params.name">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group"
+                                            ng-class="{ 'has-error' : fInner.referenceObject.$invalid && !fInner.referenceObject.$pristine }">
+                                            <span>Reference Object</span>
+                                            <select required class="form-control" name="referenceObject" ng-options="ref for ref in refObjects" ng-model="params.referenceObject" required>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group"
+                                            ng-class="{ 'has-error' : fInner.referenceProperty.$invalid && !fInner.referenceProperty.$pristine }">
+                                            <span>Reference Property</span>
+                                            <input required type="text" class="form-control" name="referenceProperty" ng-model="params.referenceProperty">
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-success pull-right" title="Add To Parameter List"
+                                            ng-disabled="!fInner.$valid" ng-click="addParameters(params)">
+                                        Add
+                                    </button>
+                                </div>
+                            </ng-form>
+
+                        </div>
+
+                        <div class="x_content">
+                            <ul class="list-unstyled timeline">
+                                <li ng-repeat="params in integrationObj.parameters">
+                                    <div class="block">
+                                        <div class="tags">
+                                            <a href="" class="tag">
+                                                <span>{{params.name}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <i class="fa fa-trash-o pull-right cursor-pointer"
+                                                   ng-click="deleteParameter(params)"></i>
+                                            </h2>
+                                            <div class="excerpt">
+                                                <b>Parameter Location:</b> {{params.parameterLocation}}
+                                                <br>
+                                                <b>Reference Object:</b> {{params.referenceObject}}
+                                                <br>
+                                                <b>Reference Property:</b> {{params.referenceProperty}}
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <!-- <div class="form-group">
+            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                <button ng-disabled="fOuter.name.$invalid||fOuter.referenceType.$invalid||fOuter.method.$invalid||fOuter.url.$invalid"
+                        class="btn btn-success pull-right" ng-click="saveConfig(integrationData)" title="Save Configurations">Save
+                </button>
+            </div>
+        </div> -->
+
+    </ng-form>
+</div>

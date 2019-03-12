@@ -46,6 +46,44 @@ mainApp.factory("integrationConfigService", function ($http, authService,baseUrl
                     return false;
                 }
             });
+        },
+
+        getAppDetails: function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.integrationapi +'AppInfo'
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return null;
+                }
+            });
+        },
+
+        saveAppDetails: function (appData) {
+            return $http({
+                method: 'POST',
+                url:baseUrls.integrationapi +'AppInfo',
+                data:appData
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return null;
+                }
+            });
+        },
+
+        getAppById: function (app_id) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.integrationapi + 'AppInfo/' + app_id
+            }).then(function (resp) {
+                return resp.data;
+            });
         }
     }
 });
