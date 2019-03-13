@@ -822,7 +822,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "userReportCtrl",
             data: {
                 requireLogin: true,
-                navigation: "HOURLY_BAND_REPORT"
+                navigation: "USERDETAIL"
             }
         }).state('console.sla', {
             url: "/sla",
