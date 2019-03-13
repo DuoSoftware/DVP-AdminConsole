@@ -780,6 +780,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goInvitations: function () {
             $state.go('console.invitations');
+        },
+        goArticles: function () {
+            $state.go('console.articles');
+        },
+        goArticleFolders: function () {
+            $state.go('console.articlefolders');
         }
     };
 
@@ -1327,6 +1333,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     userGroup.listType = "Group";
                 }
                 $scope.userGroups = response.data.Result;
+                ShareData.UserGroups=$scope.userGroups;
             }
         }, function (err) {
             loginService.IsCheckResponse(err);

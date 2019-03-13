@@ -143,6 +143,7 @@ var baseUrls = {
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
+    'articleServiceUrl': 'http://127.0.0.1:3635/DVP/API/1.0.0.0/',
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1256,6 +1257,21 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "FILE_CAT_CONFIG"
+            }
+        }).state('console.articles', {
+            url: "/Articles",
+            templateUrl: "views/articlemanager/categoryManager.html",
+            controller: "articleManagerController",
+            data: {
+                requireLogin: true,
+                navigation: "KONWLADGE_PORTAL"
+            }
+        }).state("console.articlefolders", {
+            url: "/articlefolders/:catId/:editmode",
+            templateUrl: "views/articlemanager/FolderManager.html",
+            data: {
+                requireLogin: true,
+                navigation: "KONWLADGE_PORTAL"
             }
         });
         //Todo shoud be change navigation
