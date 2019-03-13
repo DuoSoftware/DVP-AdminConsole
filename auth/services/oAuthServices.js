@@ -9,6 +9,7 @@
         var service = {};
         service.mynavigations = mynavigations;
         service.LoadBusinessUnits = loadBusinessUnits;
+        service.LoadBusinessUnitsWithPaging = loadBusinessUnitsWithPaging;
         service.LoadUserByBusinessUnit = loadUserByBusinessUnit;
         service.Login = Login;
         service.clearCookie = clearCookie;
@@ -296,6 +297,20 @@
             return $http({
                 method: 'GET',
                 url: baseUrls.UserServiceBaseUrl + "Supervisor/"+id+"/BusinessUnits"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                }
+                return [];
+            });
+
+
+        };
+
+        function loadBusinessUnitsWithPaging(bu, page, size) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + "BusinessUnitFull/"+ bu + "/Users?Page=" + page + "&Size=" + size
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
