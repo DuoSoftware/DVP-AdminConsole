@@ -1,11 +1,54 @@
-mainApp.controller("articleManagerController", function ($scope, $filter, $stateParams,$anchorScroll,$state, articleBackendService,ShareData) {
+mainApp.controller("articleManagerController", function ($scope, $filter, $stateParams,$anchorScroll, articleBackendService,ShareData) {
 
 
 
     $anchorScroll();
 
-    $scope.categoryList=[];
-    $scope.newCat={};
+    $scope.articleList=[];
+    $scope.articleTags=[];
+    $scope.newArticle={};
+    $scope.folderId="";
+    $scope.newArticleView=false;
+
+    var loadArticlesOfFolder = function () {
+
+        articleBackendService.getArticlesOfFolders($stateParams.fId).then(function (resp) {
+            $scope.articleList=resp.articles;
+        },function (error) {
+            $scope.showAlert("Error","error","Error in Loading Articles")
+        });
+    }
+    var loadArticleTags = function () {
+
+        articleBackendService.getArticlesTags().then(function (resp) {
+            $scope.articleTags=resp;
+        },function (error) {
+            $scope.showAlert("Error","error","Error in Loading Articles")
+        });
+    }
+    var loadAllArticles = function () {
+
+        articleBackendService.getAllArticles().then(function (resp) {
+            $scope.articleList=resp;
+        },function (error) {
+            $scope.showAlert("Error","error","Error in Loading Articles")
+        });
+    }
+
+    if($stateParams.editmode =="true")
+    {
+        $scope.newArticleView=$stateParams.editmode;
+    }
+
+    if($stateParams.fId)
+    {
+        $scope.folderId=$stateParams.fId;
+        loadArticlesOfFolder();
+    }
+    else
+    {
+        loadAllArticles();
+    }
 
     $scope.showAlert = function (title, type, content) {
 
@@ -17,30 +60,17 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
         });
     };
 
-    var loadCategoryList = function () {
 
-        articleBackendService.getCategories().then(function (resp) {
-            $scope.categoryList=resp;
-        },function (error) {
-            $scope.showAlert("Error","error","Error in Loading Article Categories")
-        });
-    }
+    loadArticleTags();
 
-    loadCategoryList();
-
-    $scope.toggleNewCategoryView = function () {
-        $scope.newCategoryView = !$scope.newCategoryView;
+    $scope.toggleNewArticleView = function () {
+        $scope.newArticleView = !$scope.newArticleView;
     };
-
-
-
-
-    $scope.AvailableBUnits = ShareData.BusinessUnits;
 
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
-        return function filterFn(bu) {
-            return (bu.unitName.toLowerCase().indexOf(lowercaseQuery) != -1);
+        return function filterFn(tag) {
+            return (tag.tag.toLowerCase().indexOf(lowercaseQuery) != -1);
 
         };
     }
@@ -48,8 +78,8 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
     $scope.querySearch = function (query) {
         if (query === "*" || query === "") {
-            if ($scope.AvailableBUnits) {
-                return $scope.AvailableBUnits;
+            if ($scope.articleTags) {
+                return $scope.articleTags;
             }
             else {
                 return [];
@@ -57,29 +87,30 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
         }
         else {
-            var results = query ? $scope.AvailableBUnits.filter(createFilterFor(query)) : [];
+            var results = query ? $scope.articleTags.filter(createFilterFor(query)) : [];
             return results;
         }
 
     };
 
-    $scope.saveNewCategory = function () {
+    $scope.saveNewArticle = function () {
 
-        $scope.newCat.businessUnit=ShareData.BusinessUnit;
-        articleBackendService.saveNewArticleCategory($scope.newCat).then(function (resp) {
-            $scope.showAlert("Success","success","Category Saved Successfully");
-            $scope.categoryList.push(resp);
-            $scope.newCat={};
-            $scope.toggleNewCategoryView();
+
+        $scope.newArticle.businessUnit=ShareData.BusinessUnit;
+        $scope.newArticle.folder=$scope.folderId;
+
+        articleBackendService.saveNewArticle($scope.newArticle,$scope.folderId).then(function (resp) {
+
+            $scope.articleList.push(resp);
+            $scope.newArticle={};
+            $scope.toggleNewArticleView();
+
         },function (err) {
-            $scope.showAlert("Error","error","Category Saving failed");
+            $scope.showAlert("Error","error","Article Saving failed");
         })
 
     };
 
-    $scope.goToFolders = function (item) {
-        $state.go('console.articlefolders', {catId:item,editmode:true});
-    };
 
 });
 

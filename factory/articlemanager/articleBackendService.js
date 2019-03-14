@@ -48,6 +48,20 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 }
             });
         },
+        getAllFolders: function () {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "Folders"
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
         saveNewArticleFolder: function (resource) {
             var authToken = authService.GetToken();
 
@@ -72,6 +86,65 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 method: 'PUT',
                 url: baseUrls.articleServiceUrl + "Category/"+catId+"/Folder/"+fId
 
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        getArticlesOfFolders: function (fId) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "FullFolder/"+fId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        getAllArticles: function (fId) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "Articles"
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        getArticlesTags: function () {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "Tags"
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        saveNewArticle: function (resource) {
+            var authToken = authService.GetToken();
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.articleServiceUrl + "Article",
+                data:resource
 
             }).then(function(response)
             {

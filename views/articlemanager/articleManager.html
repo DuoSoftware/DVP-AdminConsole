@@ -5,11 +5,11 @@
         <div class="x_panel user-group-wrapper">
             <div class="clearfix">
                 <div class="col-md-2 col-lg-2 col-sm-2">
-                    <h2>Folders
+                    <h2>Articles
                         <span class="iconed-status-pill-header">
                                     <b>
                                         <i class="fa fa-book"></i>
-                                        {{folderList.length}}
+                                        {{articleList.length}}
                                     </b>
                                 </span>
                     </h2>
@@ -20,10 +20,10 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 text-right">
-                    <button type="button" class="btn card-title--btn-add card-btn" style="margin: 0" ng-show="!newFolderView" ng-click="toggleNewFolderView()">New Folder</button>
+                    <button type="button" class="btn card-title--btn-add card-btn" style="margin: 0" ng-show="!newArticleView" ng-click="toggleNewArticleView()">New Article</button>
                 </div>
             </div>
-            <div class="x_content" id="createNewUser" style="background: #f5f5f5" ng-show="newFolderView">
+            <div class="x_content" id="createNewUser" style="background: #f5f5f5" ng-show="newArticleView">
                 <uib-tabset active="activeCreateUserTab" class="hidden-tab-header">
                     <uib-tab index="0">
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -32,7 +32,7 @@
                                     <h2 class="font-robot font-300 text-uppercase font-15">Create New Article Category Folder</h2>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-lg-6">
-                                    <div class="edit-card--btn-circle" style="float: right" ng-click="toggleNewFolderView()">
+                                    <div class="edit-card--btn-circle" style="float: right" ng-click="toggleNewArticleView()">
                                         <i class="fa fa-close"></i>
                                     </div>
                                 </div>
@@ -51,22 +51,23 @@
                                         <h3><label for="catTitle">Title</label></h3>
                                         <p><input type="text" class="form-control "
                                                   placeholder="Title"
-                                                  ng-model="newFolder.title" id="catTitle"></p>
+                                                  ng-model="newArticle.title" id="catTitle"></p>
                                     </div>
 
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="col-md-12 animated fadeIn">
                                         <h3><label for="catDesc">Description</label></h3>
-                                        <p><textarea class="resizable_textarea form-control" ng-model="newFolder.description" placeholder="Enter Description Here" required id="catDesc"></textarea></p>
+                                        <p><textarea class="resizable_textarea form-control" ng-model="newArticle.description" placeholder="Enter Description Here" required id="catDesc"></textarea></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 ">
-                                    <h3><label for="">Allowed User Groups</label></h3>
-                                    <tags-input ng-model="newFolder.allow_groups" display-property="name"
-                                                add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
+                                    <h3><label for="">Tags</label></h3>
+                                    <tags-input ng-model="newArticle.tags" display-property="tag"
+                                                add-on-paste="true"
+                                                add-from-autocomplete-only="false" on-tag-added="onChipAdd($tag)"
                                                 on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1"
-                                                placeholder="Add User Groups">
+                                                placeholder="Add Tags">
                                         <auto-complete source="querySearch($query)"
                                                        load-on-empty="true"
                                                        load-on-focus="true"
@@ -74,12 +75,17 @@
                                     </tags-input>
                                 </div>
 
+                                <div class="col-lg-12 ">
+                                    <h3><label for="">Document</label></h3>
+                                    <trix-editor angular-trix ng-model="newArticle.document"></trix-editor>
+                                </div>
+
                             </div>
                             <div class="clearfix text-right">
                                 <div class="divider"></div>
 
-                                <button class="btn btn-success" ng-click="saveNewFolder()"
-                                        ng-disabled="!(newFolder.title && newFolder.description)">
+                                <button class="btn btn-success" ng-click="saveNewArticle()"
+                                        ng-disabled="!(newArticle.title && newArticle.description)">
                                     Save
                                 </button>
                             </div>
@@ -94,7 +100,7 @@
                 <ul class="list-unstyled msg_list">
                     <div class="mail_list_column sip-user-wrap">
                         <a href="javascript:void(0);" class="user-wrap"
-                           ng-repeat="item in folderList | filterBy: ['title']: searchCriteria">
+                           ng-repeat="item in articleList | filterBy: ['title']: searchCriteria">
                             <div class="mail_list user-list">
                                 <div class="right user-option-wrap">
                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -107,9 +113,7 @@
                                         <h4 class="sub-header">
                                             {{item.author.firstname}} {{item.author.lastname}}
                                         </h4>
-                                        <h6 class="sub-header">
-                                            Contains {{item.articles.length}} <span ng-if="item.articles.length==1">Article</span><span ng-if="item.articles.length!=1">Articles</span>
-                                        </h6>
+
 
                                         <p class="font-robot">
                                             <i class="fa fa-envelope-square"
@@ -150,11 +154,7 @@
                                              ng-click="viewProfile(item.username)">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <div class="edit-card--btn-circle"
-                                             style="float: right;margin-right: 10px"
-                                             ng-click="goToArticles(item._id)">
-                                            <i class="fa fa-plus"></i>
-                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="left">

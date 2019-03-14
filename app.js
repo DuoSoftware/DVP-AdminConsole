@@ -67,7 +67,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.resizeSensor',
     'gantt.dependencies',
     'angular-progress-arc',
-    'ui.tab.scroll','ui.select'
+    'ui.tab.scroll','ui.select',
+    'angularTrix'
 ]);
 
 
@@ -1258,10 +1259,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "FILE_CAT_CONFIG"
             }
-        }).state('console.articles', {
-            url: "/Articles",
+        }).state('console.articlecategories', {
+            url: "/ArticleCategories",
             templateUrl: "views/articlemanager/categoryManager.html",
-            controller: "articleManagerController",
+            controller: "articleCategoryManagerController",
             data: {
                 requireLogin: true,
                 navigation: "KONWLADGE_PORTAL"
@@ -1269,6 +1270,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state("console.articlefolders", {
             url: "/articlefolders/:catId/:editmode",
             templateUrl: "views/articlemanager/FolderManager.html",
+            controller: "articleFolderController",
+            data: {
+                requireLogin: true,
+                navigation: "KONWLADGE_PORTAL"
+            }
+        }).state("console.articles", {
+            url: "/articles/:fId/:editmode",
+            templateUrl: "views/articlemanager/articleManager.html",
+            controller: "articleManagerController",
             data: {
                 requireLogin: true,
                 navigation: "KONWLADGE_PORTAL"

@@ -1,4 +1,4 @@
-mainApp.controller("articleFolderController", function ($scope, $filter, $stateParams,$anchorScroll, articleBackendService,ShareData) {
+mainApp.controller("articleFolderController", function ($scope,$state, $filter, $stateParams,$anchorScroll, articleBackendService,ShareData) {
 
 
 
@@ -7,10 +7,38 @@ mainApp.controller("articleFolderController", function ($scope, $filter, $stateP
     $scope.folderList=[];
     $scope.newFolder={};
     $scope.userGroups=ShareData.UserGroups;
+    $scope.newFolderView=false;
 
-    if($stateParams.editmode)
+    var loadFolderListOfCategory = function ()
     {
-        $scope.newFolderView=$stateParams.editmode;
+
+        articleBackendService.getFoldersOfCategory($stateParams.catId).then(function (resp) {
+            $scope.folderList=resp.folders;
+        },function (error) {
+            $scope.showAlert("Error","error","Error in Loading Article Folders")
+        });
+    }
+    var loadAllFolderList = function () {
+
+        articleBackendService.getAllFolders().then(function (resp) {
+            $scope.folderList=resp;
+        },function (error) {
+            $scope.showAlert("Error","error","Error in Loading Article Folders")
+        });
+    }
+
+    if($stateParams.editmode =="true")
+    {
+        $scope.newFolderView=false;
+    }
+
+    if($stateParams.catId)
+    {
+        loadFolderListOfCategory();
+    }
+    else
+    {
+        loadAllFolderList();
     }
 
     $scope.showAlert = function (title, type, content) {
@@ -23,14 +51,7 @@ mainApp.controller("articleFolderController", function ($scope, $filter, $stateP
         });
     };
 
-    var loadFolderListOfCategory = function () {
 
-        articleBackendService.getFoldersOfCategory($stateParams.catId).then(function (resp) {
-            $scope.folderList=resp.folders;
-        },function (error) {
-            $scope.showAlert("Error","error","Error in Loading Article Categories")
-        });
-    }
 
     loadFolderListOfCategory();
 
@@ -39,9 +60,6 @@ mainApp.controller("articleFolderController", function ($scope, $filter, $stateP
     };
 
 
-
-
-    $scope.AvailableBUnits = ShareData.BusinessUnits;
 
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
@@ -97,8 +115,8 @@ mainApp.controller("articleFolderController", function ($scope, $filter, $stateP
 
     };
 
-    $scope.goToFolders = function (item) {
-        $state.go('console.articlefolders', {catId:item});
+    $scope.goToArticles = function (item) {
+        $state.go('console.articles', {fId:item,editmode:true});
     };
 
 });

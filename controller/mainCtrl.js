@@ -782,11 +782,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.invitations');
         },
         goArticles: function () {
-            $state.go('console.articles');
+            $state.go('console.articles',{fId:null,editmode:false});
         },
         goArticleFolders: function () {
-            $state.go('console.articlefolders');
-        }
+            $state.go('console.articlefolders',{fId:null,editmode:false});
+        },
+        goArticleCategories: function () {
+            $state.go('console.articlecategories',{catId:null,editmode:false});
+        },
     };
 
     $scope.loadBusinessUnit = function () {
