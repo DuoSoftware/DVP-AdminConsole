@@ -58,6 +58,7 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
 
                 SE.subscribe({room: 'DASHBOARD:RESETALL'});
+                SE.subscribe({room: 'DIALER:RealTimeCampaignEvents'});
 
             },
             error: function (data) {

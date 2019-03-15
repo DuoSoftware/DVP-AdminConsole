@@ -142,7 +142,7 @@ var baseUrls = {
     'getallMediaFilesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/v1/UploadFileService/UploadFiles",
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
-    'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
+    'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap"
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -278,6 +278,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/detailsdashboard",
             templateUrl: "detailsDashBoard/view/detailsDashboard.html",
             controller: "detailsDashBoardController",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        }).state('console.campaigndashboard', {
+            url: "/campaigndashboard",
+            templateUrl: "campaignManager/view/realtime/real_time_campaign_monitor.html",
+            controller: "campaign_real_time_monitor_controller",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        }).state('console.campaignsdashboard', {
+            url: "/campaignsdashboard",
+            templateUrl: "campaignManager/view/realtime/real_time_campaigns_monitor.html",
+            controller: "campaigns_real_time_monitor_controller",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"

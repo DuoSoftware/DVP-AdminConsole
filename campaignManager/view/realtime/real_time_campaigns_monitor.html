@@ -1,0 +1,72 @@
+<div role="main">
+    <!-- top tiles -->
+    <div class="row tile_count" style="background: #383a3b">
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="count aero">{{total_dialed}}</div>
+            <span class="count_bottom"><i class="green ">Total Dialed</i></span>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="count aero">{{total_answered}}</div>
+            <span class="count_bottom"><i class="blue">Total Answered</i></span>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+
+            <div class="count aero">{{total_concurrency}}</div>
+            <span class="count_bottom"><i class="purple">Concurrency </i></span>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="count aero">{{total_connected}}</div>
+            <span class="count_bottom"><i class="red">Connected</i></span>
+        </div>
+
+    </div>
+    <!-- /top tiles -->
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+
+
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="btn-group " data-toggle="buttons">
+                <label class="btn btn-default btn-lg" ng-click="GetOngoinCampignList('ALL')">
+                    <input type="radio" name="options" id="option1" > All
+                </label >
+                <label class="btn btn-default btn-lg btn-lg" ng-click="GetOngoinCampignList('WAITING')">
+                    <input type="radio" name="options" id="option2" > Waiting
+                </label>
+                <label class="btn btn-default btn-lg"  ng-click="GetOngoinCampignList('DIALING')">
+                    <input type="radio" name="options" id="option3"> Dialing
+                </label>
+                <label class="btn btn-default btn-lg" ng-click="GetOngoinCampignList('PAUSED')">
+                    <input type="radio" name="options" id="option4" > Paused
+                </label>
+                <label class="btn btn-default btn-lg" ng-click="GetOngoinCampignList('STOP')">
+                    <input type="radio" name="options" id="option5" > Stopped
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel tile fixed_height_320">
+                <div class="x_content" >
+                    <div class="v_data_loader"  id="v_data_load" ></div>
+                    <div id="v_data_grd"  ui-grid="gridQOptions" class="qgrid " ui-grid-move-columns ui-grid-resize-columns  ui-grid-auto-resize ui-grid-pinning></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
