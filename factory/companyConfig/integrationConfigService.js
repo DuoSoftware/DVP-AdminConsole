@@ -62,6 +62,20 @@ mainApp.factory("integrationConfigService", function ($http, authService,baseUrl
             });
         },
 
+        deleteAppDetails: function (id) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.integrationapi +"AppInfo/"+id
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
+        },
+
         saveAppDetails: function (appData) {
             return $http({
                 method: 'POST',
@@ -77,10 +91,21 @@ mainApp.factory("integrationConfigService", function ($http, authService,baseUrl
             });
         },
 
-        getAppById: function (app_id) {
+        updateAppDetails: function (appData) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.integrationapi + 'AppInfo/' + appData._id,
+                data: appData
+            }).then(function (resp) {
+                return resp.data;
+            })
+        },
+
+        getAppById: function (appId) {
             return $http({
                 method: 'GET',
-                url: baseUrls.integrationapi + 'AppInfo/' + app_id
+                url: baseUrls.integrationapi + 'AppInfo/' + appId
             }).then(function (resp) {
                 return resp.data;
             });

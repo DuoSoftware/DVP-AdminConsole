@@ -1,4 +1,4 @@
-mainApp.controller("appConfigController", function ($scope, $state, $stateParams, $filter, $location, $log, $anchorScroll, integrationConfigService) {
+mainApp.controller("appConfigController", function ($scope, $state, $stateParams, $filter, $location, $log, $anchorScroll, ticketService, integrationConfigService) {
 
     $anchorScroll();
 
@@ -46,6 +46,25 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
     $scope.getAppById($stateParams.app_id);
 
+    $scope.LoadFormList = function(){
+		$scope.isProcessing = true;
+		ticketService.LoadFormList().then(function (response) {
+			if(response){
+				$scope.formList = response;
+			}
+			else{
+				$scope.showAlert("Load Form", "Fail To Load Form List.");
+			}
+			$scope.isProcessing = false;
+		}, function (error) {
+            $scope.showAlert("Load Form", "Fail To Load Form List.");
+            $scope.isProcessing = false;
+		});
+
+    };
+
+    $scope.LoadFormList();
+
     $scope.showAlert = function (tittle,type, content) {
 
         new PNotify({
@@ -60,10 +79,21 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
     // set default app data..
 
-    $scope.resetAppData = function(){
-        $scope.appData = {
-            trycount: 5, 
-            timeout: 10
+    $scope.resetActionData = function(){
+        $scope.actionData = {
+            name: '', 
+            icon: '',
+            dynamic_form_id: '',
+            integration: {
+                parameters: [],
+                url:''
+            },
+            response_map: {
+                accepted_codes: [],
+                success_msg: '',
+                error_msg: ''
+            },
+            new: true
         };
 
         // reset form...
@@ -74,26 +104,37 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
         
     };
 
-    $scope.resetAppData();
+    $scope.addActionToApp = function(action){
+        $scope.currentApp.actions.push(action);
+        $scope.resetActionData();
+        $scope.showConfigurations();
+        $anchorScroll('#'+action.name);
+    }
 
-    $scope.parameters = {parameterLocation: "QUERY"};
+    $scope.resetActionData();
 
     $scope.isProcessing = false;
-
     $scope.showConfiguration = false;
+    $scope.isUpdate = false;
+
     $scope.showConfigurations = function () {
-        $scope.resetAppData();
+        $scope.resetActionData();
         $scope.showConfiguration = !$scope.showConfiguration;
     };
 
-    $scope.showParameter = false;
-    $scope.showParameters = function () {
-        $scope.showParameter = !$scope.showParameter;
+    $scope.reloadConfig = function(){
+        $state.go('console.appconfig', { 'app_id': $scope.currentApp._id }, {reload: true});
     };
+
+    $scope.editAction = function(action){
+        $scope.actionData = action;
+        $scope.showConfiguration = true;
+        $scope.isUpdate = true;
+        $anchorScroll('action_panel');
+    }
 
     $scope.addParameters = function (parameters) {
         $scope.appData.parameters.push(parameters);
-        $scope.parameters = {parameterLocation: "QUERY"};
 
         var form = $scope["fInner"];
         form.$setUntouched();
@@ -127,35 +168,36 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
     };
 
-    $scope.editApp = function(appData){
-        $scope.appData = appData;
-        $scope.showConfiguration = true;
-        // angular.element('#int_app_name').focus();
-        $anchorScroll();
-    }
+    $scope.updateApp = function (appData) {
+        
+        $scope.isProcessing = true;
 
-    $scope.deleteIntegrationAPIDetails = function (integrationData) {
-        $scope.showConfirm("Delete Configurations", "Delete", "ok", "cancel", "Do you want to delete " + integrationData.name, function (obj) {
-            $scope.isProcessing = true;
-            integrationConfigService.deleteIntegrationAPIDetails(integrationData._id).then(function (response) {
-                if (response) {
-                    $scope.loadConfig();
-                    $scope.showAlert("Integrations", 'success', "Configurations Deleted Successfully.");
-                } else {
-                    $scope.showAlert("Integrations", "error", "Fail To Delete Integration Configurations.");
-                }
-                $scope.isProcessing = false;
-            }, function (error) {
-                $scope.isProcessing = false;
-                $scope.showAlert("Integrations", "error", "Fail To Delete Integration Configurations.");
+        integrationConfigService.updateAppDetails(appData).then(function (response) {
+            if (response.IsSuccess) {
+                $scope.showAlert("App Integrations", 'success', "App updated Successfully.");
+
+                // reload the config window...
+                $scope.reloadConfig();
+                $scope.showConfiguration = false;
+            } else {
+                $scope.showAlert("App Integrations", "error", "Fail To Save App.");
+            }
+            $scope.isProcessing = false;
+        }, function (error) {
+            $scope.isProcessing = false;
+            $scope.showAlert("App Integrations", "error", "Fail To Save App.");
+        });
+
+    };   
+
+    $scope.deleteAction = function (action) {
+        $scope.showConfirm("Delete Action", "Delete", "ok", "cancel", "Do you want to delete " + action.name + " action?", function (obj) {
+            var index = $scope.currentApp.actions.indexOf(action);
+            $scope.$apply(function(){
+                $scope.currentApp.actions.splice(index, 1);
             });
         }, function () {
 
-        }, integrationData)
+        }, action)
     };
-
-    $scope.deleteParameter = function (parameters) {
-        var index = $scope.appData.parameters.indexOf(parameters);
-        $scope.appData.parameters.splice(index, 1);
-    }
 });

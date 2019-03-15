@@ -1,5 +1,5 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel">
+    <div class="x_panel" ng-class="{ 'ui-disabled' : isProcessing }">
         <div class="x_title">
             <h2>Apps
                 <small>Configurations</small>
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.timeout.$invalid && !fOuter.timeout.$pristine }">
                                         <span>Timeout</span>
-                                        <input type="number" class="form-control" name="timeout"
+                                        <input type="number" max="15" min="5" class="form-control" name="timeout"
                                                 ng-model="appData.timeout" required>
                                         <p ng-show="fOuter.timeout.$invalid && !fOuter.timeout.$pristine" class="help-block">Timeout is invalid.</p>
                                     </div>
@@ -57,8 +57,11 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                        <button ng-disabled="fOuter.name.$invalid||fOuter.trycount.$invalid||fOuter.timeout.$invalid"
+                        <button ng-if="!isUpdate" ng-disabled="fOuter.name.$invalid||fOuter.trycount.$invalid||fOuter.timeout.$invalid"
                                 class="btn btn-success pull-right" ng-click="saveApp(appData)" title="Save App">Save
+                        </button>
+                        <button ng-if="isUpdate" ng-disabled="fOuter.name.$invalid||fOuter.trycount.$invalid||fOuter.timeout.$invalid"
+                                class="btn btn-success pull-right" ng-click="updateApp(appData)" title="Save App">Update
                         </button>
                     </div>
                 </div>
@@ -76,7 +79,7 @@
             </div>
         </div>
 
-        <div class="x_panel" ng-hide="appList.length">
+        <div class="x_panel" ng-show="!appList.length && !isProcessing">
             <div class="x_content">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="data-state-wrap">
@@ -130,15 +133,10 @@
                                         </table>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </li>
-
-
                 </ul>
-
             </div>
         </div>
     </div>

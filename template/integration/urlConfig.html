@@ -1,38 +1,38 @@
-<div ng-class="cssClass" style="overflow: auto">
-    <ng-form class="" name="fOuter" novalidate>
+<div ng-class="cssClass"  style="overflow: auto">
+    <ng-form class="" name="urlConfigForm" novalidate>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-3 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.method.$invalid && !fOuter.method.$pristine }">
-                    <span>Method</span>
-                    <select required class="form-control" name="method" ng-model="integrationObj.method">
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : urlConfigForm.method.$invalid && !urlConfigForm.method.$pristine }">
+                    <span>Method<span class="req">*</span></span>
+                    <select required class="form-control" name="method" ng-model="integrationObj.method" required>
                         <option value="GET">GET</option>
                         <option value="POST">POST</option>
                         <option value="PUT">PUT</option>
                         <option value="DELETE">DELETE</option>
                     </select>
-                    <p ng-show="fOuter.method.$invalid && !fOuter.method.$pristine" class="help-block">method is required.</p>
+                    <p ng-show="urlConfigForm.method.$invalid && !urlConfigForm.method.$pristine" class="help-block">method is required.</p>
                 </div>
 
-                <div class="col-md-9 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.url.$invalid && !fOuter.url.$pristine }">
-                    <span>URL</span>
-                    <input type="text" class="form-control" name="url" ng-model="integrationObj.url" required>
-                    <p ng-show="fOuter.url.$invalid && !fOuter.url.$pristine" class="help-block">URL is required.</p>
+                <div class="col-md-9 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : urlConfigForm.url.$invalid && !urlConfigForm.url.$pristine }">
+                    <span>URL<span class="req">*</span></span>
+                    <input type="url" class="form-control" name="url" ng-model="integrationObj.url" required>
+                    <p ng-show="urlConfigForm.url.$invalid && !urlConfigForm.url.$pristine" class="help-block">URL is required.</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.auth_type.$invalid && !fOuter.auth_type.$pristine }">
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group" ng-class="{ 'has-error' : urlConfigForm.auth_type.$invalid && !urlConfigForm.auth_type.$pristine }">
                     <span>Authentication</span>
                     <select required class="form-control" name="auth_type" ng-model="integrationObj.auth_type">
                         <option value="Basic">Basic</option>
                         <option value="Bearer">Bearer</option>
                     </select>
-                    <p ng-show="fOuter.auth_type.$invalid && !fOuter.auth_type.$pristine"
+                    <p ng-show="urlConfigForm.auth_type.$invalid && !urlConfigForm.auth_type.$pristine"
                         class="help-block">Auth type is required.</p>
                </div>
-                <div class="col-md-9 col-sm-12 col-xs-12 form-group form-group" ng-class="{ 'has-error' : fOuter.token.$invalid && !fOuter.token.$pristine }">
+                <div class="col-md-9 col-sm-12 col-xs-12 form-group form-group" ng-class="{ 'has-error' : urlConfigForm.token.$invalid && !urlConfigForm.token.$pristine }">
                     <span>Token</span>
                     <input required type="text" class="form-control" name="token" ng-model="integrationObj.token">
-                    <p ng-show="fOuter.token.$invalid && !fOuter.token.$pristine" class="help-block">Token is required.</p>
+                    <p ng-show="urlConfigForm.token.$invalid && !urlConfigForm.token.$pristine" class="help-block">Token is required.</p>
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -43,7 +43,7 @@
                             </h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li>
-                                    <a title="Add Parameters" ng-click="showParameters()" class="close-link"><i class="fa fa-plus"></i></a>
+                                    <a title="Add Parameters" ng-click="showParameters()" class="close-link"><i class="fa fa-plus"></i> Add Parameter</a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
@@ -127,14 +127,6 @@
                 </div>
             </div>
         </div>
-        <div class="ln_solid"></div>
-        <!-- <div class="form-group">
-            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                <button ng-disabled="fOuter.name.$invalid||fOuter.referenceType.$invalid||fOuter.method.$invalid||fOuter.url.$invalid"
-                        class="btn btn-success pull-right" ng-click="saveConfig(integrationData)" title="Save Configurations">Save
-                </button>
-            </div>
-        </div> -->
 
     </ng-form>
 </div>

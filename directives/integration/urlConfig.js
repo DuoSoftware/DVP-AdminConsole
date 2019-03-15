@@ -1,7 +1,3 @@
-/**
- * Created by Waruna on 1/4/2018.
- */
-
 mainApp.directive('urlConfig', function () {
     return {
         restrict: 'E',
@@ -25,6 +21,14 @@ mainApp.directive('urlConfig', function () {
             };
 
             scope.addParameters = function(params){
+                
+                if(!scope.integrationObj){
+                    scope.integrationObj = {};
+                }
+    
+                if(!scope.integrationObj.parameters){
+                    scope.integrationObj.parameters  = [];
+                }
                 scope.integrationObj.parameters.push(params);
                 scope.resetParams();
             }
