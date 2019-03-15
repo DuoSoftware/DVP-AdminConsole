@@ -13,7 +13,8 @@
         </div>
 
         <!--new configuration-->
-        <div ng-show="showConfiguration" class="well" style="overflow: auto" id="appEditWindow" tabindex="0">
+        <div ng-show="showConfiguration" class="well" id="appEditWindow" tabindex="0">
+            <div class="closebtn" ng-click="showConfigurations()"><span class="glyphicon glyphicon-remove"></span></div>
             <ng-form class="" name="fOuter" novalidate>
                 <div class="form-group">
                     <div class="row">

@@ -119,6 +119,7 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
     $scope.showConfigurations = function () {
         $scope.resetActionData();
+        $scope.isUpdate = false;
         $scope.showConfiguration = !$scope.showConfiguration;
     };
 

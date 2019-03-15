@@ -9263,3 +9263,15 @@ tags-input.input .tags {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }}
+
+#appEditWindow {
+    overflow: auto; 
+    position: relative;
+}
+
+#appEditWindow .closebtn {
+    position: absolute;
+    right: 5px;
+    top: 5px;   
+    cursor: pointer;
+}
