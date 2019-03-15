@@ -5,7 +5,8 @@
 
 var app =angular.module('veeryConsoleApp');
 
-var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, loginService, userProfileApiAccess, ShareData) {
+var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, loginService, $anchorScroll) {
+    $anchorScroll();
 
     $scope.showAlert = function (title, type, content) {
         ngNotify.set(content, {
@@ -17,49 +18,50 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
     };
 
 
-    userProfileApiAccess.getUserGroups().then(function (response) {
-        if (response.Result) {
-            $scope.userGroupData = response.Result.map(function (item) {
-                return {
-                    groupId: item._id,
-                    groupName: item.name
-                };
-            });
-        }
-    });
-
-
     var data = [];
-    var process =  function(item) {
-        var deferred = $q.defer();
-        loginService.LoadUserByBusinessUnit(item.unitName).then(function (response) {
-            if (response) {
+    var paginationOptions = {
+        pageNumber: 1,
+        pageSize: 100,
+        sort: null
+    };
+    $scope.isTableLoading = 1;
 
-                response.map(function (user) {
+    $scope.getUserDetails = function (isSearch){
+        if(isSearch){
+            data =[];
+            paginationOptions.pageNumber = 1;
+            paginationOptions.pageSize = 100;
+        }
+        $scope.isTableLoading = 0;
+        loginService.LoadBusinessUnitsWithPaging('all', paginationOptions.pageNumber, paginationOptions.pageSize).then(function (response) {
+            $scope.isCurrPageEmpty = response.length === 0;
+            if (response) {
+                var promises = response.map(function (user) {
+
                     if (user.user_meta !== undefined) {  //ignore wrong data
+                        var sipAccount = '-';
+                        if (user.veeryaccount != null) {
+                            sipAccount = user.veeryaccount.contact;
+                        }
 
                         var groupName = '-';
-                        $scope.userGroupData.some(function (el) {
-                            if (el.groupId === user.group) {
-                                groupName = el.groupName;
-                                return true;
-                            }
-                        });
+                        var buName = '-';
 
-                        if (user.veeryaccount === undefined){
-                            user.veeryaccount = {};
-                            user.veeryaccount.contact = '-';
+                        if (user.group !== undefined){
+                            groupName = user.group.name;
+                            buName = user.group.businessUnit;
                         }
 
                         var userobj = {
-                                        buName: item.unitName,
-                                        username: user.username,
-                                        createdDate: user.created_at,
-                                        updatedDate: user.updated_at,
-                                        role: user.user_meta.role,
-                                        groupName: groupName,
-                                        sipAccount: user.veeryaccount.contact
-                                    };
+                            buName: buName,
+                            groupName: groupName,
+                            username: user.username,
+                            createdDate: user.created_at,
+                            updatedDate: user.updated_at,
+                            role: user.user_meta.role,
+                            sipAccount: sipAccount,
+                            userScopes: user.user_scopes
+                        };
                         if ($scope.roleFilter !== undefined && $scope.roleFilter.length > 0) {
                             $scope.roleFilter.some(function (el) {
                                 if (el.role === user.user_meta.role) {
@@ -71,38 +73,28 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
                         else {
                             data.push(userobj);
                         }
-                }
+                    }
                 });
-                deferred.resolve(true);
-            }
-            else{
-                deferred.resolve(false);
-            }
-
-        });
-        return deferred.promise;
-    };
-
-    $scope.getUserDetails = function (){
-        $scope.isTableLoading = 0;
-        data = [];
-        loginService.LoadBusinessUnits(ShareData.MyProfile._id).then(function (response) {
-            if (response) {
-
-                var promises = response.map(function (item) {
-                    return process(item)
-                    });
 
                 $q.all(promises).then(
                     function (res) {
                         if(res) {
-                            $scope.gridQOptions.data = data;
-                            $scope.isTableLoading = 1;
+
+                            if(data.length < paginationOptions.pageSize && !$scope.isCurrPageEmpty){
+                                paginationOptions.pageNumber ++;
+                                $scope.getUserDetails();
+                            }
+                            else {
+                                $scope.gridQOptions.data = data;
+                                $scope.isTableLoading = 1;
+                            }
                         }
                     }
                 );
+            }
 
-            }});
+        });
+
 
     };
 
@@ -144,14 +136,22 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
     };
 
 
-    $scope.getTableHeight = function () {
-        var rowHeight = 30; // row height
-        var headerHeight = 50; // header height
-        return {
-            height: (($scope.gridQOptions.data.length + 2) * rowHeight + headerHeight) + "px"
-        };
+    // $scope.getTableHeight = function () {
+    //     var rowHeight = 30; // row height
+    //     var headerHeight = 50; // header height
+    //     return {
+    //         height: (($scope.gridQOptions.data.length + 2) * rowHeight + headerHeight) + "px"
+    //     };
+    // };
+    $scope.getTableHeight = function() {
+        var rowHeight = 30;
+        var headerHeight = 50; // your header height
+        var height = 300 + headerHeight;
+        // if ($scope.grid1Api.core.getVisibleRows().length * rowHeight > 200){
+        //     height = $scope.grid1Api.core.getVisibleRows().length * rowHeight + headerHeight;
+        // }
+        return "height:" + height + "px !important;"
     };
-
     $scope.gridQOptions = {
         enableSorting: true,
         enableFiltering: true,
@@ -168,57 +168,57 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
                 width: '150',
                 name: 'Business Unit',
                 field: 'buName',
-                grouping: { groupPriority: 1 },
+                grouping: { groupPriority: 2 },
                 sort: {
                     direction: uiGridConstants.ASC,
-                    priority: 0,
+                    priority: 1
                 },
                 headerTooltip: 'Business Unit'
             },
             {
                 enableFiltering: false,
-                width: '100',
+                width: '80',
                 name: 'Role ',
                 field: 'role',
-                grouping: { groupPriority: 2 },
+                grouping: { groupPriority: 3 },
                 sort: {
                     direction: uiGridConstants.ASC,
-                    priority: 1,
+                    priority: 2
                 },
                 headerTooltip: 'Role'
             },
             {
                 enableFiltering: false,
-                width: '100',
+                width: '120',
                 name: 'User Group ',
                 field: 'groupName',
                 headerTooltip: 'User Group',
                 sort: {
                     direction: uiGridConstants.ASC,
-                    priority: 2,
+                    priority: 3
                 },
             },
-             {
+            {
                 enableFiltering: true,
                 width: '150',
                 name: 'User',
                 field: 'username',
                 headerTooltip: 'User',
                 sort: {
-                     direction: uiGridConstants.ASC,
-                     priority: 3,
-                 },
+                    direction: uiGridConstants.ASC,
+                    priority: 4
+                },
             },
             {
                 enableFiltering: true,
-                width: '100',
+                width: '120',
                 name: 'SIP Account',
                 field: 'sipAccount',
                 headerTooltip: 'SIP Account'
             },
             {
                 enableFiltering: false,
-                width: '150',
+                width: '100',
                 name: 'Created Date',
                 field: 'createdDate',
                 headerTooltip: 'Created Date',
@@ -226,7 +226,7 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
                 cellTemplate: "<div>{{row.entity.createdDate| date:'MM/dd/yyyy'}}</div>"
             }, {
                 enableFiltering: false,
-                width: '150',
+                width: '100',
                 name: 'Updated Date',
                 field: 'updatedDate',
                 headerTooltip: 'Updated Date',
@@ -237,6 +237,13 @@ var userReportCtrl = function ($scope, $filter, $q, $uibModal, uiGridConstants, 
         data: [],
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
+            $scope.isCurrPageEmpty = false;
+            gridApi.core.on.scrollEnd($scope, function (row) {
+                if (row.y.percentage > 0.95 && !$scope.isCurrPageEmpty) { // if vertical scroll bar reaches 95% this triggers
+                    paginationOptions.pageNumber++;
+                    $scope.getUserDetails(false);
+                }
+            });
         }
     };
 

@@ -87,7 +87,8 @@ mainApp.factory('ShareData', function ($http) {
                 }
                 return [];
             });
-        }
+        },
+        UserGroups:[]
 
 
 

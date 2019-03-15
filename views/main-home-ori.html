@@ -573,7 +573,7 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.SMS_DETAIL_REPORT || accessNavigation.AUDITTRAIL">
+                            <li ng-show="accessNavigation.SMS_DETAIL_REPORT || accessNavigation.AUDITTRAIL || accessNavigation.USERDETAIL">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-pied-piper"></i> Other Reports
                                     <span
@@ -586,6 +586,8 @@
                                     <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goAuditTrailReport()">Audit
                                         Trail </a></li>
+                                    <li ng-show="accessNavigation.USERDETAIL"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goUserDetailReport()">User Detail </a></li>
                                 </ul>
                             </li>
 

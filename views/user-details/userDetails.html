@@ -23,32 +23,19 @@
                     </tags-input>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-1" style="padding-top: 25px">
-                        <button ng-disabled="isTableLoading===0" type="button" class="btn btn-success" ng-click="getUserDetails()">
+                        <button ng-disabled="isTableLoading===0" type="button" class="btn btn-success" ng-click="getUserDetails(true)">
                             Search
                         </button>
                     </div>
 
                 </div>
 
-                <div>
-
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
-    <div class="col-md-12 col-sm-12 col-xs-12" style="z-index:0" ng-if="isTableLoading==1">
         <!--<div class="x_panel fixed_height_210" ng-mouseenter="stopTimerFn(true)" ng-mouseleave="stopTimerFn(false);">-->
         <div class="x_panel">
-
-
-
             <div class="x_content userDetail" style="padding: 0" ng-style="{'z-index':'1'}">
-
-
                 <div ng-hide="gridQOptions.data.length>0">
                     <div class="row ">
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -63,15 +50,12 @@
 
 
                 <div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid"
-                     ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-pagination
-                     ng-style="getTableHeight()"></div>
+                     ui-grid-move-columns ui-grid-resize-columns ui-grid-pinning
+                     data-ng-attr-style="{{ getTableHeight() }}"></div>
 
             </div>
         </div>
 
-
-
-    </div>
     <div class="clearfix" ng-if="isTableLoading==0">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="data-state-wrap">
@@ -81,10 +65,4 @@
         </div>
     </div>
 </div>
-</div>
-
-
-<script>
-    window.scrollTo(0, 0);
-</script>
 

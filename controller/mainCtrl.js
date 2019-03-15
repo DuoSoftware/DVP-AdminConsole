@@ -787,7 +787,16 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goInvitations: function () {
             $state.go('console.invitations');
-        }
+        },
+        goArticles: function () {
+            $state.go('console.articles',{fId:null,editmode:false});
+        },
+        goArticleFolders: function () {
+            $state.go('console.articlefolders',{fId:null,editmode:false});
+        },
+        goArticleCategories: function () {
+            $state.go('console.articlecategories',{catId:null,editmode:false});
+        },
     };
 
     $scope.loadBusinessUnit = function () {
@@ -1334,6 +1343,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     userGroup.listType = "Group";
                 }
                 $scope.userGroups = response.data.Result;
+                ShareData.UserGroups=$scope.userGroups;
             }
         }, function (err) {
             loginService.IsCheckResponse(err);
