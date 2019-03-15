@@ -391,6 +391,21 @@
                                     </ul>
                                 </li>
 
+                                <li ng-show="accessNavigation.COMPANY_CONFIGURATION">
+                                    <a class="font-robot font-300 ">
+                                        <i class="fa fa-cogs"></i>Integrations
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goAppIntegration()">App Integrations</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goThirdPartyIntegration()">Thidparty Integrations</a>
+                                        </li>
+                                    </ul>
+                                </li>                                
+
                                 <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.EXTENSION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN || accessNavigation.AUTOATTENDANCE">
                                     <a class="font-robot font-300 ">
                                         <i class="fa fa-child"></i> User

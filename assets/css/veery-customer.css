@@ -9220,6 +9220,19 @@ circle {
 .tile_count .tile_stats_count .count_bottom i {
     font-size: 21px !important;
 }
+tags-input.input .tags {
+    padding: 4px 6px;
+    width: 100%;
+    height: 40px;
+    color: rgb(85, 85, 85);
+    border: 1px solid rgb(228, 189, 255) !important;
+    border-radius: 5px !important;
+    box-shadow: rgba(0, 0, 0, 0) 0px 1px 1px inset;
+}
+
+#appConfig .req{
+    color: #ee407d
+}
 
 .v_data_loader {
     border: 5px solid #f3f3f3;
@@ -9238,7 +9251,15 @@ circle {
     100% { -webkit-transform: rotate(360deg); }
 }
 
+#appConfig .newapp{
+    background: #defbf2
+}
+
+.ui-disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
+}}

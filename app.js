@@ -761,6 +761,30 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
             }
+        }).state('console.thirdpartyintegration', {
+            url: "/thirdpartyintegration",
+            templateUrl: "views/companyConfig/integrationConfiguration.html",
+            controller: "companyConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.appintegration', {
+            url: "/appintegration",
+            templateUrl: "views/integrations/appList.html",
+            controller: "appListController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state("console.appconfig", {
+            url: "/appintegration/config/:app_id",
+            templateUrl: "views/integrations/appConfig.html",
+            controller: "appConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
         }).state('console.ip_phone_config', {
             url: "/ip_phone_config",
             templateUrl: "sip_phone_config/views/sip_phone_config.html",
