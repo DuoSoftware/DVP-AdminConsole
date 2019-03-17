@@ -109,7 +109,8 @@
     "angular-progress-arc": "^1.0.0",
     "angular-ui-tab-scroll": "^2.3.4",
     "angular-ui-select": "^0.19.8",
-    "angular-trix": "^1.0.2"
+    "angular-trix": "^1.0.2",
+    "textAngular": "^1.5.16"
   },
   "resolutions": {
     "angular": "1.5.5",
