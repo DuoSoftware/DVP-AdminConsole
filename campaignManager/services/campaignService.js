@@ -659,6 +659,32 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getCampignCallList = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.monitorrestapi + 'Campaign/1171/Calls'
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var getOngoinCampignList = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.monitorrestapi + 'Campaigns'
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+    
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
         modes: ["IVR", "AGENT", "MESSAGE"],
@@ -705,7 +731,9 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetCampaignAdditionalData: getCampaignAdditionalData,
         DeleteAdditionalDataByID: deleteAdditionalDataByID,
         GetTemplateList: getTemplateList,
-        GetCampaignById: getCampaignById
+        GetCampaignById: getCampaignById,
+        GetOngoinCampignList: getOngoinCampignList,
+        GetCampignCallList: getCampignCallList
     }
 
 });

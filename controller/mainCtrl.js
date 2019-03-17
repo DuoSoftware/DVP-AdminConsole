@@ -595,6 +595,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goCompanyConfig: function () {
             $state.go('console.companyconfig');
         },
+        goThirdPartyIntegration: function () {
+            $state.go('console.thirdpartyintegration');
+        },
+        goAppIntegration: function () {
+            $state.go('console.appintegration');
+        },
         goTranslations: function () {
             $state.go('console.translations');
         },
@@ -756,8 +762,15 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goToAgentDashboard: function () {
             $state.go('console.agentDashboard');
 
-        }, goToDetailsDashboard: function () {
+        }, 
+        goToDetailsDashboard: function () {
             $state.go('console.detailsdashboard');
+        },
+        goToCampaignsDashboard: function () {
+            $state.go('console.campaignsdashboard');
+        }
+        ,goToCampaignDashboard: function () {
+            $state.go('console.campaigndashboard');
         },
         goToCallCenterPerformanceReport: function () {
             $state.go('console.callCenterPerformanceReport');

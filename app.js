@@ -145,7 +145,7 @@ var baseUrls = {
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
-    'articleServiceUrl': 'http://127.0.0.1:3635/DVP/API/1.0.0.0/',
+    'articleServiceUrl': 'http://127.0.0.1:3635/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -281,6 +281,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/detailsdashboard",
             templateUrl: "detailsDashBoard/view/detailsDashboard.html",
             controller: "detailsDashBoardController",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        }).state('console.campaigndashboard', {
+            url: "/campaigndashboard",
+            templateUrl: "campaignManager/view/realtime/real_time_campaign_monitor.html",
+            controller: "campaign_real_time_monitor_controller",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        }).state('console.campaignsdashboard', {
+            url: "/campaignsdashboard",
+            templateUrl: "campaignManager/view/realtime/real_time_campaigns_monitor.html",
+            controller: "campaigns_real_time_monitor_controller",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
@@ -742,6 +758,30 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/companyconfiguration",
             templateUrl: "views/companyConfig/companyConfigMain.html",
             controller: "companyConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.thirdpartyintegration', {
+            url: "/thirdpartyintegration",
+            templateUrl: "views/companyConfig/integrationConfiguration.html",
+            controller: "companyConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.appintegration', {
+            url: "/appintegration",
+            templateUrl: "views/integrations/appList.html",
+            controller: "appListController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state("console.appconfig", {
+            url: "/appintegration/config/:app_id",
+            templateUrl: "views/integrations/appConfig.html",
+            controller: "appConfigController",
             data: {
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"

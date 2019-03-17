@@ -893,7 +893,61 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
             }
         });
     };
+
+
+    var getTotalCampaignCount = function (window_name) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/"+window_name+"/*/*"
+
+        }).then(function (response) {
+            if (response.data) {
+
+
+                if (response.data.IsSuccess && response.data.Result) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+
+
+            } else {
+
+                return 0;
+            }
+
+        });
+
+
+    };
+
+    var getCurrentCampaignCount = function (window_name) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+businessUnit+"/"+window_name+"/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if (response.data.IsSuccess && response.data.Result) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+    };
     return {
+
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
         GetAllBriged: getAllBriged,
@@ -929,6 +983,8 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
         GetTotalBreakTime: getTotalBreakTime,
         GetTotalHoldTime: getTotalHoldTime,
         getQueueRecordDetails: getQueueRecordDetails,
-        ProductivityByResourceId:productivityByResourceId
+        ProductivityByResourceId:productivityByResourceId,
+        GetTotalCampaignCount:getTotalCampaignCount,
+        getCurrentCampaignCount:getCurrentCampaignCount
     }
 });
