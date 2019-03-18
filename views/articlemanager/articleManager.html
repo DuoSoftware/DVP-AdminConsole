@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 text-right">
-                    <button type="button" class="btn card-title--btn-add card-btn" style="margin: 0" ng-show="!newArticleView" ng-click="toggleNewArticleView()">New Article</button>
+                    <button type="button" class="btn card-title--btn-add card-btn" style="margin: 0" ng-show="!newArticleView" ng-disabled="isUpdating" ng-click="toggleNewArticleView()">New Article</button>
                 </div>
             </div>
             <div class="x_content" id="createNewUser" style="background: #f5f5f5" ng-show="newArticleView">
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-lg-12 ">
                                     <h3><label for="">Tags</label></h3>
-                                    <tags-input ng-model="newArticle.tags" display-property="tag"
+                                    <tags-input ng-model="newTags" display-property="tag"
                                                 add-on-paste="true"
                                                 add-from-autocomplete-only="false" on-tag-added="onChipAdd($tag)"
                                                 on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1"
@@ -77,7 +77,8 @@
 
                                 <div class="col-lg-12 ">
                                     <h3><label for="">Document</label></h3>
-                                    <trix-editor angular-trix ng-model="newArticle.document"></trix-editor>
+                                    <!--<trix-editor angular-trix ng-model="newArticle.document"></trix-editor>-->
+                                    <text-angular ng-model="newArticle.document"></text-angular>
                                 </div>
 
                             </div>
@@ -85,8 +86,8 @@
                                 <div class="divider"></div>
 
                                 <button class="btn btn-success" ng-click="saveNewArticle()"
-                                        ng-disabled="!(newArticle.title && newArticle.description)">
-                                    Save
+                                        ng-disabled="!(newArticle.title && newArticle.description &&newArticle.document)|| isSaving">
+                                    {{savebtn}}
                                 </button>
                             </div>
                         </div>
@@ -110,50 +111,32 @@
                                         <h4 class="sub-header">
                                             {{item.description}}
                                         </h4>
-                                        <h4 class="sub-header">
-                                            {{item.author.firstname}} {{item.author.lastname}}
-                                        </h4>
 
-
+                                        <span ng-repeat="tag in item.tags">
+                                            <small class="embed-wrap"> {{tag.tag}}</small>
+                                        </span>
                                         <p class="font-robot">
-                                            <i class="fa fa-envelope-square"
-                                               style="padding-right: 10px;"></i> {{item.email.contact}}
+                                            <i class="fa fa-calendar"
+                                               style="padding-right: 10px;"></i><span>{{item.created_at | amCalendar:referenceTime:formats}}</span>
                                         </p>
 
-                                        <p class="font-robot">
-                                            <i class="fa fa-phone"
-                                               style="padding-right: 10px;"></i>{{item.phoneNumber.contact}}
-                                        </p>
 
-                                        <p>
-                                            <small class="embed-wrap"> {{item.user_meta.role}}</small>
-                                        </p>
+
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-                                        <!--<small ng-if="item.user_meta.role !== 'admin'" class="fa fa-trash"
-                                           ng-click="removeUser(item.username)"></small>-->
-                                        <!--<switch
-                                                ng-if="item.user_meta.role !== 'admin'"
-                                                id="enabled"
-                                                name="enabled"
-                                                ng-model="item.Active"
-                                                on="Active" off="Inactive"
-                                                class="green"
-                                                disabled="disableSwitch"
-                                                ng-change="removeUser(item)"
-                                                style="margin-right: 10px">
-
-                                        </switch>-->
-                                        <div class="edit-card--btn-circle"
-                                             style="float: right"
-                                             ng-click="viewPermissions(item)">
-                                            <i class="fa fa-cog"></i>
-                                        </div>
+                                        
                                         <div class="edit-card--btn-circle"
                                              style="float: right;margin-right: 10px"
-                                             ng-click="viewProfile(item.username)">
-                                            <i class="fa fa-user"></i>
+                                             ng-click="openForEditing(item._id)">
+                                            <i class="fa fa-edit"></i>
                                         </div>
+
+
+                                        <div class=""
+                                             style="float: right;margin-right: 10px">
+                                            <switch id="" name="enabled" ng-model="item.enabled" class="green pull-left"  disabled="disableSwitch" ng-change="setEnable(item._id,item.enabled)"></switch>
+                                        </div>
+
 
                                     </div>
                                 </div>

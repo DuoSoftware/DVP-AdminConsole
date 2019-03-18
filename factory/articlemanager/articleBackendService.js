@@ -1,5 +1,14 @@
 mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
 {
+    var showAlert = function (title, type, content) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
     return {
 
         getCategories: function () {
@@ -30,6 +39,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
+                    showAlert("Error","error","New Article Category Adding Failed");
                     return [];
                 }
             });
@@ -75,6 +85,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
+                    showAlert("Error","error","New Article Folder Adding Failed");
                     return [];
                 }
             });
@@ -145,6 +156,92 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 method: 'POST',
                 url: baseUrls.articleServiceUrl + "Article",
                 data:resource
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    showAlert("Error","error","New Article Adding Failed");
+                    return [];
+                }
+            });
+        },
+        updateArticle: function (id,resource) {
+            var authToken = authService.GetToken();
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Article/"+id,
+                data:resource
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    showAlert("Error","error","New Article Adding Failed");
+                    return [];
+                }
+            });
+        },
+        getFullArticle: function (aId) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "FullArticle/"+aId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        attachTagToArticle: function (tag,aId) {
+            var authToken = authService.GetToken();
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Article/"+aId+"/Tag",
+                data:{"tag":tag}
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        detachTagToArticle: function (tag,aId) {
+            var authToken = authService.GetToken();
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.articleServiceUrl + "Article/"+aId+"/Tag",
+                data:{"tag":tag}
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        updateEnablityOfoArticle: function (aId,state) {
+            var authToken = authService.GetToken();
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Article/"+aId+"/Enable/"+state
+
 
             }).then(function(response)
             {

@@ -22,7 +22,7 @@ mainApp.controller("appListController", function ($scope, $filter, $location, $l
         })).get().on('pnotify.confirm', function () {
             OkCallback("confirm");
         }).on('pnotify.cancel', function () {
-
+            CancelCallBack("cancel");
         });
 
     };
@@ -160,10 +160,11 @@ mainApp.controller("appListController", function ($scope, $filter, $location, $l
     };
 
     $scope.deleteApp = function (appData) {
+        $scope.isProcessing = true;
         $scope.showConfirm("Delete App", "Delete", "ok", "cancel", "Do you want to delete " + appData.name, function (obj) {
-            $scope.isProcessing = true;
             integrationConfigService.deleteAppDetails(appData._id).then(function (response) {
                 if (response) {
+                    $scope.isProcessing = false;
                     $scope.loadApps();
                     $scope.showAlert("App Integrations", 'success', "App Deleted Successfully.");
                 } else {
@@ -175,7 +176,9 @@ mainApp.controller("appListController", function ($scope, $filter, $location, $l
                 $scope.showAlert("App Integrations", "error", "Fail To Delete App.");
             });
         }, function () {
-
+            $scope.$apply(function(){
+                $scope.isProcessing = false;
+            });
         }, appData)
     };
 

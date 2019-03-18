@@ -22,7 +22,7 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
         })).get().on('pnotify.confirm', function () {
             OkCallback("confirm");
         }).on('pnotify.cancel', function () {
-
+            CancelCallBack("cancel");
         });
 
     };
@@ -96,6 +96,8 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
             new: true
         };
 
+        $scope.actionData_Orig = {}
+
         // reset form...
         if($scope["fOuter"]){
             $scope["fOuter"].$setUntouched();
@@ -119,6 +121,7 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
     $scope.showConfigurations = function () {
         $scope.resetActionData();
+        $scope.isUpdate = false;
         $scope.showConfiguration = !$scope.showConfiguration;
     };
 
@@ -127,10 +130,17 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
     };
 
     $scope.editAction = function(action){
-        $scope.actionData = action;
+        $scope.actionData_Orig = action;
+        // $scope.actionData = action;
+        angular.copy(action, $scope.actionData);
         $scope.showConfiguration = true;
         $scope.isUpdate = true;
         $anchorScroll('action_panel');
+    };
+
+    $scope.updateAction = function(){
+        angular.merge($scope.actionData_Orig, $scope.actionData);
+        $scope.showConfigurations();
     }
 
     $scope.addParameters = function (parameters) {
@@ -191,13 +201,17 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
     };   
 
     $scope.deleteAction = function (action) {
+        $scope.isProcessing = true;
         $scope.showConfirm("Delete Action", "Delete", "ok", "cancel", "Do you want to delete " + action.name + " action?", function (obj) {
             var index = $scope.currentApp.actions.indexOf(action);
             $scope.$apply(function(){
+                $scope.isProcessing = false;
                 $scope.currentApp.actions.splice(index, 1);
             });
         }, function () {
-
+            $scope.$apply(function(){
+                $scope.isProcessing = false;
+            });
         }, action)
     };
 });
