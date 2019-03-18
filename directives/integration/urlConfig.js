@@ -53,21 +53,26 @@ mainApp.directive('urlConfig', function () {
                 })).get().on('pnotify.confirm', function () {
                     OkCallback("confirm");
                 }).on('pnotify.cancel', function () {
-        
+                    CancelCallBack("cancel");
                 });
         
             };
 
             scope.deleteParameter = function (parameters) {
-                console.log(scope.integrationObj.parameters);
+
+                scope.isProcessing = true;
+
                 scope.showConfirm("Delete", "Delete", "ok", "cancel", "Do you want to delete this parameter?", function (obj) {
                     var index = scope.integrationObj.parameters.indexOf(parameters);                   
                     scope.$apply(function(){
                         scope.integrationObj.parameters.splice(index, 1);
-                        console.log(scope.integrationObj.parameters);
+                        scope.isProcessing = false;
                     });
+                    
                 }, function () {
-        
+                    scope.$apply(function(){
+                        scope.isProcessing = false;
+                    });
                 }, parameters)
             };
         }

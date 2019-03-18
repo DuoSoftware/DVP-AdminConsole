@@ -43,7 +43,7 @@
             <div class="ln_solid"></div>
 
             <div ng-show="showConfiguration" class="well" id="appEditWindow" tabindex="0">
-                <div class="closebtn" ng-if="!isUpdate" ng-click="showConfigurations()"><span class="glyphicon glyphicon-remove"></span></div>
+                <div class="closebtn" ng-click="showConfigurations()"><span class="glyphicon glyphicon-remove"></span></div>
                 <ng-form class="" name="fOuter" novalidate>
                     <div class="form-group">
                         <div class="row">
@@ -103,7 +103,7 @@
 
                             <button ng-if="isUpdate" ng-disabled="!actionData.name||!actionData.integration.method||!actionData.integration.url||!actionData.response_map.accepted_codes||
                                 actionData.response_map.accepted_codes.length == 0||!actionData.response_map.success_msg||!actionData.response_map.error_msg"
-                                    class="btn btn-success pull-right" ng-click="showConfigurations()" title="Apply Changes and Close">Close
+                                    class="btn btn-success pull-right" ng-click="updateAction()" title="Apply Changes and Close">Update
                             </button>
                         </div>
                     </div>
