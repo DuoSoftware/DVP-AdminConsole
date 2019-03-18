@@ -13,6 +13,16 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($scope, $
     var startTimeTemplate = "<div>{{row.entity.StartTime| date:'yyyy-MM-dd HH:mm:ss'}}</div>";
     var endTimeTimeTemplate = "<div>{{row.entity.EndTime| date:'yyyy-MM-dd HH:mm:ss'}}</div>";
 
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
 
     $scope.gridQOptions = {
         enableFiltering: true,
@@ -89,7 +99,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($scope, $
             }],
         data: [],
         onRegisterApi: function (gridApi) {
-            //$scope.grid1Api = gridApi;
+            $scope.grid1Api = gridApi;
         }
     };
 
@@ -97,84 +107,81 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($scope, $
 
     // implement with data array. need test concurrency issue. if any case use key value pair
     subscribeServices.subscribeDashboard('dashboard', function (event) {
-        console.debug(event);
-        if (event.roomName === "DIALER:RealTimeCampaignEvents") {
-            /*var cam_obj =  $scope.gridQOptions.data.filter(x => x.CampaignId === event.Message.CampaignId);*/
+        console.info(event);
 
-            var cam_obj =  $scope.gridQOptions.data.find(x => x.CampaignId === event.Message.CampaignId);
-            console.info(cam_obj);
-            switch (event.eventName) {
-                case "UPDATE_CAMPAIGN": {
-                    if (cam_obj)
-                        cam_obj.OperationalStatus = event.Message.OperationalStatus;
-                    break;
-                }
-                case "NEW_CAMPAIGN": {
-                    if (!cam_obj)
-                        $scope.gridQOptions.data.push(event.Message);
-                    break;
-                }
-                case "REMOVE_CAMPAIGN": {
-                    if (cam_obj) {
-                        var index = $scope.gridQOptions.data.indexOf(cam_obj);
-                        $scope.gridQOptions.data.splice(index, 1);
+        $scope.safeApply(function () {
+            switch (event.roomName){
+                case "DIALER:RealTimeCampaignEvents":{
+                    var cam_obj =  $scope.gridQOptions.data.find(x => x.CampaignId === event.Message.CampaignId);
+                    console.info(cam_obj);
+                    /*$scope.safeApply(function () {
+                        switch (event.eventName) {
+                            case "UPDATE_CAMPAIGN": {
+                                if (cam_obj)
+                                    cam_obj.OperationalStatus = event.Message.OperationalStatus;
+                                break;
+                            }
+                            case "NEW_CAMPAIGN": {
+                                if (!cam_obj)
+                                    $scope.gridQOptions.data.push(event.Message);
+                                break;
+                            }
+                            case "REMOVE_CAMPAIGN": {
+                                if (cam_obj) {
+                                    var index = $scope.gridQOptions.data.indexOf(cam_obj);
+                                    $scope.gridQOptions.data.splice(index, 1);
+                                }
+                                break;
+                            }
+                        }
+                        $scope.grid1Api.grid.refresh();
+                    })*/
+
+                    switch (event.eventName) {
+                        case "UPDATE_CAMPAIGN": {
+                            if (cam_obj)
+                                cam_obj.OperationalStatus = event.Message.OperationalStatus;
+                            break;
+                        }
+                        case "NEW_CAMPAIGN": {
+                            if (!cam_obj)
+                                $scope.gridQOptions.data.push(event.Message);
+                            break;
+                        }
+                        case "REMOVE_CAMPAIGN": {
+                            if (cam_obj) {
+                                var index = $scope.gridQOptions.data.indexOf(cam_obj);
+                                $scope.gridQOptions.data.splice(index, 1);
+                            }
+                            break;
+                        }
                     }
-                    break;
-                }
+                    $scope.grid1Api.grid.refresh();
+                }break;
+
+                case "CAMPAIGNCONNECTED:TotalCount":{
+                    if(event.Message &&  event.eventName==="TotalCount"){
+                        $scope.total_answered =  event.Message.TotalCountWindow;
+                    }
+                }break;
+                case "CAMPAIGNCONNECTED:CurrentCount":{
+                    if(event.Message &&  event.eventName==="CurrentCount"){
+                        $scope.total_connected =  event.Message.CurrentCountAllParams;
+                    }
+                }break;
+                case "CAMPAIGNDIALING:CurrentCount":{
+                    if(event.Message &&  event.eventName==="CurrentCount"){
+                        $scope.total_dialings =  event.Message.CurrentCountAllParams;
+                    }
+                }break;
+
+                case "CAMPAIGNDIALING:TotalCount":{
+                    if(event.Message &&  event.eventName==="TotalCount"){
+                        $scope.total_dialed =  event.Message.TotalCountWindow;
+                    }
+                }break;
             }
-        }
-        ;
-        /* if (event && event.Message && event.Message.businessUnit
-             && ((ShareData.BusinessUnit.toLowerCase() === 'all' && event.Message.businessUnit.toLowerCase() === '*') || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
-             switch (event.roomName) {
-                 case 'QUEUE:QueueDetail':
-                     if (event.Message) {
-                         var item = event.Message.queueDetail.QueueInfo;
-                         if (item.CurrentMaxWaitTime) {
-                             var d = moment(item.CurrentMaxWaitTime).valueOf();
-                             item.MaxWaitingMS = d;
-
-                             if (item.EventTime) {
-
-                                 var serverTime = moment(item.EventTime).valueOf();
-                                 tempMaxWaitingMS = serverTime - d;
-                                 item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
-
-                             }
-
-                         }
-
-                         //
-                         item.id = event.Message.queueDetail.QueueId;
-
-                         item.QueueName = event.Message.queueDetail.QueueName;
-                         item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
-
-                         if (item.TotalQueued > 0) {
-                             item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
-                         }
-
-                         /!*if (!$scope.queues[event.Message.queueDetail.QueueId]) {
-                             $scope.queueList.push(item);
-                         }*!/
-                         $scope.safeApply(function () {
-                             item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
-                             $scope.queues[event.Message.queueDetail.QueueId] = item;
-                         });
-
-                         var res = [];
-                         for (var x in $scope.queues) {
-                             $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x])
-                         }
-                         $scope.safeApply(function () {
-                             $scope.gridQOptions.data = res;
-                         });
-                     }
-                     break;
-             }
-         }
-
-    */
+        });
 
     });
 
@@ -201,42 +208,45 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($scope, $
             console.error(error);
         });
     };
-    //$scope.GetOngoinCampignList("ALL");
 
+    $scope.total_dialings = 0;
+    $scope.total_answered =0;
     $scope.total_dialed = 0;
-    $scope.total_answered = 0;
-    $scope.total_concurrency = 0;
     $scope.total_connected = 0;
     var load_default_data = function () {
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
 
-        var method_list = [$scope.GetOngoinCampignList("ALL"), dashboardService.getCurrentCampaignCount("TOTALCAMPAIGNDIALING")];
+        /*var method_list = [$scope.GetOngoinCampignList("ALL"), dashboardService.getCurrentCampaignCount("TOTALCAMPAIGNDIALING")];
 
-        //var window_names = ["TOTALDIALED", "TOTALANSWERED", "TOTALCONNECTED"];
         var window_names = ["TOTALCAMPAIGNANSWERED", "TOTALCAMPAIGNDIALED", "TOTALCAMPAIGNCONNECTED"];
         for (var i = 0; i < window_names.length; i++) {
             method_list.push(dashboardService.GetTotalCampaignCount(window_names[i]));
+        }*/
+
+        var method_list = [$scope.GetOngoinCampignList("ALL"),dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",null),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",null)];
+
+        var window_names = ["CAMPAIGNDIALING","CAMPAIGNCONNECTED"];//CAMPAIGNNUMBERSTAKEN
+        for (var i = 0; i < window_names.length; i++) {
+            method_list.push(dashboardService.GetTotalCampaignCount(window_names[i],null));
         }
+
         $q.all(method_list).then(function (resolveData) {
             if (resolveData) {
-                $scope.total_concurrency = resolveData[1];
-                $scope.total_answered =resolveData[2];
+                $scope.total_dialings = resolveData[1];
+                $scope.total_answered =resolveData[4];
                 $scope.total_dialed = resolveData[3];
-                $scope.total_connected = resolveData[4];
+                $scope.total_connected = resolveData[2];
             }
 
             $('#v_data_load').addClass('display-none');
             $('#v_data_grd').removeClass('display-none').addClass("qgrid");
         }).catch(function (err) {
             console.error(err);
-
             $scope.showAlert("Load Users", "error", "Fail To Get User List.");
         });
     };
     load_default_data();
-
-
 
     $scope.$watch(function () {
         return ShareData.BusinessUnit;

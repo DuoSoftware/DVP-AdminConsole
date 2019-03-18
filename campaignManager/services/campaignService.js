@@ -659,10 +659,10 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var getCampignCallList = function () {
+    var getCampignCallList = function (campaignId) {
         return $http({
             method: 'GET',
-            url: baseUrls.monitorrestapi + 'Campaign/1171/Calls'
+            url: baseUrls.monitorrestapi + "Campaign/"+campaignId+"/Calls"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
