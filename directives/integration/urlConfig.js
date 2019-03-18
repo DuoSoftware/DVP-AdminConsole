@@ -33,10 +33,43 @@ mainApp.directive('urlConfig', function () {
                 scope.resetParams();
             }
 
+            scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
+
+                (new PNotify({
+                    title: tittle,
+                    text: content,
+                    icon: 'glyphicon glyphicon-question-sign',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                })).get().on('pnotify.confirm', function () {
+                    OkCallback("confirm");
+                }).on('pnotify.cancel', function () {
+        
+                });
+        
+            };
+
             scope.deleteParameter = function (parameters) {
-                var index = scope.integrationObj.parameters.indexOf(parameters);
-                scope.integrationObj.parameters.splice(index, 1);
-            }
+                console.log(scope.integrationObj.parameters);
+                scope.showConfirm("Delete", "Delete", "ok", "cancel", "Do you want to delete this parameter?", function (obj) {
+                    var index = scope.integrationObj.parameters.indexOf(parameters);                   
+                    scope.$apply(function(){
+                        scope.integrationObj.parameters.splice(index, 1);
+                        console.log(scope.integrationObj.parameters);
+                    });
+                }, function () {
+        
+                }, parameters)
+            };
         }
     }
 });
