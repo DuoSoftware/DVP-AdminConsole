@@ -145,7 +145,7 @@ var baseUrls = {
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
-    'articleServiceUrl': 'http://127.0.0.1:3635/DVP/API/1.0.0.0/'
+    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1309,7 +1309,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "KONWLADGE_PORTAL"
             }
         }).state("console.articlefolders", {
-            url: "/articlefolders/:catId/:editmode",
+            url: "/articlefolders/:catId/:editmode/:catName",
             templateUrl: "views/articlemanager/FolderManager.html",
             controller: "articleFolderController",
             data: {
@@ -1317,7 +1317,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "KONWLADGE_PORTAL"
             }
         }).state("console.articles", {
-            url: "/articles/:fId/:editmode",
+            url: "/articles/:fId/:editmode/:fname",
             templateUrl: "views/articlemanager/articleManager.html",
             controller: "articleManagerController",
             data: {

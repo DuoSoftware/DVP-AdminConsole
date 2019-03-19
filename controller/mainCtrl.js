@@ -795,10 +795,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.invitations');
         },
         goArticles: function () {
-            $state.go('console.articles',{fId:null,editmode:false});
+            $state.go('console.articles',{fId:null,editmode:false,fname:null});
         },
         goArticleFolders: function () {
-            $state.go('console.articlefolders',{fId:null,editmode:false});
+            $state.go('console.articlefolders',{fId:null,editmode:false,catName:null});
         },
         goArticleCategories: function () {
             $state.go('console.articlecategories',{catId:null,editmode:false});
