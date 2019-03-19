@@ -145,7 +145,7 @@ var baseUrls = {
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
-    'articleServiceUrl': 'http://127.0.0.1:3635/DVP/API/1.0.0.0/'
+    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
