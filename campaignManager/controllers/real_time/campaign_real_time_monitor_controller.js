@@ -152,22 +152,22 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($scope, $c
                     break;
                 case "CAMPAIGNCONNECTED:CurrentCount":{
                     if(event.Message&& $scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount"){
-                        $scope.connected =  event.Message.CurrentCountAllParams;
+                        $scope.connected =  event.Message.CurrentCountParam1;
                     }
                 }break;
                 case "CAMPAIGNDIALING:CurrentCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount"){
-                        $scope.dialing =  event.Message.CurrentCountAllParams;
+                        $scope.dialing =  event.Message.CurrentCountParam1;
                     }
                 }break;
                 case "CAMPAIGNDIALING:TotalCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount"){
-                        $scope.total_dialed =  event.Message.TotalCountWindow;
+                        $scope.total_dialed =  event.Message.TotalCountParam1;
                     }
                 }break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount"){
-                        $scope.total_numbers =  event.Message.TotalCountWindow;
+                        $scope.total_numbers =  event.Message.TotalCountParam1;
                     }
                 }break;
             }
