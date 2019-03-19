@@ -68,9 +68,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.dependencies',
     'angular-progress-arc',
     'ui.tab.scroll','ui.select',
-    'angularTrix',
-    'textAngular',
-    'froala'
+    'textAngular'
+
 ]).value('froalaConfig', {
     toolbarInline: false,
     placeholderText: 'Enter Text Here'
