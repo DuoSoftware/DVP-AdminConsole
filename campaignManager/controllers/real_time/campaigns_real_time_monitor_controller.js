@@ -105,6 +105,9 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($scope, $
 
     $scope.queues = {test: "dasdas"};
 
+    $scope.campaign_details ={};
+
+
     // implement with data array. need test concurrency issue. if any case use key value pair
     subscribeServices.subscribeDashboard('dashboard', function (event) {
         console.info(event);
