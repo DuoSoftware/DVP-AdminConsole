@@ -14,6 +14,13 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
     $scope.isSaving=false;
     $scope.isUpdating=false;
     $scope.savebtn="Save";
+    $scope.newSearchTags=[];
+    $scope.newSearchTagsList=[];
+    $scope.emptyScope = function() {
+        // console.log($scope.autoSongs);
+        $scope.newSearchTagsList = [];
+    };
+
 
 
     var loadArticlesOfFolder = function () {
@@ -41,32 +48,67 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
         });
     };
     var loadFullArticle = function (aId) {
+
+        $scope.emptyScope();
         articleBackendService.getFullArticle(aId).then(function (resp) {
 
             $scope.newArticleView=true;
 
 
-            $scope.newArticle =resp[0];
+            $scope.newArticle =resp;
 
-            $scope.newTags = resp[0].tags;
-            resp[0].tags.forEach(function (item) {
+
+            $scope.newTags = resp.tags;
+
+
+
+            resp.tags.forEach(function (item) {
                 $scope.newArticle.tags=[];
                 $scope.newArticle.tags.push(item.tag) ;
             });
+
+
+
+            if($scope.newArticle.search )
+            {
+                //$scope.newSearchTags$scope.newArticle.search.keywords;
+                //$scope.newSearchTags = $scope.newSearchTags.concat($scope.newArticle.search.keywords)
+
+                if($scope.newArticle.search.keywords)
+                {
+                    $scope.newArticle.search.keywords.forEach(function(item){
+                        if($scope.newSearchTagsList.indexOf(item)==-1)
+                        {
+                            $scope.newSearchTagsList.push({tag:item});
+                        }
+
+                    })
+                }
+                if($scope.newArticle.search.meta)
+                {
+                    $scope.newArticle.searchmeta=$scope.newArticle.search.meta;
+                }
+
+
+
+            }
 
 
         });
     };
 
 
+
     if($stateParams.editmode =="true")
     {
         $scope.newArticleView=$stateParams.editmode;
+
     }
 
-    if($stateParams.fId)
+    if($stateParams.fId && $stateParams.fname)
     {
         $scope.folderId=$stateParams.fId;
+        $scope.articlename=$stateParams.fname;
         loadArticlesOfFolder();
     }
     else
@@ -93,6 +135,7 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
         $scope.newArticleView = !$scope.newArticleView;
         $scope.savebtn="Save";
         $scope.isUpdating=false;
+        $scope.newSearchTags=[];
 
     };
 
@@ -103,7 +146,6 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
         };
     }
-
 
     $scope.querySearch = function (query) {
         if (query === "*" || query === "") {
@@ -153,11 +195,12 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
     $scope.saveNewArticle = function () {
 
+        $scope.isSaving=true;
         if($scope.savebtn=="Save")
         {
             $scope.newArticle.businessUnit=ShareData.BusinessUnit;
             $scope.newArticle.folder=$scope.folderId;
-            $scope.isSaving=true;
+
             articleBackendService.saveNewArticle($scope.newArticle,$scope.folderId).then(function (resp) {
                 $scope.isSaving=false;
 
@@ -176,10 +219,28 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
                 });
 
 
+                if($scope.newArticle.searchTags)
+                {
+                    articleBackendService.attachSearchTagToArticle($scope.newArticle.searchTags,resp._id).then(function (resp) {
+
+                    });
+                }
+                if($scope.newArticle.searchmeta)
+                {
+                    articleBackendService.attachSearchMetaToArticle($scope.newArticle.searchmeta,resp._id).then(function (resp) {
+
+                    });
+                }
+
+
 
                 $scope.newArticle={};
                 $scope.newTags=[];
                 $scope.toggleNewArticleView();
+
+
+                $scope.showAlert("Success","success","Article Saving Succeeded");
+
 
             },function (err) {
                 $scope.showAlert("Error","error","Article Saving failed");
@@ -187,11 +248,12 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
         }
         else
         {
-            $scope.isSaving=true;
+
             delete $scope.newArticle.tags;
 
             articleBackendService.updateArticle($scope.newArticle._id,$scope.newArticle).then(function (resp) {
                 $scope.isSaving=false;
+                $scope.isUpdating=false;
 
                 $scope.articleList =  $scope.articleList.filter(function (item) {
                     return item._id!=resp._id;
@@ -209,12 +271,19 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
                     }
 
                 });
+                if($scope.newArticle.searchmeta)
+                {
+                    articleBackendService.attachSearchMetaToArticle($scope.newArticle.searchmeta,$scope.newArticle._id).then(function (resp) {
 
+                    });
+                }
 
 
                 $scope.newArticle={};
                 $scope.newTags=[];
+                $scope.newSearchTags=[];
                 $scope.toggleNewArticleView();
+                $scope.showAlert("Success","success","Article Updating Succeeded");
 
             },function (err) {
                 $scope.showAlert("Error","error","Article Updating failed");
@@ -236,15 +305,93 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
     }
 
     $scope.setEnable = function (aId,state) {
-        articleBackendService.updateEnablityOfoArticle(aId,state).then(function (resp) {
+        articleBackendService.updateEnablityOfArticle(aId,state).then(function (resp) {
 
             $scope.showAlert("Success","success","State changed of Article");
         });
 
     }
 
+    $scope.toolTipGenerator = function (state) {
+
+        if(state)
+        {
+            return "UnPublish";
+        }
+        else
+        {
+            return "Publish";
+        }
+    }
+
+    $scope.voteFilter = function (votes,state) {
+
+        return  voteList = votes.filter(function (vote) {
+            return vote.vote==state;
+        });
+    }
+
+    /*$scope.onSearchChipAdd = function (chip) {
+
+        if($scope.isUpdating)
+        {
+            articleBackendService.attachSearchTagToArticle(chip.tag,$scope.newArticle._id).then(function (resp) {
+
+            });
+        }
 
 
+    };
+    $scope.onSearchChipDelete = function (chip) {
+
+
+        if($scope.isUpdating)
+        {
+            articleBackendService.detachSearchTagToArticle(chip.tag,$scope.newArticle._id).then(function (resp) {
+                console.log(resp);
+            });
+        }
+
+
+    };*/
+    $scope.onSearchChipAdd = function (chip) {
+
+            if($scope.isUpdating)
+            {
+                articleBackendService.attachSearchTagToArticle(chip.tag,$scope.newArticle._id).then(function (resp) {
+
+                });
+            }
+            else
+            {
+                if(!$scope.newArticle.searchTags)
+                {
+                    $scope.newArticle.searchTags=[];
+                }
+                $scope.newArticle.searchTags.push(chip.tag);
+            }
+
+
+        };
+        $scope.onSearchChipDelete = function (chip) {
+
+
+            if($scope.isUpdating)
+            {
+                articleBackendService.detachSearchTagToArticle(chip.tag,$scope.newArticle._id).then(function (resp) {
+                    console.log(resp);
+                });
+            }
+            else {
+                if(!$scope.newArticle.searchTags)
+                {
+                    $scope.newArticle.searchTags=[];
+                }
+                $scope.newArticle.searchTags.splice($scope.newSearchTags.searchTags.indexOf(chip.tag),1);
+            }
+
+
+        };
 
 });
 

@@ -4,7 +4,7 @@
 
         <div class="x_panel user-group-wrapper">
             <div class="clearfix">
-                <div class="col-md-2 col-lg-2 col-sm-2">
+                <div class="col-md-4 col-lg-4 col-sm-4">
                     <h2>Categories
                         <span class="iconed-status-pill-header">
                                     <b>
@@ -15,12 +15,16 @@
                     </h2>
                 </div>
                 <div class="col-md-4 col-lg-4 col-sm-4">
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4">
                     <div class="input-group full-width" style="width: 100%">
                         <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for...">
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 text-right">
-                    <button type="button" class="btn card-title--btn-add card-btn" style="margin: 0" ng-show="!newCategoryView" ng-click="toggleNewCategoryView()">New Category</button>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 text-right">
+                    <button type="button" class="btn card-title--btn-add card-btn" style="margin: 0" ng-show="!newCategoryView"  ng-disabled="isUpdating" ng-click="toggleNewCategoryView()">New Category</button>
                 </div>
             </div>
             <div class="x_content" id="createNewUser" style="background: #f5f5f5" ng-show="newCategoryView">
@@ -79,8 +83,8 @@
                                 <div class="divider"></div>
 
                                 <button class="btn btn-success" ng-click="saveNewCategory()"
-                                        ng-disabled="!(newCat.title && newCat.description)">
-                                    Save
+                                        ng-disabled="!(newCat.title && newCat.description)|| isSaving">
+                                    {{ savebtn}}
                                 </button>
                             </div>
                         </div>
@@ -90,40 +94,29 @@
             </div>
             <div class="divider clearfix" style="margin-bottom: 20px"></div>
             <!-- view user details -->
-            <div class="x_content col-md-12 col-sm-12 col-xs-12">
+            <div class="x_content col-md-12 col-sm-12 col-xs-12" >
                 <ul class="list-unstyled msg_list">
-                    <div class="mail_list_column sip-user-wrap">
+                    <div class="mail_list_column sip-user-wrap" style="padding-top: 20px">
                         <a href="javascript:void(0);" class="user-wrap"
                            ng-repeat="item in categoryList | filterBy: ['title']: searchCriteria">
                             <div class="mail_list user-list">
                                 <div class="right user-option-wrap">
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <h3 class="font-robot sub-header">
+                                        <h2 class="font-robot sub-header">
                                             {{item.title}}
-                                        </h3>
-                                        <h4 class="sub-header">
+                                        </h2>
+                                        <h4 class="sub-header italic-mode">
                                             {{item.description}}
                                         </h4>
-                                        <h4 class="sub-header">
-                                            {{item.author.firstname}} {{item.author.lastname}}
-                                        </h4>
+                                        <div class="article-author-img">
+                                            <img ng-src="{{item.author.avatar}}"
+                                                 src="assets/images/defaultProfile.png"><span style="padding-left: 5px"> {{item.author.firstname}} {{item.author.lastname}}</span>
+                                        </div>
                                         <h6 class="sub-header">
                                             Contains {{item.folders.length}} <span ng-if="item.folders.length==1">folder</span><span ng-if="item.folders.length!=1">folders</span>
                                         </h6>
 
-                                        <p class="font-robot">
-                                            <i class="fa fa-envelope-square"
-                                               style="padding-right: 10px;"></i> {{item.email.contact}}
-                                        </p>
 
-                                        <p class="font-robot">
-                                            <i class="fa fa-phone"
-                                               style="padding-right: 10px;"></i>{{item.phoneNumber.contact}}
-                                        </p>
-
-                                        <p>
-                                            <small class="embed-wrap"> {{item.user_meta.role}}</small>
-                                        </p>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
                                         <!--<small ng-if="item.user_meta.role !== 'admin'" class="fa fa-trash"
@@ -140,21 +133,22 @@
                                                 style="margin-right: 10px">
 
                                         </switch>-->
+
                                         <div class="edit-card--btn-circle"
-                                             style="float: right"
-                                             ng-click="viewPermissions(item)">
-                                            <i class="fa fa-cog"></i>
+                                             style="float: right;margin-right: 10px"
+                                             ng-click="openForEditing(item._id)" uib-tooltip="Edit">
+                                            <i class="fa fa-edit" ></i>
                                         </div>
                                         <div class="edit-card--btn-circle"
                                              style="float: right;margin-right: 10px"
-                                             ng-click="viewProfile(item.username)">
-                                            <i class="fa fa-user"></i>
+                                             ng-click="goToFolders(item._id,item.title)" uib-tooltip="New Folder">
+                                            <i class="fa fa-plus" ></i>
                                         </div>
-                                        <div class="edit-card--btn-circle"
-                                             style="float: right;margin-right: 10px"
-                                             ng-click="goToFolders(item._id)">
-                                            <i class="fa fa-plus"></i>
+                                        <div class=""
+                                             style="float: right;margin-right: 10px">
+                                            <switch id="" uib-tooltip="{{toolTipGenerator(item.enabled)}}" name="enabled" ng-model="item.enabled" class="green pull-left"  disabled="disableSwitch" ng-change="setEnable(item._id,item.enabled)"></switch>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="left">

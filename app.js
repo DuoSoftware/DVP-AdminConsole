@@ -1309,7 +1309,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "KONWLADGE_PORTAL"
             }
         }).state("console.articlefolders", {
-            url: "/articlefolders/:catId/:editmode",
+            url: "/articlefolders/:catId/:editmode/:catName",
             templateUrl: "views/articlemanager/FolderManager.html",
             controller: "articleFolderController",
             data: {
@@ -1317,7 +1317,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "KONWLADGE_PORTAL"
             }
         }).state("console.articles", {
-            url: "/articles/:fId/:editmode",
+            url: "/articles/:fId/:editmode/:fname",
             templateUrl: "views/articlemanager/articleManager.html",
             controller: "articleManagerController",
             data: {

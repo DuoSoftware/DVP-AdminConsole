@@ -12,7 +12,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
     return {
 
         getCategories: function () {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "Categories"
@@ -27,7 +27,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
         },
 
         saveNewArticleCategory: function (resource) {
-            var authToken = authService.GetToken();
+
 
             return $http({
                 method: 'POST',
@@ -45,7 +45,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         getFoldersOfCategory: function (catId) {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "FullCategory/"+catId
@@ -59,7 +59,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         getAllFolders: function () {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "Folders"
@@ -73,7 +73,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         saveNewArticleFolder: function (resource) {
-            var authToken = authService.GetToken();
+
 
             return $http({
                 method: 'POST',
@@ -91,7 +91,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         attachFolderToCategory: function (catId,fId) {
-            var authToken = authService.GetToken();
+
 
             return $http({
                 method: 'PUT',
@@ -108,7 +108,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         getArticlesOfFolders: function (fId) {
-            var authToken = authService.GetToken();
+
+
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "FullFolder/"+fId
@@ -122,7 +123,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         getAllArticles: function (fId) {
-            var authToken = authService.GetToken();
+
+
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "Articles"
@@ -136,7 +138,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         getArticlesTags: function () {
-            var authToken = authService.GetToken();
+
+
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "Tags"
@@ -150,7 +153,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         saveNewArticle: function (resource) {
-            var authToken = authService.GetToken();
+
+
 
             return $http({
                 method: 'POST',
@@ -168,7 +172,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         updateArticle: function (id,resource) {
-            var authToken = authService.GetToken();
+
+
 
             return $http({
                 method: 'PUT',
@@ -186,7 +191,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         getFullArticle: function (aId) {
-            var authToken = authService.GetToken();
+
+
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "FullArticle/"+aId
@@ -200,7 +206,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         attachTagToArticle: function (tag,aId) {
-            var authToken = authService.GetToken();
+
+
 
             return $http({
                 method: 'PUT',
@@ -218,7 +225,8 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
         detachTagToArticle: function (tag,aId) {
-            var authToken = authService.GetToken();
+
+
 
             return $http({
                 method: 'DELETE',
@@ -235,12 +243,79 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 }
             });
         },
-        updateEnablityOfoArticle: function (aId,state) {
-            var authToken = authService.GetToken();
+        updateEnablityOfArticle: function (aId,state) {
+
 
             return $http({
                 method: 'PUT',
                 url: baseUrls.articleServiceUrl + "Article/"+aId+"/Enable/"+state
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    showAlert("Error","error","Article State change failed");
+                    return [];
+                }
+            });
+        },
+        getFullFolder: function (fId) {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "FullFolder/"+fId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        updateFolder: function (id,resource) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Folder/"+id,
+                data:resource
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    showAlert("Error","error","New Folder Adding Failed");
+                    return [];
+                }
+            });
+        },
+        attachUserGroupToArticle: function (gId,fId) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Folder/"+fId+"/Group?allow_groups="+gId
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        detachUserGroupToArticle: function (gId,fId) {
+
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.articleServiceUrl + "Folder/"+fId+"/Group?allow_groups="+gId
 
 
             }).then(function(response)
@@ -253,119 +328,170 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             });
         },
 
-        assignMasterApplication: function (masterId,childId) {
-            var authToken = authService.GetToken();
+        getFullCategory: function (cId) {
+
 
             return $http({
-                method: 'POST',
-                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId
-
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "FullCategory/"+cId
             }).then(function(response)
             {
-                return response;
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
             });
         },
+        updateCategory: function (id,resource) {
 
-        updateApplication: function (resource) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'PUT',
-                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+resource.id,
+                url: baseUrls.articleServiceUrl + "Category/"+id,
                 data:resource
 
             }).then(function(response)
             {
-                return response;
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    showAlert("Error","error","Category updating Failed");
+                    return [];
+                }
             });
         },
+        updateEnablityOfFolder: function (fId,state) {
 
-        deleteApplication: function (resource) {
 
-            var authToken = authService.GetToken();
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Folder/"+fId+"/Enable/"+state
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    showAlert("Error","error","Folder state Change failed");
+                    return [];
+                }
+            });
+        },
+        updateEnablityOfCategory: function (cId,state) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Category/"+cId+"/Enable/"+state
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    showAlert("Error","error","Folder state Change failed");
+                    return [];
+                }
+            });
+        },
+        attachBUToCategory: function (cId,bId) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Category/"+cId+"/BU?allow_business_units="+bId
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        detachBUToCategory: function (cId,bId) {
+
+
             return $http({
                 method: 'DELETE',
-                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+resource.id
+                url: baseUrls.articleServiceUrl + "Category/"+cId+"/BU?allow_business_units="+bId
+
 
             }).then(function(response)
             {
-                return response;
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
             });
         },
-        getUnassignedFiles: function () {
+        attachSearchTagToArticle: function (tag,aId) {
 
-            var authToken = authService.GetToken();
+
             return $http({
-                method: 'GET',
-                url: baseUrls.fileServiceUrl+"Files?fileCategory=IVRCLIPS&fileFormat=audio/wav&assignedState=false"
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Article/"+aId+"/SearchTag",
+                data:{"tags":tag}
+
 
             }).then(function(response)
             {
-                return response;
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
             });
         },
-        getFilesOfApplication: function (appID) {
+        detachSearchTagToArticle: function (tag,aId) {
 
-            var authToken = authService.GetToken();
+
             return $http({
-                method: 'GET',
-                url: baseUrls.fileServiceUrl+"Files/Info/"+appID
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'DELETE',
+                url: baseUrls.articleServiceUrl + "Article/"+aId+"/SearchTag",
+                data:{"tags":tag}
+
 
             }).then(function(response)
             {
-                return response;
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        attachSearchMetaToArticle: function (meta,aId) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Article/"+aId+"/SearchMeta",
+                data:{"meta":meta}
+
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
             });
         },
 
-        attachFilesWithApplication: function (appID,fileID) {
 
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'POST',
-                url: baseUrls.fileServiceUrl+"File/"+fileID+"/AssignToApplication/"+appID
 
-            }).then(function(response)
-            {
-                return response;
-            });
-        } ,
-        detachFilesFromApplication: function (fileID) {
 
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'POST',
-                url: baseUrls.fileServiceUrl+"File/"+fileID+"/DetachFromApplication"
-
-            }).then(function(response)
-            {
-                return response;
-            });
-        },
-        getDevelopers: function () {
-
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'GET',
-                url: baseUrls.appregistryServiceUrl + "APPRegistry/Developers"
-
-            }).then(function(response)
-            {
-                return response;
-            });
-        },
-        ApplicationAssignToDeveloper: function (appId,devId) {
-
-            var authToken = authService.GetToken();
-
-            return $http({
-                method: 'POST',
-                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId
-
-            }).then(function(response)
-            {
-                return response;
-            });
-        }
 
     }
 });
