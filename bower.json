@@ -110,7 +110,8 @@
     "angular-ui-tab-scroll": "^2.3.4",
     "angular-ui-select": "^0.19.8",
     "angular-trix": "^1.0.2",
-    "textAngular": "^1.5.16"
+    "textAngular": "^1.5.16",
+    "froala-wysiwyg-editor": "^2.9.3"
   },
   "resolutions": {
     "angular": "1.5.5",
