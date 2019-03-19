@@ -27,7 +27,7 @@
             <h4>
                 Default URL
             </h4>
-            <url-config integration-obj="currentApp.default_integration" reference-objects='["User"]' css-class="well"></url-config>
+            <url-config integration-obj="currentApp.default_integration" reference-objects='["User", "Custom"]' css-class="well"></url-config>
         </div>
         <br>
         <div class="_x_panel" id="action_panel">
@@ -43,7 +43,7 @@
             <div class="ln_solid"></div>
 
             <div ng-show="showConfiguration" class="well" id="appEditWindow" tabindex="0">
-                <div class="closebtn" ng-if="!isUpdate" ng-click="showConfigurations()"><span class="glyphicon glyphicon-remove"></span></div>
+                <div class="closebtn" ng-click="showConfigurations()"><span class="glyphicon glyphicon-remove"></span></div>
                 <ng-form class="" name="fOuter" novalidate>
                     <div class="form-group">
                         <div class="row">
@@ -68,7 +68,7 @@
 
                     <div class="ln_solid"></div>
 
-                    <url-config integration-obj="actionData.integration" reference-objects='["User", "Form", "Grid"]' css-class=""></url-config>
+                    <url-config integration-obj="actionData.integration" reference-objects='["User", "Form", "Grid", "Custom"]' css-class=""></url-config>
                     
                     <div class="ln_solid"></div>
 
@@ -80,7 +80,7 @@
                                 <p ng-show="fOuter.accepted_codes.$invalid && !fOuter.accepted_codes.$pristine" class="help-block">Accepted code(s) is required.</p>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.success_msg.$invalid && !fOuter.success_msg.$pristine }">
-                                <span>Sucess Message<span class="req">*</span></span>
+                                <span>Success Message<span class="req">*</span></span>
                                 <input type="text" class="form-control" name="success_msg" ng-model="actionData.response_map.success_msg" required>
                                 <p ng-show="fOuter.success_msg.$invalid && !fOuter.success_msg.$pristine" class="help-block">Success Message is required.</p>
                             </div>
@@ -103,7 +103,7 @@
 
                             <button ng-if="isUpdate" ng-disabled="!actionData.name||!actionData.integration.method||!actionData.integration.url||!actionData.response_map.accepted_codes||
                                 actionData.response_map.accepted_codes.length == 0||!actionData.response_map.success_msg||!actionData.response_map.error_msg"
-                                    class="btn btn-success pull-right" ng-click="showConfigurations()" title="Apply Changes and Close">Close
+                                    class="btn btn-success pull-right" ng-click="updateAction()" title="Apply Changes and Close">Update
                             </button>
                         </div>
                     </div>

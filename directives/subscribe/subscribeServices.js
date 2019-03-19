@@ -57,8 +57,14 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
 
 
-                SE.subscribe({room: 'DASHBOARD:RESETALL'});
+                //SE.subscribe({room: 'DASHBOARD:RESETALL'});
                 SE.subscribe({room: 'DIALER:RealTimeCampaignEvents'});
+                SE.subscribe({room: 'CAMPAIGNCONNECTED:TotalCount'});
+                SE.subscribe({room: 'CAMPAIGNCONNECTED:CurrentCount'});
+                SE.subscribe({room: 'CAMPAIGNDIALING:TotalCount'});
+                SE.subscribe({room: 'CAMPAIGNDIALING:CurrentCount'});
+                SE.subscribe({room: 'CAMPAIGNNUMBERSTAKEN:TotalCount'});
+                SE.subscribe({room: 'CAMPAIGNNUMBERSTAKEN:CurrentCount'});
 
             },
             error: function (data) {
