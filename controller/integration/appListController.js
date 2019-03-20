@@ -90,12 +90,12 @@ mainApp.controller("appListController", function ($scope, $filter, $location, $l
             if (response) {
                 $scope.appList = response;
             } else {
-                $scope.showAlert("App Integrations", "error", "Fail To Load App Configurations.");
+                $scope.showAlert("App Integrations", "error", "Fail To Load Apps.");
             }
             $scope.isProcessing = false;
         }, function (error) {
             $scope.isProcessing = false;
-            $scope.showAlert("App Integrations", "error", "Fail To Load App Configurations.");
+            $scope.showAlert("App Integrations", "error", "Fail To Load Apps.");
         });
 
     };
@@ -105,7 +105,7 @@ mainApp.controller("appListController", function ($scope, $filter, $location, $l
         $scope.isProcessing = true;
         integrationConfigService.saveAppDetails(appData).then(function (response) {
             if (response) {
-                $scope.showAlert("Integrations", 'success', "Configurations Created Successfully.");
+                $scope.showAlert("App Integrations", 'success', "App Created Successfully.");
                 if(!appData._id){
                     $scope.appList.push(response);
                 }
@@ -117,12 +117,12 @@ mainApp.controller("appListController", function ($scope, $filter, $location, $l
                 form.$setPristine();
             } else {
 
-                $scope.showAlert("Integrations", "error", "Fail To Save Integration Configurations.");
+                $scope.showAlert("App Integrations", "error", "Fail To Save App.");
             }
             $scope.isProcessing = false;
         }, function (error) {
             $scope.isProcessing = false;
-            $scope.showAlert("Integrations", "error", "Fail To Save Integration Configurations.");
+            $scope.showAlert("App Integrations", "error", "Fail To Save App.");
         });
 
     };
@@ -181,9 +181,4 @@ mainApp.controller("appListController", function ($scope, $filter, $location, $l
             });
         }, appData)
     };
-
-    $scope.deleteParameter = function (parameters) {
-        var index = $scope.appData.parameters.indexOf(parameters);
-        $scope.appData.parameters.splice(index, 1);
-    }
 });
