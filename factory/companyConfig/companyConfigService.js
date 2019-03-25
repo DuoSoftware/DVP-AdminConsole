@@ -514,6 +514,27 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 return response.data;
             });
         },
+        updateAbandonCallRedialConfig: function(abandonRedialConfig){
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl +"Organisation/AbandonCallRedialConfig",
+                data: abandonRedialConfig
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        getAbandonCallRedialConfig: function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"Organisation/AbandonCallRedialConfig"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
         updateActiveDirectoryDetail: function(activeDirectoryDetail){
             return $http({
                 method: 'PUT',

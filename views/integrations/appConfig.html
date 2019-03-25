@@ -29,7 +29,16 @@
             </h4>
             <url-config integration-obj="currentApp.default_integration" reference-objects='["User", "Custom"]' css-class="well"></url-config>
         </div>
-        <br>
+        <div class="form-group">
+            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                
+                <button ng-disabled="!currentApp.default_integration.url||!currentApp.default_integration.method"
+                        class="btn btn-success pull-right" ng-click="updateDefaultIntegration(currentApp._id, currentApp.default_integration)" title="Save App">Save
+                </button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="ln_solid"></div>
+        <br/>
         <div class="_x_panel" id="action_panel">
             <h4>
                 Actions
@@ -76,17 +85,17 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.accepted_codes.$invalid && !fOuter.accepted_codes.$pristine }">
                                 <span>Accepted Status Codes<span class="req">*</span></span>
-                                <tags-input class="input" ng-model="actionData.response_map.accepted_codes" display-property="code" key-property="code" name="accepted_codes" use-strings="true" placeholder="Comma seperated" allowed-tags-pattern="^[0-9]{3}$" required></tags-input>
+                                <tags-input class="input" ng-model="actionData.integration.response_map.accepted_codes" display-property="code" key-property="code" name="accepted_codes" use-strings="true" placeholder="Comma seperated" allowed-tags-pattern="^[0-9]{3}$" required></tags-input>
                                 <p ng-show="fOuter.accepted_codes.$invalid && !fOuter.accepted_codes.$pristine" class="help-block">Accepted code(s) is required.</p>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.success_msg.$invalid && !fOuter.success_msg.$pristine }">
                                 <span>Success Message<span class="req">*</span></span>
-                                <input type="text" class="form-control" name="success_msg" ng-model="actionData.response_map.success_msg" required>
+                                <input type="text" class="form-control" name="success_msg" ng-model="actionData.integration.response_map.success_msg" required>
                                 <p ng-show="fOuter.success_msg.$invalid && !fOuter.success_msg.$pristine" class="help-block">Success Message is required.</p>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.error_msg.$invalid && !fOuter.error_msg.$pristine }">
                                 <span>Error Message<span class="req">*</span></span>
-                                <input type="text" class="form-control" name="error_msg" ng-model="actionData.response_map.error_msg" required>
+                                <input type="text" class="form-control" name="error_msg" ng-model="actionData.integration.response_map.error_msg" required>
                                 <p ng-show="fOuter.error_msg.$invalid && !fOuter.error_msg.$pristine" class="help-block">Error Message is required.</p>
                             </div>
 
@@ -96,18 +105,17 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                            
-                            <button ng-if="!isUpdate" ng-disabled="!actionData.name||!actionData.integration.method||!actionData.integration.url||!actionData.response_map.accepted_codes||
-                                actionData.response_map.accepted_codes.length == 0||!actionData.response_map.success_msg||!actionData.response_map.error_msg"
+                            <button ng-if="!isUpdate" ng-disabled="!actionData.name||!actionData.integration.method||!actionData.integration.url||!actionData.integration.response_map.accepted_codes||
+                                actionData.integration.response_map.accepted_codes.length == 0||!actionData.integration.response_map.success_msg||!actionData.integration.response_map.error_msg"
                                     class="btn btn-success pull-right" ng-click="addActionToApp(actionData)" title="Add Action">Add
                             </button>
 
-                            <button ng-if="isUpdate" ng-disabled="!actionData.name||!actionData.integration.method||!actionData.integration.url||!actionData.response_map.accepted_codes||
-                                actionData.response_map.accepted_codes.length == 0||!actionData.response_map.success_msg||!actionData.response_map.error_msg"
+                            <button ng-if="isUpdate" ng-disabled="!actionData.name||!actionData.integration.method||!actionData.integration.url||!actionData.integration.response_map.accepted_codes||
+                            actionData.integration.response_map.accepted_codes.length == 0||!actionData.integration.response_map.success_msg||!actionData.integration.response_map.error_msg"
                                     class="btn btn-success pull-right" ng-click="updateAction()" title="Apply Changes and Close">Update
                             </button>
                         </div>
-                    </div>
-    
+                    </div>    
                 </ng-form>
             </div>
 
@@ -171,15 +179,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                
-                <button ng-disabled="!currentApp.default_integration.url||!currentApp.default_integration.method"
-                        class="btn btn-success pull-right" ng-click="updateApp(currentApp)" title="Save App">Save App
-                </button>
-            </div>
-        </div>
-
     </div>
         
     </div>

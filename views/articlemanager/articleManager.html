@@ -90,28 +90,15 @@
                                                 add-on-paste="true"
                                                 add-from-autocomplete-only="false" on-tag-added="onSearchChipAdd($tag)"
                                                 on-tag-removed="onSearchChipDelete($tag)" ng-disabled="" min-length="1"
-                                                placeholder="Add Tags">
+                                                placeholder="Add Search Tags">
 
                                     </tags-input>
                                 </div>
-                               <!-- <div class="col-lg-12 " ng-show="isUpdating">
-                                    <h3><label for="">Search Tags</label></h3>
-                                    <tags-input ng-model="newSearchTags" display-property="tag"
-                                                add-on-paste="true"
-                                                add-from-autocomplete-only="false" on-tag-added="onSearchChipAdd($tag)"
-                                                on-tag-removed="onSearchChipDelete($tag)" ng-disabled="" min-length="1"
-                                                placeholder="Add Search Tags">
-                                        <auto-complete source="querySearchTags($query)"
-                                                       load-on-empty="true"
-                                                       load-on-focus="true"
-                                                       min-length="1"></auto-complete>
 
-                                    </tags-input>
-                                </div>-->
 
                                 <div class="col-lg-12 ">
                                     <h3><label for="">Document</label></h3>
-                                    <!--<trix-editor angular-trix ng-model="newArticle.document"></trix-editor>-->
+
                                     <text-angular ng-model="newArticle.document"></text-angular>
                                 </div>
 

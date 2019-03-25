@@ -83,17 +83,15 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
         $scope.actionData = {
             name: '', 
             icon: '',
-            dynamic_form_id: '',
             integration: {
                 parameters: [],
-                url:''
-            },
-            response_map: {
-                accepted_codes: [],
-                success_msg: '',
-                error_msg: ''
-            },
-            new: true
+                url:'',
+                response_map: {
+                    accepted_codes: [],
+                    success_msg: '',
+                    error_msg: ''
+                }
+            }
         };
 
         $scope.actionData_Orig = {}
@@ -107,10 +105,30 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
     };
 
     $scope.addActionToApp = function(action){
-        $scope.currentApp.actions.push(action);
-        $scope.resetActionData();
-        $scope.showConfigurations();
-        $anchorScroll('#'+action.name);
+        $scope.isProcessing = true;
+        action.integration.response_map.accepted_codes = action.integration.response_map.accepted_codes.map(function(tag){
+            return tag.code;
+        });
+        integrationConfigService.createAction($scope.currentApp._id, action).then(function (response) {
+            if (response && response.IsSuccess) {
+                $scope.showAlert("App Integrations", 'success', "Action Created Successfully.");
+
+                var added_action = response.Result.actions[response.Result.actions.length - 1];
+                action._id = added_action._id;
+                action.integration._id = added_action.integration;
+
+                $scope.currentApp.actions.push(action);
+
+                $scope.showConfigurations();
+                $scope.resetActionData();
+            } else {
+                $scope.showAlert("App Integrations", "error", "Fail To Save Action.");
+            }
+            $scope.isProcessing = false;
+        }, function (error) {
+            $scope.isProcessing = false;
+            $scope.showAlert("App Integrations", "error", "Fail To Save Action.");
+        });
     }
 
     $scope.resetActionData();
@@ -138,9 +156,27 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
         $anchorScroll('action_panel');
     };
 
-    $scope.updateAction = function(){
-        angular.merge($scope.actionData_Orig, $scope.actionData);
-        $scope.showConfigurations();
+    $scope.updateAction = function(){        
+        
+        $scope.actionData.integration.response_map.accepted_codes = $scope.actionData.integration.response_map.accepted_codes.map(function(tag){
+                                                                        return tag.code;
+                                                                    });
+        $scope.isProcessing = true;
+        
+        integrationConfigService.updateAction($scope.currentApp._id, $scope.actionData).then(function (response) {
+            if (response && response.IsSuccess) {
+                $scope.showAlert("App Integrations", 'success', "Action Updated Successfully.");
+                
+		angular.copy($scope.actionData, $scope.actionData_Orig);
+                $scope.showConfigurations();
+            } else {
+                $scope.showAlert("App Integrations", "error", "Fail To Update Action.");
+            }
+            $scope.isProcessing = false;
+        }, function (error) {
+            $scope.isProcessing = false;
+            $scope.showAlert("App Integrations", "error", "Fail To Update Action.");
+        });
     }
 
     $scope.addParameters = function (parameters) {
@@ -167,7 +203,6 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
                 form.$setUntouched();
                 form.$setPristine();
             } else {
-
                 $scope.showAlert("Integrations", "error", "Fail To Save Integration Configurations.");
             }
             $scope.isProcessing = false;
@@ -178,8 +213,7 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
     };
 
-    $scope.updateApp = function (appData) {
-        
+    $scope.updateApp = function (appData) {        
         $scope.isProcessing = true;
 
         integrationConfigService.updateAppDetails(appData).then(function (response) {
@@ -200,18 +234,64 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
     };   
 
+
+    $scope.updateDefaultIntegration = function (appId, integrationData) {
+       
+        $scope.isProcessing = true;
+
+        if(integrationData._id){
+            var reqPromise = integrationConfigService.updateDefaultIntegration(appId, integrationData);
+        }else{
+            var reqPromise = integrationConfigService.addDefaultIntegration(appId, integrationData);
+        }
+
+        reqPromise.then(function (response) {
+            if (response.IsSuccess) {
+                $scope.showAlert("App Integrations", 'success', "App updated Successfully.");
+
+                // reload the config window...
+                $scope.reloadConfig();
+                $scope.showConfiguration = false;
+            } else {
+                $scope.showAlert("App Integrations", "error", "Fail To Save App.");
+            }
+            $scope.isProcessing = false;
+        }, function (error) {
+            $scope.isProcessing = false;
+            $scope.showAlert("App Integrations", "error", "Fail To Save App.");
+        });
+
+    }; 
+
     $scope.deleteAction = function (action) {
+
+        if(action._id == $scope.actionData._id){
+            $scope.showAlert("Delete Action", "error", "Please save or close before deleting!");
+            return false;
+        }
+
         $scope.isProcessing = true;
         $scope.showConfirm("Delete Action", "Delete", "ok", "cancel", "Do you want to delete " + action.name + " action?", function (obj) {
-            var index = $scope.currentApp.actions.indexOf(action);
-            $scope.$apply(function(){
+            integrationConfigService.deleteAppAction($scope.currentApp._id, action).then(function (response) {
+                if (response) {
+                    var index = $scope.currentApp.actions.indexOf(action);
+
+                    $scope.isProcessing = false;
+                    $scope.currentApp.actions.splice(index, 1);
+                    
+                    $scope.showAlert("App Integrations", 'success', "Action Deleted Successfully.");
+                } else {
+                    $scope.showAlert("App Integrations", "error", "Fail To Delete Action.");
+                }
                 $scope.isProcessing = false;
-                $scope.currentApp.actions.splice(index, 1);
+            }, function (error) {
+                $scope.isProcessing = false;
+                $scope.showAlert("App Integrations", "error", "Fail To Delete Action.");
             });
         }, function () {
             $scope.$apply(function(){
                 $scope.isProcessing = false;
             });
-        }, action)
+        }, action);
     };
 });

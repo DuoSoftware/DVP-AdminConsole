@@ -76,6 +76,20 @@ mainApp.factory("integrationConfigService", function ($http, authService,baseUrl
             });
         },
 
+        deleteAppAction: function (appId, action) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.integrationapi +"AppInfo/" + appId + "/action/" + action._id
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
+        },
+
         saveAppDetails: function (appData) {
             return $http({
                 method: 'POST',
@@ -102,6 +116,47 @@ mainApp.factory("integrationConfigService", function ($http, authService,baseUrl
             })
         },
 
+        createAction: function (appId, action) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.integrationapi + 'AppInfo/' + appId + '/action',
+                data: action
+            }).then(function (resp) {
+                return resp.data;
+            })
+        },
+
+        updateAction: function (appId, action) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.integrationapi + 'AppInfo/' + appId + '/action/' + action._id,
+                data: action
+            }).then(function (resp) {
+                return resp.data;
+            })
+        },
+
+        addDefaultIntegration: function(appId, integrationData){
+            return $http({
+                method: 'POST',
+                url: baseUrls.integrationapi + 'AppInfo/' + appId +'/defaultIntegration',
+                data: integrationData
+            }).then(function (resp) {
+                return resp.data;
+            })
+        },
+
+        updateDefaultIntegration: function(appId, integrationData){
+            return $http({
+                method: 'PUT',
+                url: baseUrls.integrationapi + 'AppInfo/' + appId +'/defaultIntegration/' + integrationData._id ,
+                data: integrationData
+            }).then(function (resp) {
+                return resp.data;
+            })
+        },
         getAppById: function (appId) {
             return $http({
                 method: 'GET',

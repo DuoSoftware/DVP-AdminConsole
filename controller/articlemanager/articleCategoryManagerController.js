@@ -79,7 +79,6 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
                 $scope.categoryList.unshift(resp);
                 $scope.newCat={};
                 $scope.toggleNewCategoryView();
-                $scope.showAlert("Success","success","Category Saving Succeeded");
             },function (err) {
                 $scope.showAlert("Error","error","Category Saving failed");
             })
