@@ -17,6 +17,17 @@ mainApp.factory('callMonitorSrv', function ($http, authService,baseUrls) {
             });
         },
 
+        getCurrentCampaigns: function () {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.monitorrestapi+"Campaigns"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
         bargeCalls: function (bargeID,protocol,destinationKey,legID) {
             var authToken = authService.GetToken();
 

@@ -2,7 +2,7 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, attributeService, loginService,$anchorScroll,userProfileApiAccess,ShareData,$q) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, callMonitorSrv, attributeService, loginService,$anchorScroll,userProfileApiAccess,ShareData,$q) {
 
     $anchorScroll();
     $scope.scrlTabsApi = {};
@@ -16,12 +16,18 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.isNewEndUser = false;
     $scope.isUserError = false;
     $scope.ClusterID;
+    $scope.abandonRedialConfig = {
+        redialTime: "0",
+        redialCampaignId: "-1"
+    };
     $scope.contextList = [];
+    $scope.campaignList = [];
     $scope.prefixList=[];
     $scope.userTagList=[];
     $scope.newPrefix={};
     $scope.isValidPrefix=false;
     $scope.validmsg="";
+    $scope.abandonRedialTime = 0;
 
     var authToken = authService.GetToken();
     var decodeData = jwtHelper.decodeToken(authToken);
@@ -902,6 +908,97 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         });
 
     };
+
+    var getAbandonRedialInfo = function () {
+        companyConfigBackendService.getAbandonCallRedialConfig().then(function (response) {
+            if(response && response.IsSuccess)
+            {
+                if(response.Result)
+                {
+                    response.Result.redialCampaignId = response.Result.redialCampaignId.toString()
+                }
+                $scope.abandonRedialConfig = response.Result;
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Details', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while receiving Campaigns";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Company Details', errMsg, 'error');
+        });
+
+    };
+
+    var getRealTimeCampaigns = function () {
+        callMonitorSrv.getCurrentCampaigns().then(function (response) {
+            if(response && response.data && response.data.IsSuccess)
+            {
+                $scope.campaignList = response.data.Result;
+
+                getAbandonRedialInfo();
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Details', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while receiving Campaigns";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Company Details', errMsg, 'error');
+        });
+
+    };
+
+    getRealTimeCampaigns();
+
+    $scope.updateAbandonCallRedialTime = function () {
+        companyConfigBackendService.updateAbandonCallRedialConfig($scope.abandonRedialConfig).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.showAlert('Company Details', 'Update Abandon Call Redial Config Success', 'success');
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Details', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while receiving Company Details";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Company Details', errMsg, 'error');
+        });
+
+    };
+
+
 
 
     getOrganizationDetail();
