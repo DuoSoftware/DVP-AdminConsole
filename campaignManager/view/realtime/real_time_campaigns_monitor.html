@@ -24,10 +24,16 @@
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
+
             <div class="dashboard_graph">
+                <div class="x_title">Campaigns Summary</div>
+                <div class="x_content productivity-panel">
+                    <div class="data-state-wrap" ng-if="agentProductivityLoadin">
+                        Loading...
+                    </div>
 
-
-
+                    <div id="ResourceId123" style="height:350px;"></div>
+                </div>
 
                 <div class="clearfix"></div>
             </div>
@@ -56,13 +62,15 @@
             </div>
         </div>
     </div>
+
+
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel tile fixed_height_320">
+            <div class="x_panel tile ">
                 <div class="x_content" >
                     <div class="v_data_loader"  id="v_data_load" ></div>
-                    <div id="v_data_grd"  ui-grid="gridQOptions"  ui-grid-move-columns ui-grid-resize-columns  ui-grid-auto-resize ui-grid-pinning></div>
-
+                    <!--<div id="v_data_grd"  ui-grid="gridQOptions"  ui-grid-move-columns ui-grid-resize-columns  ui-grid-auto-resize ui-grid-pinning></div>-->
+                    <div ui-grid="gridQOptions"  ui-grid-move-columns ui-grid-resize-columns  ui-grid-auto-resize ui-grid-selection ui-grid-pinning ng-style="{ 'height': height_px }"></div>
                 </div>
             </div>
         </div>

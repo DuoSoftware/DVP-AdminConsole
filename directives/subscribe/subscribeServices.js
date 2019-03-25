@@ -65,6 +65,7 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
                 SE.subscribe({room: 'CAMPAIGNDIALING:CurrentCount'});
                 SE.subscribe({room: 'CAMPAIGNNUMBERSTAKEN:TotalCount'});
                 SE.subscribe({room: 'CAMPAIGNNUMBERSTAKEN:CurrentCount'});
+                SE.subscribe({room: 'CAMPAIGNREJECTED:TotalCount'});
 
             },
             error: function (data) {

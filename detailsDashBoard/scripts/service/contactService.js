@@ -77,11 +77,59 @@ mainApp.factory('contactService', function ($http, baseUrls) {
         });
     };
 
+    var profilesCount = function (campaignID) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.contactbasednumberUrl + "ProfilesCount?" +(campaignID?"CampaignID="+campaignID:"")
+        })
+    };
+
+    var profileContactsCount = function (campaignID) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount?" +(campaignID?"CampaignID="+campaignID:"")
+        })
+    };
+
+    var profileContactDialedCount = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount"
+        })
+    };
+
+    var profileContactLoadedCount = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount"
+        })
+    };
+
+    var profileContactRejectedCount = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount"
+        })
+    };
+
+    var profileContactDailingCount = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.contactbasednumberUrl + "ProfilesCount"
+        })
+    };
+
     return {
         getAllContacts: getAllContacts,
         CreateNewContact: createNewContact,
         SaveCallLog: saveCallLog,
         GetCallLogs: getCallLogs,
-        SearchCallLogs: searchCallLogs
+        SearchCallLogs: searchCallLogs,
+        ProfilesCount: profilesCount,
+        ProfileContactsCount: profileContactsCount,
+        ProfileContactDialedCount: profileContactDialedCount,
+        ProfileContactLoadedCount: profileContactLoadedCount,
+        ProfileContactRejectedCount: profileContactRejectedCount,
+        ProfileContactDailingCount: profileContactDailingCount,
     }
 });

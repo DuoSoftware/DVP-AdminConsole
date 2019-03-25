@@ -22,7 +22,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular.plugins.overlayplay',
     'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
-    'ui.grid', 'ui.grid.grouping', 'ui.grid.importer',
+    'ui.grid', 'ui.grid.grouping', 'ui.grid.importer','ui.grid.edit',
     'mgcrea.ngStrap',
     'btford.socket-io',
     'veeryNotificationMod', 'stripe-payment-tools',
@@ -145,7 +145,8 @@ var baseUrls = {
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
-    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/'
+    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'contactbasednumberUrl': 'http://contactbasednumberdialingservice.app.veery.cloud/DVP/API/1.0.0.0/Campaign/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -285,7 +286,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "DASHBOARD"
             }
-        }).state('console.campaigndashboard', {
+        })/*.state('console.campaigndashboard', {
             url: "/campaigndashboard",
             templateUrl: "campaignManager/view/realtime/real_time_campaign_monitor.html",
             controller: "campaign_real_time_monitor_controller",
@@ -293,10 +294,18 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "DASHBOARD"
             }
-        }).state('console.campaignsdashboard', {
+        })*/.state('console.campaignsdashboard', {
             url: "/campaignsdashboard",
             templateUrl: "campaignManager/view/realtime/real_time_campaigns_monitor.html",
             controller: "campaigns_real_time_monitor_controller",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        }).state("console.campaigndashboard", {
+            url: "/campaignsdashboard/:campaignname/:campaignid",
+            templateUrl: "campaignManager/view/realtime/real_time_campaign_monitor.html",
+            controller: "campaign_real_time_monitor_controller",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
