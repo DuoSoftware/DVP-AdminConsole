@@ -75,13 +75,13 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
             {
                 enableSorting: true, enableFiltering: true,
                 name: 'DialState',
-                field: 'DialState',
+                field: 'DialState',cellClass: 'table-number',
                 headerTooltip: 'Dial State'
             },
             {
                 enableSorting: true, enableFiltering: true,
                 name: 'TryCount',
-                field: 'TryCount',
+                field: 'TryCount',cellClass: 'table-number',
                 headerTooltip: 'Try Count'
 
             },
@@ -89,7 +89,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
             {
                 enableSorting: true, enableFiltering: false,
                 name: 'DialState',
-                field: 'DialState',
+                field: 'DialState',cellClass: 'table-number',
                 headerTooltip: 'Dial State'
             },
 
@@ -221,6 +221,17 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     };
     $scope.GetCampignCallList();
 
+    $scope.campaignSelectedData={};
+
+    var load_campaign = function () {
+        campaignService.GetCampaign($scope.campaignId).then(function (response) {
+            $scope.campaignSelectedData = response;
+        }, function (error) {
+            $scope.isSetCommand = false;
+            $scope.showAlert("Campaign", 'error', "Fail To Load Campaign Data.");
+        });
+    };
+    load_campaign();
 
     $scope.total_numbers = 0;
     $scope.total_dialed = 0;
@@ -236,6 +247,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
         for (var i = 0; i < window_names.length; i++) {
             method_list.push(dashboardService.GetTotalCampaignCount(window_names[i],$scope.campaignId));
         }
+
         $q.all(method_list).then(function (resolveData) {
             if (resolveData) {
                 $scope.total_numbers = resolveData[6];
@@ -567,6 +579,38 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
         data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
         //'Waiting', 'Dialing', 'Paused', 'Stopped', 'Idle', 'Hold'
     });
+
+    $scope.isSetCommand = false;
+
+    $scope.sendCommandToCampaign = function (cam, command) {
+        $scope.isSetCommand = true;
+        campaignService.SendCommandToCampaign(cam.CampaignId, command).then(function (response) {
+            $scope.isSetCommand = false;
+            if (response) {
+                $scope.showAlert("Campaign", 'success', "Operation Execute Successfully.");
+
+                switch (command) {
+                    case 'stop':
+                        $scope.campaignSelectedData.OperationalStatus = 'stop';
+                        break;
+                    case  'resume':
+                        $scope.campaignSelectedData.OperationalStatus = 'start';
+                        break;
+                    case  'end':
+                        $scope.campaignSelectedData.OperationalStatus = 'done';
+                        break;
+                    case  'pause':
+                        $scope.campaignSelectedData.OperationalStatus = 'pause';
+                        break;
+                }
+            } else {
+                $scope.showAlert("Campaign", 'error', "Fail To Execute Command.");
+            }
+        }, function (error) {
+            $scope.isSetCommand = false;
+            $scope.showAlert("Campaign", 'error', "Fail To Execute Command.");
+        });
+    };
 
     $scope.$watch(function () {
         return ShareData.BusinessUnit;

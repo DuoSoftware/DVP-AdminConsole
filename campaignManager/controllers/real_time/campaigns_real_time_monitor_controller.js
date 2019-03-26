@@ -20,8 +20,9 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
 
     var startTimeTemplate = "<div>{{row.entity.StartTime|stringdateToDateTime| date:'yyyy-MM-dd HH:mm:ss'}}</div>";
     var endTimeTimeTemplate = "<div>{{row.entity.EndTime|stringdateToDateTime| date:'yyyy-MM-dd HH:mm:ss'}}</div>";
-    /*var viewTemplate =  '<button type="button" class="btn btn-sm btn-primary" ng-click="grid.appScope.editRow(grid, row)"><i class="fa fa-external-link"></i></button>';*/
-    var viewTemplate =  '<i class="fa fa-external-link cursor-pointer" ng-click="grid.appScope.view_campaign(grid, row)"></i>';
+
+    var viewTemplate =  '<i class="fa fa-external-link cursor-pointer" ng-click="grid.appScope.view_campaign(grid, row)" title="More Details"></i>';
+    /*var viewTemplate =  '<div class="campaign-edit-btn" title="More Details" ng-click="grid.appScope.view_campaign(grid, row)"><i class="ti-more-alt" title="More Details"></i></div>';*/
 
     $scope.view_campaign = function(grid,row) {
         $state.go('console.campaigndashboard', {campaignid: row.entity.CampaignId,campaignname:row.entity.CampaignName});
@@ -58,14 +59,6 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
         modifierKeysToMultiSelect: false,
         noUnselect: false,
         columnDefs: [{
-            enableSorting: true, enableFiltering: false,
-            name: '...',
-            field: 'CampaignId',
-            headerTooltip: 'View',
-            cellTemplate: viewTemplate,
-            cellClass: 'table-time',
-            width: '25'
-        },{
             enableSorting: true, enableFiltering: false,
             name: 'CampaignId',
             field: 'CampaignId',
@@ -129,6 +122,14 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
                 headerTooltip: 'End Time',
                 cellTemplate: endTimeTimeTemplate,
                 cellClass: 'table-time'
+            },{
+                enableSorting: true, enableFiltering: false,
+                name: '',
+                field: 'CampaignId',
+                headerTooltip: 'View',
+                cellTemplate: viewTemplate,
+                cellClass: 'table-time',
+                width: '50'
             }],
         data: [{test: "loading"}],
         onRegisterApi: function (gridApi) {
