@@ -134,14 +134,28 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
         data: [{test: "loading"}],
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
-            /*gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+            gridApi.selection.on.rowSelectionChanged($scope, function (row) {
                 if (row.isSelected) {
-                    $state.go('console.campaigndashboard', {campaignid: row.entity.CampaignId,campaignname:row.entity.CampaignName});
+                    //$scope.selected_campaigns[row.entity.CampaignId] = row.entity;
+                    $scope.selected_campaigns.push(row.entity);
+                   // $state.go('console.campaigndashboard', {campaignid: row.entity.CampaignId,campaignname:row.entity.CampaignName});
+                }else{
+                   // delete $scope.selected_campaigns[row.entity];
+                    var index = $scope.selected_campaigns.indexOf(row.entity);
+                    $scope.selected_campaigns.splice(index, 1);
+                    if($scope.selected_campaigns.length===0){
+                        $scope.GetOngoinCampignList('ALL');
+                    }
                 }
-            });*/
+            });
         }
     };
 
+    $scope.set_selected_campaign = function () {
+        $scope.gridQOptions.data = $scope.selected_campaigns;
+    };
+
+    $scope.selected_campaigns =[];
     $scope.queues = {test: "dasdas"};
 
     $scope.campaign_details ={};
