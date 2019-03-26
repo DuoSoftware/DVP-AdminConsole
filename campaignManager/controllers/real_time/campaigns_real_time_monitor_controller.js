@@ -54,10 +54,10 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
         enableFiltering: true,
         enableSorting: true,
         enableRowSelection: true,
-        enableRowHeaderSelection: false,
-        multiSelect: false,
+        enableRowHeaderSelection: true,
+        multiSelect: true,
         modifierKeysToMultiSelect: false,
-        noUnselect: false,
+        noUnselect: false,showGridFooter:true,
         columnDefs: [{
             enableSorting: true, enableFiltering: false,
             name: 'CampaignId',
