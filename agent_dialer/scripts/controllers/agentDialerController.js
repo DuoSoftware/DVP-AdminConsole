@@ -179,14 +179,21 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
             $q.all(method_list).then(function (resolveData) {
                 if (resolveData) {
-                    resolveData.map(function (data) {
+                    /*resolveData.map(function (data) {
                         $scope.availableAgentList = data.map(function (item) {
                             //item.displayName = item.firstname + " " + item.lastname; combank
                             item.displayName = item.username;
                             return item;
                         })
-                    });
+                    });*/
 
+                    resolveData.map(function (data) {
+                        data.map(function (item) {
+                            //item.displayName = item.firstname + " " + item.lastname; combank
+                            item.displayName = item.username;
+                            $scope.availableAgentList.push(item);
+                        })
+                    });
                 }
 
 
