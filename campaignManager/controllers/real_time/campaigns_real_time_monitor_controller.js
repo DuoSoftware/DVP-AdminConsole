@@ -326,36 +326,33 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
 
-        /*var method_list = [$scope.GetOngoinCampignList("ALL"), dashboardService.getCurrentCampaignCount("TOTALCAMPAIGNDIALING")];
 
-        var window_names = ["TOTALCAMPAIGNANSWERED", "TOTALCAMPAIGNDIALED", "TOTALCAMPAIGNCONNECTED"];
-        for (var i = 0; i < window_names.length; i++) {
-            method_list.push(dashboardService.GetTotalCampaignCount(window_names[i]));
-        }*/
+        var method_list = [contactService.ProfilesCount(null),contactService.ProfileLoadedCount(null),contactService.ProfileRejectCount(null),
+            contactService.ProfileContactsCount(null),contactService.ProfileContactLoadedCount(null),contactService.ProfileContactRejectedCount(null),
+            dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",null),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",null),
+            dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",null),dashboardService.GetTotalCampaignCount("CAMPAIGNCONNECTED",null),$scope.GetOngoinCampignList("ALL")];
 
-        var method_list = [contactService.ProfilesCount(), contactService.ProfileContactLoadedCount(), contactService.ProfileContactRejectedCount(), $scope.GetOngoinCampignList("ALL"), dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING", null), dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED", null)];
-
-        var window_names = ["CAMPAIGNDIALING", "CAMPAIGNCONNECTED", "CAMPAIGNNUMBERSTAKEN", "CAMPAIGNREJECTED"];//CAMPAIGNNUMBERSTAKEN
-        for (var i = 0; i < window_names.length; i++) {
-            method_list.push(dashboardService.GetTotalCampaignCount(window_names[i], null));
-        }
-
-        method_list.push(contactService.ProfileContactsCount());
 
         $q.all(method_list).then(function (resolveData) {
             if (resolveData) {
-                $scope.total_dialings = resolveData[4];
-                $scope.total_answered = resolveData[7];
-                $scope.total_dialed = resolveData[6];
-                $scope.total_connected = resolveData[5];
 
 
-                $scope.ProfilesCount = (resolveData[0].data && resolveData[0].data.IsSuccess) ? resolveData[0].data.Result : 0;
-                $scope.ProfileRejected = (resolveData[2].data && resolveData[2].data.IsSuccess) ? resolveData[2].data.Result : 0;
-                $scope.ProfileLoaded = resolveData[8];
-                $scope.ContactLoaded = (resolveData[1].data && resolveData[1].data.IsSuccess) ? resolveData[1].data.Result : 0;
-                $scope.total_contact_rejected = resolveData[9];
-                $scope.ContactCount = (resolveData[10].data && resolveData[10].data.IsSuccess) ? resolveData[10].data.Result : 0;
+
+                $scope.ProfilesCount = (resolveData[0].data && resolveData[0].data.IsSuccess)?resolveData[0].data.Result:0;
+                $scope.ProfileLoaded= (resolveData[1].data && resolveData[1].data.IsSuccess)?resolveData[1].data.Result:0;
+                $scope.ProfileRejected =(resolveData[2].data && resolveData[2].data.IsSuccess)?resolveData[2].data.Result:0;
+
+                $scope.ContactCount =(resolveData[3].data && resolveData[3].data.IsSuccess)?resolveData[3].data.Result:0;
+                $scope.ContactLoaded =(resolveData[4].data && resolveData[4].data.IsSuccess)?resolveData[4].data.Result:0;// CAMPAIGNNUMBERSTAKEN GetTotalCampaignCount
+                $scope.total_contact_rejected= (resolveData[5].data && resolveData[5].data.IsSuccess)?resolveData[5].data.Result:0;
+
+
+                $scope.total_dialings = resolveData[6];//CAMPAIGNDIALING  getCurrentCampaignCount
+                $scope.total_connected = resolveData[7];//CAMPAIGNCONNECTED   getCurrentCampaignCount
+                $scope.total_dialed =resolveData[8]; // CAMPAIGNDIALING GetTotalCampaignCount
+                $scope.total_answered = resolveData[9];
+
+
 
                 $scope.echartDonutSetOption({
                     ResourceId: "ResourceId123",
