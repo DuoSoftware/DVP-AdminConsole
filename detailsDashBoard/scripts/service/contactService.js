@@ -91,31 +91,31 @@ mainApp.factory('contactService', function ($http, baseUrls) {
         })
     };
 
-    var profileContactDialedCount = function () {
+    var profileContactDialedCount = function (campaignID) {
         return $http({
             method: 'GET',
-            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount"
+            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount?" +(campaignID?"CampaignID="+campaignID:"")
         })
     };
 
-    var profileContactLoadedCount = function () {
+    var profileContactLoadedCount = function (campaignID) {
         return $http({
             method: 'GET',
-            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount"
+            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount?" +(campaignID?"CampaignID="+campaignID:"")
         })
     };
 
-    var profileContactRejectedCount = function () {
+    var profileContactRejectedCount = function (campaignID) {
         return $http({
             method: 'GET',
-            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount"
+            url: baseUrls.contactbasednumberUrl + "ProfileContactsCount?" +(campaignID?"CampaignID="+campaignID:"")
         })
     };
 
-    var profileContactDailingCount = function () {
+    var profileContactDailingCount = function (campaignID) {
         return $http({
             method: 'GET',
-            url: baseUrls.contactbasednumberUrl + "ProfilesCount"
+            url: baseUrls.contactbasednumberUrl + "ProfilesCount?" +(campaignID?"CampaignID="+campaignID:"")
         })
     };
 
