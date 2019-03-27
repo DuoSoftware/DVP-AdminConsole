@@ -68,7 +68,7 @@
                                             <span>Parameter Location</span><span class="req">*</span>
                                             <select required class="form-control" name="parameterLocation" ng-model="params.parameterLocation" required>
                                                 <option value="QUERY">QUERY</option>
-                                                <option value="BODY">BODY</option>
+                                                <option value="BODY" ng-if="integrationObj.method!='GET'">BODY</option>
                                                 <option value="PARAMS">PARAMS</option>
                                             </select>
 
