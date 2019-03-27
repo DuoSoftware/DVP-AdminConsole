@@ -25,11 +25,14 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
 
     var setDonutData =function () {
         try{
-            myObject.setOption({
+            /*myObject.setOption({
                 series: [{
                     data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
                 }]
-            });
+
+            });*/
+
+           // myObject.data.datasets[0].data= [$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]
         }catch(ex){
             console.log(ex);
         }
@@ -264,7 +267,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
 
                 $scope.echartDonutSetOption({
                     ResourceId:"ResourceId123",
-                    data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
+                    data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]
                     //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
                 });
             }
@@ -492,92 +495,76 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
         }
     };
     var myObject = {};
-    $scope.echartDonutSetOption = function (productivity) {
+    $scope.echartDonutSetOption = function (campaign) {
 
-        myObject = echarts.init(document.getElementById(productivity.ResourceId), theme);
-        myObject.setOption({
-            title: {
-                show: true,
-                //text: productivity.ResourceName,
-                textStyle: {
-                    fontSize: 18,
-                    fontWeight: 'bolder',
-                    color: '#333',
-                    fontFamily: 'Ubuntu-Regular'
-                }
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)",
-            },
-            calculable: true,
-            legend: {
-                x: 'center',
-                y: 'bottom',
-                data: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactLoaded','ContactRejected', 'Dialed', 'Dialing']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    //dataView : {show: true, readOnly: false},
-                    magicType: {
-                        show: true,
-                        type: ['pie', 'funnel'],
-                        option: {
-                            funnel: {
-                                x: '10%',
-                                width: '50%',
-                                funnelAlign: 'center',
-                                max: 1548
-                            }
-                        }
-                    },
-                    restore: {
-                        show: false,
-                        title: "Restore"
-                    },
-                    saveAsImage: {
-                        show: false,
-                        title: "Save As Image"
+        var ctx = document.getElementById('myChart').getContext('2d');
+        myObject ={
+            type: 'bar',
+
+            data: {
+                labels: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],
+                datasets: [
+                    {
+                        label: "Total Count",
+                        backgroundColor: [
+                            'rgba(43, 201, 226, 1)',
+                            'rgba(231, 133, 94, 1)',
+                            'rgba(93, 121, 152, 1)',
+                            'rgba(174, 231, 118, 1)',
+                            'rgba(251, 206, 139, 1)',
+                            'rgba(34, 52, 72, 1)'
+                        ],
+                        data: campaign.data
                     }
-                }
+                ]
             },
-            series: [{
-                name: 'Campaign',
-                type: 'pie',
-                radius: ['35%', '55%'],
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                    enabled: true
+                },
+                scales: {
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            min: 0,
+                            stepSize: 100
                         },
-                        labelLine: {
-                            show: true
-                        }
-                    },
-                    emphasis: {
-                        label: {
+                        gridLines: {
                             show: true,
-                            position: 'center',
-                            textStyle: {
-                                fontSize: '14',
-                                fontWeight: 'normal'
-                            }
+                            color: "#F3F3F3"
                         }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            show: true,
+                            color: "#F3F3F3"
+                        }
+                    }]
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#485465',
+                        FontFamily: "Ubuntu-Regular'"
                     }
                 },
-                data: productivity.data
-            }]
-        });
+                grid: {
+                    borderWidth: 1,
+                    borderColor: '#fff',
+                    show: false
+                }
+            }
+        };
+        var myChart1 = new Chart(ctx, myObject)
+
     };
 
     $scope.echartDonutSetOption({
         ResourceId:"ResourceId123",
         ResourceName:"Campign",
-        /*data:[{name: "Waiting",value: 100},{name: "Dialing",value: 20},{name: "Paused",value: 30},{name: "Stopped",value: 40}]*/
-        data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
-        //'Waiting', 'Dialing', 'Paused', 'Stopped', 'Idle', 'Hold'
+        data:[0,0,0,0,0,0,0]
     });
 
     $scope.isSetCommand = false;

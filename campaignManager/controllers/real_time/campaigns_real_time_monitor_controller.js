@@ -163,11 +163,12 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
 
     var setDonutData =function () {
         try{
-            myObject.setOption({
+            /*myObject.setOption({
                 series: [{
                     data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
                 }]
-            });
+            });*/
+            myObject.data.datasets[0].data= [$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]
         }catch(ex){
             console.log(ex);
         }
@@ -274,15 +275,16 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
     $scope.GetOngoinCampignList = function (value) {
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
-        campaignService.GetOngoinCampignList().then(function (response) {
+        campaignService.GetOngoinCampignList(value).then(function (response) {
 
             if (response) {
-                if (value === "ALL") {
+                $scope.gridQOptions.data = response;
+                /*if (value === "ALL") {
                     $scope.gridQOptions.data = response;
                 }
                 else {
                     $scope.gridQOptions.data = $filter('filter')(response, {OperationalStatus: value}, true);
-                }
+                }*/
             }
             $('#v_data_load').addClass('display-none');
             $('#v_data_grd').removeClass('display-none').addClass("qgrid");
@@ -336,7 +338,8 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
 
                 $scope.echartDonutSetOption({
                     ResourceId:"ResourceId123",
-                    data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
+                    /*data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]*/
+                    data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]
                     //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
                 });
             }
@@ -565,7 +568,68 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
         }
     };
     $scope.echartDonutSetOption = function (campaign) {
-        myObject = echarts.init(document.getElementById(campaign.ResourceId), theme);
+        var ctx = document.getElementById('myChart').getContext('2d');
+        myObject = {
+            type: 'bar',
+
+            data: {
+                labels: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],
+                datasets: [
+                    {
+                        label: "Total Count",
+                        backgroundColor: [
+                            'rgba(43, 201, 226, 1)',
+                            'rgba(231, 133, 94, 1)',
+                            'rgba(93, 121, 152, 1)',
+                            'rgba(174, 231, 118, 1)',
+                            'rgba(251, 206, 139, 1)',
+                            'rgba(34, 52, 72, 1)'
+                        ],
+                        data: campaign.data
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                    enabled: true
+                },
+                scales: {
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            min: 0,
+                            stepSize: 100
+                        },
+                        gridLines: {
+                            show: true,
+                            color: "#F3F3F3"
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            show: true,
+                            color: "#F3F3F3"
+                        }
+                    }]
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#485465',
+                        FontFamily: "Ubuntu-Regular'"
+                    }
+                },
+                grid: {
+                    borderWidth: 1,
+                    borderColor: '#fff',
+                    show: false
+                }
+            }
+        };
+        var myChart = new Chart(ctx, myObject)
+        /*myObject = echarts.init(document.getElementById(campaign.ResourceId), theme);
         myObject.setOption({
             title: {
                 show: true,
@@ -640,12 +704,13 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
                 },
                 data: campaign.data
             }]
-        });
+        });*/
     };
 
     $scope.echartDonutSetOption({
         ResourceId:"ResourceId123",
-        data:[{name: "ProfilesCount",value:0},{name: ",ProfileLoaded",value: 0},{name: "ProfileRejected",value: 0},{name: "ContactLoaded",value: 0},{name:"ContactRejected",value:0},{name: "Dialed",value: 0},{name: "Dialing",value: 0}]
+        /*data:[{name: "ProfilesCount",value:0},{name: ",ProfileLoaded",value: 0},{name: "ProfileRejected",value: 0},{name: "ContactLoaded",value: 0},{name:"ContactRejected",value:0},{name: "Dialed",value: 0},{name: "Dialing",value: 0}]*/
+        data:[0,0,0,0,0,0,0]
         //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
     });
 

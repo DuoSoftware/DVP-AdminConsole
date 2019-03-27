@@ -686,10 +686,10 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var getOngoinCampignList = function () {
+    var getOngoinCampignList = function (OperationalStatus) {
         return $http({
             method: 'GET',
-            url: baseUrls.monitorrestapi + 'Campaigns'
+            url: baseUrls.monitorrestapi + 'Campaigns?'+(OperationalStatus==="ALL"?"":("OperationalStatus="+OperationalStatus))
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
