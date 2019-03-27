@@ -1318,7 +1318,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "articleCategoryManagerController",
             data: {
                 requireLogin: true,
-                navigation: "KONWLADGE_PORTAL"
+                navigation: "KNOWLEDGE_PORTAL"
             }
         }).state("console.articlefolders", {
             url: "/articlefolders/:catId/:editmode/:catName",
@@ -1326,7 +1326,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "articleFolderController",
             data: {
                 requireLogin: true,
-                navigation: "KONWLADGE_PORTAL"
+                navigation: "KNOWLEDGE_PORTAL"
             }
         }).state("console.articles", {
             url: "/articles/:fId/:editmode/:fname",
@@ -1334,7 +1334,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "articleManagerController",
             data: {
                 requireLogin: true,
-                navigation: "KONWLADGE_PORTAL"
+                navigation: "KNOWLEDGE_PORTAL"
             }
         });
         //Todo shoud be change navigation
