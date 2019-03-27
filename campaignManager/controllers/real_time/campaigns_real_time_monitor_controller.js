@@ -113,7 +113,8 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
                 field: 'StartTime',
                 headerTooltip: 'Start Time',
                 cellTemplate: startTimeTemplate,
-                cellClass: 'table-time'
+                cellClass: 'table-time',
+                width: '130'
             },
             {
                 enableSorting: true, enableFiltering: false,
@@ -121,7 +122,8 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
                 field: 'EndTime',
                 headerTooltip: 'End Time',
                 cellTemplate: endTimeTimeTemplate,
-                cellClass: 'table-time'
+                cellClass: 'table-time',
+                width: '130'
             },{
                 enableSorting: true, enableFiltering: false,
                 name: '',
@@ -129,7 +131,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state,$s
                 headerTooltip: 'View',
                 cellTemplate: viewTemplate,
                 cellClass: 'table-time',
-                width: '50'
+                width: '25'
             }],
         data: [{test: "loading"}],
         onRegisterApi: function (gridApi) {
