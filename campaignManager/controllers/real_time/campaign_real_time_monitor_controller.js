@@ -251,6 +251,8 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
             method_list.push(dashboardService.GetTotalCampaignCount(window_names[i],$scope.campaignId));
         }
 
+        method_list.push(contactService.ProfileContactsCount($scope.campaignId));
+
         $q.all(method_list).then(function (resolveData) {
             if (resolveData) {
                 $scope.total_numbers = resolveData[6];
@@ -265,10 +267,13 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 $scope.total_contact_rejected= resolveData[8];
                 $scope.total_dialings= resolveData[4];
 
+                $scope.ContactCount =(resolveData[9].data && resolveData[9].data.IsSuccess)?resolveData[9].data.Result:0;
+
                 $scope.echartDonutSetOption({
                     ResourceId:"ResourceId123",
-                    data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]
-                    //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
+                    // hide profile wise count till implement in dialer side,
+                    /*data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]*/
+                    data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]
                 });
             }
 
@@ -497,12 +502,13 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     var myObject = {};
     $scope.echartDonutSetOption = function (campaign) {
 
-        var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx = document.getElementById('campaignDataBarChart').getContext('2d');
         myObject ={
             type: 'bar',
 
             data: {
-                labels: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],
+                /*labels: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],*/
+                labels: ['ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],
                 datasets: [
                     {
                         label: "Total Count",
@@ -564,7 +570,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     $scope.echartDonutSetOption({
         ResourceId:"ResourceId123",
         ResourceName:"Campign",
-        data:[0,0,0,0,0,0,0]
+        data:[0,0,0,0,0,0,0,0]
     });
 
     $scope.isSetCommand = false;
