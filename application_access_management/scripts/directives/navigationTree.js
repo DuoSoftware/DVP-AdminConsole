@@ -10,7 +10,8 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
             navigation: '=',
             selectedConsole: '=',
             userName: '@?',
-            consoleName: '@?'
+            consoleName: '@?',
+            userrole:'@?'
         },
 
         templateUrl: 'application_access_management/view/template/navigationTree.html',
@@ -128,65 +129,78 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
 
             scope.updateNavigation = function (navigationData) {
                 try {
-                    var editedMenus = {};
-                    editedMenus = {
-                        "menuItem": navigationData.name,//"navigationName": "ARDS_CONFIGURATION",
-                        "menuAction": []
-                    };
-                    if (navigationData.isSelected) {
-                        angular.forEach(navigationData.children, function (menu) {
 
 
-                            var data = {
-                                "scope": menu.id,//"scopeName": "requestmeta",
-                                "read": false,
-                                "write": false,
-                                "delete": false
-                            };
-                            angular.forEach(menu.children, function (item) {
-                                data[item.name.toLowerCase()] = item.isSelected;
+                    if(scope.userrole == 'admin')
+                    {
+                        scope.showError("Error", "Cannot Update Admin Scopes");
+                    }
+                    else
+                    {
+                        var editedMenus = {};
+                        editedMenus = {
+                            "menuItem": navigationData.name,//"navigationName": "ARDS_CONFIGURATION",
+                            "menuAction": []
+                        };
+                        if (navigationData.isSelected) {
+                            angular.forEach(navigationData.children, function (menu) {
+
+
+                                var data = {
+                                    "scope": menu.id,//"scopeName": "requestmeta",
+                                    "read": false,
+                                    "write": false,
+                                    "delete": false
+                                };
+                                angular.forEach(menu.children, function (item) {
+                                    data[item.name.toLowerCase()] = item.isSelected;
+                                });
+
+                                editedMenus.menuAction.push(data);
                             });
 
-                            editedMenus.menuAction.push(data);
-                        });
-
-                        appAccessManageService.AddSelectedNavigationToUser(scope.userName, scope.consoleName, editedMenus).then(function (response) {
-                            if (response.IsSuccess) {
-                                scope.showAlert("Info", "Info", "ok", navigationData.name + " Successfully Updated.")
-                            }
-                            else {
-                                if (response.CustomMessage) {
-                                    scope.showError("Error", response.CustomMessage);
+                            appAccessManageService.AddSelectedNavigationToUser(scope.userName, scope.consoleName, editedMenus).then(function (response) {
+                                if (response.IsSuccess) {
+                                    scope.showAlert("Info", "Info", "ok", navigationData.name + " Successfully Updated.")
                                 }
                                 else {
-                                    scope.showError("Error", navigationData.name + " Failed To Update.");
+                                    if (response.CustomMessage) {
+                                        scope.showError("Error", response.CustomMessage);
+                                    }
+                                    else {
+                                        scope.showError("Error", navigationData.name + " Failed To Update.");
+                                    }
+
                                 }
 
-                            }
-
-                        }, function (error) {
-                            scope.showError("Error", "Failed to Add Permissions[" + navigationData.name + "]");
-                        });
-                    }
-                    else {
-                        appAccessManageService.DeleteSelectedNavigationFrmUser(scope.userName, scope.consoleName, navigationData.name).then(function (response) {
-                            if (response.IsSuccess) {
-                                scope.showAlert("Info", "Info", "ok", navigationData.name + " Permissions Successfully Remove.")
-                            }
-                            else {
-                                if (response.CustomMessage) {
-                                    scope.showError("Error", response.CustomMessage);
+                            }, function (error) {
+                                scope.showError("Error", "Failed to Add Permissions[" + navigationData.name + "]");
+                            });
+                        }
+                        else {
+                            appAccessManageService.DeleteSelectedNavigationFrmUser(scope.userName, scope.consoleName, navigationData.name).then(function (response) {
+                                if (response.IsSuccess) {
+                                    scope.showAlert("Info", "Info", "ok", navigationData.name + " Permissions Successfully Remove.")
                                 }
                                 else {
-                                    scope.showError("Error", navigationData.name + " Fail To Update.");
+                                    if (response.CustomMessage) {
+                                        scope.showError("Error", response.CustomMessage);
+                                    }
+                                    else {
+                                        scope.showError("Error", navigationData.name + " Fail To Update.");
+                                    }
+
                                 }
 
-                            }
-
-                        }, function (error) {
-                            scope.showError("Error", " Failed to Remove Permissions[" + navigationData.name + "]");
-                        });
+                            }, function (error) {
+                                scope.showError("Error", " Failed to Remove Permissions[" + navigationData.name + "]");
+                            });
+                        }
                     }
+
+
+
+
                 }
                 catch (ex) {
                     scope.showError("Error", "Failed to Add Permissions[" + navigationData.name + "]");

@@ -63,12 +63,14 @@
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.icon.$invalid && !fOuter.icon.$pristine }">
                                 <span>Icon</span>
-                                <input type="text" class="form-control" name="icon" ng-model="actionData.icon" required>
-                                <p ng-show="fOuter.icon.$invalid && !fOuter.icon.$pristine" class="help-block">Icon is invalid.</p>
+                                <input type="url" class="form-control" name="icon" ng-model="actionData.icon">
+                                <p ng-show="fOuter.icon.$invalid && !fOuter.icon.$pristine" class="help-block">Icon URL is invalid.</p>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.dynamic_form_id.$invalid && !fOuter.dynamic_form_id.$pristine }">
                                 <span>Form</span>
-                                <select required class="form-control" name="dynamic_form_id" ng-options="form._id as form.name for form in formList" ng-model="actionData.dynamic_form_id"></select>
+                                <select class="form-control" name="dynamic_form_id" ng-options="form._id as form.name for form in formList" ng-model="actionData.dynamic_form_id">
+                                    <option value=""></option>
+                                </select>
                                 <p ng-show="fOuter.dynamic_form_id.$invalid && !fOuter.dynamic_form_id.$pristine" class="help-block">Form is invalid.</p>
                             </div>
 

@@ -97,7 +97,7 @@ var baseUrls = {
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app1.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
+    'resourceServiceBaseUrl': 'http://resourceservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
     'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
     'fileServiceUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/FileService/',
@@ -1318,7 +1318,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "articleCategoryManagerController",
             data: {
                 requireLogin: true,
-                navigation: "KONWLADGE_PORTAL"
+                navigation: "KNOWLEDGE_PORTAL"
             }
         }).state("console.articlefolders", {
             url: "/articlefolders/:catId/:editmode/:catName",
@@ -1326,7 +1326,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "articleFolderController",
             data: {
                 requireLogin: true,
-                navigation: "KONWLADGE_PORTAL"
+                navigation: "KNOWLEDGE_PORTAL"
             }
         }).state("console.articles", {
             url: "/articles/:fId/:editmode/:fname",
@@ -1334,7 +1334,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "articleManagerController",
             data: {
                 requireLogin: true,
-                navigation: "KONWLADGE_PORTAL"
+                navigation: "KNOWLEDGE_PORTAL"
             }
         });
         //Todo shoud be change navigation
