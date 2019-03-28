@@ -126,7 +126,7 @@ mainApp.factory('contactService', function ($http, baseUrls) {
 
     var profileContactLoadedCount = function (campaignID) {
 
-        var url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/*/*/*";
+        var url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/CAMPAIGNNUMBERSTAKEN/*/*";
         if(campaignID){
             url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/CAMPAIGNNUMBERSTAKEN/"+campaignID+"/*";
         }
