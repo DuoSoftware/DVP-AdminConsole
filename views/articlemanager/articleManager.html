@@ -125,7 +125,7 @@
                            ng-repeat="item in articleList | filterBy: ['title']: searchCriteria">
                             <div class="mail_list user-list">
                                 <div class="right user-option-wrap">
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" ng-click="openForEditing(item._id)">
                                         <h3 class="font-robot sub-header">
                                             {{item.title}}
                                         </h3>
