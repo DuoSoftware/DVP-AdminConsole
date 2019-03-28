@@ -20,6 +20,20 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getCampaign = function (campaignId) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return null;
+            }
+        });
+    };
+
     var getCampaigns = function () {
 
         return $http({
@@ -672,10 +686,10 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var getOngoinCampignList = function () {
+    var getOngoinCampignList = function (OperationalStatus) {
         return $http({
             method: 'GET',
-            url: baseUrls.monitorrestapi + 'Campaigns'
+            url: baseUrls.monitorrestapi + 'Campaigns?'+(OperationalStatus==="ALL"?"":("OperationalStatus="+OperationalStatus))
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -692,6 +706,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         CreateCampaign: createCampaign,
         GetExtensions: getExtensions,
         GetCampaigns: getCampaigns,
+        GetCampaign: getCampaign,
         UpdateCampaign: updateCampaign,
         DeleteCampaign: deleteCampaign,
         GetReasons: getReasons,

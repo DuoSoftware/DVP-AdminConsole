@@ -33,15 +33,15 @@
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.trycount.$invalid && !fOuter.trycount.$pristine }">
                                         <span>Try Count</span>
-                                        <input type="number" class="form-control" name="trycount"
+                                        <input type="number" max="5" min="1" class="form-control" name="trycount"
                                                 ng-model="appData.trycount" required>
-                                        <p ng-show="fOuter.trycount.$invalid && !fOuter.trycount.$pristine" class="help-block">Try Count is invalid.</p>
+                                        <p ng-show="fOuter.trycount.$invalid && !fOuter.trycount.$pristine" class="help-block">Try Count is invalid. (Max 5, Min 1)</p>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12 form-group" ng-class="{ 'has-error' : fOuter.timeout.$invalid && !fOuter.timeout.$pristine }">
                                         <span>Timeout</span>
                                         <input type="number" max="15" min="5" class="form-control" name="timeout"
                                                 ng-model="appData.timeout" required>
-                                        <p ng-show="fOuter.timeout.$invalid && !fOuter.timeout.$pristine" class="help-block">Timeout is invalid.</p>
+                                        <p ng-show="fOuter.timeout.$invalid && !fOuter.timeout.$pristine" class="help-block">Timeout is invalid. (Max 15, Min 5)</p>
                                     </div>
                                 </div>
                         </div>

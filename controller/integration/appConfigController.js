@@ -105,6 +105,15 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
     };
 
     $scope.addActionToApp = function(action){
+
+        if(action.integration.method == "GET"){
+            if (action.integration.parameters.filter(function(e) { return e.parameterLocation === 'BODY'; }).length > 0) {
+                // contains a body parameter
+                $scope.showAlert("App Integrations", "error", "GET request cannot contain a BODY.");
+                return false;
+              }
+        };
+
         $scope.isProcessing = true;
         action.integration.response_map.accepted_codes = action.integration.response_map.accepted_codes.map(function(tag){
             return tag.code;
@@ -156,7 +165,15 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
         $anchorScroll('action_panel');
     };
 
-    $scope.updateAction = function(){        
+    $scope.updateAction = function(){   
+        
+        if($scope.actionData.integration.method == "GET"){
+            if ($scope.actionData.integration.parameters.filter(function(e) { return e.parameterLocation === 'BODY'; }).length > 0) {
+                // contains a body parameter
+                $scope.showAlert("App Integrations", "error", "GET request cannot contain a BODY.");
+                return false;
+              }
+        }
         
         $scope.actionData.integration.response_map.accepted_codes = $scope.actionData.integration.response_map.accepted_codes.map(function(tag){
                                                                         return tag.code;
@@ -236,6 +253,14 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
 
 
     $scope.updateDefaultIntegration = function (appId, integrationData) {
+
+        if(integrationData.method == "GET"){
+            if (integrationData.parameters.filter(function(e) { return e.parameterLocation === 'BODY'; }).length > 0) {
+                // contains a body parameter
+                $scope.showAlert("App Integrations", "error", "GET request cannot contain a BODY.");
+                return false;
+              }
+        }
        
         $scope.isProcessing = true;
 

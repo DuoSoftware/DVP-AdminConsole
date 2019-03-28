@@ -8480,7 +8480,7 @@ select > option .disable-opt {
 }
 
 .campaign-edit-btn:hover {
-    background: #fff;
+    background: #8f8187;
     transform: scale(1.5);
     -webkit-transform: scale(1.5);
     -o-transform: scale(1.5);

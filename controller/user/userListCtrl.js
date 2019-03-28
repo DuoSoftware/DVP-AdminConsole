@@ -810,7 +810,7 @@
                 userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
                     if (response.IsSuccess) {
                         $scope.groupMemberlist = response.Result;
-                        removeAllocatedAgents()
+                        //removeAllocatedAgents()
                     }
                     else {
                         console.log("Error in loading Group member list");
