@@ -160,7 +160,7 @@
                 <form class="form-horizontal form-label-left input_mask">
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                            <span>Redial Time (in Sec)</span>
+                            <span>Redial Time (in Minutes)</span>
                             <input type="text" class="form-control"
                                    ng-model="abandonRedialConfig.redialTime">
                         </div>
@@ -169,6 +169,16 @@
                             <select class="form-control" ng-model="abandonRedialConfig.redialCampaignId" ng-model-options="{trackBy: '$value'}">
                                 <option ng-repeat="camp in campaignList" value="{{camp.CampaignId}}">{{camp.CampaignName}}</option>
                             </select>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                            <span>Campaign Schedule Id</span>
+                            <input type="text" class="form-control"
+                                   ng-model="abandonRedialConfig.camScheduleId">
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                            <span>Category Id</span>
+                            <input type="text" class="form-control"
+                                   ng-model="abandonRedialConfig.categoryId">
                         </div>
                     </div>
                     <div class="row">
