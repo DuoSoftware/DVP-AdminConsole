@@ -7,6 +7,7 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
     $scope.categoryList=[];
     $scope.newCat={};
     $scope.savebtn="Save";
+    $scope.AvailableBUnits=[];
 
     $scope.isSaving=false;
     $scope.isUpdating=false;
@@ -39,12 +40,20 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
         $scope.newCat={}
     };
 
-    $scope.AvailableBUnits = ShareData.BusinessUnits;
+    ShareData.BusinessUnits.forEach(function (item) {
+
+        if(item.unitName!="ALL")
+        {
+            $scope.AvailableBUnits.push(item.unitName);
+        }
+    });
+
+    /*$scope.AvailableBUnits = ShareData.BusinessUnits;*/
 
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
         return function filterFn(bu) {
-            return (bu.unitName.toLowerCase().indexOf(lowercaseQuery) != -1);
+            return (bu.toLowerCase().indexOf(lowercaseQuery) != -1);
 
         };
     }
@@ -73,6 +82,10 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
         if($scope.savebtn=="Save")
         {
             $scope.newCat.businessUnit=ShareData.BusinessUnit;
+            $scope.newCat.allow_business_units=$scope.newCat.allow_business_units.map(function (item) {
+
+                return item.text;
+            });
             articleBackendService.saveNewArticleCategory($scope.newCat).then(function (resp) {
                 $scope.isSaving=false;
                 $scope.showAlert("Success","success","Category Saved Successfully");
@@ -113,11 +126,22 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
     var loadFullCategory = function (cId) {
         articleBackendService.getFullCategory(cId).then(function (resp) {
 
-            $scope.newCategoryView=true;
-            $scope.newCat =resp;
+            if(resp)
+            {
+                $scope.newCategoryView=true;
+                $scope.newCat =resp;
+            }
+            else
+
+            {
+                $scope.showAlert("Error","error","Failed to load Category data");
+            }
 
 
 
+
+        },function (err) {
+            $scope.showAlert("Error","error","Failed to load Category data");
         });
     };
     $scope.openForEditing = function (cId) {
@@ -134,7 +158,7 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
 
         if($scope.isUpdating)
         {
-            articleBackendService.attachBUToCategory($scope.newCat._id,chip._id).then(function (resp) {
+            articleBackendService.attachBUToCategory($scope.newCat._id,chip.text).then(function (resp) {
 
             });
         }
@@ -146,7 +170,7 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
 
         if($scope.isUpdating)
         {
-            articleBackendService.detachBUToCategory($scope.newCat._id,chip._id).then(function (resp) {
+            articleBackendService.detachBUToCategory($scope.newCat._id,chip.text).then(function (resp) {
 
             });
         }
