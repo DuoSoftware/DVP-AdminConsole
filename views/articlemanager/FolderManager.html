@@ -101,7 +101,7 @@
                            ng-repeat="item in folderList | filterBy: ['title']: searchCriteria">
                             <div class="mail_list user-list">
                                 <div class="right user-option-wrap">
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" ng-click="goToArticlesWithoutNew(item._id,item.title)">
                                         <h2 class="font-robot sub-header">
                                             {{item.title}}
                                         </h2>
