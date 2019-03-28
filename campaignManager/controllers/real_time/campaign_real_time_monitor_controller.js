@@ -33,7 +33,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
             });*/
 
            //myObject.data.datasets[0].data= [$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing]
-            myChart1.data.datasets[0].data= [$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing];
+            myChart1.data.datasets[0].data= [$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing,$scope.total_answered];
             myChart1.update();
         }catch(ex){
             console.log(ex);
@@ -191,7 +191,6 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount"){
                         $scope.ContactLoaded =  event.Message.TotalCountParam1;
-                        $scope.ProfileLoaded =  event.Message.TotalCountWindow;
                         setDonutData();
                     }
                 }break;
@@ -201,8 +200,12 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                         setDonutData();
                     }
                 }break;
+                case "CAMPAIGNCONNECTED:TotalCount": {
+                    if (event.Message && event.eventName === "TotalCount") {
+                        $scope.total_answered = event.Message.TotalCountParam1;
+                    }
+                }
             }
-
             $scope.getTableHeight();
         });
     });
@@ -248,7 +251,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
         var method_list = [contactService.ProfilesCount($scope.campaignId),contactService.ProfileLoadedCount($scope.campaignId),contactService.ProfileRejectCount($scope.campaignId),
             contactService.ProfileContactsCount($scope.campaignId),contactService.ProfileContactLoadedCount($scope.campaignId),contactService.ProfileContactRejectedCount($scope.campaignId),
             dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",$scope.campaignId),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",$scope.campaignId),
-            dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",$scope.campaignId),$scope.GetCampignCallList()];
+            dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",$scope.campaignId),dashboardService.GetTotalCampaignCount("CAMPAIGNCONNECTED",$scope.campaignId),$scope.GetCampignCallList()];
 
 
         $q.all(method_list).then(function (resolveData) {
@@ -268,6 +271,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 $scope.dialing = resolveData[6];//CAMPAIGNDIALING  getCurrentCampaignCount
                 $scope.connected = resolveData[7];//CAMPAIGNCONNECTED   getCurrentCampaignCount
                 $scope.total_dialed =resolveData[8]; // CAMPAIGNDIALING GetTotalCampaignCount
+                $scope.total_answered = resolveData[9];
 
 
 
@@ -275,7 +279,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                     ResourceId:"ResourceId123",
                     // hide profile wise count till implement in dialer side,
                     /*data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing]*/
-                    data:[$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing]
+                    data:[$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing,$scope.total_answered]
                     //'ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'
                 });
             }
@@ -301,7 +305,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
 
             data: {
                 /*labels: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],*/
-                labels: ['ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],
+                labels: ['ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing','TotalAnswered'],
                 datasets: [
                     {
                         label: "Total Count",
@@ -363,7 +367,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     $scope.echartDonutSetOption({
         ResourceId:"ResourceId123",
         ResourceName:"Campign",
-        data:[0,0,0,0,0,0,0,0]
+        data:[0,0,0,0,0,0,0,0,0]
     });
 
     $scope.isSetCommand = false;
