@@ -273,7 +273,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount") {
-                        $scope.ProfileLoaded = event.Message.TotalCountWindow;
+                        $scope.ContactLoaded = event.Message.TotalCountWindow;
                         setDonutData();
                     }
                 }
