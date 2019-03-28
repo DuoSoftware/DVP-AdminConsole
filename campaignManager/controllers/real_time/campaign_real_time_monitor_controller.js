@@ -25,11 +25,16 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
 
     var setDonutData =function () {
         try{
-            myObject.setOption({
+            /*myObject.setOption({
                 series: [{
-                    data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
+                    data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.dialing}]
                 }]
-            });
+
+            });*/
+
+           //myObject.data.datasets[0].data= [$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing]
+            myChart1.data.datasets[0].data= [$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing];
+            myChart1.update();
         }catch(ex){
             console.log(ex);
         }
@@ -174,7 +179,6 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 case "CAMPAIGNDIALING:CurrentCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount"){
                         $scope.dialing =  event.Message.CurrentCountParam1;
-                        $scope.total_dialings =  event.Message.CurrentCountParam1;
                         setDonutData();
                     }
                 }break;
@@ -186,7 +190,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 }break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount"){
-                        $scope.total_numbers =  event.Message.TotalCountParam1;
+                        $scope.ContactLoaded =  event.Message.TotalCountParam1;
                         $scope.ProfileLoaded =  event.Message.TotalCountWindow;
                         setDonutData();
                     }
@@ -233,7 +237,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     };
     load_campaign();
 
-    $scope.total_numbers = 0;
+    $scope.ContactLoaded = 0;
     $scope.total_dialed = 0;
     $scope.connected =  0;
     $scope.dialing =  0;
@@ -241,31 +245,38 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
 
-        var method_list = [contactService.ProfilesCount($scope.campaignId),contactService.ProfileContactLoadedCount($scope.campaignId),contactService.ProfileContactRejectedCount($scope.campaignId),$scope.GetCampignCallList(),dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",$scope.campaignId),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",$scope.campaignId)];
+        var method_list = [contactService.ProfilesCount($scope.campaignId),contactService.ProfileLoadedCount($scope.campaignId),contactService.ProfileRejectCount($scope.campaignId),
+            contactService.ProfileContactsCount($scope.campaignId),contactService.ProfileContactLoadedCount($scope.campaignId),contactService.ProfileContactRejectedCount($scope.campaignId),
+            dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",$scope.campaignId),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",$scope.campaignId),
+            dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",$scope.campaignId),$scope.GetCampignCallList()];
 
-        var window_names = ["CAMPAIGNNUMBERSTAKEN","CAMPAIGNDIALING","CAMPAIGNREJECTED"];
-        for (var i = 0; i < window_names.length; i++) {
-            method_list.push(dashboardService.GetTotalCampaignCount(window_names[i],$scope.campaignId));
-        }
 
         $q.all(method_list).then(function (resolveData) {
             if (resolveData) {
-                $scope.total_numbers = resolveData[6];
-                $scope.total_dialed =resolveData[7];
-                $scope.connected = resolveData[5];
-                $scope.dialing = resolveData[4];
+
+
 
                 $scope.ProfilesCount = (resolveData[0].data && resolveData[0].data.IsSuccess)?resolveData[0].data.Result:0;
+                $scope.ProfileLoaded= (resolveData[1].data && resolveData[1].data.IsSuccess)?resolveData[1].data.Result:0;
                 $scope.ProfileRejected =(resolveData[2].data && resolveData[2].data.IsSuccess)?resolveData[2].data.Result:0;
-                $scope.ProfileLoaded= resolveData[6];
-                $scope.ContactLoaded =(resolveData[1].data && resolveData[1].data.IsSuccess)?resolveData[1].data.Result:0;
-                $scope.total_contact_rejected= resolveData[8];
-                $scope.total_dialings= resolveData[4];
+
+                $scope.ContactCount =(resolveData[3].data && resolveData[3].data.IsSuccess)?resolveData[3].data.Result:0;
+                $scope.ContactLoaded =(resolveData[4].data && resolveData[4].data.IsSuccess)?resolveData[4].data.Result:0;// CAMPAIGNNUMBERSTAKEN GetTotalCampaignCount
+                $scope.total_contact_rejected= (resolveData[5].data && resolveData[5].data.IsSuccess)?resolveData[5].data.Result:0;
+
+
+                $scope.dialing = resolveData[6];//CAMPAIGNDIALING  getCurrentCampaignCount
+                $scope.connected = resolveData[7];//CAMPAIGNCONNECTED   getCurrentCampaignCount
+                $scope.total_dialed =resolveData[8]; // CAMPAIGNDIALING GetTotalCampaignCount
+
+
 
                 $scope.echartDonutSetOption({
                     ResourceId:"ResourceId123",
-                    data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
-                    //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
+                    // hide profile wise count till implement in dialer side,
+                    /*data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing]*/
+                    data:[$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.dialing]
+                    //'ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'
                 });
             }
 
@@ -280,304 +291,79 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     load_default_data();
 
 
-    var theme = {
-        color: [
-            '#db4114', '#f8b01d', '#2ba89c', '#114858',
-            '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
-        ],
-        title: {
-            itemGap: 8,
-            textStyle: {
-                color: '#408829',
-                fontFamily: 'Roboto',
-                fontWeight: 300
-            }
-        },
-
-        dataRange: {
-            color: ['#1f610a', '#97b58d']
-        },
-
-        toolbox: {
-            color: ['#408829', '#408829', '#408829', '#408829']
-        },
-
-        tooltip: {
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            axisPointer: {
-                type: 'line',
-                lineStyle: {
-                    color: '#408829',
-                    type: 'dashed'
-                },
-                crossStyle: {
-                    color: '#408829'
-                },
-                shadowStyle: {
-                    color: 'rgba(200,200,200,0.3)'
-                }
-            }
-        },
-
-        dataZoom: {
-            dataBackgroundColor: '#eee',
-            fillerColor: 'rgba(64,136,41,0.2)',
-            handleColor: '#408829'
-        },
-        grid: {
-            borderWidth: 0
-        },
-
-        categoryAxis: {
-            axisLine: {
-                lineStyle: {
-                    color: '#408829'
-                }
-            },
-            splitLine: {
-                lineStyle: {
-                    color: ['#eee']
-                }
-            }
-        },
-
-        valueAxis: {
-            axisLine: {
-                lineStyle: {
-                    color: '#408829'
-                }
-            },
-            splitArea: {
-                show: true,
-                areaStyle: {
-                    color: ['rgba(250,250,250,0.1)', 'rgba(200,200,200,0.1)']
-                }
-            },
-            splitLine: {
-                lineStyle: {
-                    color: ['#eee']
-                }
-            }
-        },
-        timeline: {
-            lineStyle: {
-                color: '#408829'
-            },
-            controlStyle: {
-                normal: {color: '#408829'},
-                emphasis: {color: '#408829'}
-            }
-        },
-
-        k: {
-            itemStyle: {
-                normal: {
-                    color: '#68a54a',
-                    color0: '#a9cba2',
-                    lineStyle: {
-                        width: 1,
-                        color: '#408829',
-                        color0: '#86b379'
-                    }
-                }
-            }
-        },
-        map: {
-            itemStyle: {
-                normal: {
-                    areaStyle: {
-                        color: '#ddd'
-                    },
-                    label: {
-                        textStyle: {
-                            color: '#c12e34'
-                        }
-                    }
-                },
-                emphasis: {
-                    areaStyle: {
-                        color: '#99d2dd'
-                    },
-                    label: {
-                        textStyle: {
-                            color: '#c12e34'
-                        }
-                    }
-                }
-            }
-        },
-        force: {
-            itemStyle: {
-                normal: {
-                    linkStyle: {
-                        strokeColor: '#408829'
-                    }
-                }
-            }
-        },
-        chord: {
-            padding: 4,
-            itemStyle: {
-                normal: {
-                    lineStyle: {
-                        width: 1,
-                        color: 'rgba(128, 128, 128, 0.5)'
-                    },
-                    chordStyle: {
-                        lineStyle: {
-                            width: 1,
-                            color: 'rgba(128, 128, 128, 0.5)'
-                        }
-                    }
-                },
-                emphasis: {
-                    lineStyle: {
-                        width: 1,
-                        color: 'rgba(128, 128, 128, 0.5)'
-                    },
-                    chordStyle: {
-                        lineStyle: {
-                            width: 1,
-                            color: 'rgba(128, 128, 128, 0.5)'
-                        }
-                    }
-                }
-            }
-        },
-        gauge: {
-            startAngle: 225,
-            endAngle: -45,
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    color: [[0.2, '#86b379'], [0.8, '#68a54a'], [1, '#408829']],
-                    width: 8
-                }
-            },
-            axisTick: {
-                splitNumber: 10,
-                length: 12,
-                lineStyle: {
-                    color: 'auto'
-                }
-            },
-            axisLabel: {
-                textStyle: {
-                    color: 'auto'
-                }
-            },
-            splitLine: {
-                length: 18,
-                lineStyle: {
-                    color: 'auto'
-                }
-            },
-            pointer: {
-                length: '90%',
-                color: 'auto'
-            },
-            title: {
-                textStyle: {
-                    color: '#333'
-                }
-            },
-            detail: {
-                textStyle: {
-                    color: 'auto'
-                }
-            }
-        },
-        textStyle: {
-            fontFamily: 'Arial, Verdana, sans-serif'
-        }
-    };
+    var myChart1 ={};
     var myObject = {};
-    $scope.echartDonutSetOption = function (productivity) {
+    $scope.echartDonutSetOption = function (campaign) {
 
-        myObject = echarts.init(document.getElementById(productivity.ResourceId), theme);
-        myObject.setOption({
-            title: {
-                show: true,
-                //text: productivity.ResourceName,
-                textStyle: {
-                    fontSize: 18,
-                    fontWeight: 'bolder',
-                    color: '#333',
-                    fontFamily: 'Ubuntu-Regular'
-                }
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)",
-            },
-            calculable: true,
-            legend: {
-                x: 'center',
-                y: 'bottom',
-                data: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactLoaded','ContactRejected', 'Dialed', 'Dialing']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    //dataView : {show: true, readOnly: false},
-                    magicType: {
-                        show: true,
-                        type: ['pie', 'funnel'],
-                        option: {
-                            funnel: {
-                                x: '10%',
-                                width: '50%',
-                                funnelAlign: 'center',
-                                max: 1548
-                            }
-                        }
-                    },
-                    restore: {
-                        show: false,
-                        title: "Restore"
-                    },
-                    saveAsImage: {
-                        show: false,
-                        title: "Save As Image"
+        var ctx = document.getElementById('campaignDataBarChart').getContext('2d');
+        myObject ={
+            type: 'bar',
+
+            data: {
+                /*labels: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],*/
+                labels: ['ContactCount','ContactLoaded','ContactRejected', 'Dialed', 'Dialing'],
+                datasets: [
+                    {
+                        label: "Total Count",
+                        backgroundColor: [
+                            'rgba(43, 201, 226, 1)',
+                            'rgba(231, 133, 94, 1)',
+                            'rgba(93, 121, 152, 1)',
+                            'rgba(174, 231, 118, 1)',
+                            'rgba(251, 206, 139, 1)',
+                            'rgba(34, 52, 72, 1)'
+                        ],
+                        data: campaign.data
                     }
-                }
+                ]
             },
-            series: [{
-                name: 'Campaign',
-                type: 'pie',
-                radius: ['35%', '55%'],
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                    enabled: true
+                },
+                scales: {
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            min: 0,
+                            stepSize: 100
                         },
-                        labelLine: {
-                            show: true
-                        }
-                    },
-                    emphasis: {
-                        label: {
+                        gridLines: {
                             show: true,
-                            position: 'center',
-                            textStyle: {
-                                fontSize: '14',
-                                fontWeight: 'normal'
-                            }
+                            color: "#F3F3F3"
                         }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            show: true,
+                            color: "#F3F3F3"
+                        }
+                    }]
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#485465',
+                        FontFamily: "Ubuntu-Regular'"
                     }
                 },
-                data: productivity.data
-            }]
-        });
+                grid: {
+                    borderWidth: 1,
+                    borderColor: '#fff',
+                    show: false
+                }
+            }
+        };
+        myChart1 = new Chart(ctx, myObject)
+
     };
 
     $scope.echartDonutSetOption({
         ResourceId:"ResourceId123",
         ResourceName:"Campign",
-        /*data:[{name: "Waiting",value: 100},{name: "Dialing",value: 20},{name: "Paused",value: 30},{name: "Stopped",value: 40}]*/
-        data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]
-        //'Waiting', 'Dialing', 'Paused', 'Stopped', 'Idle', 'Hold'
+        data:[0,0,0,0,0,0,0,0]
     });
 
     $scope.isSetCommand = false;
