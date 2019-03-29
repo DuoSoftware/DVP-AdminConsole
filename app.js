@@ -148,7 +148,7 @@ var baseUrls = {
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
-    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'articleServiceUrl': 'http://192.168.0.45:3637/DVP/API/1.0.0.0/',
     'contactbasednumberUrl': 'http://contactbasednumberdialingservice.app.veery.cloud/DVP/API/1.0.0.0/Campaign/' //contactbasednumberdialingservice.app.veery.cloud
 };
 

@@ -166,7 +166,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    showAlert("Error","error","New Article Adding Failed");
+
                     return [];
                 }
             });
@@ -196,6 +196,21 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
             return $http({
                 method: 'GET',
                 url: baseUrls.articleServiceUrl + "FullArticle/"+aId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
+        getArticle: function (aId) {
+
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "Article/"+aId
             }).then(function(response)
             {
                 if (response.data && response.data.IsSuccess) {
@@ -488,6 +503,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 }
             });
         },
+
 
 
 

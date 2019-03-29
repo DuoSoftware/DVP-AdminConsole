@@ -120,6 +120,7 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
 
     $scope.goToFolders = function (item,title) {
         $state.go('console.articlefolders', {catId:item,editmode:true,catName:title});
+
     };
     $scope.goToFoldersWithoutNew = function (item,title) {
         $state.go('console.articlefolders', {catId:item,editmode:false,catName:title});
