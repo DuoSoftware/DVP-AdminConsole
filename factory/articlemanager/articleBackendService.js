@@ -166,7 +166,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    showAlert("Error","error","New Article Adding Failed");
+
                     return [];
                 }
             });
