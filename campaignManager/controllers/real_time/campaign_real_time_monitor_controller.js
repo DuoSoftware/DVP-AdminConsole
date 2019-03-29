@@ -220,7 +220,19 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                     }else if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
                         $scope.total_callback_answered = event.Message.TotalCountParam2;
                     }
-                }
+                }break;
+
+                case "PROFILES:PROFILESCOUNT": {
+                    if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCOUNT" ) {
+                        $scope.ProfilesCount  = event.Message.TotalTimeParam1;
+                    }
+                }break;
+
+                case "PROFILESCONTACTS:PROFILESCONTACTSCOUNT": {
+                    if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCONTACTSCOUNT" ) {
+                        $scope.ContactCount = event.Message.TotalTimeParam1;
+                    }
+                }break;
             }
             setDonutData();
             $scope.getTableHeight();

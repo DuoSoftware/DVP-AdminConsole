@@ -306,6 +306,17 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
 
                 }
                 break;
+                case "PROFILES:PROFILESCOUNT": {
+                    if (event.Message &&  event.eventName === "PROFILESCOUNT" ) {
+                        $scope.ProfilesCount  = event.Message.TotalCountWindow;
+                    }
+                }break;
+
+                case "PROFILESCONTACTS:PROFILESCONTACTSCOUNT": {
+                    if (event.Message &&  event.eventName === "PROFILESCONTACTSCOUNT" ) {
+                        $scope.ContactCount = event.Message.TotalCountWindow;
+                    }
+                }break;
             }
             $scope.getTableHeight();
             setDonutData();
