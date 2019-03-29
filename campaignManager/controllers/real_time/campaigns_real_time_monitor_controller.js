@@ -178,7 +178,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
             // hide profile wise count till implement in dialer side,
            // myObject.data.datasets[0].data = [$scope.ProfilesCount, $scope.ProfileLoaded, $scope.ProfileRejected, $scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings]
 
-            myChart.data.datasets[0].data = [$scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings];
+            myChart.data.datasets[0].data = [$scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings,$scope.total_answered];
             myChart.update();
         } catch (ex) {
             console.log(ex);
@@ -273,7 +273,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount") {
-                        $scope.ProfileLoaded = event.Message.TotalCountWindow;
+                        $scope.ContactLoaded = event.Message.TotalCountWindow;
                         setDonutData();
                     }
                 }
@@ -362,7 +362,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     /*data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]*/
                     // hide profile wise count till implement in dialer side,
                     /* data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]*/
-                    data: [$scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings]
+                    data: [$scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings,$scope.total_answered]
                     //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
                 });
             }
@@ -386,7 +386,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
             data: {
                 /*labels: ['ProfilesCount', 'ProfileLoaded', 'ProfileRejected', 'ContactCount', 'ContactLoaded', 'ContactRejected', 'Dialed', 'Dialing'],*/
                 // hide profile wise count till implement in dialer side,
-                labels: ['ContactCount', 'ContactLoaded', 'ContactRejected', 'Dialed', 'Dialing'],
+                labels: ['ContactCount', 'ContactLoaded', 'ContactRejected', 'Dialed', 'Dialing','TotalAnswered'],
                 datasets: [
                     {
                         label: "Total Count",
@@ -523,7 +523,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
     $scope.echartDonutSetOption({
         ResourceId: "ResourceId123",
         /*data:[{name: "ProfilesCount",value:0},{name: ",ProfileLoaded",value: 0},{name: "ProfileRejected",value: 0},{name: "ContactLoaded",value: 0},{name:"ContactRejected",value:0},{name: "Dialed",value: 0},{name: "Dialing",value: 0}]*/
-        data: [0, 0, 0, 0, 0, 0, 0]
+        data: [0, 0, 0, 0, 0, 0, 0,0]
 
     });
 
