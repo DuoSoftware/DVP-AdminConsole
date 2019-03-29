@@ -205,6 +205,21 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 }
             });
         },
+        getArticle: function (aId) {
+
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "Article/"+aId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
+                }
+            });
+        },
         attachTagToArticle: function (tag,aId) {
 
 
@@ -488,6 +503,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 }
             });
         },
+
 
 
 

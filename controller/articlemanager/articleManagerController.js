@@ -53,7 +53,7 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
     var loadFullArticle = function (aId,isView) {
 
         $scope.emptyScope();
-        articleBackendService.getFullArticle(aId).then(function (resp) {
+        articleBackendService.getArticle(aId).then(function (resp) {
 
 
             if(isView)
