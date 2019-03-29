@@ -178,7 +178,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
             // hide profile wise count till implement in dialer side,
            // myObject.data.datasets[0].data = [$scope.ProfilesCount, $scope.ProfileLoaded, $scope.ProfileRejected, $scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings]
 
-            myChart.data.datasets[0].data = [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed, $scope.total_dialings,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_dialings,$scope.total_callback_answered,$scope.total_callback_contact_rejected];
+            myChart.data.datasets[0].data = [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected];
             myChart.update();
         } catch (ex) {
             console.log(ex);
@@ -394,7 +394,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     /*data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]*/
                     // hide profile wise count till implement in dialer side,
                     /* data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]*/
-                    data: [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed, $scope.total_dialings,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_dialings,$scope.total_callback_answered,$scope.total_callback_contact_rejected]
+                    data: [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected]
                     //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
                 });
             }
@@ -418,7 +418,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
             data: {
                 /*labels: ['ProfilesCount', 'ProfileLoaded', 'ProfileRejected', 'ContactCount', 'ContactLoaded', 'ContactRejected', 'Dialed', 'Dialing'],*/
                 // hide profile wise count till implement in dialer side,
-                labels: ['ProfilesCount', 'ContactLoaded',  'Dialed', 'Dialing','Answered','ContactRejected','CallbackDialed', 'CallbackDialing','CallbackAnswered','ContactCallbackRejected'],
+                labels: ['Uploaded', 'Loaded',  'Dialed','Answered','Rejected','CB-Dialed','CB-Answered','CB-Rejected'],
                 datasets: [
                     {
                         label: "Total Count",
