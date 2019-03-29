@@ -245,19 +245,19 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     break;
 
                 case "CAMPAIGNCONNECTED:TotalCount": {
-                    if (event.Message && event.eventName === "TotalCount") {
+                    if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
                         $scope.total_answered = event.Message.TotalCountWindow;
                     }
                 }
                     break;
                 case "CAMPAIGNCONNECTED:CurrentCount": {
-                    if (event.Message && event.eventName === "CurrentCount") {
+                    if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "BASIC") {
                         $scope.total_connected = event.Message.CurrentCountAllParams;
                     }
                 }
                     break;
                 case "CAMPAIGNDIALING:CurrentCount": {
-                    if (event.Message && event.eventName === "CurrentCount") {
+                    if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "BASIC") {
                         $scope.total_dialings = event.Message.CurrentCountAllParams;
                         setDonutData();
                     }
@@ -265,21 +265,21 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     break;
 
                 case "CAMPAIGNDIALING:TotalCount": {
-                    if (event.Message && event.eventName === "TotalCount") {
+                    if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
                         $scope.total_dialed = event.Message.TotalCountWindow;
                         setDonutData();
                     }
                 }
                     break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount": {
-                    if (event.Message && event.eventName === "TotalCount") {
+                    if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
                         $scope.ContactLoaded = event.Message.TotalCountWindow;
                         setDonutData();
                     }
                 }
                     break;
                 case "CAMPAIGNREJECTED:TotalCount": {
-                    if (event.Message && event.eventName === "TotalCount") {
+                    if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
                         $scope.total_contact_rejected = event.Message.TotalCountWindow;
                         setDonutData();
                     }
