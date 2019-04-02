@@ -224,13 +224,13 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
 
                 case "PROFILES:PROFILESCOUNT": {
                     if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCOUNT" ) {
-                        $scope.ProfilesCount  = event.Message.TotalTimeParam1;
+                        $scope.ProfilesCount  = event.Message.TotalCountParam1;
                     }
                 }break;
 
                 case "PROFILESCONTACTS:PROFILESCONTACTSCOUNT": {
                     if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCONTACTSCOUNT" ) {
-                        $scope.ContactCount = event.Message.TotalTimeParam1;
+                        $scope.ContactCount = event.Message.TotalCountParam1;
                     }
                 }break;
             }
