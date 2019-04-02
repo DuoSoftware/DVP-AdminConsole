@@ -20,7 +20,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
             this.$apply(fn);
         }
     };
-    $scope.campaignId = $stateParams.campaignid;
+    $scope.campaignId = parseInt($stateParams.campaignid);
     $scope.campaignname = $stateParams.campaignname;
 
     var setDonutData =function () {
