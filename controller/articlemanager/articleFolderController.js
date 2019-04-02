@@ -16,6 +16,7 @@ mainApp.controller("articleFolderController", function ($scope,$state, $filter, 
 
 
 
+
     var loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -188,6 +189,14 @@ mainApp.controller("articleFolderController", function ($scope,$state, $filter, 
     $scope.goToArticles = function (item,title) {
         $state.go('console.articles', {fId:item,editmode:true,fname:title});
     };
+    $scope.goToArticlesWithoutNew = function (item,title) {
+        $state.go('console.articles', {fId:item,editmode:false,fname:title});
+    };
+
+    $scope.goBack = function () {
+        $window.history.back();
+    }
+
 
     var loadFullFolder = function (fId) {
         articleBackendService.getFullFolder(fId).then(function (resp) {
@@ -209,6 +218,8 @@ mainApp.controller("articleFolderController", function ($scope,$state, $filter, 
 
 
     };
+
+
 
     $scope.onChipAdd = function (chip) {
 

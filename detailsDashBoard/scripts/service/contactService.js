@@ -137,11 +137,16 @@ mainApp.factory('contactService', function ($http, baseUrls) {
         });
     };
 
-    var profileContactRejectedCount = function (campaignID) {
-        var url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/CAMPAIGNREJECTED/*/*";
+    var profileContactRejectedCount = function (campaignID,param2) {
+        var cam = '*';
         if(campaignID){
-            url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/CAMPAIGNREJECTED/"+campaignID+"/*";
+            cam = campaignID;
         }
+        var para = '*';
+        if(param2){
+            para = param2;
+        }
+        var url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/CAMPAIGNREJECTED/"+cam+"/"+para;
         return $http({
             method: 'GET',
             url: url

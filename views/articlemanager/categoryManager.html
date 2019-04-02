@@ -101,7 +101,7 @@
                            ng-repeat="item in categoryList | filterBy: ['title']: searchCriteria">
                             <div class="mail_list user-list">
                                 <div class="right user-option-wrap">
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" ng-click="goToFoldersWithoutNew(item._id,item.title)">
                                         <h2 class="font-robot sub-header">
                                             {{item.title}}
                                         </h2>
@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="edit-card--btn-circle"
                                              style="float: right;margin-right: 10px"
-                                             ng-click="goToFolders(item._id,item.title)" uib-tooltip="New Folder">
+                                             ng-click="goToFolders(item._id,item.title)" uib-tooltip="New Section">
                                             <i class="fa fa-plus" ></i>
                                         </div>
                                         <div class=""

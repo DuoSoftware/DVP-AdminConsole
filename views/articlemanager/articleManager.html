@@ -5,7 +5,7 @@
         <div class="x_panel user-group-wrapper">
             <div class="clearfix">
                 <div class="col-md-4 col-lg-4 col-sm-4">
-                    <h2>Articles <span ng-show="articlename"> of </span> <span ng-show="articlename" style="font-weight: bold">{{articlename}} </span>
+                    <h2>Articles <span ng-show="articlename"> of </span> <span ng-show="articlename" style="font-weight: bold" ng-click="goBack()">{{articlename}} </span>
                         <span class="iconed-status-pill-header">
                                     <b>
                                         <i class="fa fa-book"></i>
@@ -32,7 +32,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_title col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-6 col-sm-6 col-lg-6">
-                                    <h2 class="font-robot font-300 text-uppercase font-15">Create New Article </h2>
+                                    <h2 class="font-robot font-300 text-uppercase font-15">{{edittitle}} </h2>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="edit-card--btn-circle" style="float: right" ng-click="toggleNewArticleView()">
@@ -116,6 +116,46 @@
 
                 </uib-tabset>
             </div>
+            <div class="x_content" id="showarticle" style="background: #f5f5f5" ng-show="isDemo">
+                <uib-tabset active="activeCreateUserTab2" class="hidden-tab-header">
+                    <uib-tab index="0">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_title col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-lg-6">
+                                    <h2 class="font-robot font-300 text-uppercase font-15">{{currentArticle.title}} </h2>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-lg-6">
+                                    <div class="edit-card--btn-circle" style="float: right" ng-click="closeView()">
+                                        <i class="fa fa-close"></i>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                            <br>
+                            <div class="clearfix">
+                                <!--<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">-->
+                                <!--<input type="text" class="form-control has-feedback-left" placeholder="Username"-->
+                                <!--ng-model="newUser.username">-->
+                                <!--<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
+                                <!--</div>-->
+
+                                <div class="col-lg-12">
+
+                                    <div class="webview-panel">
+                                        <p ng-bind-html="currentArticle.document"></p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </uib-tab>
+
+                </uib-tabset>
+
+            </div>
             <div class="divider clearfix" style="margin-bottom: 20px"></div>
             <!-- view user details -->
             <div class="x_content col-md-12 col-sm-12 col-xs-12">
@@ -125,7 +165,7 @@
                            ng-repeat="item in articleList | filterBy: ['title']: searchCriteria">
                             <div class="mail_list user-list">
                                 <div class="right user-option-wrap">
-                                    <div class="col-lg-6 col-md-6 col-sm-6" ng-click="openForEditing(item._id)">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" ng-click="openForView(item._id)">
                                         <h3 class="font-robot sub-header">
                                             {{item.title}}
                                         </h3>

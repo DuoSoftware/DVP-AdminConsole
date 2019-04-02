@@ -1,17 +1,21 @@
 <div role="main">
     <!-- top tiles -->
-    <div class="row tile_count" style="background: #383a3b">
-        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+    <!--<div class="row tile_count" style="background: #383a3b">
+        &lt;!&ndash;<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
             <div class="count aero">{{ContactLoaded}}</div>
             <span class="count_bottom"><i class="green ">Total Numbers</i></span>
-        </div>
+        </div>&ndash;&gt;
+
         <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
             <div class="count aero">{{total_dialed}}</div>
             <span class="count_bottom"><i class="blue">Total Dialed</i></span>
         </div>
-
         <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-            <div class="count aero">{{dialing}}</div>
+            <div class="count aero">{{total_answered}}</div>
+            <span class="count_bottom"><i class="blue">Total Answered</i></span>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="count aero">{{total_dialing}}</div>
             <span class="count_bottom"><i class="red">Dialing</i></span>
         </div>
         <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
@@ -20,7 +24,74 @@
             <span class="count_bottom"><i class="purple">Connected </i></span>
         </div>
 
+    </div>-->
+
+    <div class="row tile_count" style="background: #383a3b">
+        <!--<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="count aero">{{ContactLoaded}}</div>
+            <span class="count_bottom"><i class="green ">Total Numbers</i></span>
+        </div>-->
+
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="d1-header-widget ">
+                <div class="d1-h-w-count d1-h-lg" style="font-size: 24px">{{total_dialed}} | {{total_callback_dialed}}</div>
+                <div class="d1-h-w-header d1-h-tile">
+                    Total Dialed
+                </div>
+                <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-200">
+                    Call <span style="color: #fff">|</span> <span style="color: #FFC107">Callback</span>
+                </div>
+                <!--<div class="d-top-icon">
+                    <i class="fa fa-phone color-blue-300"></i>
+                </div>-->
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="d1-header-widget ">
+                <div class="d1-h-w-count d1-h-lg" style="font-size: 24px">{{total_answered}} | {{total_callback_answered}}</div>
+                <div class="d1-h-w-header d1-h-tile">
+                    Total Answered
+                </div>
+                <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-200">
+                    Call <span style="color: #fff">|</span> <span style="color: #FFC107">Callback</span>
+                </div>
+                <!--<div class="d-top-icon">
+                    <i class="fa fa-phone color-blue-300"></i>
+                </div>-->
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="d1-header-widget ">
+                <div class="d1-h-w-count d1-h-lg" style="font-size: 24px">{{total_dialing}} | {{total_callback_dialing}}</div>
+                <div class="d1-h-w-header d1-h-tile">
+                    Total Dialing
+                </div>
+                <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-200">
+                    Call <span style="color: #fff">|</span> <span style="color: #FFC107">Callback</span>
+                </div>
+                <!--<div class="d-top-icon">
+                    <i class="fa fa-phone color-blue-300"></i>
+                </div>-->
+            </div>
+
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+            <div class="d1-header-widget ">
+                <div class="d1-h-w-count d1-h-lg" style="font-size: 24px">{{total_connected}} | {{total_callback_connected}}</div>
+                <div class="d1-h-w-header d1-h-tile">
+                    Total Connected
+                </div>
+                <div class="d1-h-w-sub-title d1-sub-tile-sm color-light-blue-200">
+                    Call <span style="color: #fff">|</span> <span style="color: #FFC107">Callback</span>
+                </div>
+                <!--<div class="d-top-icon">
+                    <i class="fa fa-phone color-blue-300"></i>
+                </div>-->
+            </div>
+        </div>
+
     </div>
+
     <!-- /top tiles -->
 
     <div class="cam-status-wrapper">

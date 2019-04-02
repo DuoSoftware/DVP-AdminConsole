@@ -895,15 +895,23 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     };
 
 
-    var getTotalCampaignCount = function (window_name,cam_id) {
+    var getTotalCampaignCount = function (window_name,cam_id,param2) {
         var businessUnit = "*";
         if (ShareData.BusinessUnit.toLowerCase() != "all") {
             businessUnit = ShareData.BusinessUnit;
         }
-        var url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/"+window_name+"/*/*";
+
+
+        var cam = '*';
         if(cam_id){
-            url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/"+window_name+"/"+cam_id+"/*";
+            cam = cam_id;
         }
+        var para = '*';
+        if(param2){
+            para = param2;
+        }
+        var url = baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/"+window_name+"/"+cam+"/"+para;
+
         return $http({
             method: 'GET',
             url: url
@@ -929,15 +937,23 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     };
 
-    var getCurrentCampaignCount = function (window_name,cam_id) {
+    var getCurrentCampaignCount = function (window_name,cam_id,param2) {
         var businessUnit = "*";
         if (ShareData.BusinessUnit.toLowerCase() != "all") {
             businessUnit = ShareData.BusinessUnit;
         }
-        var url = baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+businessUnit+"/"+window_name+"/*/*";
+
+        var cam = '*';
         if(cam_id){
-            url = baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+businessUnit+"/"+window_name+"/"+cam_id+"/*";
+            cam = cam_id;
         }
+        var para = '*';
+        if(param2){
+            para = param2;
+        }
+        var url = baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+businessUnit+"/"+window_name+"/"+cam+"/"+para;
+
+
         return $http({
             method: 'GET',
             url: url
