@@ -286,13 +286,16 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                 }
                     break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount": {
-                    if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
+                    if (event.Message && event.eventName === "TotalCount" ) {
+                        $scope.ContactLoaded = event.Message.TotalCountWindow;
+                    }
+                    /*if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
                         $scope.ContactLoaded = event.Message.TotalCountWindow;
 
                     }else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
                         $scope.callback_ContactLoaded = event.Message.TotalCountWindow;
 
-                    }
+                    }*/
                 }
                     break;
                 case "CAMPAIGNREJECTED:TotalCount": {
