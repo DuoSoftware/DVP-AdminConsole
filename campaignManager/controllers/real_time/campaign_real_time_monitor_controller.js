@@ -20,7 +20,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
             this.$apply(fn);
         }
     };
-    $scope.campaignId = parseInt($stateParams.campaignid);
+    $scope.campaignId = $stateParams.campaignid;
     $scope.campaignname = $stateParams.campaignname;
 
     var setDonutData =function () {
@@ -223,13 +223,13 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 }break;
 
                 case "PROFILES:PROFILESCOUNT": {
-                    if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCOUNT" ) {
+                    if (event.Message &&  $scope.campaignId === event.Message.param1.toString() && event.eventName === "PROFILESCOUNT" ) {
                         $scope.ProfilesCount  = event.Message.TotalCountParam1;
                     }
                 }break;
 
                 case "PROFILESCONTACTS:PROFILESCONTACTSCOUNT": {
-                    if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCONTACTSCOUNT" ) {
+                    if (event.Message &&  $scope.campaignId === event.Message.param1.toString() && event.eventName === "PROFILESCONTACTSCOUNT" ) {
                         $scope.ContactCount = event.Message.TotalCountParam1;
                     }
                 }break;
