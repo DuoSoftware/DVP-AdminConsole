@@ -246,29 +246,29 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
 
                 case "CAMPAIGNCONNECTED:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_answered = event.Message.TotalCountWindow;
+                        $scope.total_answered = event.Message.TotalCountParam2;
                     }
                     else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_answered = event.Message.TotalCountWindow;
+                        $scope.total_callback_answered = event.Message.TotalCountParam2;
                     }
                 }
                     break;
                 case "CAMPAIGNCONNECTED:CurrentCount": {
                     if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_connected = event.Message.CurrentCountAllParams;
+                        $scope.total_connected = event.Message.CurrentCountParam2;
                     }
                     else if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_connected = event.Message.CurrentCountAllParams;
+                        $scope.total_callback_connected = event.Message.CurrentCountParam2;
                     }
                 }
                     break;
                 case "CAMPAIGNDIALING:CurrentCount": {
                     if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_dialings = event.Message.CurrentCountAllParams;
+                        $scope.total_dialings = event.Message.CurrentCountParam2;
 
                     }
                     else if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_dialings = event.Message.CurrentCountAllParams;
+                        $scope.total_callback_dialings = event.Message.CurrentCountParam2;
 
                     }
                 }
@@ -276,11 +276,11 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
 
                 case "CAMPAIGNDIALING:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_dialed = event.Message.TotalCountWindow;
+                        $scope.total_dialed = event.Message.TotalCountParam2;
 
                     }
                     else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_dialed = event.Message.TotalCountWindow;
+                        $scope.total_callback_dialed = event.Message.TotalCountParam2;
 
                     }
                 }
@@ -300,10 +300,10 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     break;
                 case "CAMPAIGNREJECTED:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_contact_rejected = event.Message.TotalCountWindow;
+                        $scope.total_contact_rejected = event.Message.TotalCountParam2;
 
                     }else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_contact_rejected = event.Message.TotalCountWindow;
+                        $scope.total_callback_contact_rejected = event.Message.TotalCountParam2;
 
                     }
 

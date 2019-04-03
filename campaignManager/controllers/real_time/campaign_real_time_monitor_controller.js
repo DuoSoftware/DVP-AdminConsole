@@ -173,52 +173,55 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                     break;
                 case "CAMPAIGNCONNECTED:CurrentCount":{
                     if(event.Message&& $scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_connected =  event.Message.CurrentCountParam2;
+                        $scope.total_connected =  event.Message.CurrentCountAllParams;
                     }else if(event.Message&& $scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_connected =  event.Message.CurrentCountParam2;
+                        $scope.total_callback_connected =  event.Message.CurrentCountAllParams;
                     }
                 }break;
                 case "CAMPAIGNDIALING:CurrentCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_dialing =  event.Message.CurrentCountParam2;
+                        $scope.total_dialing =  event.Message.CurrentCountAllParams;
 
                     }else if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_dialing =  event.Message.CurrentCountParam2;
+                        $scope.total_callback_dialing =  event.Message.CurrentCountAllParams;
 
                     }
                 }break;
                 case "CAMPAIGNDIALING:TotalCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_dialed =  event.Message.TotalCountParam2;
+                        $scope.total_dialed =  event.Message.TotalCountAllParams;
 
                     }else if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_dialed =  event.Message.TotalCountParam2;
+                        $scope.total_callback_dialed =  event.Message.TotalCountAllParams;
 
                     }
                 }break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount":{
-                    if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
-                        $scope.ContactLoaded =  event.Message.TotalCountParam2;
+                    if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" ){
+                        $scope.ContactLoaded =  event.Message.TotalCountParam1;
+                    }
+                    /*if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
+                        $scope.ContactLoaded =  event.Message.TotalCountParam1;
 
                     }else if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.callbackContactLoaded =  event.Message.TotalCountParam2;
-                    }
+                        $scope.callbackContactLoaded =  event.Message.TotalCountParam1;
+                    }*/
                 }break;
                 case "CAMPAIGNREJECTED:TotalCount":{
                     if(event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_contact_rejected =  event.Message.TotalCountParam2;
+                        $scope.total_contact_rejected =  event.Message.TotalCountAllParams;
 
                     }
                     else if(event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName==="TotalCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_contact_rejected =  event.Message.TotalCountParam2;
+                        $scope.total_callback_contact_rejected =  event.Message.TotalCountAllParams;
 
                     }
                 }break;
                 case "CAMPAIGNCONNECTED:TotalCount": {
                     if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_answered = event.Message.TotalCountParam2;
+                        $scope.total_answered = event.Message.TotalCountAllParams;
                     }else if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_answered = event.Message.TotalCountParam2;
+                        $scope.total_callback_answered = event.Message.TotalCountAllParams;
                     }
                 }break;
 
