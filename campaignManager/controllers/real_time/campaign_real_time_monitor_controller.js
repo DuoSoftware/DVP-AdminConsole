@@ -401,10 +401,11 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 },
                 scales: {
                     yAxes: [{
+                        beginAtZero: true,
                         stacked: true,
                         ticks: {
-                            min: (Math.min.apply(this, campaign.data) - 5)<0?0:(Math.min.apply(this, campaign.data) - 5),
-                            max: Math.max.apply(this, campaign.data) + 5,
+                            min:Math.floor((Math.min.apply(this, campaign.data) * 0.6)),
+                            max: Math.max.apply(this, campaign.data) + Math.floor((Math.max.apply(this, campaign.data)* 0.05)),
                             stepSize : Math.floor((Math.max.apply(this, campaign.data)) * 0.1)
                         },
                         /*,ticks: {
