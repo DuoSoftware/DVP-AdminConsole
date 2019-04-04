@@ -79,7 +79,6 @@
     "angular-cron-jobs": "^3.2.0",
     "ng-img-crop": "ngImgCrop#^0.3.2",
     "install": "^1.0.4",
-    "chart.js": "^2.4.0",
     "moment-timezone": "^0.5.10",
     "angular-number-picker": "^2.2.0",
     "angular-underscore-module": "^1.0.3",
@@ -111,7 +110,8 @@
     "angular-ui-select": "^0.19.8",
     "angular-trix": "^1.0.2",
     "textAngular": "^1.5.16",
-    "froala-wysiwyg-editor": "^2.9.3"
+    "froala-wysiwyg-editor": "^2.9.3",
+    "chart.js": "^2.8.0"
   },
   "resolutions": {
     "angular": "1.5.5",

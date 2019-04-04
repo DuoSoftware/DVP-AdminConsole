@@ -178,7 +178,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
             // hide profile wise count till implement in dialer side,
            // myObject.data.datasets[0].data = [$scope.ProfilesCount, $scope.ProfileLoaded, $scope.ProfileRejected, $scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings]
 
-            myChart.data.datasets[0].data = [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed, $scope.total_dialings,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_dialings,$scope.total_callback_answered,$scope.total_callback_contact_rejected];
+            myChart.data.datasets[0].data = [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected];
             myChart.update();
         } catch (ex) {
             console.log(ex);
@@ -246,29 +246,29 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
 
                 case "CAMPAIGNCONNECTED:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_answered = event.Message.TotalCountWindow;
+                        $scope.total_answered = event.Message.TotalCountParam2;
                     }
                     else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_answered = event.Message.TotalCountWindow;
+                        $scope.total_callback_answered = event.Message.TotalCountParam2;
                     }
                 }
                     break;
                 case "CAMPAIGNCONNECTED:CurrentCount": {
                     if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_connected = event.Message.CurrentCountAllParams;
+                        $scope.total_connected = event.Message.CurrentCountParam2;
                     }
                     else if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_connected = event.Message.CurrentCountAllParams;
+                        $scope.total_callback_connected = event.Message.CurrentCountParam2;
                     }
                 }
                     break;
                 case "CAMPAIGNDIALING:CurrentCount": {
                     if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_dialings = event.Message.CurrentCountAllParams;
+                        $scope.total_dialings = event.Message.CurrentCountParam2;
 
                     }
                     else if (event.Message && event.eventName === "CurrentCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_dialings = event.Message.CurrentCountAllParams;
+                        $scope.total_callback_dialings = event.Message.CurrentCountParam2;
 
                     }
                 }
@@ -276,36 +276,50 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
 
                 case "CAMPAIGNDIALING:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_dialed = event.Message.TotalCountWindow;
+                        $scope.total_dialed = event.Message.TotalCountParam2;
 
                     }
                     else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_dialed = event.Message.TotalCountWindow;
+                        $scope.total_callback_dialed = event.Message.TotalCountParam2;
 
                     }
                 }
                     break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount": {
-                    if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
+                    if (event.Message && event.eventName === "TotalCount" ) {
+                        $scope.ContactLoaded = event.Message.TotalCountWindow;
+                    }
+                    /*if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
                         $scope.ContactLoaded = event.Message.TotalCountWindow;
 
                     }else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
                         $scope.callback_ContactLoaded = event.Message.TotalCountWindow;
 
-                    }
+                    }*/
                 }
                     break;
                 case "CAMPAIGNREJECTED:TotalCount": {
                     if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_contact_rejected = event.Message.TotalCountWindow;
+                        $scope.total_contact_rejected = event.Message.TotalCountParam2;
 
                     }else if (event.Message && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_contact_rejected = event.Message.TotalCountWindow;
+                        $scope.total_callback_contact_rejected = event.Message.TotalCountParam2;
 
                     }
 
                 }
                 break;
+                case "PROFILES:PROFILESCOUNT": {
+                    if (event.Message &&  event.eventName === "PROFILESCOUNT" ) {
+                        $scope.ProfilesCount  = event.Message.TotalCountWindow;
+                    }
+                }break;
+
+                case "PROFILESCONTACTS:PROFILESCONTACTSCOUNT": {
+                    if (event.Message &&  event.eventName === "PROFILESCONTACTSCOUNT" ) {
+                        $scope.ContactCount = event.Message.TotalCountWindow;
+                    }
+                }break;
             }
             $scope.getTableHeight();
             setDonutData();
@@ -342,11 +356,24 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
     };
 
 
+    $scope.ProfilesCount = 0;
+    $scope.ProfileLoaded= 0;
+    $scope.ProfileRejected =0;
+    $scope.ContactCount =0;
+    $scope.ContactLoaded =0;
+    $scope.total_contact_rejected= 0;
     $scope.total_dialings = 0;
-    $scope.total_answered = 0;
-    $scope.total_dialed = 0;
     $scope.total_connected = 0;
-    $scope.total_contact_rejected = 0;
+    $scope.total_dialed =0;
+    $scope.total_answered = 0;
+    $scope.total_callback_contact_rejected= 0;
+    $scope.total_callback_dialings = 0;
+    $scope.total_callback_connected = 0;
+    $scope.total_callback_dialed =0;
+    $scope.total_callback_answered = 0;
+    $scope.total_dialing = 0;
+    $scope.total_callback_dialing = 0;
+
     var load_default_data = function () {
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
@@ -394,7 +421,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     /*data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]*/
                     // hide profile wise count till implement in dialer side,
                     /* data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]*/
-                    data: [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed, $scope.total_dialings,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_dialings,$scope.total_callback_answered,$scope.total_callback_contact_rejected]
+                    data: [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected]
                     //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
                 });
             }
@@ -418,7 +445,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
             data: {
                 /*labels: ['ProfilesCount', 'ProfileLoaded', 'ProfileRejected', 'ContactCount', 'ContactLoaded', 'ContactRejected', 'Dialed', 'Dialing'],*/
                 // hide profile wise count till implement in dialer side,
-                labels: ['ProfilesCount', 'ContactLoaded',  'Dialed', 'Dialing','Answered','ContactRejected','CallbackDialed', 'CallbackDialing','CallbackAnswered','ContactCallbackRejected'],
+                labels: ['Uploaded', 'Loaded',  'Dialed','Answered','Rejected','CB-Dialed','CB-Answered','CB-Rejected'],
                 datasets: [
                     {
                         label: "Total Count",
@@ -429,11 +456,23 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                             'rgba(174, 231, 118, 1)',
                             'rgba(251, 206, 139, 1)',
                             'rgba(34, 52, 72, 1)',
-                            'rgba(201, 201, 226, 1)',
-                            'rgba(10, 133, 231, 1)',
-                            'rgba(34, 10, 152, 1)',
-                            'rgba(50, 231, 118, 1)'
+                            'rgba(23, 23, 90, 1)',
+                            'rgba(344, 34, 54, 1)',
+                            'rgba(251, 230, 23, 1)',
+                            'rgba(34, 52, 72, 1)'
+                        ],borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(56, 324, 54, 1)',
+                            'rgba(46, 23, 200, 1)',
+                            'rgba(150, 52, 100, 1)',
+                            'rgba(100, 25, 23, 1)'
                         ],
+                        borderWidth: 1,
                         data: campaign.data
                     }
                 ]
@@ -444,16 +483,22 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                 tooltips: {
                     enabled: true
                 },
+                /*events: [  'click'],*/
                 scales: {
                     yAxes: [{
                         stacked: true,
                         ticks: {
+                            min:Math.floor((Math.min.apply(this, campaign.data) * 0.6)),
+                            max: Math.max.apply(this, campaign.data) + Math.floor((Math.max.apply(this, campaign.data)* 0.05)),
+                            stepSize : Math.floor((Math.max.apply(this, campaign.data)) * 0.1)
+                        },
+                        /*,ticks: {
                             min: 0,
                             stepSize: 100
-                        },
+                        },*/
                         gridLines: {
                             show: true,
-                            color: "#F3F3F3"
+                            color: "rgba(255,99,132,0.2)"
                         }
                     }],
                     xAxes: [{
@@ -473,7 +518,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                 grid: {
                     borderWidth: 1,
                     borderColor: '#fff',
-                    show: false
+                    show: true
                 }
             }
         };
