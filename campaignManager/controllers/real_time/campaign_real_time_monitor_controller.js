@@ -272,10 +272,24 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     };
     load_campaign();
 
-    $scope.ContactLoaded = 0;
-    $scope.total_dialed = 0;
-    $scope.total_connected =  0;
-    $scope.total_dialing =  0;
+    $scope.ProfilesCount = 0;
+    $scope.ProfileLoaded= 0;
+    $scope.ProfileRejected =0;
+    $scope.ContactCount =0;
+    $scope.ContactLoaded =0;
+    $scope.total_contact_rejected= 0;
+    $scope.total_dialings = 0;
+    $scope.total_connected = 0;
+    $scope.total_dialed =0;
+    $scope.total_answered = 0;
+    $scope.total_callback_contact_rejected= 0;
+    $scope.total_callback_dialings = 0;
+    $scope.total_callback_connected = 0;
+    $scope.total_callback_dialed =0;
+    $scope.total_callback_answered = 0;
+    $scope.total_dialing = 0;
+    $scope.total_callback_dialing = 0;
+
     var load_default_data = function () {
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
@@ -358,11 +372,23 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                             'rgba(174, 231, 118, 1)',
                             'rgba(251, 206, 139, 1)',
                             'rgba(34, 52, 72, 1)',
-                            'rgba(344, 34, 54, 1)',
                             'rgba(23, 23, 90, 1)',
+                            'rgba(344, 34, 54, 1)',
                             'rgba(251, 230, 23, 1)',
                             'rgba(34, 52, 72, 1)'
+                        ],borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(56, 324, 54, 1)',
+                            'rgba(46, 23, 200, 1)',
+                            'rgba(150, 52, 100, 1)',
+                            'rgba(100, 25, 23, 1)'
                         ],
+                        borderWidth: 1,
                         data: campaign.data
                     }
                 ]
@@ -377,12 +403,17 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                     yAxes: [{
                         stacked: true,
                         ticks: {
+                            min: (Math.min.apply(this, campaign.data) - 5)<0?0:(Math.min.apply(this, campaign.data) - 5),
+                            max: Math.max.apply(this, campaign.data) + 5,
+                            stepSize : Math.floor((Math.max.apply(this, campaign.data)) * 0.1)
+                        },
+                        /*,ticks: {
                             min: 0,
                             stepSize: 100
-                        },
+                        },*/
                         gridLines: {
                             show: true,
-                            color: "#F3F3F3"
+                            color: "rgba(255,99,132,0.2)"
                         }
                     }],
                     xAxes: [{
