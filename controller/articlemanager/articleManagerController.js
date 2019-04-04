@@ -23,6 +23,8 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
     };
     $scope.edittitle="Create New Article";
     $scope.isDemo= false;
+    $scope.sectionOfCurrentArticle=[];
+    $scope.allSections=[];
 
 
     $scope.goBack = function () {
@@ -114,6 +116,17 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
         });
     };
+    var loadSectionsOfArticle = function (aId) {
+        articleBackendService.getSectionsOfArticle(aId).then(function (resp) {
+            $scope.sectionOfCurrentArticle=resp;
+
+        });
+    };
+    var loadAllSections = function () {
+        articleBackendService.getAllFolders().then(function (resAll) {
+            $scope.allSections=resAll;
+        })
+    }
 
 
 
@@ -130,6 +143,14 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
         $scope.folderId=$stateParams.fId;
         $scope.articlename=$stateParams.fname;
         loadArticlesOfFolder();
+
+        $scope.allSections.forEach(function (item) {
+            if(item._id==$stateParams.fId)
+            {
+                $scope.sectionOfCurrentArticle.push(item);
+            }
+        })
+
     }
     else
     {
@@ -148,6 +169,7 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
 
     loadArticleTags();
+    loadAllSections();
 
     $scope.toggleNewArticleView = function () {
         $scope.newArticle={};
@@ -168,7 +190,6 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
         };
     }
-
     $scope.querySearch = function (query) {
         if (query === "*" || query === "") {
             if ($scope.articleTags) {
@@ -181,6 +202,31 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
         }
         else {
             var results = query ? $scope.articleTags.filter(createFilterFor(query)) : [];
+            return results;
+        }
+
+    };
+
+
+    function createFilterForSection(query) {
+        var lowercaseQuery = angular.lowercase(query);
+        return function filterFn(section) {
+            return (section.title.toLowerCase().indexOf(lowercaseQuery) != -1);
+
+        };
+    }
+    $scope.querySearchSection = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.allSections) {
+                return $scope.allSections;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            var results = query ? $scope.allSections.filter(createFilterForSection(query)) : [];
             return results;
         }
 
@@ -215,13 +261,36 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
 
     };
 
+    $scope.onChipAddSection = function (chip) {
+
+        if($scope.savebtn!=="Save")
+        {
+            articleBackendService.AddArticleToFolder($scope.newArticle._id,chip._id).then(function (resp) {
+
+            })
+        }
+
+
+    };
+    $scope.onChipDeleteSection = function (chip) {
+
+        if($scope.savebtn!=="Save") {
+            articleBackendService.RemoveArticleFromFolder($scope.newArticle._id, chip._id).then(function (resp) {
+
+            })
+        }
+    };
+
     $scope.saveNewArticle = function () {
 
         $scope.isSaving=true;
         if($scope.savebtn=="Save")
         {
             $scope.newArticle.businessUnit=ShareData.BusinessUnit;
-            $scope.newArticle.folder=$scope.folderId;
+            /*$scope.newArticle.folder=$scope.folderId;*/
+            $scope.newArticle.folder=$scope.sectionOfCurrentArticle.map(function (item) {
+                return item._id;
+            });
 
             articleBackendService.saveNewArticle($scope.newArticle,$scope.folderId).then(function (resp) {
 
@@ -262,19 +331,23 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
                 }
                 else
                 {
-                    showAlert("Error","error","New Article Adding Failed");
+                    $scope.showAlert("Error","error","New Article Adding Failed");
+                    $scope.isSaving=false;
                 }
 
 
 
             },function (err) {
                 $scope.showAlert("Error","error","Article Saving failed");
+                $scope.isSaving=false;
             })
         }
         else
         {
 
             delete $scope.newArticle.tags;
+            delete $scope.newArticle.folder;
+
 
             articleBackendService.updateArticle($scope.newArticle._id,$scope.newArticle).then(function (resp) {
                 $scope.isSaving=false;
@@ -326,6 +399,7 @@ mainApp.controller("articleManagerController", function ($scope, $filter, $state
         $scope.savebtn="Update";
         $scope.isUpdating=true;
         $scope.edittitle="Update Article";
+        loadSectionsOfArticle(aId);
 
 
     };
