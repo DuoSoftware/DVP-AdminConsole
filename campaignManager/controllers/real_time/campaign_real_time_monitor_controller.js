@@ -34,6 +34,9 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
 
            //myObject.data.datasets[0].data= [$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialing]
             myChart1.data.datasets[0].data= [$scope.ProfilesCount,$scope.ContactLoaded,$scope.total_dialed,$scope.total_answered,$scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected];
+            myChart1.options.scales.yAxes[0].ticks.min = Math.floor((Math.min.apply(this, myChart1.data.datasets[0].data) * 0.6));
+            myChart1.options.scales.yAxes[0].ticks.max = Math.max.apply(this, myChart1.data.datasets[0].data) + Math.ceil((Math.max.apply(this, myChart1.data.datasets[0].data)* 0.05));
+            myChart1.options.scales.yAxes[0].ticks.stepSize =  Math.floor((Math.max.apply(this, myChart1.data.datasets[0].data)) * 0.1);
             myChart1.update();
         }catch(ex){
             console.log(ex);
@@ -403,15 +406,15 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                     yAxes: [{
                         beginAtZero: true,
                         stacked: true,
-                        /*ticks: {
+                        ticks: {
                             min:Math.floor((Math.min.apply(this, campaign.data) * 0.6)),
                             max: Math.max.apply(this, campaign.data) + Math.floor((Math.max.apply(this, campaign.data)* 0.05)),
                             stepSize : Math.floor((Math.max.apply(this, campaign.data)) * 0.1)
-                        },*/
-                        ticks: {
+                        },
+                        /*ticks: {
                             min: 0,
                             stepSize: 100
-                        },
+                        },*/
                         gridLines: {
                             show: true,
                             color: "rgba(255,99,132,0.2)"
@@ -440,6 +443,9 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
         };
         myChart1 = new Chart(ctx, myObject)
 
+        myChart1.options.scales.yAxes[0].ticks.min = Math.floor((Math.min.apply(this, myChart1.data.datasets[0].data) * 0.6));
+        myChart1.options.scales.yAxes[0].ticks.max = Math.max.apply(this, myChart1.data.datasets[0].data) + Math.ceil((Math.max.apply(this, myChart1.data.datasets[0].data)* 0.05));
+        myChart1.options.scales.yAxes[0].ticks.stepSize =  Math.floor((Math.max.apply(this, myChart1.data.datasets[0].data)) * 0.1);
     };
 
     $scope.echartDonutSetOption({

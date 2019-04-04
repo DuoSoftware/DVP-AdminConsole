@@ -179,6 +179,10 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
            // myObject.data.datasets[0].data = [$scope.ProfilesCount, $scope.ProfileLoaded, $scope.ProfileRejected, $scope.ContactCount, $scope.ContactLoaded, $scope.total_contact_rejected, $scope.total_dialed, $scope.total_dialings]
 
             myChart.data.datasets[0].data = [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected];
+            myChart.options.scales.yAxes[0].ticks.min = Math.floor((Math.min.apply(this, myChart.data.datasets[0].data) * 0.6));
+            myChart.options.scales.yAxes[0].ticks.max = Math.max.apply(this, myChart.data.datasets[0].data) + Math.ceil((Math.max.apply(this, myChart.data.datasets[0].data)* 0.05));
+            myChart.options.scales.yAxes[0].ticks.stepSize =  Math.floor((Math.max.apply(this, myChart.data.datasets[0].data)) * 0.1);
+
             myChart.update();
         } catch (ex) {
             console.log(ex);
@@ -487,15 +491,15 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                 scales: {
                     yAxes: [{
                         stacked: true,
-                        /*ticks: {
+                        ticks: {
                             min:Math.floor((Math.min.apply(this, campaign.data) * 0.6)),
                             max: Math.max.apply(this, campaign.data) + Math.floor((Math.max.apply(this, campaign.data)* 0.05)),
                             stepSize : Math.floor((Math.max.apply(this, campaign.data)) * 0.1)
-                        },*/
-                        ticks: {
+                        },
+                        /*ticks: {
                             min: 0,
                             stepSize: 100
-                        },
+                        },*/
                         gridLines: {
                             show: true,
                             color: "rgba(255,99,132,0.2)"
@@ -522,83 +526,11 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                 }
             }
         };
-        myChart = new Chart(ctx, myObject)
-        /*myObject = echarts.init(document.getElementById(campaign.ResourceId), theme);
-        myObject.setOption({
-            title: {
-                show: true,
-                //text: ResourceName,
-                textStyle: {
-                    fontSize: 18,
-                    fontWeight: 'bolder',
-                    color: '#333',
-                    fontFamily: 'Ubuntu-Regular'
-                }
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)",
-            },
-            calculable: true,
-            legend: {
-                x: 'center',
-                y: 'bottom',
-                data: ['ProfilesCount','ProfileLoaded', 'ProfileRejected','ContactLoaded','ContactRejected', 'Dialed', 'Dialing']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    //dataView : {show: true, readOnly: false},
-                    magicType: {
-                        show: true,
-                        type: ['pie', 'funnel'],
-                        option: {
-                            funnel: {
-                                x: '10%',
-                                width: '50%',
-                                funnelAlign: 'center',
-                                max: 1548
-                            }
-                        }
-                    },
-                    restore: {
-                        show: false,
-                        title: "Restore"
-                    },
-                    saveAsImage: {
-                        show: false,
-                        title: "Save As Image"
-                    }
-                }
-            },
-            series: [{
-                name: 'Campaigns',
-                type: 'pie',
-                radius: ['35%', '55%'],
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true
-                        },
-                        labelLine: {
-                            show: true
-                        }
-                    },
-                    emphasis: {
-                        label: {
-                            show: true,
-                            position: 'center',
-                            textStyle: {
-                                fontSize: '14',
-                                fontWeight: 'normal'
-                            }
-                        }
-                    }
-                },
-                data: campaign.data
-            }]
-        });*/
+        myChart = new Chart(ctx, myObject);
+
+        myChart.options.scales.yAxes[0].ticks.min = Math.floor((Math.min.apply(this, myChart.data.datasets[0].data) * 0.6));
+        myChart.options.scales.yAxes[0].ticks.max = Math.max.apply(this, myChart.data.datasets[0].data) + Math.ceil((Math.max.apply(this, myChart.data.datasets[0].data)* 0.05));
+        myChart.options.scales.yAxes[0].ticks.stepSize =  Math.floor((Math.max.apply(this, myChart.data.datasets[0].data)) * 0.1);
     };
 
     $scope.echartDonutSetOption({
