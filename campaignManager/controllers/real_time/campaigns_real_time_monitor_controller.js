@@ -487,15 +487,15 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                 scales: {
                     yAxes: [{
                         stacked: true,
-                        ticks: {
+                        /*ticks: {
                             min:Math.floor((Math.min.apply(this, campaign.data) * 0.6)),
                             max: Math.max.apply(this, campaign.data) + Math.floor((Math.max.apply(this, campaign.data)* 0.05)),
                             stepSize : Math.floor((Math.max.apply(this, campaign.data)) * 0.1)
-                        },
-                        /*,ticks: {
+                        },*/
+                        ticks: {
                             min: 0,
                             stepSize: 100
-                        },*/
+                        },
                         gridLines: {
                             show: true,
                             color: "rgba(255,99,132,0.2)"
