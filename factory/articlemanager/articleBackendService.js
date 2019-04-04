@@ -21,7 +21,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -40,7 +40,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","New Article Category Adding Failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -54,7 +54,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -68,7 +68,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -86,7 +86,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","New Article Folder Adding Failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -103,7 +103,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -118,7 +118,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -133,7 +133,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -148,7 +148,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -167,7 +167,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
 
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -186,7 +186,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","New Article Adding Failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -201,7 +201,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -216,7 +216,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -235,7 +235,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -254,7 +254,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -272,7 +272,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","Article State change failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -286,7 +286,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -304,7 +304,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","New Folder Adding Failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -321,7 +321,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -338,7 +338,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -354,7 +354,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -372,7 +372,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","Category updating Failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -390,7 +390,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","Folder state Change failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -408,7 +408,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                     return response.data.Result;
                 } else {
                     showAlert("Error","error","Folder state Change failed");
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -425,7 +425,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -442,7 +442,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -460,7 +460,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -481,7 +481,7 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
                 }
             });
         },
@@ -499,7 +499,52 @@ mainApp.factory('articleBackendService', function ($http, authService,baseUrls)
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
-                    return [];
+                    return undefined;
+                }
+            });
+        },
+        getSectionsOfArticle: function (aId) {
+
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.articleServiceUrl + "Sections/Article/"+aId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
+        AddArticleToFolder : function (aId,fId) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.articleServiceUrl + "Folder/"+fId+"/Article/"+aId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
+        RemoveArticleFromFolder : function (aId,fId) {
+
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.articleServiceUrl + "Folder/"+fId+"/Article/"+aId
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
                 }
             });
         },

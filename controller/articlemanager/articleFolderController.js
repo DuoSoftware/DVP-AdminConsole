@@ -193,9 +193,7 @@ mainApp.controller("articleFolderController", function ($scope,$state, $filter, 
         $state.go('console.articles', {fId:item,editmode:false,fname:title});
     };
 
-    $scope.goBack = function () {
-        $window.history.back();
-    }
+
 
 
     var loadFullFolder = function (fId) {
