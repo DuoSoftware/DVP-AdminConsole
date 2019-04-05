@@ -20,7 +20,7 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
             this.$apply(fn);
         }
     };
-    $scope.campaignId = parseInt($stateParams.campaignid);
+    $scope.campaignId = $stateParams.campaignid;
     $scope.campaignname = $stateParams.campaignname;
 
     var setDonutData =function () {
@@ -34,6 +34,9 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
 
            //myObject.data.datasets[0].data= [$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialing]
             myChart1.data.datasets[0].data= [$scope.ProfilesCount,$scope.ContactLoaded,$scope.total_dialed,$scope.total_answered,$scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected];
+            myChart1.options.scales.yAxes[0].ticks.min = Math.floor((Math.min.apply(this, myChart1.data.datasets[0].data) * 0.6));
+            myChart1.options.scales.yAxes[0].ticks.max = Math.max.apply(this, myChart1.data.datasets[0].data) + Math.ceil((Math.max.apply(this, myChart1.data.datasets[0].data)* 0.05));
+            myChart1.options.scales.yAxes[0].ticks.stepSize =  Math.floor((Math.max.apply(this, myChart1.data.datasets[0].data)) * 0.1);
             myChart1.update();
         }catch(ex){
             console.log(ex);
@@ -173,63 +176,66 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                     break;
                 case "CAMPAIGNCONNECTED:CurrentCount":{
                     if(event.Message&& $scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_connected =  event.Message.CurrentCountParam2;
+                        $scope.total_connected =  event.Message.CurrentCountAllParams;
                     }else if(event.Message&& $scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_connected =  event.Message.CurrentCountParam2;
+                        $scope.total_callback_connected =  event.Message.CurrentCountAllParams;
                     }
                 }break;
                 case "CAMPAIGNDIALING:CurrentCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_dialing =  event.Message.CurrentCountParam2;
+                        $scope.total_dialing =  event.Message.CurrentCountAllParams;
 
                     }else if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="CurrentCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_dialing =  event.Message.CurrentCountParam2;
+                        $scope.total_callback_dialing =  event.Message.CurrentCountAllParams;
 
                     }
                 }break;
                 case "CAMPAIGNDIALING:TotalCount":{
                     if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_dialed =  event.Message.TotalCountParam2;
+                        $scope.total_dialed =  event.Message.TotalCountAllParams;
 
                     }else if(event.Message&&$scope.campaignId === event.Message.param1&&  event.eventName==="TotalCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_dialed =  event.Message.TotalCountParam2;
+                        $scope.total_callback_dialed =  event.Message.TotalCountAllParams;
 
                     }
                 }break;
                 case "CAMPAIGNNUMBERSTAKEN:TotalCount":{
-                    if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
-                        $scope.ContactLoaded =  event.Message.TotalCountParam2;
+                    if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" ){
+                        $scope.ContactLoaded =  event.Message.TotalCountParam1;
+                    }
+                    /*if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
+                        $scope.ContactLoaded =  event.Message.TotalCountParam1;
 
                     }else if(event.Message && $scope.campaignId === event.Message.param1 &&  event.eventName==="TotalCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.callbackContactLoaded =  event.Message.TotalCountParam2;
-                    }
+                        $scope.callbackContactLoaded =  event.Message.TotalCountParam1;
+                    }*/
                 }break;
                 case "CAMPAIGNREJECTED:TotalCount":{
                     if(event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName==="TotalCount" && event.Message.param2 === "BASIC"){
-                        $scope.total_contact_rejected =  event.Message.TotalCountParam2;
+                        $scope.total_contact_rejected =  event.Message.TotalCountAllParams;
 
                     }
                     else if(event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName==="TotalCount" && event.Message.param2 === "CALLBACK"){
-                        $scope.total_callback_contact_rejected =  event.Message.TotalCountParam2;
+                        $scope.total_callback_contact_rejected =  event.Message.TotalCountAllParams;
 
                     }
                 }break;
                 case "CAMPAIGNCONNECTED:TotalCount": {
                     if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "TotalCount" && event.Message.param2 === "BASIC") {
-                        $scope.total_answered = event.Message.TotalCountParam2;
+                        $scope.total_answered = event.Message.TotalCountAllParams;
                     }else if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "TotalCount" && event.Message.param2 === "CALLBACK") {
-                        $scope.total_callback_answered = event.Message.TotalCountParam2;
+                        $scope.total_callback_answered = event.Message.TotalCountAllParams;
                     }
                 }break;
 
                 case "PROFILES:PROFILESCOUNT": {
-                    if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCOUNT" ) {
+                    if (event.Message &&  $scope.campaignId === event.Message.param1.toString() && event.eventName === "PROFILESCOUNT" ) {
                         $scope.ProfilesCount  = event.Message.TotalCountParam1;
                     }
                 }break;
 
                 case "PROFILESCONTACTS:PROFILESCONTACTSCOUNT": {
-                    if (event.Message &&  $scope.campaignId === event.Message.param1 && event.eventName === "PROFILESCONTACTSCOUNT" ) {
+                    if (event.Message &&  $scope.campaignId === event.Message.param1.toString() && event.eventName === "PROFILESCONTACTSCOUNT" ) {
                         $scope.ContactCount = event.Message.TotalCountParam1;
                     }
                 }break;
@@ -269,10 +275,24 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
     };
     load_campaign();
 
-    $scope.ContactLoaded = 0;
-    $scope.total_dialed = 0;
-    $scope.total_connected =  0;
-    $scope.total_dialing =  0;
+    $scope.ProfilesCount = 0;
+    $scope.ProfileLoaded= 0;
+    $scope.ProfileRejected =0;
+    $scope.ContactCount =0;
+    $scope.ContactLoaded =0;
+    $scope.total_contact_rejected= 0;
+    $scope.total_dialings = 0;
+    $scope.total_connected = 0;
+    $scope.total_dialed =0;
+    $scope.total_answered = 0;
+    $scope.total_callback_contact_rejected= 0;
+    $scope.total_callback_dialings = 0;
+    $scope.total_callback_connected = 0;
+    $scope.total_callback_dialed =0;
+    $scope.total_callback_answered = 0;
+    $scope.total_dialing = 0;
+    $scope.total_callback_dialing = 0;
+
     var load_default_data = function () {
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
@@ -355,11 +375,23 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                             'rgba(174, 231, 118, 1)',
                             'rgba(251, 206, 139, 1)',
                             'rgba(34, 52, 72, 1)',
-                            'rgba(344, 34, 54, 1)',
                             'rgba(23, 23, 90, 1)',
+                            'rgba(344, 34, 54, 1)',
                             'rgba(251, 230, 23, 1)',
                             'rgba(34, 52, 72, 1)'
+                        ],borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(56, 324, 54, 1)',
+                            'rgba(46, 23, 200, 1)',
+                            'rgba(150, 52, 100, 1)',
+                            'rgba(100, 25, 23, 1)'
                         ],
+                        borderWidth: 1,
                         data: campaign.data
                     }
                 ]
@@ -372,14 +404,20 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
                 },
                 scales: {
                     yAxes: [{
+                        beginAtZero: true,
                         stacked: true,
                         ticks: {
+                            min:Math.floor((Math.min.apply(this, campaign.data) * 0.6)),
+                            max: Math.max.apply(this, campaign.data) + Math.floor((Math.max.apply(this, campaign.data)* 0.05)),
+                            stepSize : Math.floor((Math.max.apply(this, campaign.data)) * 0.1)
+                        },
+                        /*ticks: {
                             min: 0,
                             stepSize: 100
-                        },
+                        },*/
                         gridLines: {
                             show: true,
-                            color: "#F3F3F3"
+                            color: "rgba(255,99,132,0.2)"
                         }
                     }],
                     xAxes: [{
@@ -405,6 +443,9 @@ mainApp.controller("campaign_real_time_monitor_controller", function ($statePara
         };
         myChart1 = new Chart(ctx, myObject)
 
+        myChart1.options.scales.yAxes[0].ticks.min = Math.floor((Math.min.apply(this, myChart1.data.datasets[0].data) * 0.6));
+        myChart1.options.scales.yAxes[0].ticks.max = Math.max.apply(this, myChart1.data.datasets[0].data) + Math.ceil((Math.max.apply(this, myChart1.data.datasets[0].data)* 0.05));
+        myChart1.options.scales.yAxes[0].ticks.stepSize =  Math.floor((Math.max.apply(this, myChart1.data.datasets[0].data)) * 0.1);
     };
 
     $scope.echartDonutSetOption({
