@@ -82,10 +82,14 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
         if($scope.savebtn=="Save")
         {
             $scope.newCat.businessUnit=ShareData.BusinessUnit;
-            $scope.newCat.allow_business_units=$scope.newCat.allow_business_units.map(function (item) {
+            if($scope.newCat && $scope.newCat.allow_business_units && $scope.newCat.allow_business_units.length>0)
+            {
+                $scope.newCat.allow_business_units=$scope.newCat.allow_business_units.map(function (item) {
 
-                return item.text;
-            });
+                    return item.text;
+                });
+            }
+
             articleBackendService.saveNewArticleCategory($scope.newCat).then(function (resp) {
                 $scope.isSaving=false;
                 $scope.showAlert("Success","success","Category Saved Successfully");
@@ -138,6 +142,7 @@ mainApp.controller("articleCategoryManagerController", function ($scope, $filter
             else
 
             {
+                $scope.isUpdating=false;
                 $scope.showAlert("Error","error","Failed to load Category data");
             }
 
