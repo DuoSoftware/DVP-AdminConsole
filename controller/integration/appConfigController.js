@@ -255,7 +255,7 @@ mainApp.controller("appConfigController", function ($scope, $state, $stateParams
     $scope.updateDefaultIntegration = function (appId, integrationData) {
 
         if(integrationData.method == "GET"){
-            if (integrationData.parameters.filter(function(e) { return e.parameterLocation === 'BODY'; }).length > 0) {
+            if (integrationData.parameters && integrationData.parameters.filter(function(e) { return e.parameterLocation === 'BODY'; }).length > 0) {
                 // contains a body parameter
                 $scope.showAlert("App Integrations", "error", "GET request cannot contain a BODY.");
                 return false;
