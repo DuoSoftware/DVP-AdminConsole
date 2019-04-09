@@ -180,6 +180,13 @@
 
                                                     <td class="col-sm-2">
                                                         <button type="submit" class="btn btn-primary"
+                                                                ng-click="openCategoryUpdate(tagCat,false)"><span
+                                                                class="fa fa-cog " aria-hidden="true"></span>Update
+                                                        </button>
+
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <button type="submit" class="btn btn-primary"
                                                                 ng-click="deleteCategory(tagCat)"><span
                                                                 class="fa fa-trash-o trash-icon-align" aria-hidden="true"></span>Delete
                                                         </button>
@@ -269,7 +276,13 @@
                                             <tr role="row" class="odd"
                                                 ng-repeat="tag in tagList">
                                                 <td>{{tag.name}}</td>
-                                                <td>{{tag.description}}</td>
+
+                                                <td class="col-md-2">
+                                                    <button type="submit" class="btn btn-primary"
+                                                            ng-click="openCategoryUpdate(tag,true)"><span class="fa fa-cog"
+                                                                                            aria-hidden="true"></span>Update
+                                                    </button>
+                                                </td>
                                                 <td class="col-md-2">
                                                     <button type="submit" class="btn btn-primary"
                                                             ng-click="deleteTag(tag)"><span class="fa fa-trash-o trash-icon-align"

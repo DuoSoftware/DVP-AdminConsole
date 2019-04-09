@@ -401,6 +401,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
         $scope.active = false;
         $scope.assignedNavigations = [];
         $scope.selectedUser = user;
+        $scope.selectedUserRole = role;
         $scope.showEditWindow = false;
         $scope.GetAssignableNavigations(user, role);
 

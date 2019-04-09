@@ -244,6 +244,17 @@
                                                 Details Dashboard
                                             </a>
                                         </li>
+                                        <!--<li ng-show="accessNavigation.DASHBOARD">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goToCampaignDashboard()">
+                                                Campaign Monitor
+                                            </a>
+                                        </li>-->
+                                        <li ng-show="accessNavigation.DASHBOARD">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goToCampaignsDashboard()">
+                                                Campaigns Monitor
+                                            </a>
+                                        </li>
+
                                 </li>
 
                                 </ul>
@@ -379,6 +390,21 @@
                                         </li>-->
                                     </ul>
                                 </li>
+
+                                <li ng-show="accessNavigation.COMPANY_CONFIGURATION">
+                                    <a class="font-robot font-300 ">
+                                        <i class="fa fa-cogs"></i>Integrations
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goAppIntegration()">App Integrations</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goThirdPartyIntegration()">Third Party Integrations</a>
+                                        </li>
+                                    </ul>
+                                </li>                                
 
                                 <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.EXTENSION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN || accessNavigation.AUTOATTENDANCE">
                                     <a class="font-robot font-300 ">
@@ -619,6 +645,42 @@
                                     </li>
 
 
+                                <li ng-show="accessNavigation.KNOWLEDGE_PORTAL">
+                                    <a class="font-robot font-300 ">
+                                        <i class="fa fa-volume-control-phone"></i> KNOWLEDGE PORTAL
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
+                                    <ul class="nav child_menu">
+                                        <li ng-show="accessNavigation.KNOWLEDGE_PORTAL">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goArticleCategories()">Article Categories
+                                            </a>
+                                        </li>
+                                        <li ng-show="accessNavigation.KNOWLEDGE_PORTAL">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goArticleFolders()">Article Sections
+                                            </a>
+                                        </li>
+                                        <li ng-show="accessNavigation.KNOWLEDGE_PORTAL">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goArticles()">Articles
+                                            </a>
+                                        </li>
+                                        <!--<li ng-show="accessNavigation.APPLICATIONS">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goApplications()">Applications</a>
+                                        </li>
+                                        <li ng-show="accessNavigation.RULES">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goRule()">Rules</a>
+                                        </li>
+                                        <li ng-show="accessNavigation.TRANSLATIONS">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goTranslations()">Translations</a>
+                                        </li>
+                                        <li ng-show="accessNavigation.DID">
+                                            <a href="javascript:void(0);" ng-click="clickDirective.goDID()">DID Configuration
+                                            </a>
+                                        </li>-->
+
+                                    </ul>
+                                </li>
+
+
                                     <li ng-show="accessNavigation.MYBOTS">
                                         <a class="font-robot font-300 ">
                                             <i class="fa fa-user-secret"></i> Chatbot
@@ -833,7 +895,7 @@
                                     </ul>
                                 </li>
 
-                                <li ng-show="accessNavigation.SMS_DETAIL_REPORT || accessNavigation.AUDITTRAIL">
+                                <li ng-show="accessNavigation.SMS_DETAIL_REPORT || accessNavigation.AUDITTRAIL || accessNavigation.USERDETAIL">
                                     <a class="font-robot font-300 ">
                                         <i class="fa fa-pied-piper"></i> Other Reports
                                         <span class="fa fa-chevron-down"></span>
@@ -844,6 +906,9 @@
                                         </li>
                                         <li ng-if="!isLive" ng-show="accessNavigation.AUDITTRAIL">
                                             <a href="javascript:void(0);" ng-click="clickDirective.goAuditTrailReport()">Audit Trail </a>
+                                        </li>
+                                        <li ng-show="accessNavigation.USERDETAIL">
+                                            <a Fhref="javascript:void(0);" ng-click="clickDirective.goUserDetailReport()">User Detail </a>
                                         </li>
                                     </ul>
                                 </li>

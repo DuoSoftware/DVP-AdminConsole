@@ -5915,6 +5915,7 @@ ul.row-option > li.delete:focus {
     overflow: hidden;
     position: relative;
     margin-top: 0px;
+    background:#383a3b ;
 }
 
 .d1-h-w-count,
@@ -8479,7 +8480,7 @@ select > option .disable-opt {
 }
 
 .campaign-edit-btn:hover {
-    background: #fff;
+    background: #8f8187;
     transform: scale(1.5);
     -webkit-transform: scale(1.5);
     -o-transform: scale(1.5);
@@ -9204,4 +9205,88 @@ circle {
     -o-filter: blur(2px);
     -ms-filter: blur(2px);
     filter: blur(2px);
+}
+
+.tile_stats_count {
+    /*border-bottom: 1px solid #D9DEE4 !important;*/
+    padding: 20px 10px 0px 10px!important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    text-align:center!important;
+    margin:fill !important;
+}
+.tile_count .tile_stats_count .count_bottom i {
+    font-size: 21px !important;
+}
+tags-input.input .tags {
+    padding: 4px 6px;
+    width: 100%;
+    height: 40px;
+    color: rgb(85, 85, 85);
+    border: 1px solid rgb(228, 189, 255) !important;
+    border-radius: 5px !important;
+    box-shadow: rgba(0, 0, 0, 0) 0px 1px 1px inset;
+}
+
+#appConfig .req{
+    color: #ee407d
+}
+
+.v_data_loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #36e49c;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+#appConfig .newapp{
+    background: #defbf2
+}
+
+.ui-disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}}
+
+#appEditWindow {
+    overflow: auto; 
+    position: relative;
+}
+
+#appEditWindow .closebtn {
+    position: absolute;
+    right: 5px;
+    top: 5px;   
+    cursor: pointer;
+}
+
+.italic-mode {
+    font-style: italic;
+}
+
+.article-author-img > img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+}
+.article-author-img {
+    margin-bottom: 15px;
+    margin-top: 4px;
 }

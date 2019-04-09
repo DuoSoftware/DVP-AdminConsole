@@ -152,7 +152,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
 
-        cSatService.getSatisfactionRequestDownload($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList, momentTz).then(function (response) {
+        cSatService.getSatisfactionRequestDownload($scope.csatSerach.StartTime, $scope.csatSerach.EndTime, $scope.satisfaction, selectedAgentList, momentTz).then(function (response) {
             if(response.IsSuccess)
             {
                 var downloadFilename = response.Result;
@@ -185,7 +185,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
         {
             return usrObj._id;
         });
-        cSatService.GetSatisfactionRequest(page, pageSize, $scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList).then(function (response) {
+        cSatService.GetSatisfactionRequest(page, pageSize, $scope.csatSerach.StartTime, $scope.csatSerach.EndTime, $scope.satisfaction, selectedAgentList).then(function (response) {
             if (response) {
                 $scope.satisfactionRequest = response;
                 $scope.showPaging = true;
@@ -367,7 +367,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
             return usrObj._id;
         });
 
-        cSatService.GetSatisfactionRequestReport($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), selectedAgentList).then(function (response) {
+        cSatService.GetSatisfactionRequestReport($scope.csatSerach.StartTime, $scope.csatSerach.EndTime, selectedAgentList).then(function (response) {
             if (response) {
                 $scope.satisfactionReport = response;
                 angular.forEach(response, function (item) {
@@ -400,7 +400,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
         {
             return usrObj._id;
         });
-        cSatService.GetSatisfactionRequestCount($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList).then(function (response) {
+        cSatService.GetSatisfactionRequestCount($scope.csatSerach.StartTime, $scope.csatSerach.EndTime, $scope.satisfaction, selectedAgentList).then(function (response) {
             if (response) {
                 $scope.pageTotal = response;
             }

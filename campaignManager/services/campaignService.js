@@ -20,6 +20,20 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getCampaign = function (campaignId) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return null;
+            }
+        });
+    };
+
     var getCampaigns = function () {
 
         return $http({
@@ -659,6 +673,32 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getCampignCallList = function (campaignId) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.monitorrestapi + "Campaign/"+campaignId+"/Calls"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var getOngoinCampignList = function (OperationalStatus) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.monitorrestapi + 'Campaigns?'+(OperationalStatus==="ALL"?"":("OperationalStatus="+OperationalStatus))
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+    
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
         modes: ["IVR", "AGENT", "MESSAGE"],
@@ -666,6 +706,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         CreateCampaign: createCampaign,
         GetExtensions: getExtensions,
         GetCampaigns: getCampaigns,
+        GetCampaign: getCampaign,
         UpdateCampaign: updateCampaign,
         DeleteCampaign: deleteCampaign,
         GetReasons: getReasons,
@@ -705,7 +746,9 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetCampaignAdditionalData: getCampaignAdditionalData,
         DeleteAdditionalDataByID: deleteAdditionalDataByID,
         GetTemplateList: getTemplateList,
-        GetCampaignById: getCampaignById
+        GetCampaignById: getCampaignById,
+        GetOngoinCampignList: getOngoinCampignList,
+        GetCampignCallList: getCampignCallList
     }
 
 });

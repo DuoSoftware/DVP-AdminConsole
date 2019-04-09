@@ -22,7 +22,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular.plugins.overlayplay',
     'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
-    'ui.grid', 'ui.grid.grouping', 'ui.grid.importer',
+    'ui.grid', 'ui.grid.grouping', 'ui.grid.importer','ui.grid.edit',
     'mgcrea.ngStrap',
     'btford.socket-io',
     'veeryNotificationMod', 'stripe-payment-tools',
@@ -41,7 +41,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     "chart.js",
     'schemaForm',
     'angular-timezone-selector',
-    'ds.objectDiff', 'htmlToPdfSave',
+    'ds.objectDiff',
     'ui.grid.selection',
     'ngFileSaver',
     'timer',
@@ -67,8 +67,13 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.resizeSensor',
     'gantt.dependencies',
     'angular-progress-arc',
-    'ui.tab.scroll','ui.select'
-]);
+    'ui.tab.scroll','ui.select',
+    'textAngular'
+
+]).value('froalaConfig', {
+    toolbarInline: false,
+    placeholderText: 'Enter Text Here'
+});
 
 
 mainApp.constant('moment', moment);
@@ -92,7 +97,7 @@ var baseUrls = {
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app1.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
+    'resourceServiceBaseUrl': 'http://resourceservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
     'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
     'fileServiceUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/FileService/',
@@ -143,6 +148,8 @@ var baseUrls = {
     'botentitiesAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/EntityMap",
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
+    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'contactbasednumberUrl': 'http://contactbasednumberdialingservice.app.veery.cloud/DVP/API/1.0.0.0/Campaign/' //contactbasednumberdialingservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -278,6 +285,30 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/detailsdashboard",
             templateUrl: "detailsDashBoard/view/detailsDashboard.html",
             controller: "detailsDashBoardController",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        })/*.state('console.campaigndashboard', {
+            url: "/campaigndashboard",
+            templateUrl: "campaignManager/view/realtime/real_time_campaign_monitor.html",
+            controller: "campaign_real_time_monitor_controller",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        })*/.state('console.campaignsdashboard', {
+            url: "/campaignsdashboard",
+            templateUrl: "campaignManager/view/realtime/real_time_campaigns_monitor.html",
+            controller: "campaigns_real_time_monitor_controller",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+            }
+        }).state("console.campaigndashboard", {
+            url: "/campaignsdashboard/:campaignname/:campaignid",
+            templateUrl: "campaignManager/view/realtime/real_time_campaign_monitor.html",
+            controller: "campaign_real_time_monitor_controller",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
@@ -743,6 +774,30 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
             }
+        }).state('console.thirdpartyintegration', {
+            url: "/thirdpartyintegration",
+            templateUrl: "views/companyConfig/integrationConfiguration.html",
+            controller: "companyConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.appintegration', {
+            url: "/appintegration",
+            templateUrl: "views/integrations/appList.html",
+            controller: "appListController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state("console.appconfig", {
+            url: "/appintegration/config/:app_id",
+            templateUrl: "views/integrations/appConfig.html",
+            controller: "appConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
         }).state('console.ip_phone_config', {
             url: "/ip_phone_config",
             templateUrl: "sip_phone_config/views/sip_phone_config.html",
@@ -815,6 +870,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "HOURLY_BAND_REPORT"
+            }
+        }).state('console.userDetailReport', {
+            url: "/userDetailReport",
+            templateUrl: "views/user-details/userDetails.html",
+            controller: "userReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "USERDETAIL"
             }
         }).state('console.sla', {
             url: "/sla",
@@ -984,7 +1047,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaign', {
             url: "/campaign",
-            templateUrl: "campaignManager/campaignList.html",
+            templateUrl: "campaignManager/view/campaignList.html",
             controller: "campaignController",
             data: {
                 requireLogin: true,
@@ -992,7 +1055,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignmonitor', {
             url: "/campaign/monitor",
-            templateUrl: "campaignManager/campaignMonitor.html",
+            templateUrl: "campaignManager/view/campaignMonitor.html",
             controller: "campaignMonitorController",
             data: {
                 requireLogin: true,
@@ -1000,7 +1063,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignsummeryreport', {
             url: "/campaign/report/summery",
-            templateUrl: "campaignManager/campaignSummeryReport.html",
+            templateUrl: "campaignManager/view/report/campaignSummeryReport.html",
             controller: "campaignReportController",
             data: {
                 requireLogin: true,
@@ -1008,7 +1071,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaigndispositionreport', {
             url: "/campaign/report/disposition",
-            templateUrl: "campaignManager/campaignDispositionReport.html",
+            templateUrl: "campaignManager/view/report/campaignDispositionReport.html",
             controller: "campaignDispositionReportController",
             data: {
                 requireLogin: true,
@@ -1016,7 +1079,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaigncallbackreport', {
             url: "/campaign/report/callback",
-            templateUrl: "campaignManager/campaignCallbackReport.html",
+            templateUrl: "campaignManager/view/report/campaignCallbackReport.html",
             controller: "campaignCallbackReportController",
             data: {
                 requireLogin: true,
@@ -1024,7 +1087,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignattemptreport', {
             url: "/campaign/report/attempt",
-            templateUrl: "campaignManager/campaignAttemptReport.html",
+            templateUrl: "campaignManager/view/report/campaignAttemptReport.html",
             controller: "campaignAttemptReportController",
             data: {
                 requireLogin: true,
@@ -1248,6 +1311,30 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "FILE_CAT_CONFIG"
+            }
+        }).state('console.articlecategories', {
+            url: "/ArticleCategories",
+            templateUrl: "views/articlemanager/categoryManager.html",
+            controller: "articleCategoryManagerController",
+            data: {
+                requireLogin: true,
+                navigation: "KNOWLEDGE_PORTAL"
+            }
+        }).state("console.articlefolders", {
+            url: "/articlefolders/:catId/:editmode/:catName",
+            templateUrl: "views/articlemanager/FolderManager.html",
+            controller: "articleFolderController",
+            data: {
+                requireLogin: true,
+                navigation: "KNOWLEDGE_PORTAL"
+            }
+        }).state("console.articles", {
+            url: "/articles/:fId/:editmode/:fname",
+            templateUrl: "views/articlemanager/articleManager.html",
+            controller: "articleManagerController",
+            data: {
+                requireLogin: true,
+                navigation: "KNOWLEDGE_PORTAL"
             }
         });
         //Todo shoud be change navigation

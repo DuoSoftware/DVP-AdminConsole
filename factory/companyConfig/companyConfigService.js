@@ -314,6 +314,34 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 return response;
             });
         },
+        createChatConfig: function (config) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl +"Chat/Config",
+                data: config
+            }).then(function(response)
+            {
+                if (response.data) {
+                    return response.data;
+                } else {
+                    return false;
+                }
+            });
+        },
+        getChatConfig: function (config) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"Chat/Config",
+                data: config
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
         createPhoneConfig: function (config) {
             return $http({
                 method: 'POST',
@@ -480,6 +508,27 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 method: 'POST',
                 url: baseUrls.UserServiceBaseUrl +"ActiveDirectory",
                 data: activeDirectoryDetail
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        updateAbandonCallRedialConfig: function(abandonRedialConfig){
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl +"Organisation/AbandonCallRedialConfig",
+                data: abandonRedialConfig
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        getAbandonCallRedialConfig: function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"Organisation/AbandonCallRedialConfig"
 
             }).then(function(response)
             {

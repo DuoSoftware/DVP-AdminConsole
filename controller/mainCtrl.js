@@ -566,6 +566,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goHourlyBandReport: function (){
             $state.go('console.hourlyBandReport')
         },
+        goUserDetailReport: function () {
+            $state.go('console.userDetailReport');
+        },
         goAgentSummary: function () {
             $state.go('console.agentsummary');
         },
@@ -591,6 +594,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goCompanyConfig: function () {
             $state.go('console.companyconfig');
+        },
+        goThirdPartyIntegration: function () {
+            $state.go('console.thirdpartyintegration');
+        },
+        goAppIntegration: function () {
+            $state.go('console.appintegration');
         },
         goTranslations: function () {
             $state.go('console.translations');
@@ -753,8 +762,15 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goToAgentDashboard: function () {
             $state.go('console.agentDashboard');
 
-        }, goToDetailsDashboard: function () {
+        }, 
+        goToDetailsDashboard: function () {
             $state.go('console.detailsdashboard');
+        },
+        goToCampaignsDashboard: function () {
+            $state.go('console.campaignsdashboard');
+        }
+        ,goToCampaignDashboard: function () {
+            $state.go('console.campaigndashboard');
         },
         goToCallCenterPerformanceReport: function () {
             $state.go('console.callCenterPerformanceReport');
@@ -777,7 +793,16 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goInvitations: function () {
             $state.go('console.invitations');
-        }
+        },
+        goArticles: function () {
+            $state.go('console.articles',{fId:null,editmode:false,fname:null});
+        },
+        goArticleFolders: function () {
+            $state.go('console.articlefolders',{fId:null,editmode:false,catName:null});
+        },
+        goArticleCategories: function () {
+            $state.go('console.articlecategories',{catId:null,editmode:false});
+        },
     };
 
     $scope.loadBusinessUnit = function () {
@@ -1324,6 +1349,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     userGroup.listType = "Group";
                 }
                 $scope.userGroups = response.data.Result;
+                ShareData.UserGroups=$scope.userGroups;
             }
         }, function (err) {
             loginService.IsCheckResponse(err);

@@ -159,6 +159,28 @@ mainApp.factory('tagBackendService', function ($http, baseUrls)
    {
     return response;
    });
+  },
+  updateTagCategoryName: function (id,newName) {
+   return $http({
+    method: 'PUT',
+    url: baseUrls.ticketUrl+"TagCategory/"+id,
+    data:{name:newName}
+   }).then(function(response)
+   {
+    return response;
+   });
+  },
+
+  updateTagName: function (id,newName) {
+
+   return $http({
+    method: 'PUT',
+    url: baseUrls.ticketUrl+"Tag/"+id,
+    data:{name:newName}
+   }).then(function(response)
+   {
+    return response;
+   });
   }
 
 

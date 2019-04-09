@@ -2,7 +2,7 @@
  * Created by Pawan on 8/24/2016.
  */
 mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibModal, jwtHelper, authService, tagBackendService,
-                                               loginService) {
+                                              loginService) {
     var tree, treedata_avm = [];
 
     $scope.my_data = [];
@@ -94,9 +94,9 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
 
                     var newChild = $scope.try_adding_a_branch(motherBranch, tagResponse);
 
-                   /* if (tagResponse.tags.length > 0) {
-                        $scope.childTreeGenerator(tagResponse.tags, newChild)
-                    }*/
+                    /* if (tagResponse.tags.length > 0) {
+                         $scope.childTreeGenerator(tagResponse.tags, newChild)
+                     }*/
 
 
                 }
@@ -385,6 +385,66 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
         });
     }
 
+    $scope.updateNewChange = function(tagData,isTag)
+    {
+        if(isTag)
+        {
+            $scope.tagList = $scope.tagList.map(function (item) {
+
+                if(item._id == tagData._id)
+                {
+                    item.name=tagData.name;
+                }
+                return item;
+            });
+        }
+        else
+        {
+
+            $scope.tagCategories = $scope.tagCategories.map(function (item) {
+
+                if(item._id == tagData._id)
+                {
+                    item.name=tagData.name;
+                }
+                return item;
+            });
+        }
+    }
+    $scope.openCategoryUpdate = function (tagCat,isTag) {
+
+        var tagState=true;
+        if(!isTag)
+        {
+            tagState=false;
+        }
+
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/tag-manager/partials/updateTagModal.html',
+            controller: 'UpdateTagController',
+            size: 'sm',
+            resolve: {
+                selectedTag:function()
+                {
+                    return tagCat;
+                },
+                updateData:function()
+                {
+                    return $scope.updateNewChange;
+                },
+                isTag:function()
+                {
+                    return tagState;
+                }
+
+            }
+        });
+
+
+    }
+
     $scope.addNewTagObject = function (newTagData) {
         tagBackendService.addNewTagDetails(newTagData).then(function (response) {
 
@@ -410,7 +470,7 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
     $scope.showModal = function (selectedBranch) {
         //modal show
 
-            console.log(tree.get_closest_ancestor_next_sibling(parent));
+        console.log(tree.get_closest_ancestor_next_sibling(parent));
 
         var modalInstance = $uibModal.open({
             animation: true,
@@ -558,13 +618,13 @@ mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibMo
                     console.log(response.data.Result);
 
                     var rootData =
-                    {
-                        label: response.data.Result.name,
-                        _id: response.data.Result._id,
-                        children: []
+                        {
+                            label: response.data.Result.name,
+                            _id: response.data.Result._id,
+                            children: []
 
 
-                    }
+                        }
                     var childTags = response.data.Result.tags;
                     treedata_avm.push(rootData);
                     console.log("Tree data found ", JSON.stringify(treedata_avm));
@@ -614,10 +674,10 @@ mainApp.controller("NewChildTagController", function ($scope, $rootScope, $uibMo
 
     $scope.ok = function () {
         var childTag =
-        {
-            name: $scope.tagNameData,
-            description: $scope.tagDesc
-        }
+            {
+                name: $scope.tagNameData,
+                description: $scope.tagDesc
+            }
         saveNewTagData(parentTag, childTag);
         $scope.showModal = false;
         $uibModalInstance.close();
@@ -628,10 +688,10 @@ mainApp.controller("NewChildTagController", function ($scope, $rootScope, $uibMo
         var childTag = {};
         if ($scope.showNewForm) {
             childTag =
-            {
-                name: $scope.tagNameData,
-                descricption: $scope.tagDesc
-            }
+                {
+                    name: $scope.tagNameData,
+                    descricption: $scope.tagDesc
+                }
 
         }
         else {
@@ -694,10 +754,10 @@ mainApp.controller("NewTagCategoryController", function ($scope, $rootScope, $ui
     $scope.ok = function () {
 
         var tagCategoryData =
-        {
-            name: $scope.tagCatNameData
+            {
+                name: $scope.tagCatNameData
 
-        }
+            }
 
 
         saveNewTagCatData(tagCategoryData);
@@ -709,10 +769,10 @@ mainApp.controller("NewTagCategoryController", function ($scope, $rootScope, $ui
         var tagCategory = {};
 
         tagCategoryData =
-        {
-            name: $scope.tagCatNameData
+            {
+                name: $scope.tagCatNameData
 
-        }
+            }
 
 
         saveNewTagCatData(tagCategoryData);
@@ -744,11 +804,11 @@ mainApp.controller("NewTagController", function ($scope, $rootScope, $uibModalIn
         var tagData = {};
 
         tagData =
-        {
-            name: $scope.tagNameData,
-            description: $scope.tagDesc
+            {
+                name: $scope.tagNameData,
+                description: $scope.tagDesc
 
-        }
+            }
 
 
         addNewTagData(tagData);
@@ -780,11 +840,11 @@ mainApp.controller("NewTagController", function ($scope, $rootScope, $uibModalIn
         var tagData = {};
 
         tagData =
-        {
-            name: $scope.tagNameData,
-            description: $scope.tagDesc
+            {
+                name: $scope.tagNameData,
+                description: $scope.tagDesc
 
-        }
+            }
 
 
         addNewTagData(tagData);
@@ -801,6 +861,92 @@ mainApp.controller("NewTagController", function ($scope, $rootScope, $uibModalIn
 
     $scope.cancel = function () {
         saveNewTagCatData(parentTag, null);
+        $scope.showModal = false;
+        $uibModalInstance.dismiss('cancel');
+    };
+
+
+});
+mainApp.controller("UpdateTagController", function ($scope, $rootScope, $uibModalInstance, selectedTag,updateData,tagBackendService,isTag) {
+
+
+    $scope.showModal = true;
+    $scope.selectedTag=selectedTag;
+    $scope.newName=$scope.selectedTag.name;
+    $scope.val ="";
+
+    if(!isTag)
+    {
+        $scope.val ="Category";
+    }
+
+    $scope.showAlert = function (tittle, content, type) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.UpdateTagCategory = function()
+    {
+        if(isTag)
+        {
+            tagBackendService.updateTagName($scope.selectedTag._id,$scope.newName).then(function (res) {
+
+                if(res.data.IsSuccess)
+                {
+                    res.data.Result.name=$scope.newName;
+                    $scope.showAlert("Success","Updating Tag name succeeded","success");
+                    updateData(res.data.Result,isTag);
+                    $scope.showModal = false;
+                    $uibModalInstance.close();
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in updating Tag name","error");
+                }
+
+
+            });
+        }
+        else
+        {
+
+            tagBackendService.updateTagCategoryName($scope.selectedTag._id,$scope.newName).then(function (res) {
+
+                if(res.data.IsSuccess)
+                {
+                    res.data.Result.name=$scope.newName;
+                    $scope.showAlert("Success","Updating Tag Category name succeeded","success");
+                    updateData(res.data.Result,isTag);
+                    $scope.showModal = false;
+                    $uibModalInstance.close();
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in updating Tag Category name","error");
+                }
+
+
+            });
+        }
+
+    }
+
+
+
+    $scope.closeModal = function () {
+
+        $scope.showModal = false;
+        $uibModalInstance.dismiss('cancel');
+
+    };
+
+    $scope.cancel = function () {
+
         $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
