@@ -2,7 +2,7 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, callMonitorSrv, attributeService, loginService,$anchorScroll,userProfileApiAccess,ShareData,$q) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, callMonitorSrv, attributeService, campaignNumberApiAccess, loginService,$anchorScroll,userProfileApiAccess,ShareData,$q) {
 
     $anchorScroll();
     $scope.scrlTabsApi = {};
@@ -18,10 +18,16 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.ClusterID;
     $scope.abandonRedialConfig = {
         redialTime: "0",
-        redialCampaignId: "-1"
+        redialCampaignId: "-1",
+        camScheduleId: -1,
+        categoryId: -1
     };
     $scope.contextList = [];
     $scope.campaignList = [];
+    $scope.scheduleList = [];
+    $scope.categoryList = [];
+    var currentSchedule = null;
+    var currentCategory = null;
     $scope.prefixList=[];
     $scope.userTagList=[];
     $scope.newPrefix={};
@@ -915,9 +921,15 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             {
                 if(response.Result)
                 {
-                    response.Result.redialCampaignId = response.Result.redialCampaignId.toString()
+                    response.Result.redialCampaignId = response.Result.redialCampaignId.toString();
+                    response.Result.camScheduleId = response.Result.camScheduleId.toString();
+                    response.Result.categoryId = response.Result.categoryId.toString();
                 }
-                $scope.abandonRedialConfig = response.Result;
+
+
+                $scope.loadSchedulesAndCategories(response.Result.redialCampaignId, function(resp){
+                    $scope.abandonRedialConfig = response.Result;
+                })
             }
             else
             {
@@ -967,6 +979,70 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             $scope.showAlert('Company Details', errMsg, 'error');
         });
 
+    };
+
+    $scope.loadSchedulesAndCategories = function (campId, callback) {
+        campaignNumberApiAccess.getSchedulesForCampaign(campId).then(function (response) {
+            if(response && response.IsSuccess)
+            {
+                $scope.scheduleList = response.Result;
+
+                campaignNumberApiAccess.getCategoriesForCampaign(campId).then(function (response) {
+                    if(response && response.IsSuccess)
+                    {
+                        $scope.categoryList = response.Result;
+                        callback(true);
+                    }
+                    else
+                    {
+                        var errMsg = response.CustomMessage;
+
+                        if(response.Exception)
+                        {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert('Company Details', errMsg, 'error');
+                        callback(false);
+                    }
+                }, function(err){
+                    var errMsg = "Error occurred while receiving Campaigns";
+                    if(err.statusText)
+                    {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Company Details', errMsg, 'error');
+                    callback(false);
+                });
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Details', errMsg, 'error');
+                callback(false);
+            }
+        }, function(err){
+            var errMsg = "Error occurred while receiving Campaigns";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Company Details', errMsg, 'error');
+            callback(false);
+        });
+
+
+
+    };
+
+    $scope.loadSchedulesAndCategoriesList = function (campId) {
+        $scope.loadSchedulesAndCategories(campId, function(result){
+
+        })
     };
 
     getRealTimeCampaigns();
