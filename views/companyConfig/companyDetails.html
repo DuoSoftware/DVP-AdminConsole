@@ -166,19 +166,26 @@
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                             <span>Campaign</span>
-                            <select class="form-control" ng-model="abandonRedialConfig.redialCampaignId" ng-model-options="{trackBy: '$value'}">
+                            <select class="form-control" ng-model="abandonRedialConfig.redialCampaignId" ng-model-options="{trackBy: '$value'}" ng-change="loadSchedulesAndCategoriesList(abandonRedialConfig.redialCampaignId)">
                                 <option ng-repeat="camp in campaignList" value="{{camp.CampaignId}}">{{camp.CampaignName}}</option>
                             </select>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
                             <span>Campaign Schedule Id</span>
-                            <input type="text" class="form-control"
-                                   ng-model="abandonRedialConfig.camScheduleId">
+                            <!--<input type="text" class="form-control"
+                                   ng-model="abandonRedialConfig.camScheduleId">-->
+                            <select class="form-control" ng-model="abandonRedialConfig.camScheduleId" ng-model-options="{trackBy: '$value'}">
+                                <option ng-repeat="schedule in scheduleList" value="{{schedule.CamScheduleId}}">{{schedule.ScheduleName}}</option>
+                            </select>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
                             <span>Category Id</span>
-                            <input type="text" class="form-control"
-                                   ng-model="abandonRedialConfig.categoryId">
+                            <!--<input type="text" class="form-control"
+                                   ng-model="abandonRedialConfig.categoryId">-->
+
+                            <select class="form-control" ng-model="abandonRedialConfig.categoryId" ng-model-options="{trackBy: '$value'}">
+                                <option ng-repeat="cat in categoryList" value="{{cat.CategoryID}}">{{cat.CategoryName}}</option>
+                            </select>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
                             <span>Abandon Call Threshold</span>

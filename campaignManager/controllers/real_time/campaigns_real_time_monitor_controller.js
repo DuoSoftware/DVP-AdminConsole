@@ -149,9 +149,15 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
                     var index = $scope.selected_campaigns.indexOf(row.entity);
                     $scope.selected_campaigns.splice(index, 1);
                     if ($scope.selected_campaigns.length === 0) {
-
-                        $scope.GetOngoinCampignList('ALL');
+                        $scope.grid1Api.selection.clearSelectedRows();
+                        load_default_data();
+                        //$scope.GetOngoinCampignList('ALL');
                     }
+                }
+            });
+            gridApi.selection.on.rowSelectionChangedBatch($scope, function(rows) {
+                if(gridApi.grid.selection.selectAll){
+                    load_default_data();
                 }
             });
         }
@@ -159,6 +165,10 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
 
     $scope.set_selected_campaign = function () {
         $scope.gridQOptions.data = $scope.selected_campaigns;
+        var cam_ids = $scope.selected_campaigns.map(function (value) {
+            return value.CampaignId;
+        });
+        load_default_data(cam_ids);
     };
 
     $scope.selected_campaigns = [];
@@ -340,6 +350,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
         campaignService.GetOngoinCampignList(value).then(function (response) {
 
             if (response) {
+                $scope.grid1Api.selection.clearSelectedRows();
                 $scope.gridQOptions.data = response;
                 $scope.grid1Api.grid.refresh();
                 /*if (value === "ALL") {
@@ -378,12 +389,103 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
     $scope.total_dialing = 0;
     $scope.total_callback_dialing = 0;
 
-    var load_default_data = function () {
+    var load_default_data = function (cam_id) {
         $('#v_data_load').removeClass('display-none').addClass("v_data_loader");
         $('#v_data_grd').removeClass("qgrid").addClass('display-none');
 
+        var method_list = [];
+        if(cam_id){
 
-        var method_list = [contactService.ProfilesCount(null),contactService.ProfileLoadedCount(null),contactService.ProfileRejectCount(null),
+            angular.forEach(cam_id,function(item){
+                method_list.push(contactService.ProfilesCount(item),contactService.ProfileLoadedCount(item),contactService.ProfileRejectCount(item),
+                    contactService.ProfileContactsCount(item),contactService.ProfileContactLoadedCount(item),
+                    contactService.ProfileContactRejectedCount(item,"BASIC"),
+                    dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",item,"BASIC"),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",item,"BASIC"),
+                    dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",item,"BASIC"),dashboardService.GetTotalCampaignCount("CAMPAIGNCONNECTED",item,"BASIC"),
+                    contactService.ProfileContactRejectedCount(item,"CALLBACK"),
+                    dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",item,"CALLBACK"),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",item,"CALLBACK"),
+                    dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",item,"CALLBACK"),dashboardService.GetTotalCampaignCount("CAMPAIGNCONNECTED",item,"CALLBACK"));
+
+
+            })
+        }else{
+            method_list = [contactService.ProfilesCount(null),contactService.ProfileLoadedCount(null),contactService.ProfileRejectCount(null),
+                contactService.ProfileContactsCount(null),contactService.ProfileContactLoadedCount(null),
+                contactService.ProfileContactRejectedCount(null,"BASIC"),
+                dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",null,"BASIC"),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",null,"BASIC"),
+                dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",null,"BASIC"),dashboardService.GetTotalCampaignCount("CAMPAIGNCONNECTED",null,"BASIC"),
+                contactService.ProfileContactRejectedCount(null,"CALLBACK"),
+                dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",null,"CALLBACK"),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",null,"CALLBACK"),
+                dashboardService.GetTotalCampaignCount("CAMPAIGNDIALING",null,"CALLBACK"),dashboardService.GetTotalCampaignCount("CAMPAIGNCONNECTED",null,"CALLBACK"),$scope.GetOngoinCampignList("ALL")];
+
+        }
+
+
+        $q.all(method_list).then(function (resolveData) {
+            if (resolveData) {
+            if(cam_id){
+                var i =0;
+                angular.forEach(cam_id,function(item){
+                    $scope.ProfilesCount = $scope.ProfilesCount + (resolveData[0+i].data && resolveData[0+i].data.IsSuccess)?resolveData[0+i].data.Result:0;
+                    $scope.ProfileLoaded= $scope.ProfileLoaded + (resolveData[1+i].data && resolveData[1+i].data.IsSuccess)?resolveData[1+i].data.Result:0;
+                    $scope.ProfileRejected =$scope.ProfileRejected + (resolveData[2+i].data && resolveData[2+i].data.IsSuccess)?resolveData[2+i].data.Result:0;
+
+                    $scope.ContactCount =$scope.ContactCount + (resolveData[3+i].data && resolveData[3+i].data.IsSuccess)?resolveData[3+i].data.Result:0;
+                    $scope.ContactLoaded =$scope.ContactLoaded + (resolveData[4+i].data && resolveData[4+i].data.IsSuccess)?resolveData[4+i].data.Result:0;// CAMPAIGNNUMBERSTAKEN GetTotalCampaignCount
+                    $scope.total_contact_rejected= $scope.total_contact_rejected + (resolveData[5+i].data && resolveData[5+i].data.IsSuccess)?resolveData[5+i].data.Result:0;
+
+
+                    $scope.total_dialings = $scope.total_dialings + resolveData[6+i];//CAMPAIGNDIALING  getCurrentCampaignCount
+                    $scope.total_connected = $scope.total_connected + resolveData[7+i];//CAMPAIGNCONNECTED   getCurrentCampaignCount
+                    $scope.total_dialed =$scope.total_dialed + resolveData[8+i]; // CAMPAIGNDIALING GetTotalCampaignCount
+                    $scope.total_answered =$scope.total_answered +  resolveData[9+i];
+
+                    $scope.total_callback_contact_rejected= $scope.total_callback_contact_rejected + (resolveData[10+i].data && resolveData[10+i].data.IsSuccess)?resolveData[10+i].data.Result:0;
+                    $scope.total_callback_dialings =$scope.total_callback_dialings +  resolveData[11+i];//CAMPAIGNDIALING  getCurrentCampaignCount
+                    $scope.total_callback_connected =$scope.total_callback_connected +  resolveData[12+i];//CAMPAIGNCONNECTED   getCurrentCampaignCount
+                    $scope.total_callback_dialed =$scope.total_callback_dialed + resolveData[13+i]; // CAMPAIGNDIALING GetTotalCampaignCount
+                    $scope.total_callback_answered =$scope.total_callback_answered +  resolveData[14+i];
+                    i = i+15;
+                })
+            }else{
+                $scope.ProfilesCount = (resolveData[0].data && resolveData[0].data.IsSuccess)?resolveData[0].data.Result:0;
+                $scope.ProfileLoaded= (resolveData[1].data && resolveData[1].data.IsSuccess)?resolveData[1].data.Result:0;
+                $scope.ProfileRejected =(resolveData[2].data && resolveData[2].data.IsSuccess)?resolveData[2].data.Result:0;
+
+                $scope.ContactCount =(resolveData[3].data && resolveData[3].data.IsSuccess)?resolveData[3].data.Result:0;
+                $scope.ContactLoaded =(resolveData[4].data && resolveData[4].data.IsSuccess)?resolveData[4].data.Result:0;// CAMPAIGNNUMBERSTAKEN GetTotalCampaignCount
+                $scope.total_contact_rejected= (resolveData[5].data && resolveData[5].data.IsSuccess)?resolveData[5].data.Result:0;
+
+
+                $scope.total_dialings = resolveData[6];//CAMPAIGNDIALING  getCurrentCampaignCount
+                $scope.total_connected = resolveData[7];//CAMPAIGNCONNECTED   getCurrentCampaignCount
+                $scope.total_dialed =resolveData[8]; // CAMPAIGNDIALING GetTotalCampaignCount
+                $scope.total_answered = resolveData[9];
+
+                $scope.total_callback_contact_rejected= (resolveData[10].data && resolveData[10].data.IsSuccess)?resolveData[10].data.Result:0;
+                $scope.total_callback_dialings = resolveData[11];//CAMPAIGNDIALING  getCurrentCampaignCount
+                $scope.total_callback_connected = resolveData[12];//CAMPAIGNCONNECTED   getCurrentCampaignCount
+                $scope.total_callback_dialed =resolveData[13]; // CAMPAIGNDIALING GetTotalCampaignCount
+                $scope.total_callback_answered = resolveData[14];
+            }
+                $scope.echartDonutSetOption({
+                    ResourceId: "ResourceId123",
+                    /*data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]*/
+                    // hide profile wise count till implement in dialer side,
+                    /* data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]*/
+                    data: [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected]
+                    //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
+                });
+            }
+
+            $('#v_data_load').addClass('display-none');
+            $('#v_data_grd').removeClass('display-none').addClass("qgrid");
+        }).catch(function (err) {
+            console.error(err);
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+        });
+
+        /*var method_list = [contactService.ProfilesCount(null),contactService.ProfileLoadedCount(null),contactService.ProfileRejectCount(null),
             contactService.ProfileContactsCount(null),contactService.ProfileContactLoadedCount(null),
             contactService.ProfileContactRejectedCount(null,"BASIC"),
             dashboardService.getCurrentCampaignCount("CAMPAIGNDIALING",null,"BASIC"),dashboardService.getCurrentCampaignCount("CAMPAIGNCONNECTED",null,"BASIC"),
@@ -422,9 +524,9 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
 
                 $scope.echartDonutSetOption({
                     ResourceId: "ResourceId123",
-                    /*data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]*/
+                    /!*data:[{name: "ProfilesCount",value: $scope.ProfilesCount},{name:"ProfileLoaded", value:$scope.ProfileLoaded},{name: "ProfileRejected",value: $scope.ProfileRejected},{name: "ContactLoaded",value: $scope.ContactLoaded},{name:"ContactRejected",value:$scope.total_contact_rejected},{name: "Dialed",value: $scope.total_dialed},{name: "Dialing",value: $scope.total_dialings}]*!/
                     // hide profile wise count till implement in dialer side,
-                    /* data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]*/
+                    /!* data:[$scope.ProfilesCount,$scope.ProfileLoaded,$scope.ProfileRejected,$scope.ContactCount,$scope.ContactLoaded,$scope.total_contact_rejected,$scope.total_dialed,$scope.total_dialings]*!/
                     data: [$scope.ProfilesCount, $scope.ContactLoaded, $scope.total_dialed,$scope.total_answered, $scope.total_contact_rejected,$scope.total_callback_dialed,$scope.total_callback_answered,$scope.total_callback_contact_rejected]
                     //'ProfilesCount', 'Dialed', 'ContactLoaded', 'ProfileRejected', 'Dialing'
                 });
@@ -435,7 +537,7 @@ mainApp.controller("campaigns_real_time_monitor_controller", function ($state, $
         }).catch(function (err) {
             console.error(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.");
-        });
+        });*/
     };
 
 
