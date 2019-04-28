@@ -14,41 +14,29 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div id="voxDidTop" class="row">
                     <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                    <input type="text" ng-model="selected"
-                    ng-model-options="modelOptions"
-                    uib-typeahead="country.countryName for country in twilioCountries | filter:$viewValue | limitTo:8" typeahead-on-select="twilioSelectedCountry($item)" placeholder="Select Country" class="form-control">
+                    <input type="text" ng-model="twilioSearchQ.selectedCountry"
+                    ng-model-options="twilioModelOptions"
+                    uib-typeahead="country as country.country for country in twilioCountries | filter:$viewValue | limitTo:8" typeahead-on-select="twilioSelectedCountry($item)" placeholder="Select Country" class="form-control">
 
                 </div>
                     <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                        <select class="form-control has-feedback-left" ng-model="searchQ.selectedDidType"
+                        <select class="form-control has-feedback-left" ng-model="twilioSearchQ.numberType"
                                 ng-model-options="{trackBy: '$value'}" placeholder="Number Type">
-                            <!--<option value="" disabled selected>Number Type</option>-->
-                            <option style="font-weight: bold;pointer-events: none">{{didTypes[0].group}}</option>
-                            <option ng-repeat="didt in didTypes[0].items" value="{{didt.value}}">
-                                 -{{didt.key}}
+                            <option ng-repeat="type in twilioNumberTypes" value="{{type.value}}">
+                                 {{type.key}}
                             </option>
                         </select>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                    <select class="form-control has-feedback-left" ng-model="searchQ.selectedCity"
-                            ng-model-options="{trackBy: '$value'}">
-                        <option value="" disabled selected>State</option>
-                        <option value="All">All</option>
-                        <option ng-repeat="state in states.states" value="{{state.stateId}}">
-                            {{state.stateName}}
-                        </option>
-                    </select>
-                </div>
                     <div class="col-md-2 col-sm-2 col-xs-12  ">
                     <button type="button" class="btn btn-success btn-block  btn- pull-right"
-                            ng-click="loadDidGroups()">
-                        Search DID Groups
+                            ng-click="loadPhoneNumbers()">
+                        Search Numbers
                     </button>
                 </div>
                 </div>
                 <div>
                     <div class="row">
-                        <div class="search-main-wrap" ng-if="searchQ.isTableLoading==0" ng-hide="true">
+                        <div class="search-main-wrap" ng-if="twilioSearchQ.isTableLoading==0" ng-hide="true">
                             <div class="row ">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="data-state-wrap">
