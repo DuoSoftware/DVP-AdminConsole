@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi, loginService,$anchorScroll) {
+    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi, twilioApi, loginService) {
 
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
@@ -768,6 +768,48 @@
             }
         };
 
+
+        //------------------------------------------------twilioNumber---------------------------------------------
+
+        $scope.twilioSelectCountry = function (country) {
+            if (country) {
+                $scope.twilioSelectedCountry = country;
+                // $scope.order.countryCodeA3 = country.countryCodeA3;
+                // $scope.loadStates(country.countryCodeA3);
+            }
+        };
+
+        $scope.twilioLoadCountryCodes = function () {
+            twilioApi.GetCountryCodes().then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.twilioCountries = response.Result.countries;
+                    $scope.autoCompletePlaceHolder = "Select Your Country";
+                }
+                else {
+                    if (Array.isArray(response.Result)) {
+                        $scope.showAlert("Twilio", 'error', response.Result[0].apiErrorMessage);
+                    } else {
+                        var errMsg = response.CustomMessage;
+
+                        if (response.Exception) {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert("Twilio", 'error', errMsg);
+                    }
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading Country Codes";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Twilio', 'error', errMsg);
+            });
+        };
+        $scope.twilioLoadCountryCodes();
+
+
+
     };
 
 
@@ -839,7 +881,7 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
 		clearOrder();
         $uibModalInstance.dismiss('cancel');
         //reloadPage();
-    }
+    };
 
 
 });
