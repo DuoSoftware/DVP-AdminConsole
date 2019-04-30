@@ -7,7 +7,7 @@
 </div>
 
 
-<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="TwilioController">
     <div class="x_content">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <br>
@@ -67,52 +67,69 @@
                                                 <tr role="row">
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="didType">Number Type
+                                                        colspan="1" aria-label="numberType">Number Type
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="countryCodeA3">Country
+                                                        colspan="1" aria-label="countryName">Country
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="cityName">City
+                                                        colspan="1" aria-label="region">Region
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="stock">Available Stock
+                                                        colspan="1" aria-label="locality">Locality
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="stock">Features
+                                                        colspan="1" aria-label="numberPrice">Price
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="Requester">
+                                                        colspan="1" aria-label="voice">Voice
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                        rowspan="1"
+                                                        colspan="1" aria-label="SMS">SMS
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                        rowspan="1"
+                                                        colspan="1" aria-label="MMS">MMS
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                        rowspan="1"
+                                                        colspan="1" aria-label="fax">fax
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                        rowspan="1"
+                                                        colspan="1" aria-label="friendlyName">Phone number
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                        rowspan="1"
+                                                        colspan="1" aria-label="search">
                                                     </th>
                                                 </thead>
                                                 <tbody>
+
                                                 <tr role="row" class="odd"
-                                                    ng-repeat="voxDidGroup in voxDidGroupList.didGroups">
-                                                    <td>{{voxDidGroup.didType}}</td>
-                                                    <td>{{voxDidGroup.countryCodeA3}}</td>
-                                                    <td>{{voxDidGroup.cityName ? voxDidGroup.cityName : ''}}</td>
-                                                    <td>{{voxDidGroup.stock}}</td>
+                                                    ng-repeat="phNumber in phoneNumberDetail">
+
+                                                    <td>{{phNumber.numberType}}</td>
+                                                    <td>{{phNumber.countryName}}</td>
+                                                    <td>{{phNumber.region ? phNumber.region:'-'}}</td>
+                                                    <td>{{phNumber.locality ? phNumber.locality : '-'}}</td>
+                                                    <td>{{phNumber.numberPrice}}</td>
+                                                    <td>{{phNumber.voice}}</td>
+                                                    <td>{{phNumber.SMS}}</td>
+                                                    <td>{{phNumber.MMS}}</td>
+                                                    <td>{{phNumber.fax}}</td>
+                                                    <td>{{phNumber.friendlyName}}</td>
                                                     <td>
-                                                        <div ng-repeat="feature in voxDidGroup.features">
-                                                            <div ng-switch="feature.name">
-                                                                <i ng-switch-when="VoxIN">VoxIN</i>
-                                                                <i ng-switch-when="VoxOUT">VoxOUT</i>
-                                                                <i ng-switch-when="VoxSMS">VoxSMS</i>
-                                                                <i ng-switch-when="VoxFax">VoxFax</i>
-                                                                <i ng-switch-when="T.38">T.38</i>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-success"
-                                                                ng-click="selectVoxDidGroup(voxDidGroup)">
-                                                            Select
-                                                        </button>
+<!--                                                        <button type="button" class="btn btn-success"-->
+<!--                                                                ng-click="selectVoxDidGroup(voxDidGroup)">-->
+<!--                                                            Select-->
+<!--                                                        </button>-->
                                                     </td>
                                                 </tbody>
                                             </table>
@@ -127,43 +144,43 @@
 
                         </div>
                     </div>
-                    <div id="voxDidLimitScroll" ng-if="selectedVoxDidGroup">
-                        <div class="row">
-                            <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="order.customerReference"
-                                       placeholder="Customer Reference" ng-disabled="true">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                            </div>
+<!--                    <div id="voxDidLimitScroll" ng-if="selectedVoxDidGroup">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">-->
+<!--                                <input type="text" class="form-control has-feedback-left"-->
+<!--                                       ng-model="order.customerReference"-->
+<!--                                       placeholder="Customer Reference" ng-disabled="true">-->
+<!--                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
+<!--                            </div>-->
 
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="number" class="form-control has-feedback-left" ng-model="order.ChannelCount" placeholder="ChannelCount" min="1">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                            </div>
+<!--                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">-->
+<!--                                <input type="number" class="form-control has-feedback-left" ng-model="order.ChannelCount" placeholder="ChannelCount" min="1">-->
+<!--                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
+<!--                            </div>-->
 
-                            <div class="col-md-11 col-sm-11 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="order.description"
-                                       placeholder="Description">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-12  ">
-                                <button type="button" class="btn btn-success btn-block  btn- pull-right"
-                                        ng-click="showModal()"
-                                        ng-disabled="order.ChannelCount == null || order.ChannelCount == undefined">
-                                    Confirm Order
-                                </button>
-                            </div>
-                            <div class="col-md-2 col-sm-2 col-xs-12  ">
-                                <button type="button" class="btn btn-success btn-block  btn- pull-right"
-                                        ng-click="clearOrder()">
-                                    Clear
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+<!--                            <div class="col-md-11 col-sm-11 col-xs-12 form-group has-feedback">-->
+<!--                                <input type="text" class="form-control has-feedback-left"-->
+<!--                                       ng-model="order.description"-->
+<!--                                       placeholder="Description">-->
+<!--                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-sm-2 col-xs-12  ">-->
+<!--                                <button type="button" class="btn btn-success btn-block  btn- pull-right"-->
+<!--                                        ng-click="showModal()"-->
+<!--                                        ng-disabled="order.ChannelCount == null || order.ChannelCount == undefined">-->
+<!--                                    Confirm Order-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-2 col-sm-2 col-xs-12  ">-->
+<!--                                <button type="button" class="btn btn-success btn-block  btn- pull-right"-->
+<!--                                        ng-click="clearOrder()">-->
+<!--                                    Clear-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>

@@ -769,94 +769,7 @@
         };
 
 
-        //------------------------------------------------twilioNumber---------------------------------------------
-        $scope.twilioSearchQ = {};
-        $scope.twilioSearchQ.isTableLoading = 0;
 
-        $scope.twilioSelectCountry = function (country) {
-            if (country) {
-                $scope.twilioSelectedCountry = country;
-            }
-        };
-
-        $scope.twilioModelOptions = {
-            debounce: {
-                default: 500,
-                blur: 250
-            },
-            getterSetter: true
-        };
-
-        $scope.twilioNumberTypes = [{key: "Local", value: "Local"},
-            {key: "Toll free", value: "TollFree"},
-            {key: "Mobile",value: "Mobile"}];
-
-        $scope.twilioLoadCountryCodes = function () {
-            twilioApi.GetCountryCodes().then(function (response) {
-                if (response.IsSuccess) {
-                    $scope.twilioCountries = response.Result;
-                    $scope.autoCompletePlaceHolder = "Select Your Country";
-                }
-                else {
-                    if (Array.isArray(response.Result)) {
-                        $scope.showAlert("Twilio", 'error', response.Result[0].apiErrorMessage);
-                    } else {
-                        var errMsg = response.CustomMessage;
-
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert("Twilio", 'error', errMsg);
-                    }
-                }
-            }, function (err) {
-                loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while loading Country Codes";
-                if (err.statusText) {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Twilio', 'error', errMsg);
-            });
-        };
-        $scope.twilioLoadCountryCodes();
-
-        $scope.loadPhoneNumbers = function () {
-            if ($scope.searchQ.selectedCity !== "All") {
-                twilioApi.GetAvailableNumbersByType($scope.twilioSearchQ.selectedCountry.isoCountry, $scope.twilioSearchQ.numberType,$scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
-                    if (response.IsSuccess) {
-                        if (response.Result) {
-                            var jResult = JSON.parse(response.Result);
-                            for (i = 0; i < jResult.didGroups.length; i++) {
-                                var voxIn = [{name: "VoxIN"}];
-                                //append voxIn data to front in feature list
-                                jResult.didGroups[i].features = voxIn.concat(jResult.didGroups[i].features);
-                            }
-
-                            $scope.voxDidGroupList = jResult;
-                            $scope.pagination.totalItems = jResult.resultCount;
-                            $scope.searchQ.isTableLoading = 1;
-                            $location.hash('voxDidGroupScroll');
-                            $anchorScroll();
-                        }
-                    }
-                    else {
-                        var errMsg = response.CustomMessage;
-
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert('Twilio', errMsg);
-                    }
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                    var errMsg = "Error occurred while loading DID groups";
-                    if (err.statusText) {
-                        errMsg = err.statusText;
-                    }
-                    $scope.showAlert('DID Group List', errMsg, 'error');
-                });
-            }
-        };
 
     };
 
@@ -932,4 +845,93 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
     };
 
 
+});
+
+
+mainApp.controller("TwilioController",function ($scope, twilioApi) {
+    //------------------------------------------------twilioNumber---------------------------------------------
+
+
+    $scope.twilioSearchQ = {};
+    $scope.twilioSearchQ.isTableLoading = 0;
+
+    $scope.twilioSelectCountry = function (country) {
+        if (country) {
+            $scope.twilioSelectedCountry = country;
+        }
+    };
+
+    $scope.twilioModelOptions = {
+        debounce: {
+            default: 500,
+            blur: 250
+        },
+        getterSetter: true
+    };
+
+    $scope.twilioNumberTypes = [{key: "Local", value: "Local"},
+        {key: "Toll free", value: "TollFree"},
+        {key: "Mobile",value: "Mobile"}];
+
+    $scope.twilioLoadCountryCodes = function () {
+        twilioApi.GetCountryCodes().then(function (response) {
+            if (response.IsSuccess) {
+                $scope.twilioCountries = response.Result;
+                $scope.autoCompletePlaceHolder = "Select Your Country";
+            }
+            else {
+                if (Array.isArray(response.Result)) {
+                    $scope.showAlert("Twilio", 'error', response.Result[0].apiErrorMessage);
+                } else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert("Twilio", 'error', errMsg);
+                }
+            }
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            var errMsg = "Error occurred while loading Country Codes";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Twilio', 'error', errMsg);
+        });
+    };
+    $scope.twilioLoadCountryCodes();
+
+    $scope.loadPhoneNumbers = function () {
+        if ($scope.searchQ.selectedCity !== "All") {
+            twilioApi.GetAvailableNumbersByType($scope.twilioSearchQ.selectedCountry.isoCountry, $scope.twilioSearchQ.numberType,$scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                if (response.IsSuccess) {
+                    if (response.Result) {
+                        var jResult = response.Result;
+
+                        $scope.voxDidGroupList = jResult;
+                        $scope.pagination.totalItems = jResult.resultCount;
+                        $scope.searchQ.isTableLoading = 1;
+                        $location.hash('voxDidGroupScroll');
+                        $anchorScroll();
+                    }
+                }
+                else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Twilio', errMsg);
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading DID groups";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('DID Group List', errMsg, 'error');
+            });
+        }
+    };
 });
