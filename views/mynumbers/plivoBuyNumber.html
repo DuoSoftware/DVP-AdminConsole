@@ -11,7 +11,7 @@
     <div class="x_content" ng-class="{ 'ui-disabled' : isProcessing }">
             <br>
         <div class="row">
-            <div class="search-main-wrap" ng-if="isProcessing">
+            <div class="" ng-if="isProcessing">
                 <div class="row ">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="data-state-wrap">
@@ -64,7 +64,7 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <span>&nbsp;</span>
-                    <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="searchNumbers()">
+                    <button type="button" class="btn btn-success btn-block  btn- pull-right" ng-click="searchNumbers(true)">
                         Search Numbers {{isProcessing}}
                     </button>
                 </div>
@@ -122,7 +122,7 @@
                                     <!-- <tbody ng-if="numberSearchResult && numberSearchResult.length > 0"></tbody> -->
                                     <tbody>
                                         <tr role="row" class="odd"
-                                            ng-repeat="number in numberSearchResult">
+                                            ng-repeat="number in numberSearchResult.numbers">
                                             <td>+{{ number.number}} <br/> {{number.region}}</td>
                                             <td>{{ !number.voice_enabled ? 'N/A' : '$' + parseFloat(number.voice_rate) }}</td>
                                             <td>{{ !number.sms_enabled ? 'N/A' : '$' + parseFloat(number.sms_rate) }}</td>    
@@ -144,7 +144,7 @@
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <ul uib-pagination total-items="pagination.totalItems" items-per-page="pagination.itemsPerPage" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="pageChanged()"></ul>
+                    <ul uib-pagination total-items="numberSearchResult.meta.total_count" items-per-page="numberSearchResult.meta.limit" ng-model="currentPage" max-size="10" class="pagination-sm" boundary-link-numbers="true" ng-change="searchNumbers()"></ul>
                 </div>
 
             </div>

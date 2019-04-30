@@ -5,6 +5,7 @@ mainApp.controller("PlivoController", function ($scope, plivoAPI) {
     $scope.numberType = "any";
     $scope.isProcessing = false;
     $scope.numFilters = {};
+    $scope.currentPage = 1;
 
     $scope.parseFloat = parseFloat;
     
@@ -88,7 +89,13 @@ mainApp.controller("PlivoController", function ($scope, plivoAPI) {
         $scope.numberPrefix = country.prefix;
     };
 
-    $scope.searchNumbers = function(){
+    $scope.searchNumbers = function(reset){
+        var reset = reset || false;
+
+        if(reset){
+            $scope.currentPage = 1;
+        }
+
         plivoSearchOpts = {};
         
         if(!$scope.selectedCountry){
@@ -107,20 +114,21 @@ mainApp.controller("PlivoController", function ($scope, plivoAPI) {
             plivoSearchOpts["region"] = $scope.numFilters.searchRegion;
         }
 
+        plivoSearchOpts["offset"] = ($scope.currentPage - 1) * 20;
+
         plivoAPI.searchNumbers(plivoSearchOpts).then(function (response) {
             if (response.IsSuccess) {
-                $scope.numberSearchResult = response.Result.objects;
+                $scope.numberSearchResult = {
+                    numbers: response.Result.objects,
+                    meta: response.Result.meta
+                }
                 $scope.showAlert("Plivo Number Search", 'success', response.CustomMessage);
             } else {
                 $scope.showAlert("Plivo Number Search", 'error', response.CustomMessage);
             }
             $scope.isProcessing = false;
         }, function (err) {
-            var errMsg = "Error occurred while loading Country Codes";
-            if (err.statusText) {
-                errMsg = err.statusText;
-            }
-            $scope.showAlert('Twilio', 'error', errMsg);
+            $scope.showAlert("Plivo Number Search", 'error', "Number search failed!");
             $scope.isProcessing = false;
         });
 
