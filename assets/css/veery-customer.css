@@ -9290,3 +9290,8 @@ tags-input.input .tags {
     margin-bottom: 15px;
     margin-top: 4px;
 }
+
+.input-prefix-left{
+    border-bottom-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
