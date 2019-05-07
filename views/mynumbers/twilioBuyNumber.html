@@ -15,7 +15,7 @@
                 <div id="voxDidTop" class="row">
                     <div class="col-md-3 col-sm-3 col-xs-12">
                         <span>Country</span>
-                        <select ng-change="twilioSelectedCountry(selectedCountry)" ng-model="twilioSearchQ.selectedCountry" class="form-control" id="country" ng-options="country as country.country for country in twilioCountries " ></select>
+                        <select ng-model="twilioSearchQ.selectedCountry" class="form-control" id="country" ng-options="country as country.country for country in twilioCountries " ></select>
 
                         <!--                    <input type="text" ng-model="twilioSearchQ.selectedCountry"-->
 <!--                    ng-model-options="twilioModelOptions"-->
@@ -26,7 +26,7 @@
                 </div>
                     <div class="col-md-3 col-sm-3 col-xs-12">
                     <span>Number Type</span>
-                        <select class="form-control has-feedback-left" ng-model="twilioSearchQ.numberType"
+                        <select class="form-control" ng-model="twilioSearchQ.numberType"
                                 ng-model-options="{trackBy: '$value'}">
                             <option ng-repeat="type in twilioNumberTypes" value="{{type.value}}">
                               {{type.key}}
