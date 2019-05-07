@@ -863,11 +863,13 @@ mainApp.controller("TwilioController", function ($scope, twilioApi) {
     $scope.twilioNumberTypes = [{key: "Local", value: "Local"},
         {key: "Toll free", value: "TollFree"},
         {key: "Mobile", value: "Mobile"}];
+    $scope.twilioSearchQ.numberType = "Local";
 
     $scope.twilioLoadCountryCodes = function () {
         twilioApi.GetCountryCodes().then(function (response) {
             if (response.IsSuccess) {
                 $scope.twilioCountries = response.Result;
+                $scope.twilioSearchQ.selectedCountry = response.Result[0];
                 // $scope.autoCompletePlaceHolder = "Select Your Country";
             } else {
                 if (Array.isArray(response.Result)) {
