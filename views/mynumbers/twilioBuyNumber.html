@@ -8,26 +8,33 @@
 
 
 <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="TwilioController">
-    <div class="x_content">
+    <div class="x_content" ng-class="{ 'ui-disabled' : twilioSearchQ.isTableLoading }">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <br>
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div id="voxDidTop" class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                    <input type="text" ng-model="twilioSearchQ.selectedCountry"
-                    ng-model-options="twilioModelOptions"
-                    uib-typeahead="country as country.country for country in twilioCountries | filter:$viewValue | limitTo:8" typeahead-on-select="twilioSelectedCountry($item)" placeholder="Select Country" class="form-control">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <span>Country</span>
+                        <select ng-model="twilioSearchQ.selectedCountry" class="form-control" id="country" ng-options="country as country.country for country in twilioCountries " ></select>
 
+                        <!--                    <input type="text" ng-model="twilioSearchQ.selectedCountry"-->
+<!--                    ng-model-options="twilioModelOptions"-->
+<!--                    uib-typeahead="country as country.country for country in twilioCountries | filter:$viewValue | limitTo:8" typeahead-on-select="twilioSelectedCountry($item)" placeholder="Select Country" class="form-control">-->
+<!--                        <tags-input ng-model="twilioSearchQ.selectedCountry" display-property="country" max-tags="1" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" min-length="1">-->
+<!--                            <auto-complete source="twilioSelectCountry($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>-->
+<!--                        </tags-input>-->
                 </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                        <select class="form-control has-feedback-left" ng-model="twilioSearchQ.numberType"
-                                ng-model-options="{trackBy: '$value'}" placeholder="Number Type">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                    <span>Number Type</span>
+                        <select class="form-control" ng-model="twilioSearchQ.numberType"
+                                ng-model-options="{trackBy: '$value'}">
                             <option ng-repeat="type in twilioNumberTypes" value="{{type.value}}">
-                                 {{type.key}}
+                              {{type.key}}
                             </option>
                         </select>
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-12  ">
+                        <span>&nbsp;</span>
                     <button type="button" class="btn btn-success btn-block  btn- pull-right"
                             ng-click="loadPhoneNumbers()">
                         Search Numbers
@@ -47,7 +54,7 @@
                             </div>
                         </div>
 
-                        <div class="x_panel x_content col-md-12 col-sm-12 col-xs-12" ng-if="searchQ.isTableLoading==1">
+                        <div class="x_panel x_content col-md-12 col-sm-12 col-xs-12" ng-if="twilioSearchQ.isTableLoading==0">
 
                             <div id="datatable-responsive_wrapper"
                                  class="dataTables_wrapper form-inline dt-bootstrap no-footer col-md-12 col-sm-12 col-xs-12">
@@ -71,10 +78,6 @@
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="countryName">Country
-                                                    </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                                        rowspan="1"
                                                         colspan="1" aria-label="region">Region
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -83,7 +86,7 @@
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="numberPrice">Price
+                                                        colspan="1" aria-label="numberPrice">Price (USD)
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
@@ -99,7 +102,7 @@
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
-                                                        colspan="1" aria-label="fax">fax
+                                                        colspan="1" aria-label="ax">Fax
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
@@ -116,20 +119,30 @@
                                                     ng-repeat="phNumber in phoneNumberDetail">
 
                                                     <td>{{phNumber.numberType}}</td>
-                                                    <td>{{phNumber.countryName}}</td>
                                                     <td>{{phNumber.region ? phNumber.region:'-'}}</td>
                                                     <td>{{phNumber.locality ? phNumber.locality : '-'}}</td>
                                                     <td>{{phNumber.numberPrice}}</td>
-                                                    <td>{{phNumber.voice}}</td>
-                                                    <td>{{phNumber.SMS}}</td>
-                                                    <td>{{phNumber.MMS}}</td>
-                                                    <td>{{phNumber.fax}}</td>
+                                                    <td>
+                                                        <i class = "fa fa-check" ng-if="phNumber.voice" style="color: green"> </i>
+                                                        <i class = "fa fa-times" ng-if="phNumber.voice == undefined || phNumber.voice == false" style="color:red"> </i>
+                                                    </td>
+                                                    <td> <i class = "fa fa-check" ng-if="phNumber.SMS" style="color: green"> </i>
+                                                        <i class = "fa fa-times" ng-if="phNumber.SMS == undefined || phNumber.SMS == false" style="color:red"> </i>
+                                                    </td>
+                                                    <td>
+                                                        <i class = "fa fa-check" ng-if="phNumber.MMS" style="color: green"> </i>
+                                                        <i class = "fa fa-times" ng-if="phNumber.MMS == undefined || phNumber.MMS == false" style="color:red"> </i>
+                                                    </td>
+                                                    <td>
+                                                        <i class = "fa fa-check" ng-if="phNumber.fax" style="color: green"> </i>
+                                                        <i class = "fa fa-times" ng-if="phNumber.fax == undefined || phNumber.fax == false" style="color:red"> </i>
+                                                    </td>
                                                     <td>{{phNumber.friendlyName}}</td>
                                                     <td>
-<!--                                                        <button type="button" class="btn btn-success"-->
-<!--                                                                ng-click="selectVoxDidGroup(voxDidGroup)">-->
-<!--                                                            Select-->
-<!--                                                        </button>-->
+                                                        <button type="button" class="btn btn-success"
+                                                                ng-click="showConfirm(phNumber)">
+                                                            Buy
+                                                        </button>
                                                     </td>
                                                 </tbody>
                                             </table>
@@ -138,49 +151,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <ul uib-pagination total-items="pagination.totalItems" items-per-page="pagination.itemsPerPage" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="pageChanged()"></ul>
-                            </div>
+<!--                            <div class="col-md-12 col-sm-12 col-xs-12">-->
+<!--                                <ul uib-pagination total-items="pagination.totalItems" items-per-page="pagination.itemsPerPage" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="pageChanged()"></ul>-->
+<!--                            </div>-->
+<!--                            <ul class="pager">-->
+<!--                                <li class="previous"><a href="#">Previous</a></li>-->
+<!--                                <li class="next"><a href="#">Next</a></li>-->
+<!--                            </ul>-->
 
                         </div>
                     </div>
-<!--                    <div id="voxDidLimitScroll" ng-if="selectedVoxDidGroup">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">-->
-<!--                                <input type="text" class="form-control has-feedback-left"-->
-<!--                                       ng-model="order.customerReference"-->
-<!--                                       placeholder="Customer Reference" ng-disabled="true">-->
-<!--                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
-<!--                            </div>-->
 
-<!--                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">-->
-<!--                                <input type="number" class="form-control has-feedback-left" ng-model="order.ChannelCount" placeholder="ChannelCount" min="1">-->
-<!--                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
-<!--                            </div>-->
-
-<!--                            <div class="col-md-11 col-sm-11 col-xs-12 form-group has-feedback">-->
-<!--                                <input type="text" class="form-control has-feedback-left"-->
-<!--                                       ng-model="order.description"-->
-<!--                                       placeholder="Description">-->
-<!--                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-2 col-sm-2 col-xs-12  ">-->
-<!--                                <button type="button" class="btn btn-success btn-block  btn- pull-right"-->
-<!--                                        ng-click="showModal()"-->
-<!--                                        ng-disabled="order.ChannelCount == null || order.ChannelCount == undefined">-->
-<!--                                    Confirm Order-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-2 col-sm-2 col-xs-12  ">-->
-<!--                                <button type="button" class="btn btn-success btn-block  btn- pull-right"-->
-<!--                                        ng-click="clearOrder()">-->
-<!--                                    Clear-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
             </div>
         </div>

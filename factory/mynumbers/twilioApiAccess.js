@@ -13,28 +13,20 @@
                     return response.data;
                 });
         };
-        var GetAvailableNumbersByType = function(isoCountry,numberType, pageNumber, pageSize){
+        var GetAvailableNumbersByType = function(isoCountry,numberType){
             return $http({
                 method: 'GET',
-                url: baseUrls.twilioApiUrl +'PhoneNumbers/'+numberType+ '/'+isoCountry  //+'/' +pageNumber+'/'+pageSize
+                url: baseUrls.twilioApiUrl +'PhoneNumbers/'+numberType+ '/'+isoCountry
             })
                 .then(function(response){
                     return response.data;
                 });
         };
-        var FilterDidsFormState = function(didType, stateId, countryCode, pageNumber, pageSize){
+        var BuyNumber = function(numberInfo){
             return $http({
-                method: 'GET',
-                url: baseUrls.voxboneApiUrl +'inventory/listdidgroup/state/'+stateId+'/'+didType+'/'+countryCode+'/'+pageNumber+'/'+pageSize
-            })
-                .then(function(response){
-                    return response.data;
-                });
-        };
-        var GetNumberRates = function(){
-            return $http({
-                method: 'GET',
-                url: baseUrls.TrunkServiceURL +'PhoneNumberTrunkApi/Operator/VOXBONE'
+                method: 'POST',
+                url: baseUrls.twilioApiUrl +'Buy/Number',
+                data: JSON.stringify(numberInfo)
             })
                 .then(function(response){
                     return response.data;
@@ -44,8 +36,7 @@
         return{
             GetCountryCodes: GetCountryCodes,
             GetAvailableNumbersByType: GetAvailableNumbersByType,
-            FilterDidsFormState: FilterDidsFormState,
-            GetNumberRates: GetNumberRates
+            BuyNumber: BuyNumber
         };
     };
     var module = angular.module("veeryConsoleApp");
