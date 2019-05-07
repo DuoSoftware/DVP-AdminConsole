@@ -172,7 +172,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
 
         //http://userservice.app1.veery.cloud/
         //var authProviderUrl = 'http:192.168.1.16:3637/';
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/Company');
 
         /////////////////////////////////////////////////////////
 
@@ -460,6 +460,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('login', {
             url: "/login",
             templateUrl: "auth/login.html",
+            data: {
+                requireLogin: false
+
+            }
+        }).state('company', {
+            url: "/Company",
+            templateUrl: "auth/company-name.html",
             data: {
                 requireLogin: false
 
