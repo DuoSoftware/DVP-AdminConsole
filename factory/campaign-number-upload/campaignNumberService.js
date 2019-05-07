@@ -119,6 +119,30 @@
             });
         };
 
+        var getSchedulesForCampaign = function(campaignId){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Campaign/'+campaignId+'/Schedules',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getCategoriesForCampaign = function(campaignId){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Campaign/'+campaignId+'/Categories',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
         var getNumbersByCampaignAndSchedule = function(campaignId , scheduleId){
             return $http({
                 method: 'GET',
@@ -285,7 +309,9 @@
             GetNumbersByCampaignAndSchedule: getNumbersByCampaignAndSchedule,
             GetCustomersByTags: getCustomersByTags,
             GetCustomersTags: getCustomersTags,
-            GetCustomers: getCustomers
+            GetCustomers: getCustomers,
+            getSchedulesForCampaign: getSchedulesForCampaign,
+            getCategoriesForCampaign: getCategoriesForCampaign
         };
     };
 

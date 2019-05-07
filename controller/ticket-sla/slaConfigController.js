@@ -36,6 +36,7 @@
             "status",
             "assignee",
             "assignee_group",
+            "requester",
             "channel",
             "tags",
             "SLAViolated"
