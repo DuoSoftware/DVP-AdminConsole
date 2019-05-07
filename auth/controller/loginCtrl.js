@@ -4,9 +4,10 @@
 
 mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                           loginService,
-                                          config, $base64, $auth) {
+                                          config, $base64, $auth,$location) {
 
 	$rootScope.copyrightYear = new Date().getFullYear();
+	$scope.companyName=$state.params.company;
 
 	$scope.CheckLogin = function () {
         if ($auth.isAuthenticated()) {

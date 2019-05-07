@@ -15,6 +15,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     $scope.onClickLogIn = function () {
         $state.go('login');
     };
+    $scope.companyName=$state.params.company;
 
     $scope.isSignUp = false;
     $scope.password = '';
@@ -66,14 +67,14 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
         newUser.timeZone = { tz: moment.tz.guess(), utcOffset: "" };
         $scope.isSignUp = true;
         // commented due to Demo on Bot framework
-        // if (vcRecaptchaService.getResponse($scope.newWidgetId) === "") { //if string is empty
-        //     alert("Please resolve the captcha and submit!");
-        // } else {
-        //     newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse($scope.newWidgetId);
-        //     signUp(newUser);
-        // }
+         if (vcRecaptchaService.getResponse($scope.newWidgetId) === "") { //if string is empty
+             alert("Please resolve the captcha and submit!");
+         } else {
+             newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse($scope.newWidgetId);
+             signUp(newUser);
+         }
         // delete this when uncommenting the above
-        signUp(newUser);
+        //signUp(newUser);
     };
 
 
@@ -85,7 +86,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     });
 
     $scope.onClickBackToLogin = function () {
-        $state.go('login');
+        $state.go('company');
     };
 
 

@@ -423,7 +423,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     veeryNotification.disconnectFromServer();
                     $scope.isLogged = false;
                     $rootScope.freshUser = false;
-                    $state.go('login');
+                    $state.go('company');
                     subscribeServices.Disconnect();
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {

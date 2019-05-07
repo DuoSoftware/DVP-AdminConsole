@@ -93,10 +93,10 @@ mainApp.config(function (scrollableTabsetConfigProvider) {
 //resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
-    'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://192.168.0.14:3638/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
-    'authProviderUrl': 'http://userservice.app1.veery.cloud/',
+    'authServiceBaseUrl': 'http://192.168.0.14:3638/oauth/',
+    'authProviderUrl': 'http://192.168.0.14:3638/',
     'resourceServiceBaseUrl': 'http://resourceservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
     'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
@@ -166,13 +166,13 @@ mainApp.constant('applicationConfig', applicationConfig);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
-        var authProviderUrl = 'http://userservice.app1.veery.cloud/auth/';
+        var authProviderUrl = 'http://192.168.0.14:3638/auth/';
         //var authProviderUrl = 'http://192.168.0.132:3637/auth/';
         vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI');
 
         //http://userservice.app1.veery.cloud/
         //var authProviderUrl = 'http:192.168.1.16:3637/';
-        $urlRouterProvider.otherwise('/Company');
+        $urlRouterProvider.otherwise('/company');
 
         /////////////////////////////////////////////////////////
 
@@ -458,21 +458,21 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "USERS"
             }
         }).state('login', {
-            url: "/login",
+            url: "/login/:company",
             templateUrl: "auth/login.html",
             data: {
                 requireLogin: false
 
             }
         }).state('company', {
-            url: "/Company",
+            url: "/company",
             templateUrl: "auth/company-name.html",
             data: {
                 requireLogin: false
 
             }
         }).state('signUp', {
-            url: "/signUp",
+            url: "/signUp/:company",
             templateUrl: "auth/signUp.html",
             data: {
                 requireLogin: false
