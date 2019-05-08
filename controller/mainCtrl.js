@@ -601,6 +601,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goAppIntegration: function () {
             $state.go('console.appintegration');
         },
+        goWebhookIntegration: function () {
+            $state.go('console.webhookintegration');
+        },
         goTranslations: function () {
             $state.go('console.translations');
         },

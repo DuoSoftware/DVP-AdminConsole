@@ -799,6 +799,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
             }
+        }).state('console.webhookintegration', {
+            url: "/webhookintegration",
+            templateUrl: "views/integrations/webhookList.html",
+            controller: "webhookConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
         }).state('console.ip_phone_config', {
             url: "/ip_phone_config",
             templateUrl: "sip_phone_config/views/sip_phone_config.html",
