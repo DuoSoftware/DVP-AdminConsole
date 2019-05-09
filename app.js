@@ -123,6 +123,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app1.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app1.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
+    'twilioApiUrl': 'http://localhost:3639/DVP/API/1.0.0.0/twilio/',
     'eventserviceUrl': 'http://eventservice.app1.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app1.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app1.veery.cloud/DVP/API/1.0/',  //csatservice.app1.veery.cloud
@@ -794,6 +795,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/appintegration/config/:app_id",
             templateUrl: "views/integrations/appConfig.html",
             controller: "appConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.webhookintegration', {
+            url: "/webhookintegration",
+            templateUrl: "views/integrations/webhookList.html",
+            controller: "webhookConfigController",
             data: {
                 requireLogin: true,
                 navigation: "COMPANY_CONFIGURATION"
