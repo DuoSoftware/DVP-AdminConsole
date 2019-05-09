@@ -234,7 +234,7 @@
                     sipUser = split[0];
                 }
 
-                cdrApiHandler.getCDRForTimeRange(startDate, endDate, sipUser, null, $scope.directionFilter, null, null).then(function (data)
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, null, null, sipUser, null, $scope.directionFilter, null, null, null, null, -1).then(function (data)
                 {
                     if (data.IsSuccess && data.Result)
                     {
