@@ -35,10 +35,10 @@ mainApp.factory('invitationApiAccess', function ($http, baseUrls)
                 return response;
             });
         },
-        checkInvitable: function (name) {
+        checkInvitable: function (names) {
             return $http({
                 method: 'GET',
-                url: baseUrls.UserServiceBaseUrl+'User/'+name+'/invitable'
+                url: baseUrls.UserServiceBaseUrl+'User/invitable?'+names
             }).then(function(response)
             {
                 return response;

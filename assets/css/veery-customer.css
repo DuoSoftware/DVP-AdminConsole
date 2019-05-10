@@ -9295,3 +9295,22 @@ tags-input.input .tags {
     margin-bottom: 15px;
     margin-top: 4px;
 }
+.inline-btn {
+    display: inline-block;
+}
+.bg-checkbox {
+    /*min-width: 72px;*/
+    width: auto;
+    height: 28px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 3px 10px;
+    background-color: #DCFFDF;
+    color: #39B54A;
+}
+
+.grey {
+    background: #71706a;
+    color: #fffafa;
+}

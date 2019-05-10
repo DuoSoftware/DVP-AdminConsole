@@ -51,7 +51,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.authenticate = function (provider) {
 
         para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
-
+        para.companyname=$scope.companyName;
         $scope.isSocialMedia = true;
         $auth.authenticate(provider, para)
             .then(function () {
@@ -144,7 +144,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                             if (loginService.isOwner() == 'admin') {
                                 $state.go('console.pricing');
                             } else {
-                                $state.go('login');
+                                $state.go('company');
                             }
                         }
                     } else {

@@ -1,6 +1,6 @@
 mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $http,
                                                 loginService,
-                                                config, $base64, $auth) {
+                                                config, $base64, $auth,$q) {
 
 
     $scope.companyName="";
@@ -15,8 +15,60 @@ mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $htt
 
     $scope.checkCompanyNameAvailability = function(form,isSignUp)
     {
+        var deferred = $q.defer();
 
-        return new Promise(function (resolve,reject) {
+        try {
+            loginService.getOrganizationExsistance($scope.companyName).then(function (res) {
+
+                if(res)
+                {
+                    //showAlert("Info","error","Company Name is Already Taken");
+                    $scope.isExsists=true;
+
+                    form.companyName.$invalid=true;
+
+                    if(!isSignUp)
+                    {
+                        $state.go('login',{company:$scope.companyName});
+                    }
+
+
+                    deferred.reject(true);
+
+
+                }
+                else {
+
+                    if(!isSignUp)
+                    {
+                        showAlert("Error","error","Invalid Company Name ");
+                    }
+
+                    $scope.isExsists=false;
+
+                    form.companyName.$invalid=false;
+
+
+                    deferred.resolve(true);
+
+                }
+            },function (err) {
+                showAlert("Error","error","Error in validating Company Name ");
+                $scope.isExsists=true;
+
+                form.companyName.$invalid=true;
+
+
+                deferred.reject(false);
+            });
+        }
+        catch (e) {
+            deferred.reject(e);
+        }
+
+        return deferred.promise;
+
+        /*return new Promise(function (resolve,reject) {
             loginService.getOrganizationExsistance($scope.companyName).then(function (res) {
 
                 if(res)
@@ -60,7 +112,7 @@ mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $htt
 
                 reject(false);
             });
-        })
+        })*/
 
     }
 

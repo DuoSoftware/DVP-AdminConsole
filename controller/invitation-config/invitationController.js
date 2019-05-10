@@ -9,8 +9,16 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
     $scope.newInvite={
         role:"agent"
     };
+    $scope.userList = [];
 
-
+$scope.onUserChipAdd = function(chip)
+{
+    $scope.userList.push(chip.tag);
+}
+$scope.onUserChipDelete = function(chip)
+{
+    $scope.userList.splice($scope.userList.indexOf(chip.tag),1);
+}
 
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
@@ -48,6 +56,41 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
 
     $scope.sendInvitation = function () {
+
+
+        var strNames="";
+
+        angular.forEach($scope.userList,function (item,i) {
+
+            strNames=strNames+"name="+item;
+            if(i!=$scope.userList.length-1)
+            {
+                strNames= strNames+"&";
+            }
+
+
+
+        });
+
+        if(strNames!="")
+        {
+            invitationApiAccess.checkInvitable(strNames).then(function (resUsers) {
+
+                if(resUsers.data.IsSuccess)
+                {
+                    var requestableAccounts =[];
+                    var notRegisteredUsers=[];
+                }
+
+
+            },function (errUsers) {
+
+            })
+        }
+
+
+
+        //console.log(strName);
 
         if($scope.newInvite.to)
         {
@@ -117,101 +160,6 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
     };
     loadSentInvitations();
 
-    /* $scope.AppList=[];
-     $scope.newApplication={};
-     $scope.addNew = false;
-     $scope.MasterAppList=[];
-     $scope.IsDeveloper=false;
-     $scope.Developers=[];
-
-     $scope.showAlert = function (tittle,content,type) {
-
-     new PNotify({
-     title: tittle,
-     text: content,
-     type: type,
-     styling: 'bootstrap3'
-     });
-     };
-
-
-
-     $scope.saveAplication= function (resource) {
-
-
-     resource.Availability=true;
-     if(resource.ObjClass=="DEVELOPER")
-     {
-     resource.IsDeveloper=true;
-     }
-     appBackendService.saveNewApplication(resource).then(function (response) {
-
-     if(!response.data.IsSuccess)
-     {
-
-     console.info("Error in adding new Application "+response.data.Exception);
-     $scope.showAlert("Error", "There is an error in saving Application ","error");
-     //$scope.showAlert("Error",)
-     }
-     else
-     {
-     $scope.addNew = !response.data.IsSuccess;
-     $scope.showAlert("Success", "New Application added sucessfully.","success");
-
-     $scope.AppList.splice(0, 0, response.data.Result);
-     $scope.newApplication={};
-
-
-     }
-     $state.reload();
-     }), function (error) {
-     console.info("Error in adding new Application "+error);
-     $scope.showAlert("Error", "There is an Exception in saving Application "+error,"error");
-     $state.reload();
-     }
-     };
-
-
-     $scope.addApplication = function () {
-     $scope.addNew = !$scope.addNew;
-     };
-     $scope.removeDeleted = function (item) {
-
-     var index = $scope.AppList.indexOf(item);
-     if (index != -1) {
-     $scope.AppList.splice(index, 1);
-     }
-
-     };
-     $scope.reloadPage = function () {
-     $state.reload();
-     };
-
-     $scope.GetApplications = function () {
-     appBackendService.getApplications().then(function (response) {
-
-     if(response.data.Exception)
-     {
-     console.info("Error in picking App list "+response.data.Exception);
-     }
-     else
-     {
-     $scope.AppList = response.data.Result;
-     //$scope.MasterAppList = response.data.Result;
-     }
-
-     }), function (error) {
-     console.info("Error in picking App service "+error);
-     }
-     };
-
-     $scope.cancleEdit = function () {
-     $scope.addNew=false;
-     };
-
-
-
-     $scope.GetApplications();*/
 
     $scope.reloadPage = function () {
         $state.reload();
