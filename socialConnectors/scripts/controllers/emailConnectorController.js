@@ -15,7 +15,8 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
         ticket_priority:"",
         ticket_type:"",
         ticket_tags:[],
-        name:""
+        name:"",
+        domain: ""
     };
     $scope.ticket_tags=[];
     $scope.tagList=[];
