@@ -71,7 +71,7 @@
                                         no new notification
                                     </div>
                                     <div class="clearfix notification-list" ng-repeat="notifi in newNotifications">
-                                        <div ng-click="showNotificationMessage(notifi)">
+                                        <div ng-click="showNotificationMessage(notifi,'notify')">
                                             <div class="col-lg-3">
                                                 <div class="notify-img-small">
                                                     <img ng-src="{{notifi.avatar}}" src="assets/images/defaultProfile.png" alt="Profile Image">
@@ -102,6 +102,61 @@
 
 
                         </li>
+
+                        <li role="presentation" class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle info-number" data-toggle="dropdown" ng-click="checkAndRegister()" aria-expanded="false">
+                                <!--<i class="veery-font-1-alarm "></i>-->
+                                <i class="fa fa-rocket"></i>
+                                <span class="badge bg-green" ng-if="pendingInviteCnt > 0">{{pendingInviteCnt}}</span>
+                            </a>
+
+                            <ul id="menux" class="dropdown-menu list-unstyled msg_list console-drop-menu notification-menu-left console-notofication"
+                                role="menu">
+                                <div class="notification-header">
+                                    <a class="drop-header ubuntu-Medium">Invitations ({{pendingInviteCnt}})
+                                    </a>
+                                </div>
+                                <div class="divider"></div>
+
+                                <div class="console-notofication-wrapper" ng-slimscroll opacity="0.1" distance="10px" height="355px" width="100%" ng-mouseover="chatWidgetscrollEnabled = true"
+                                     ng-mouseleave="chatWidgetscrollEnabled = false" enabled="{{ chatWidgetscrollEnabled }}">
+                                    <div class="notification-status" ng-show="pendingInviteCnt==0">
+                                        <i class="animated   veery-font-1-alarm"> </i>
+                                        </br>
+                                        No New Invitations
+                                    </div>
+                                    <div class="clearfix notification-list" ng-repeat="invite in pendingInvites">
+                                        <div ng-click="showNotificationMessage(invite,'invite')">
+                                            <div class="col-lg-3">
+                                                <div class="notify-img-small">
+                                                    <img ng-src="{{invite.avatar}}" src="assets/images/defaultProfile.png" alt="Profile Image">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="row">
+                                                    <label style="font-size: 15px">Invitation from {{invite.from}}</label>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="notification-time">
+                                                        <time-ago from-time='{{invite.created_at}}'
+                                                                  format='MM/dd/yyyy'></time-ago>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div ng-show="newNotifications.length>0" id="delBtn" class="del-all-btn" ng-click="RemoveAllNotifications()">
+                                    <span onmouseover="this.style.cursor='pointer'">Delete All</span>
+                                </div>
+                            </ul>
+
+
+                        </li>
+
 
 
                         <li role="presentation" ng-click="openNav()" style="cursor: pointer;">

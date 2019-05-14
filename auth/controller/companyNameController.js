@@ -41,7 +41,7 @@ mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $htt
 
                     if(!isSignUp)
                     {
-                        showAlert("Error","error","Invalid Company Name ");
+                        showAlert("Info","info","Company Name You Have Entered is Not Registered , Please Create a new Company ");
                     }
 
                     $scope.isExsists=false;

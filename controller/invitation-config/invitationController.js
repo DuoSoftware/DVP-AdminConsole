@@ -10,17 +10,19 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
         role:"agent"
     };
     $scope.userList = [];
+    $scope.requestableAccounts =[];
+    $scope.notRegisteredUsers=[];
 
-$scope.onUserChipAdd = function(chip)
-{
-    $scope.userList.push(chip.tag);
-}
-$scope.onUserChipDelete = function(chip)
-{
-    $scope.userList.splice($scope.userList.indexOf(chip.tag),1);
-}
+    $scope.onUserChipAdd = function(chip)
+    {
+        $scope.userList.push(chip.tag);
+    }
+    $scope.onUserChipDelete = function(chip)
+    {
+        $scope.userList.splice($scope.userList.indexOf(chip.tag),1);
+    }
 
-    $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
+    $scope.showConfirmation = function (title, contentData, allText,registeredText, allFunc,regFunc ,closeFunc) {
 
         $ngConfirm({
             title: title,
@@ -28,12 +30,19 @@ $scope.onUserChipDelete = function(chip)
             scope: $scope,
             buttons: {
                 // long hand button definition
-                ok: {
-                    text: okText,
+                Registered: {
+                    text: allText,
                     btnClass: 'btn-primary',
                     keys: ['enter'], // will trigger when enter is pressed
                     action: function (scope) {
-                        okFunc();
+                        allFunc();
+                    }
+                },
+                NotRegistered: {
+                    text: registeredText,
+                    btnClass: 'btn-primary',
+                    action: function (scope) {
+                        regFunc();
                     }
                 },
                 // short hand button definition
@@ -43,6 +52,20 @@ $scope.onUserChipDelete = function(chip)
             }
         });
     };
+
+   /* $scope.names = ["123","56","333"];
+    var content = '<strong>{{name}}</strong><div><span>Valid Invitees</span><div ng-repeat="item in names"><span class="reqchip">{{item}}</span></div></div>';
+
+    $scope.showConfirmation("Invitations",content,"all","reg",function () {
+
+    },function () {
+
+    },function () {
+
+    })*/
+
+
+
     $scope.showAlert = function (title, content, msgtype) {
 
         new PNotify({
@@ -76,10 +99,152 @@ $scope.onUserChipDelete = function(chip)
         {
             invitationApiAccess.checkInvitable(strNames).then(function (resUsers) {
 
-                if(resUsers.data.IsSuccess)
+
+                var inviteObj = {
+                    message:$scope.newInvite.message,
+                    to:[],
+                    role:$scope.newInvite.role
+                }
+
+                if(resUsers.data.IsSuccess && resUsers.data.Result)
                 {
-                    var requestableAccounts =[];
-                    var notRegisteredUsers=[];
+                    if(resUsers.data.Result.unavailableAccounts)
+                    {
+                        requestableAccounts=resUsers.data.Result.unavailableAccounts;
+                    }
+                    if(resUsers.data.Result.unavailableUsers)
+                    {
+                        notRegisteredUsers=resUsers.data.Result.unavailableUsers;
+                    }
+
+                    /*var content = '<strong>Invitees Identified as follows </strong>'+'<div style="padding-top: 10px">' +
+                        '<div> <span>Direct Invitables</span>' +
+                        '<div ng-repeat="account in requestableAccounts">' +
+                        '<div class="chip">' +
+                        '  <img src="img_avatar.jpg" alt="Person">' +
+                        '  {{account}}' +
+                        '</div>'+
+                        '</div>'+
+                        '</div></div>';*/
+                  var content = '<strong>{{name}}</strong><div><span>Valid Invitees</span><div ng-repeat="item in resUsers.data.Result.unavailableAccounts"><span class="reqchip">{{item}}</span></div></div>';
+
+
+
+                    $scope.showConfirmation("Invitations",content,"All","Registered Only",function () {
+
+                        if(requestableAccounts.length>0)
+                        {
+                            inviteObj.to=requestableAccounts;
+
+                            invitationApiAccess.sendInvitations(inviteObj).then(function (resSend) {
+
+                                if(resSend.data.IsSuccess)
+                                {
+                                    $scope.showAlert("Success","Invitation sent successfully","success");
+                                    loadSentInvitations();
+                                }
+                                else
+                                {
+                                    $scope.showAlert("Error","Invitation sending failed","error");
+                                }
+                            },function (errSend) {
+                                $scope.showAlert("Error","Invitation sending failed","error");
+                            });
+                        }
+                    },function () {
+
+                        if(requestableAccounts.length>0)
+                        {
+                            inviteObj.to=requestableAccounts;
+
+                            invitationApiAccess.sendInvitations(inviteObj).then(function (resSend) {
+
+                                if(resSend.data.IsSuccess)
+                                {
+                                    $scope.showAlert("Success","Invitation sent successfully","success");
+                                    loadSentInvitations();
+                                }
+                                else
+                                {
+                                    $scope.showAlert("Error","Invitation sending failed","error");
+                                }
+                            },function (errSend) {
+                                $scope.showAlert("Error","Invitation sending failed","error");
+                            });
+                        }
+
+                        if(notRegisteredUsers.length>0)
+                        {
+                            inviteObj.to=notRegisteredUsers;
+
+                            invitationApiAccess.requestInvitations(inviteObj).then(function (resSend) {
+
+                                if(resSend.data.IsSuccess)
+                                {
+                                    $scope.showAlert("Success","Invitation sent successfully","success");
+                                    loadSentInvitations();
+                                }
+                                else
+                                {
+                                    $scope.showAlert("Error","Invitation sending failed","error");
+                                }
+                            },function (errSend) {
+                                $scope.showAlert("Error","Invitation sending failed","error");
+                            });
+                        }
+
+                    },function () {
+
+                    });
+
+
+                  /*  if(requestableAccounts.length>0)
+                    {
+                        inviteObj.to=requestableAccounts;
+
+                        invitationApiAccess.sendInvitations(inviteObj).then(function (resSend) {
+
+                            if(resSend.data.IsSuccess)
+                            {
+                                $scope.showAlert("Success","Invitation sent successfully","success");
+                                loadSentInvitations();
+                            }
+                            else
+                            {
+                                $scope.showAlert("Error","Invitation sending failed","error");
+                            }
+                        },function (errSend) {
+                            $scope.showAlert("Error","Invitation sending failed","error");
+                        });
+                    }
+
+                    if(notRegisteredUsers.length>0)
+                    {
+                        inviteObj.to=notRegisteredUsers;
+
+                        invitationApiAccess.requestInvitations(inviteObj).then(function (resSend) {
+
+                            if(resSend.data.IsSuccess)
+                            {
+                                $scope.showAlert("Success","Invitation sent successfully","success");
+                                loadSentInvitations();
+                            }
+                            else
+                            {
+                                $scope.showAlert("Error","Invitation sending failed","error");
+                            }
+                        },function (errSend) {
+                            $scope.showAlert("Error","Invitation sending failed","error");
+                        });
+                    }*/
+
+
+
+
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in Validation requests","error");
                 }
 
 
@@ -92,41 +257,8 @@ $scope.onUserChipDelete = function(chip)
 
         //console.log(strName);
 
-        if($scope.newInvite.to)
-        {
-            invitationApiAccess.checkInvitable($scope.newInvite.to).then(function (resInvitable) {
 
-                if(resInvitable.data.IsSuccess)
-                {
-                    var inviteObj = {
-                        message:$scope.newInvite.message,
-                        to:$scope.newInvite.to,
-                        role:$scope.newInvite.role
-                    }
-                    invitationApiAccess.sendInvitation(inviteObj).then(function (resSend) {
 
-                        if(resSend.data.IsSuccess)
-                        {
-                            $scope.showAlert("Success","Invitation sent successfully","success");
-                            loadSentInvitations();
-                        }
-                        else
-                        {
-                            $scope.showAlert("Error","Invitation sending failed","error");
-                        }
-                    },function (errSend) {
-                        $scope.showAlert("Error","Invitation sending failed","error");
-                    });
-                }
-                else
-                {
-                    $scope.showAlert("Info","User is not invitable try another user","info");
-                }
-
-            },function (errInvitable) {
-                $scope.showAlert("Error","Error in searching user invitablility","error");
-            });
-        }
 
 
 

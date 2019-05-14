@@ -93,14 +93,14 @@ mainApp.config(function (scrollableTabsetConfigProvider) {
 //resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
-    'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://192.168.0.14:3638/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
-    'authProviderUrl': 'http://userservice.app1.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
+    'authServiceBaseUrl': 'http://192.168.0.14:3638/oauth/',
+    'authProviderUrl': 'http://192.168.0.14:3638/',
+    'resourceServiceBaseUrl': 'http://192.168.0.14:8832/DVP/API/1.0.0.0/ResourceManager/',//resourceservice.app1.veery.cloud
     'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
-    'fileServiceUrl': 'http://127.0.0.1:5648/DVP/API/1.0.0.0/FileService/',
+    'fileServiceUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app1.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',//clusterconfig.app1.veery.cloud
     'conferenceUrl': 'http://conference.app1.veery.cloud/DVP/API/1.0.0.0/',
@@ -166,7 +166,7 @@ mainApp.constant('applicationConfig', applicationConfig);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
-        var authProviderUrl = 'http://userservice.app1.veery.cloud/auth/';
+        var authProviderUrl = 'http://192.168.0.14:3638/auth/';
         //var authProviderUrl = 'http://192.168.0.132:3637/auth/';
         vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI');
 
@@ -183,18 +183,21 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
 
         $authProvider.facebook({
             url: authProviderUrl + 'facebook',
-            clientId: '1237176756312189'
+            clientId: '1237176756312189',
+            redirectUri: window.location.origin+'/DVP-AdminConsole/index.html'
             //responseType: 'token'
         });
 
         $authProvider.google({
             url: authProviderUrl + 'google',
-            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
+            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com',
+            redirectUri: window.location.origin+'/DVP-AdminConsole/index.html'
         });
 
         $authProvider.github({
             url: authProviderUrl + 'github',
-            clientId: 'f725eae279e6727c68c7'
+            clientId: 'f725eae279e6727c68c7',
+            redirectUri: window.location.origin+'/DVP-AdminConsole/index.html'
         });
 
         $authProvider.linkedin({
