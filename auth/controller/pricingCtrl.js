@@ -125,7 +125,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
                 });
             }
             else {
-                $scope.showMessage("Package Buy", "Insufficient Balance. Please Add Credit To Your Account.", 'error');
+                $scope.showMessage("Package Buy", "Insufficient Balance. Please Add Credit To Your Account. Needs $" + (parseInt(pak.price) - (parseInt(res.Credit) / 100)) + " more.", 'error');
                 $state.go('console.credit');
             }
         }, function (err) {

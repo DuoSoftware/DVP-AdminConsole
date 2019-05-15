@@ -15,7 +15,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
     $scope.pageNo=1;
     $scope.rowCount=5;
 
-    $scope.dtOptions = { paging: false, searching: false, info: false, order: [2, 'asc'] };
+    $scope.dtOptions = { paging: false, searching: false, info: false, order: [0, 'desc'] };
 
 
 
