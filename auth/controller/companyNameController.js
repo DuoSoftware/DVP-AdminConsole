@@ -41,7 +41,7 @@ mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $htt
 
                     if(!isSignUp)
                     {
-                        showAlert("Info","info","Company Name You Have Entered is Not Registered , Please Create a new Company ");
+                        showAlert("Info","info","Company Name You Have Entered is Not Registered , Please Add a Valid Company Name or Create a new Company ");
                     }
 
                     $scope.isExsists=false;
@@ -136,11 +136,20 @@ mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $htt
 
 
     $scope.onClickSignUp = function (form) {
-        $scope.checkCompanyNameAvailability(form,true).then(function (res) {
-            $state.go('signUp',{company:$scope.companyName});
-        },function (err) {
+        if($scope.companyName.length>0)
+        {
 
-        });
+            $scope.checkCompanyNameAvailability(form,true).then(function (res) {
+                $state.go('signUp',{company:$scope.companyName});
+            },function (err) {
+
+            });
+        }
+        else
+        {
+            showAlert("Choose a Company Name","info","Before SignUp Please choose a Name for your Company");
+        }
+
 
     };
 
@@ -148,7 +157,7 @@ mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $htt
 
         if($scope.companyName.length==0)
         {
-            showAlert("Info","error","Company name cannot be empty");
+            showAlert("Choose a Company Name","info","Before Login Please choose a Name for your Company");
         }
         else
         {

@@ -5,6 +5,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
 
     $scope.searchCriteria = "";
+    $scope.isRequested=false;
     $scope.invites = [];
     $scope.newInvite={
         role:"agent"
@@ -80,7 +81,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
     $scope.sendInvitation = function () {
 
-
+        $scope.isRequested=true;
         var strNames="";
 
         angular.forEach($scope.userList,function (item,i) {
@@ -142,11 +143,36 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                                 {
                                     $scope.showAlert("Success","Invitation sent successfully","success");
                                     loadSentInvitations();
+
+                                }
+                                else
+                                {
+                                    $scope.showAlert("Error","Invitation sending failed","error");
+                                    $scope.isRequested=false;
+                                }
+                                $scope.isRequested=false;
+                            },function (errSend) {
+                                $scope.showAlert("Error","Invitation sending failed","error");
+                                $scope.isRequested=false;
+                            });
+                        }
+
+                        if(notRegisteredUsers.length>0)
+                        {
+                            inviteObj.to=notRegisteredUsers;
+
+                            invitationApiAccess.requestInvitations(inviteObj).then(function (resSend) {
+
+                                if(resSend.data.IsSuccess)
+                                {
+                                    $scope.showAlert("Success","Invitation sent successfully","success");
+                                    loadSentInvitations();
                                 }
                                 else
                                 {
                                     $scope.showAlert("Error","Invitation sending failed","error");
                                 }
+                                $scope.isRequested=false;
                             },function (errSend) {
                                 $scope.showAlert("Error","Invitation sending failed","error");
                             });
@@ -170,73 +196,18 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                                 }
                             },function (errSend) {
                                 $scope.showAlert("Error","Invitation sending failed","error");
+                                $scope.isRequested=false;
                             });
                         }
 
-                        if(notRegisteredUsers.length>0)
-                        {
-                            inviteObj.to=notRegisteredUsers;
 
-                            invitationApiAccess.requestInvitations(inviteObj).then(function (resSend) {
-
-                                if(resSend.data.IsSuccess)
-                                {
-                                    $scope.showAlert("Success","Invitation sent successfully","success");
-                                    loadSentInvitations();
-                                }
-                                else
-                                {
-                                    $scope.showAlert("Error","Invitation sending failed","error");
-                                }
-                            },function (errSend) {
-                                $scope.showAlert("Error","Invitation sending failed","error");
-                            });
-                        }
 
                     },function () {
-
+                        $scope.isRequested=false;
                     });
 
 
-                  /*  if(requestableAccounts.length>0)
-                    {
-                        inviteObj.to=requestableAccounts;
 
-                        invitationApiAccess.sendInvitations(inviteObj).then(function (resSend) {
-
-                            if(resSend.data.IsSuccess)
-                            {
-                                $scope.showAlert("Success","Invitation sent successfully","success");
-                                loadSentInvitations();
-                            }
-                            else
-                            {
-                                $scope.showAlert("Error","Invitation sending failed","error");
-                            }
-                        },function (errSend) {
-                            $scope.showAlert("Error","Invitation sending failed","error");
-                        });
-                    }
-
-                    if(notRegisteredUsers.length>0)
-                    {
-                        inviteObj.to=notRegisteredUsers;
-
-                        invitationApiAccess.requestInvitations(inviteObj).then(function (resSend) {
-
-                            if(resSend.data.IsSuccess)
-                            {
-                                $scope.showAlert("Success","Invitation sent successfully","success");
-                                loadSentInvitations();
-                            }
-                            else
-                            {
-                                $scope.showAlert("Error","Invitation sending failed","error");
-                            }
-                        },function (errSend) {
-                            $scope.showAlert("Error","Invitation sending failed","error");
-                        });
-                    }*/
 
 
 
@@ -245,12 +216,17 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                 else
                 {
                     $scope.showAlert("Error","Error in Validation requests","error");
+                    $scope.isRequested=false;
                 }
 
 
             },function (errUsers) {
-
+                $scope.isRequested=false;
             })
+        }
+        else {
+            $scope.isRequested=false;
+            $scope.showAlert("Error","error","Add Users before send request");
         }
 
 
@@ -266,6 +242,10 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
     };
 
     var loadSentInvitations = function () {
+        $scope.newInvite={
+            role:"agent"
+        };
+
         invitationApiAccess.getSentInvitations().then(function (resInvitations) {
             if(resInvitations.data.IsSuccess)
             {

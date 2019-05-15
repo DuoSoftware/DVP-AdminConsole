@@ -179,6 +179,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
 
         $authProvider.loginUrl = authProviderUrl + 'login';
         $authProvider.signupUrl = authProviderUrl + 'signup';
+        $authProvider.invitationSignupUrl = authProviderUrl + 'inviteSignup';
 
 
         $authProvider.facebook({
@@ -470,6 +471,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('company', {
             url: "/company",
             templateUrl: "auth/company-name.html",
+            data: {
+                requireLogin: false
+
+            }
+        }).state('invitaionsuignup', {
+            url: "/invitationSignUp",
+            templateUrl: "auth/first-login-password.html",
             data: {
                 requireLogin: false
 
