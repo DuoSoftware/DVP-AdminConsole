@@ -165,7 +165,8 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             .catch(function (error) {
                 if (error.status == 449 || error.status == 401) {
 					if (error.data.message.toLowerCase() == 'invalid user account') {
-						showAlert('Account Info', 'warning', error.data.message + '. Make sure you have activated your account through the email you may have received');
+						//showAlert('Account Info', 'warning', error.data.message + '. Make sure you have activated your account through the email you may have received');
+                        showAlert('Account Info', 'warning','Problem in Login, Mack sure you have entered correct credentials or correct login method ')
 					}else{
 						showAlert('Account Info', 'warning', error.data.message);
 					}
