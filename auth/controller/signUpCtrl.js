@@ -13,8 +13,9 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     $scope.siteKey = "6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI";
 
     $scope.onClickLogIn = function () {
-        $state.go('login');
+        $state.go('company');
     };
+    $scope.companyName=$state.params.company;
 
     $scope.isSignUp = false;
     $scope.password = '';
@@ -45,7 +46,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
             .then(function (response) {
                 //$auth.setToken(response);
                 showAlert('Job Done', 'success', 'You have successfully registered with Face Tone.Please check your email for verification.');
-                $state.go('login');
+                $state.go('company');
             })
             .catch(function (response) {
                 showAlert('Error', 'error', 'User Registration error.');
@@ -84,7 +85,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     });
 
     $scope.onClickBackToLogin = function () {
-        $state.go('login');
+        $state.go('company');
     };
 
 

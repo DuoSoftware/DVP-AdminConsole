@@ -30,7 +30,7 @@ mainApp.controller('reEnterPWCtrl', function ($rootScope, $stateParams, $scope, 
             $scope.isLoadinRstPwd = false;
             if (isSuccess) {
                 showAlert('Success', 'success', "Please login with new password");
-                $state.go('login');
+                $state.go('company');
             } else {
                 showAlert('Error', 'error', "reset failed");
             }
@@ -52,7 +52,7 @@ mainApp.controller('reEnterPWCtrl', function ($rootScope, $stateParams, $scope, 
 
 
     $scope.BackToLogin = function () {
-        $state.go('login');
+        $state.go('company');
     }
 
 

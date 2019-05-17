@@ -3024,6 +3024,11 @@ label {
     border: 2px solid #414242;
     height: 40px;
 }
+.invalid-frm-input {
+    background: transparent;
+    border: 4px solid #db4114;
+    height: 40px;
+}
 
 .dark-frm-input:hover,
 .dark-frm-input:focus,
@@ -9289,4 +9294,23 @@ tags-input.input .tags {
 .article-author-img {
     margin-bottom: 15px;
     margin-top: 4px;
+}
+.inline-btn {
+    display: inline-block;
+}
+.bg-checkbox {
+    /*min-width: 72px;*/
+    width: auto;
+    height: 28px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 3px 10px;
+    background-color: #DCFFDF;
+    color: #39B54A;
+}
+
+.grey {
+    background: #71706a;
+    color: #fffafa;
 }

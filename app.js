@@ -172,29 +172,33 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
 
         //http://userservice.app1.veery.cloud/
         //var authProviderUrl = 'http:192.168.1.16:3637/';
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/company');
 
         /////////////////////////////////////////////////////////
 
 
         $authProvider.loginUrl = authProviderUrl + 'login';
         $authProvider.signupUrl = authProviderUrl + 'signup';
+        $authProvider.invitationSignupUrl = authProviderUrl + 'inviteSignup';
 
 
         $authProvider.facebook({
             url: authProviderUrl + 'facebook',
-            clientId: '1237176756312189'
+            clientId: '1237176756312189',
+            redirectUri: window.location.origin+'/DVP-AdminConsole/index.html'
             //responseType: 'token'
         });
 
         $authProvider.google({
             url: authProviderUrl + 'google',
-            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
+            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com',
+            redirectUri: window.location.origin+'/DVP-AdminConsole/index.html'
         });
 
         $authProvider.github({
             url: authProviderUrl + 'github',
-            clientId: 'f725eae279e6727c68c7'
+            clientId: 'f725eae279e6727c68c7',
+            redirectUri: window.location.origin+'/DVP-AdminConsole/index.html'
         });
 
         $authProvider.linkedin({
@@ -458,14 +462,28 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "USERS"
             }
         }).state('login', {
-            url: "/login",
+            url: "/login/:company",
             templateUrl: "auth/login.html",
             data: {
                 requireLogin: false
 
             }
+        }).state('company', {
+            url: "/company",
+            templateUrl: "auth/company-name.html",
+            data: {
+                requireLogin: false
+
+            }
+        }).state('invitaionsuignup', {
+            url: "/invitationSignUp",
+            templateUrl: "auth/first-login-password.html",
+            data: {
+                requireLogin: false
+
+            }
         }).state('signUp', {
-            url: "/signUp",
+            url: "/signUp/:company",
             templateUrl: "auth/signUp.html",
             data: {
                 requireLogin: false

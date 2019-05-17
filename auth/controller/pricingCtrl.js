@@ -109,7 +109,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 										$rootScope.freshUser = false;
 										$rootScope.guidePhase1Closure = false;
 										SE.disconnect();
-										$state.go('login');
+										$state.go('company');
 									} else {
 										$scope.showMessage("Logout", "Something went wrong. Please logout manually", 'error');
 										return -1;
