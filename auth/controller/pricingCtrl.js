@@ -25,7 +25,10 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 				for (var i = 0; i < $scope.packages.length; i++) {
 					for(var j = 0; j < $scope.myPackages.length; j++){
 
-						if($scope.packages[i].packageType == $scope.myPackages[j].packageType){
+                        if($scope.packages[i].navigationType.toLowerCase() == 'user'){
+                            continue;
+                        }
+                        if($scope.packages[i].packageType == $scope.myPackages[j].packageType){
 
 							if ($scope.packages[i].packageName == $scope.myPackages[j].packageName) {
 								$scope.packages[i]['disable'] = true;
