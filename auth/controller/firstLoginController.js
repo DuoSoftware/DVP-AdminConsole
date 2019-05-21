@@ -3,6 +3,7 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
                                                config, $base64, $auth,$q,$location,vcRecaptchaService,signUpServices) {
 
     var userData ={};
+    $scope.pwdBox = false;
     $scope.isRequested=false;
     var showAlert = function (title, type, content) {
         new PNotify({
@@ -63,6 +64,13 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
             $scope.isRequested=false;
         });
     }
+
+    $('#password').on('focus', function () {
+        $scope.pwdBox = true;
+    });
+    $('#password').focusout(function () {
+        $scope.pwdBox = false;
+    });
 
 
 
