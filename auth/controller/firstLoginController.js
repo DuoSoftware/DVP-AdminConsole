@@ -64,8 +64,8 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
 
     var sendPasswordConfirmation = function(user)
     {
-        signUpServices.invitationSignup(user,function (status) {
-            if(status)
+        signUpServices.invitationSignup(user,function (isValid,status) {
+            if(isValid)
             {
                 console.log(user);
                 $scope.showAlert("Info","info","Check your Email Inbox for Login");
@@ -83,8 +83,16 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
             }
             else
             {
-                $scope.showAlert("Error","error","Something went wrong, Try again");
-                $scope.isRequested=false;
+                if(status=='409')
+                {
+                    $scope.showAlert("Error","error","Your invitation link has expired or You have already registered to this company ");
+
+                }
+                else{
+                    $scope.showAlert("Error","error","Something went wrong, Try again");
+                    $scope.isRequested=false;
+                }
+
             }
         });
     }

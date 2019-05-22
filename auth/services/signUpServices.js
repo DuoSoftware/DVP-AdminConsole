@@ -56,11 +56,11 @@
             $http.post(baseUrls.authProviderUrl+"auth/inviteSignup",user).success(function (data, status, headers, config) {
                 if(status && status==200)
                 {
-                    callback(true);
+                    callback(true,status);
                 }
                 else
                 {
-                    callback(false);
+                    callback(false,status);
                 }
 
             }).error(function (data, status, headers, config) {
