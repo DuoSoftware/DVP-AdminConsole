@@ -54,7 +54,15 @@
         function invitationSignup(user, callback) {
 
             $http.post(baseUrls.authProviderUrl+"auth/inviteSignup",user).success(function (data, status, headers, config) {
-                callback(data.IsSuccess);
+                if(status && status==200)
+                {
+                    callback(true);
+                }
+                else
+                {
+                    callback(false);
+                }
+
             }).error(function (data, status, headers, config) {
                 callback(false);
             });

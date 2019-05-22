@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 1/16/2018.
  */
-mainApp.controller("invitationController", function ($scope, $state, loginService,$ngConfirm,userProfileApiAccess,invitationApiAccess) {
+mainApp.controller("invitationController", function ($scope, $state, loginService,$ngConfirm,userProfileApiAccess,invitationApiAccess,$timeout) {
 
 
     $scope.searchCriteria = "";
@@ -25,25 +25,30 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
         $scope.userList.splice($scope.userList.indexOf(chip.tag),1);
     }
 
-    $scope.showConfirmation = function (title, contentData, allText,registeredText, allFunc,regFunc ,closeFunc) {
+    $scope.showConfirmation = function (title, contentData,notRegSt, allText,registeredText, allFunc,regFunc ,closeFunc) {
 
         $ngConfirm({
             title: title,
-            content: contentData, // if contentUrl is provided, 'content' is ignored.
+            contentUrl: 'views/invitation-config/partials/confirmationDialogContent.html', // if contentUrl is provided, 'content' is ignored.
             scope: $scope,
+            boxHeight: '100px',
             buttons: {
                 // long hand button definition
                 Registered: {
                     text: allText,
                     btnClass: 'btn-primary',
                     keys: ['enter'], // will trigger when enter is pressed
+                    title:"Invitations will be sent to all users except users already registered with this company ",
                     action: function (scope) {
                         allFunc();
                     }
                 },
+
                 NotRegistered: {
                     text: registeredText,
                     btnClass: 'btn-primary',
+                    disabled:notRegSt,
+                    title:"Invitations will only be sent to users already registered with any company ",
                     action: function (scope) {
                         regFunc();
                     }
@@ -101,7 +106,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
         if(strNames!="")
         {
             invitationApiAccess.checkInvitable(strNames).then(function (resUsers) {
-
+                $scope.isNotReg=true;
 
                 var inviteObj = {
                     message:$scope.newInvite.message,
@@ -111,34 +116,38 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
                 if(resUsers.data.IsSuccess && resUsers.data.Result)
                 {
-                    if(resUsers.data.Result.unavailableAccounts)
+                    if(resUsers.data.Result.unavailableAccounts && resUsers.data.Result.unavailableAccounts.length>0)
                     {
-                        requestableAccounts=resUsers.data.Result.unavailableAccounts;
+                        $scope.requestableAccounts=resUsers.data.Result.unavailableAccounts;
+                        $scope.isNotReg=false;
                     }
-                    if(resUsers.data.Result.unavailableUsers)
+                    if(resUsers.data.Result.unavailableUsers && resUsers.data.Result.unavailableUsers.length>0)
                     {
-                        notRegisteredUsers=resUsers.data.Result.unavailableUsers;
+                        $scope.notRegisteredUsers=resUsers.data.Result.unavailableUsers;
+
                     }
-                    if(resUsers.data.Result.unavailableUsers)
+                    if(resUsers.data.Result.commonUsers && resUsers.data.Result.commonUsers.length>0)
                     {
-                        commonUsers=resUsers.data.Result.commonUsers;
+                        $scope.commonUsers=resUsers.data.Result.commonUsers;
                     }
-                    if(resUsers.data.Result.requestUsers)
+                    if(resUsers.data.Result.requestUsers && resUsers.data.Result.requestUsers.length>0)
                     {
-                        requestUsers=resUsers.data.Result.requestUsers;
+                        $scope.requestUsers=resUsers.data.Result.requestUsers;
                     }
 
-                    if(notRegisteredUsers.length==0 && requestableAccounts.length==0)
+                    if($scope.notRegisteredUsers.length==0 && $scope.requestableAccounts.length==0)
                     {
                         $scope.showAlert("Registered Users Found","Users you trying to invite have been registered already with your Company","info");
                         $scope.isRequested=false;
                     }
                     else {
-                        var content = '<strong>{{name}}</strong><div><span>Valid Invitees</span><div ng-repeat="item in resUsers.data.Result.unavailableAccounts"><span class="reqchip">{{item}}</span></div></div>';
+                        // var content = '<strong>{{name}}</strong><div><div><strong>New Users </strong><div><span class="reqchip" ng-repeat="item in notRegisteredUsers">{{item}}</span></div></div>' +
+                        //     '<div><strong>Invitable Users (Already Registered with Other Company)<strong><span class="reqchip" ng-repeat="itemRqst in requestableAccounts"> {{itemRqst}} </span></div>' +
+                        //     '<div><strong>Common Users (Already Registered with Company)<strong><span class="reqchip" ng-repeat="cmnUser in commonUsers"> {{cmnUser}} </span></div></div>';
 
-                        $scope.showConfirmation("Invitations",content,"All","Registered Only",function () {
+                        $scope.showConfirmation("Invitations",null,$scope.isNotReg,"All","Registered Only",function () {
 
-                            if(requestableAccounts.length>0)
+                            if($scope.requestableAccounts.length>0)
                             {
                                 inviteObj.to=requestableAccounts;
 
@@ -162,9 +171,9 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                                 });
                             }
 
-                            if(notRegisteredUsers.length>0)
+                            if($scope.notRegisteredUsers.length>0)
                             {
-                                inviteObj.to=notRegisteredUsers;
+                                inviteObj.to=$scope.notRegisteredUsers;
 
                                 invitationApiAccess.requestInvitations(inviteObj).then(function (resSend) {
 
@@ -208,7 +217,8 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
 
                         },function () {
-                            $scope.isRequested=false;
+                            $timeout(function (){$scope.isRequested=false;});
+
                         });
 
                     }

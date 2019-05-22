@@ -9314,3 +9314,44 @@ tags-input.input .tags {
     background: #71706a;
     color: #fffafa;
 }
+
+.reqchip {
+    font-family: 'Roboto-light', sans-serif;
+
+    background: #ffdeeb;
+    border: 0px solid #f8b01d;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.chipcontact {
+    display: inline-block;
+    padding: 0 5px;
+    height: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+}
+.reqchip-red{
+    background-color: #ce2460;
+    color: white;
+}
+.reqchip-blue{
+    background-color: #0b3e6f;
+    color: white;
+}
+.reqchip-green{
+    background-color: #0cb745;
+    color: white;
+}
+
+.reqchip-header{
+    font-size: 15px ;
+    padding-bottom: 10px;
+}
