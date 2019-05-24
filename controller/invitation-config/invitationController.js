@@ -155,9 +155,14 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
                             if($scope.requestableAccounts.length>0)
                             {
-                                inviteObj.to=$scope.requestableAccounts;
+                                var inviteRegObj = {
+                                    message:$scope.newInvite.message,
+                                    to:[],
+                                    role:$scope.newInvite.role
+                                }
+                                inviteRegObj.to=$scope.requestableAccounts;
 
-                                invitationApiAccess.sendInvitations(inviteObj).then(function (resSend) {
+                                invitationApiAccess.sendInvitations(inviteRegObj).then(function (resSend) {
 
                                     if(resSend.data.IsSuccess)
                                     {
@@ -179,6 +184,11 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
                             if($scope.notRegisteredUsers.length>0)
                             {
+                                var inviteObj = {
+                                    message:$scope.newInvite.message,
+                                    to:[],
+                                    role:$scope.newInvite.role
+                                }
                                 inviteObj.to=$scope.notRegisteredUsers;
 
                                 invitationApiAccess.requestInvitations(inviteObj).then(function (resSend) {
@@ -199,11 +209,17 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                             }
                         },function () {
 
-                            if(requestableAccounts.length>0)
+                            if($scope.requestableAccounts.length>0)
                             {
-                                inviteObj.to=requestableAccounts;
+                                var inviteRObj = {
+                                    message:$scope.newInvite.message,
+                                    to:[],
+                                    role:$scope.newInvite.role
+                                }
 
-                                invitationApiAccess.sendInvitations(inviteObj).then(function (resSend) {
+                                inviteRObj.to=$scope.requestableAccounts;
+
+                                invitationApiAccess.sendInvitations(inviteRObj).then(function (resSend) {
 
                                     if(resSend.data.IsSuccess)
                                     {
