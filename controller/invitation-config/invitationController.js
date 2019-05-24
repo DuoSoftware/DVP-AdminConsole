@@ -15,6 +15,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
     $scope.notRegisteredUsers=[];
     $scope.commonUsers=[];
     $scope.requestUsers=[];
+    $scope.tempUsrList = []
 
     $scope.onUserChipAdd = function(chip)
     {
@@ -105,6 +106,11 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
         if(strNames!="")
         {
+            $scope.requestableAccounts=[];
+            $scope.notRegisteredUsers=[];
+            $scope.commonUsers=[];
+            $scope.requestUsers=[];
+
             invitationApiAccess.checkInvitable(strNames).then(function (resUsers) {
                 $scope.isNotReg=true;
 
