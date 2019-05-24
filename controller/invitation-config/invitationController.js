@@ -155,7 +155,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
 
                             if($scope.requestableAccounts.length>0)
                             {
-                                inviteObj.to=requestableAccounts;
+                                inviteObj.to=$scope.requestableAccounts;
 
                                 invitationApiAccess.sendInvitations(inviteObj).then(function (resSend) {
 
