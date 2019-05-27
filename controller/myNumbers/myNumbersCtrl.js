@@ -962,7 +962,7 @@ mainApp.controller("TwilioController", function ($scope, twilioApi) {
                     "isoCountry": phoneNumberObj.isoCountry
                 }).then(function (response) {
                         if(response.IsSuccess){
-                            $scope.showAlert('Twilio', response.CustomMessage);
+                            $scope.showAlert('Twilio', 'success', response.CustomMessage);
                         }
                         else {
                             $scope.showAlert("Twilio", 'error', response.CustomMessage);
