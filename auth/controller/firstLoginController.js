@@ -1,6 +1,6 @@
 mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http,
                                                loginService,
-                                               config, $base64, $auth,$q,$location,vcRecaptchaService,signUpServices,redctUrls,$window) {
+                                               config, $base64, $auth,$q,$location,vcRecaptchaService,signUpServices,redctUrls,$window,$ngConfirm) {
 
     var userData ={};
     $scope.pwdBox = false;
@@ -67,7 +67,7 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
         signUpServices.invitationSignup(user,function (isValid,status) {
             if(isValid)
             {
-                console.log(user);
+               /* console.log(user);
                 $scope.showAlert("Info","info","Check your Email Inbox for Login");
 
                 if(userData.role =='agent')
@@ -78,8 +78,8 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
                 else
                 {
                     $window.open(redctUrls.admin,"_self");
-                }
-
+                }*/
+                $scope.showConfirmation("Operation Succeeded...");
             }
             else
             {
@@ -103,6 +103,28 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
     $('#password').focusout(function () {
         $scope.pwdBox = false;
     });
+
+
+
+    $scope.showConfirmation = function (title, contentData,notRegSt, allText,registeredText, allFunc,regFunc ,closeFunc) {
+
+        $ngConfirm({
+            title: title,
+            content: '<strong>Password Setup Succeeded</strong>\n' +
+                '<div>\n' +
+                '    <div class="clearfix">\n' +
+                '        <strong class="reqchip-header">Your password setup process is succeeded. Please check your mails for Confirmation process</strong>\n' +
+                '\n' +
+                '    </div>\n' +
+                '\n' +
+                '</div>', // if contentUrl is provided, 'content' is ignored.
+            scope: $scope,
+            boxHeight: '100px',
+            buttons: {
+
+            }
+        });
+    };
 
 
 

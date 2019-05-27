@@ -12,6 +12,18 @@ mainApp.controller('companynameCtrl', function ($rootScope, $scope, $state, $htt
 
     };
     //$scope.loginFrm.$invalid=true;
+    $scope.CheckLogin = function () {
+        if ($auth.isAuthenticated()) {
+
+            loginService.getUserNavigation(function (isnavigation) {
+                if (isnavigation) {
+                    $state.go('console');
+                }
+            })
+
+        }
+    };
+    $scope.CheckLogin();
 
     $scope.checkCompanyNameAvailability = function(form,isSignUp)
     {
