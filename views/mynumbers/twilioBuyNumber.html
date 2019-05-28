@@ -139,9 +139,9 @@
                                                     </td>
                                                     <td>{{phNumber.friendlyName}}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-success"
-                                                                ng-click="showConfirm(phNumber)">
-                                                            Buy
+                                                        <button type="button" class="btn btn-success" ng-disabled = "!phNumber.isActive"
+                                                                ng-click="showConfirm(phNumber)" style="min-width:75px;">
+                                                            {{ phNumber.isActive == true ? 'Buy' : 'Purchased' }}
                                                         </button>
                                                     </td>
                                                 </tbody>
