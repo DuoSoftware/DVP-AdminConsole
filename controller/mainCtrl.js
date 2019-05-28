@@ -1989,7 +1989,7 @@ mainApp.controller("notificationModalController", function ($scope, $uibModalIns
 
     $scope.MessageObj = MessageObj;
 
-    if($scope.MessageObj.messageType='invitation')
+    if($scope.MessageObj.messageType=='invite')
     {
         $scope.isInviteModal= true;
     }
