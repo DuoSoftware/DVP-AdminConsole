@@ -50,7 +50,13 @@ mainApp.controller("emailDetailReportCtrl", function ($scope, $uibModal, mailSer
     $scope.getEmailReport = function(){
         $scope.isTableLoading = 0;
 
-        mailService.getEmails($scope.filters).then(function (resp) {
+        var filters = angular.copy($scope.filters);
+        var momentTz = moment.parseZone(new Date()).format('Z');
+
+        filters.from_date = $scope.filters.from_date + ' 00:00:00' + momentTz;
+        filters.to_date = $scope.filters.to_date + ' 23:59:59' + momentTz;
+
+        mailService.getEmails(filters).then(function (resp) {
 
             if(resp && resp.IsSuccess){
                 if(resp.Result && resp.Result.count > 0){

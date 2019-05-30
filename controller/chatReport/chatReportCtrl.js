@@ -22,8 +22,8 @@ mainApp.controller("chatReportCtrl", function ($scope, $uibModal, interactionSer
     };
 
     $scope.filters = {
-        startDate: moment().format("YYYY-MM-DD"),
-        endDate: moment().format("YYYY-MM-DD"),
+        startdate: moment().format("YYYY-MM-DD"),
+        enddate: moment().format("YYYY-MM-DD"),
         from: undefined,
         to: undefined,
         channel: 'chat',
@@ -51,13 +51,19 @@ mainApp.controller("chatReportCtrl", function ($scope, $uibModal, interactionSer
 
     $scope.getChatSessions = function(){
         $scope.isTableLoading = 0;
-        console.log($scope.filters);
-        interactionService.getEnagementSessionsCount($scope.filters).then(function (response) {
+        
+        var filters = angular.copy($scope.filters);
+        var momentTz = moment.parseZone(new Date()).format('Z');
+
+        filters.startdate = $scope.filters.startdate + ' 00:00:00' + momentTz;
+        filters.enddate = $scope.filters.enddate + ' 23:59:59' + momentTz;
+
+        interactionService.getEnagementSessionsCount(filters).then(function (response) {
             if (response && response.IsSuccess) {
                 $scope.pagination.totalItems = response.Result;
 
                 if(response.Result > 0) {
-                    interactionService.getEnagementSessions($scope.filters).then(function (resp) {          
+                    interactionService.getEnagementSessions(filters).then(function (resp) {          
                         if(resp && resp.IsSuccess && resp.Result){
                             $scope.chatSessions = resp.Result;
                             $scope.isTableLoading = 1;
