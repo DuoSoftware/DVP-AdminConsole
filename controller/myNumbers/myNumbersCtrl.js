@@ -909,6 +909,9 @@ mainApp.controller("TwilioController", function ($scope, twilioApi) {
                     if (response.Result && response.Result.length > 0) {
                         var jResult = response.Result;
                         $scope.phoneNumberDetail = jResult;
+                        $scope.phoneNumberDetail.map(function (v) {
+                            v.isActive = true
+                        });
                         $scope.twilioSearchQ.isTableLoading = 0;
                         $scope.showAlert('Twilio', 'success', response.CustomMessage);
                     } else {
@@ -962,7 +965,8 @@ mainApp.controller("TwilioController", function ($scope, twilioApi) {
                     "isoCountry": phoneNumberObj.isoCountry
                 }).then(function (response) {
                         if(response.IsSuccess){
-                            $scope.showAlert('Twilio', response.CustomMessage);
+                            phoneNumberObj.isActive = false;
+                            $scope.showAlert('Twilio', 'success', response.CustomMessage);
                         }
                         else {
                             $scope.showAlert("Twilio", 'error', response.CustomMessage);

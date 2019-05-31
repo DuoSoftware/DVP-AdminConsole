@@ -7,10 +7,20 @@ mainApp.factory('invitationApiAccess', function ($http, baseUrls)
 {
     return {
 
-        sendInvitation: function (invObj) {
+        sendInvitations: function (invObj) {
             return $http({
                 method: 'POST',
-                url: baseUrls.UserServiceBaseUrl+'Invitation/to/'+invObj.to,
+                url: baseUrls.UserServiceBaseUrl+'Invitations',
+                data:invObj
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        requestInvitations: function (invObj) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl+'RequestInvitations',
                 data:invObj
             }).then(function(response)
             {
@@ -35,10 +45,10 @@ mainApp.factory('invitationApiAccess', function ($http, baseUrls)
                 return response;
             });
         },
-        checkInvitable: function (name) {
+        checkInvitable: function (names) {
             return $http({
                 method: 'GET',
-                url: baseUrls.UserServiceBaseUrl+'User/'+name+'/invitable'
+                url: baseUrls.UserServiceBaseUrl+'Users/invitable?'+names
             }).then(function(response)
             {
                 return response;

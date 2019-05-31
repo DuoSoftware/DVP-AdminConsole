@@ -29,6 +29,7 @@
         service.activateAccount = activateAccount;
         service.isCheckResponse = isCheckResponse;
         service.isOwner = isOwner;
+        service.getOrganizationExsistance = getOrganizationExsistance;
         return service;
 
 
@@ -333,6 +334,18 @@
 
 
         };
+
+        function getOrganizationExsistance(company) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + "Organization/"+company+"/exists"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                }
+                return false;
+            });
+        }
     }
 })();
 

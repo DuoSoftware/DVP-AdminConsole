@@ -11,6 +11,7 @@
         service.createOrganisation = createOrganisation;
         service.checkUniqueOrganization = CheckUniqueOrganization;
         service.checkUniqueOwner = CheckUniqueOwner;
+        service.invitationSignup = invitationSignup;
         return service;
 
         //create new user
@@ -46,6 +47,22 @@
         function CheckUniqueOwner(ownerName, callback) {
             $http.get(baseUrls.UserServiceBaseUrl + "Owner/" + ownerName + "/exists").success(function (data, status, headers, config) {
                 callback(data.IsSuccess);
+            }).error(function (data, status, headers, config) {
+                callback(false);
+            });
+        }
+        function invitationSignup(user, callback) {
+
+            $http.post(baseUrls.authProviderUrl+"auth/inviteSignup",user).success(function (data, status, headers, config) {
+                if(status && status==200)
+                {
+                    callback(true,status);
+                }
+                else
+                {
+                    callback(false,status);
+                }
+
             }).error(function (data, status, headers, config) {
                 callback(false);
             });

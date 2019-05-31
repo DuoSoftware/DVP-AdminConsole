@@ -26,7 +26,7 @@ mainApp.controller('activateCtrl', function ($rootScope, $scope, $stateParams, $
         loginService.activateAccount($stateParams.token, function (isSuccess) {
             if (isSuccess) {
                 showAlert('Success', 'success', "Your Account Has Been Activated, Please Login");
-                $state.go('login');
+                $state.go('company');
             } else {
                 showAlert('Error', 'error', "Account activation failed");
             }
@@ -38,7 +38,7 @@ mainApp.controller('activateCtrl', function ($rootScope, $scope, $stateParams, $
     $scope.BackToLogin = function () {
 
 
-        $state.go('login');
+        $state.go('company');
 
 
     }

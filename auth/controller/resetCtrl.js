@@ -31,7 +31,7 @@ mainApp.controller('resetCtrl', function ($rootScope, $scope, $state, $http,
         loginService.forgetPassword($scope.email, function (isSuccess) {
             if(isSuccess){
                 showAlert('Success', 'success', "Please check email");
-                $state.go('login');
+                $state.go('company');
             }else{
                 showAlert('Error', 'error', "reset failed");
             }
@@ -45,7 +45,7 @@ mainApp.controller('resetCtrl', function ($rootScope, $scope, $state, $http,
     $scope.BackToLogin= function () {
 
 
-        $state.go('login');
+        $state.go('company');
 
 
     }
