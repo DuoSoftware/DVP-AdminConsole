@@ -105,21 +105,23 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
     });
 
 
-
     $scope.showConfirmation = function (title, contentData,notRegSt, allText,registeredText, allFunc,regFunc ,closeFunc) {
 
         $ngConfirm({
             title: title,
-            content: '<strong>Password Setup Succeeded</strong>\n' +
+            icon: 'glyphicon glyphicon-ok-circle',
+            type: 'green',
+            content: '<!--<strong>Password Setup Succeeded</strong>-->\n' +
                 '<div>\n' +
                 '    <div class="clearfix">\n' +
-                '        <strong class="reqchip-header">Your password setup process is succeeded. Please check your mails for Confirmation process</strong>\n' +
+                '  Your password setup process is succeeded. Please check your mails for Confirmation process' +
                 '\n' +
                 '    </div>\n' +
                 '\n' +
                 '</div>', // if contentUrl is provided, 'content' is ignored.
             scope: $scope,
             boxHeight: '100px',
+            theme: 'my-theme',
             buttons: {
 
             }
