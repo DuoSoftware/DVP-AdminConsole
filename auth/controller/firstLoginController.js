@@ -111,7 +111,7 @@ mainApp.controller('firstLoginCtrl', function ($rootScope, $scope, $state, $http
             title: title,
             icon: 'glyphicon glyphicon-ok-circle',
             type: 'green',
-            content: '<!--<strong>Password Setup Succeeded</strong>-->\n' +
+            content: '<!--<strong>Password Setup Succeeded</strong>-->' +
                 '<div>\n' +
                 '    <div class="clearfix">\n' +
                 '  Your password setup process is succeeded. Please check your mails for Confirmation process' +
