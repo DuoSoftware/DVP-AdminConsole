@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-    authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http) {
+    authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http,internal_user_service) {
 
 
     // check adminconsole is focus or not.
@@ -15,6 +15,93 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     $scope.BusinessUnit = ShareData.BusinessUnit;
     $scope.BusinessUnits = ShareData.BusinessUnits;
+
+    $scope.RecievedInvitations = function () {
+        internal_user_service.getMyReceivedInvitations().then(function (resInvites) {
+
+            $scope.pendingInvites = resInvites.map(function (item) {
+
+                item.time = item.created_at;
+                item.messageType = "invitation";
+                item.title = "Invitation";
+                item.header = item.message;
+
+                return item;
+
+
+            });
+            /*$scope.pendingInvites=resInvites;*/
+            $scope.pendingInviteCnt = resInvites.length;
+        }, function (errInvites) {
+            $scope.showAlert("Error", "error", "Error in loading Invitations");
+        });
+    };
+
+    $scope.RecievedInvitations();
+
+    $scope.acceptInvitation = function (invite) {
+
+        internal_user_service.acceptInvitation(invite).then(function (resAccept) {
+
+
+            $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
+                return item._id = invite._id;
+            })), 1);
+            $scope.showMesssageModal = false;
+            if ($scope.pendingInviteCnt > 0) {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt - 1;
+            }
+            else {
+                $scope.pendingInviteCnt = 0;
+            }
+            $scope.showAlert("Success", "success", "You have accepted the Invitation from " + invite.from);
+
+        }, function (errAccept) {
+            $scope.showAlert("Error", "error", "Error in Accepting Invitation");
+        });
+    };
+    $scope.rejectInvitation = function (invite) {
+
+        internal_user_service.rejectInvitation(invite).then(function (resAccept) {
+
+
+            $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
+                return item._id = invite._id;
+            })), 1);
+            $scope.showMesssageModal = false;
+            if ($scope.pendingInviteCnt > 0) {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt - 1;
+            }
+            else {
+                $scope.pendingInviteCnt = 0;
+            }
+            $scope.showAlert("Success", "success", "You have rejected the invitation from " + invite.from);
+
+        }, function (errAccept) {
+            $scope.showAlert("Error", "error", "Error in rejecting invitation from " + invite.from);
+        });
+    };
+    $scope.cancelInvitation = function (invite) {
+
+        internal_user_service.cancelInvitation(invite).then(function (resAccept) {
+
+
+            $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
+                return item._id = invite._id;
+            })), 1);
+            $scope.showMesssageModal = false;
+            if ($scope.pendingInviteCnt > 0) {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt - 1;
+            }
+            else {
+                $scope.pendingInviteCnt = 0;
+            }
+            $scope.showAlert("Success", "success", "You have canceled the invitation from " + invite.from);
+
+        }, function (errAccept) {
+            $scope.showAlert("Error", "error", "Error in canceling invitation from " + invite.from);
+        });
+    };
 
 
     $scope.CallStatus = null;
@@ -423,7 +510,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     veeryNotification.disconnectFromServer();
                     $scope.isLogged = false;
                     $rootScope.freshUser = false;
-                    $state.go('login');
+                    $state.go('company');
                     subscribeServices.Disconnect();
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {
@@ -601,6 +688,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goAppIntegration: function () {
             $state.go('console.appintegration');
         },
+        goWebhookIntegration: function () {
+            $state.go('console.webhookintegration');
+        },
         goTranslations: function () {
             $state.go('console.translations');
         },
@@ -762,7 +852,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goToAgentDashboard: function () {
             $state.go('console.agentDashboard');
 
-        }, 
+        },
         goToDetailsDashboard: function () {
             $state.go('console.detailsdashboard');
         },
@@ -1506,11 +1596,19 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     };
 
 
-    $scope.showMesssageModal = false;
+    $scope.isInviteModal = false;
 
-    $scope.showNotificationMessage = function (notifyMessage) {
+    $scope.showNotificationMessage = function (notifyMessage,msgType) {
 
-        $scope.showMesssageModal = true;
+        if(msgType=="invite")
+        {
+            $scope.isInviteModal = true;
+        }
+        else
+        {
+            $scope.showMesssageModal = true;
+        }
+
 
         $scope.showModal(notifyMessage);
 
@@ -1554,6 +1652,38 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/notification-sender/messageModal.html',
+            controller: 'notificationModalController',
+            size: 'sm',
+            backdrop: 'static',
+            keyboard: false,
+            resolve: {
+                MessageObj: function () {
+                    return MessageObj;
+                },
+                DiscardNotifications: function () {
+                    return $scope.discardNotifications;
+                },
+                acceptInvitation : function()
+                {
+                    return $scope.acceptInvitation;
+                },
+                rejectInvitation : function()
+                {
+                    return $scope.rejectInvitation;
+                },
+                cancelInvitation : function()
+                {
+                    return $scope.cancelInvitation;
+                }
+
+            }
+        });
+    };
+    $scope.showInviteModal = function (MessageObj) {
+        //modal show
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/notification-details.html',
             controller: 'notificationModalController',
             size: 'sm',
             backdrop: 'static',
@@ -1854,11 +1984,21 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
 });
 
-mainApp.controller("notificationModalController", function ($scope, $uibModalInstance, MessageObj, DiscardNotifications) {
+mainApp.controller("notificationModalController", function ($scope, $uibModalInstance, MessageObj, DiscardNotifications,acceptInvitation,rejectInvitation,cancelInvitation) {
 
 
-    $scope.showMesssageModal = true;
     $scope.MessageObj = MessageObj;
+
+    if($scope.MessageObj.messageType=='invitation')
+    {
+        $scope.isInviteModal= true;
+    }
+    else
+    {
+        $scope.showMesssageModal = true;
+    }
+
+
 
 
     $scope.keepNotification = function () {
@@ -1870,6 +2010,18 @@ mainApp.controller("notificationModalController", function ($scope, $uibModalIns
     }
     $scope.addToTodo = function () {
 
+    }
+    $scope.acceptInvitation = function (msgObj) {
+        acceptInvitation(msgObj);
+        $uibModalInstance.dismiss('cancel');
+    }
+    $scope.rejectInvitation = function (msgObj) {
+        rejectInvitation(msgObj);
+        $uibModalInstance.dismiss('cancel');
+    }
+    $scope.cancelInvitation = function (msgObj) {
+        //cancelInvitation(msgObj);
+        $uibModalInstance.dismiss('cancel');
     }
 
 

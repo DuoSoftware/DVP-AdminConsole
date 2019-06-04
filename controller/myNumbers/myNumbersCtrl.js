@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi, loginService,$anchorScroll) {
+    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi, loginService) {
 
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
@@ -768,12 +768,12 @@
             }
         };
 
+
     };
 
 
     app.controller("myNumbersCtrl", myNumbersCtrl);
 }());
-
 
 
 mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, clearOrder, voxboneApi) {
@@ -839,7 +839,145 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
 		clearOrder();
         $uibModalInstance.dismiss('cancel');
         //reloadPage();
-    }
+    };
 
 
+});
+
+
+mainApp.controller("TwilioController", function ($scope, twilioApi) {
+    //------------------------------------------------twilioNumber---------------------------------------------
+
+
+    $scope.twilioSearchQ = {};
+    $scope.twilioSearchQ.isTableLoading = 0;
+
+    $scope.twilioModelOptions = {
+        debounce: {
+            default: 500,
+            blur: 250
+        },
+        getterSetter: true
+    };
+
+    $scope.twilioNumberTypes = [{key: "Local", value: "Local"},
+        {key: "Toll free", value: "TollFree"},
+        {key: "Mobile", value: "Mobile"}];
+    $scope.twilioSearchQ.numberType = "Local";
+
+    $scope.twilioLoadCountryCodes = function () {
+        twilioApi.GetCountryCodes().then(function (response) {
+            if (response.IsSuccess) {
+                $scope.twilioCountries = response.Result;
+                $scope.twilioSearchQ.selectedCountry = response.Result[0];
+                // $scope.autoCompletePlaceHolder = "Select Your Country";
+            } else {
+                if (Array.isArray(response.Result)) {
+                    $scope.showAlert("Twilio", 'error', response.Result[0].apiErrorMessage);
+                } else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert("Twilio", 'error', errMsg);
+                }
+            }
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            var errMsg = "Error occurred while loading Country Codes";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Twilio', 'error', errMsg);
+        });
+    };
+    $scope.twilioLoadCountryCodes();
+
+    $scope.twilioSelectCountry = function (country) {
+        if (country) {
+            $scope.twilioSelectedCountry = country;
+        }
+    };
+
+
+    $scope.loadPhoneNumbers = function () {
+        if ($scope.searchQ.selectedCity !== "All") {
+            $scope.twilioSearchQ.isTableLoading = 1;
+            twilioApi.GetAvailableNumbersByType($scope.twilioSearchQ.selectedCountry.isoCountry, $scope.twilioSearchQ.numberType).then(function (response) {
+                if (response.IsSuccess) {
+                    if (response.Result && response.Result.length > 0) {
+                        var jResult = response.Result;
+                        $scope.phoneNumberDetail = jResult;
+                        $scope.phoneNumberDetail.map(function (v) {
+                            v.isActive = true
+                        });
+                        $scope.twilioSearchQ.isTableLoading = 0;
+                        $scope.showAlert('Twilio', 'success', response.CustomMessage);
+                    } else {
+                        $scope.twilioSearchQ.isTableLoading = 0;
+                        $scope.showAlert('Twilio', 'error', 'No phone numbers found for searched country');
+                    }
+                } else {
+                    var errMsg = response.CustomMessage;
+
+                    if (!errMsg) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.phoneNumberDetail = [];
+                    $scope.twilioSearchQ.isTableLoading = 0;
+                    $scope.showAlert('Twilio', 'error', errMsg);
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading phone numbers";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.twilioSearchQ.isTableLoading = 0;
+                $scope.showAlert('Twilio', 'error', errMsg);
+            });
+        }
+    };
+
+    $scope.showConfirm = function (phoneNumberObj) {
+
+        (new PNotify({
+            title: 'Buy Twilio number',
+            text: 'Do you want to purchase ' + phoneNumberObj.phoneNumber + ' for ' + phoneNumberObj.numberPrice + ' USD',
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function () {
+            if (phoneNumberObj) {
+                twilioApi.BuyNumber({
+                    "number": phoneNumberObj.phoneNumber,
+                    "numberType": phoneNumberObj.numberType,
+                    "isoCountry": phoneNumberObj.isoCountry
+                }).then(function (response) {
+                        if(response.IsSuccess){
+                            phoneNumberObj.isActive = false;
+                            $scope.showAlert('Twilio', 'success', response.CustomMessage);
+                        }
+                        else {
+                            $scope.showAlert("Twilio", 'error', response.CustomMessage);
+                        }
+                    }
+
+                );
+
+            }
+        }).on('pnotify.cancel', function () {
+        });
+
+    };
 });

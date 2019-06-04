@@ -75,6 +75,7 @@
 <link href="assets/css/veery-customer.css" rel="stylesheet">
 <link href="assets/css/responsive.css" rel="stylesheet">
 <link href="views/cdr/timePickerStyle.css" rel="stylesheet">
+<link href="assets/css/ng-confirm-theme.css" rel="stylesheet">
 <!-- pawan -->
 
 
@@ -413,6 +414,8 @@
 <script type="text/javascript" src="auth/controller/activateCtrl.js"></script>
 <script type="text/javascript" src="auth/controller/signUpCtrl.js"></script>
 <script type="text/javascript" src="auth/controller/pricingCtrl.js"></script>
+<script type="text/javascript" src="auth/controller/companyNameController.js"></script>
+<script type="text/javascript" src="auth/controller/firstLoginController.js"></script>
 
 <!-- campaign wizard controller -->
 <script type="text/javascript" src="campaignManager/controllers/campaignWizardController.js"></script>
@@ -663,6 +666,10 @@
 <script type="text/javascript" src="controller/integration/appConfigController.js"></script>
 <script type="text/javascript" src="directives/integration/urlConfig.js"></script>
 
+<!-- webhook configuration -->
+<script type="text/javascript" src="controller/integration/webhookConfigController.js"></script>
+
+
 <!-- scheduler -->
 
 <script type="text/javascript" src="controller/scheduler/scheduleController.js"></script>
@@ -792,6 +799,9 @@
 
 <!--Voxbone Buy Numbers-->
 <script type="text/javascript" src="factory/mynumbers/voxboneApiAccess.js"></script>
+
+<!--Twilio Buy Numbers-->
+<script type="text/javascript" src="factory/mynumbers/twilioApiAccess.js"></script>
 
 
 <!--Queue SLA BreakDown-->
@@ -1018,7 +1028,7 @@
 <script type="text/javascript" src="directives/articlemanager/editknowladgecategory.js"></script>
 <script type="text/javascript" src="factory/articlemanager/articleBackendService.js"></script>
 
-
+<script type="text/javascript" src="factory/internal_user_service.js"></script>
 
 <!--
 <script src="bower_components/trix/dist/trix.js"></script>

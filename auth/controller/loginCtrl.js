@@ -4,9 +4,10 @@
 
 mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                           loginService,
-                                          config, $base64, $auth) {
+                                          config, $base64, $auth,$location) {
 
 	$rootScope.copyrightYear = new Date().getFullYear();
+	$scope.companyName=$state.params.company;
 
 	$scope.CheckLogin = function () {
         if ($auth.isAuthenticated()) {
@@ -50,7 +51,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.authenticate = function (provider) {
 
         para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
-
+        para.companyname=$scope.companyName;
         $scope.isSocialMedia = true;
         $auth.authenticate(provider, para)
             .then(function () {
@@ -143,7 +144,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                             if (loginService.isOwner() == 'admin') {
                                 $state.go('console.pricing');
                             } else {
-                                $state.go('login');
+                                $state.go('company');
                             }
                         }
                     } else {
@@ -164,7 +165,8 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             .catch(function (error) {
                 if (error.status == 449 || error.status == 401) {
 					if (error.data.message.toLowerCase() == 'invalid user account') {
-						showAlert('Account Info', 'warning', error.data.message + '. Make sure you have activated your account through the email you may have received');
+						//showAlert('Account Info', 'warning', error.data.message + '. Make sure you have activated your account through the email you may have received');
+                        showAlert('Account Info', 'warning','Problem in Login, Make sure you have entered correct credentials or using the correct login method ')
 					}else{
 						showAlert('Account Info', 'warning', error.data.message);
 					}

@@ -32,6 +32,14 @@
                             </div>
                         </div>
                         <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Domain</label>
+                                <input type="text" class="form-control " name="configName"
+                                       ng-model="emailConfig.domain"
+                                       placeholder="Domain">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group"
                                  ng-class="{ 'has-error': addNewTicketForm.priority.$invalid && addNewTicketForm.priority.$dirty }">
                                 <label class="control-label">Priority*</label>

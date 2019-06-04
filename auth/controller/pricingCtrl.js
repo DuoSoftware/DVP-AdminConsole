@@ -25,7 +25,10 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 				for (var i = 0; i < $scope.packages.length; i++) {
 					for(var j = 0; j < $scope.myPackages.length; j++){
 
-						if($scope.packages[i].packageType == $scope.myPackages[j].packageType){
+                        if($scope.packages[i].navigationType.toLowerCase() == 'user'){
+                            continue;
+                        }
+                        if($scope.packages[i].packageType == $scope.myPackages[j].packageType){
 
 							if ($scope.packages[i].packageName == $scope.myPackages[j].packageName) {
 								$scope.packages[i]['disable'] = true;
@@ -109,7 +112,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
 										$rootScope.freshUser = false;
 										$rootScope.guidePhase1Closure = false;
 										SE.disconnect();
-										$state.go('login');
+										$state.go('company');
 									} else {
 										$scope.showMessage("Logout", "Something went wrong. Please logout manually", 'error');
 										return -1;
@@ -125,7 +128,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
                 });
             }
             else {
-                $scope.showMessage("Package Buy", "Insufficient Balance. Please Add Credit To Your Account.", 'error');
+                $scope.showMessage("Package Buy", "Insufficient Balance. Please Add Credit To Your Account. Needs $" + (parseInt(pak.price) - (parseInt(res.Credit) / 100)) + " more.", 'error');
                 $state.go('console.credit');
             }
         }, function (err) {

@@ -164,6 +164,69 @@ mainApp.factory("integrationConfigService", function ($http, authService,baseUrl
             }).then(function (resp) {
                 return resp.data;
             });
-        }
+        },
+
+        getWebhooks: function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.integrationapi +'Webhooks'
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return null;
+                }
+            });
+        },
+
+        saveWebhook: function (webhookData) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.integrationapi +'Webhooks',
+                data: webhookData
+            }).then(function(response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return null;
+                }
+            });
+        },
+
+        updateWebhook: function (webhookData) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.integrationapi + 'Webhooks/' + webhookData._id,
+                data: webhookData
+            }).then(function (resp) {
+                return resp.data;
+            })
+        },
+
+        updateWebhookStatus: function (id, enabledStatus) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.integrationapi + 'Webhooks/' + id + '/status',
+                data: {
+                    enabledStatus: enabledStatus
+                }
+            }).then(function (resp) {
+                return resp.data;
+            })
+        },
+
+        deleteWebhook: function (id) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.integrationapi + 'Webhooks/' +id
+            }).then(function(response) {
+                if (response.data && response.data.IsSuccess) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        },
     }
 });

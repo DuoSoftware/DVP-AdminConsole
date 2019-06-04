@@ -611,12 +611,29 @@ var extUserMaxChars=0;
                 tagName = $scope.selectedTag.name;
             }
 
+            var requesterObj =undefined;
+            var assigneeObj =undefined;
+            var submitterObj =undefined;
+
+            if($scope.selectedExtUser && $scope.selectedExtUser.UniqueId)
+            {
+                requesterObj=$scope.selectedExtUser.UniqueId;
+            }
+            if($scope.selectedAssignee && $scope.selectedAssignee.UniqueId)
+            {
+                assigneeObj=$scope.selectedAssignee.UniqueId;
+            }
+            if($scope.selectedSubmitter && $scope.selectedSubmitter.UniqueId)
+            {
+                submitterObj=$scope.selectedSubmitter.UniqueId;
+            }
+
             $scope.FilterData = {
                 sdate: startDate,
                 edate: endDate,
-                requester: $scope.selectedExtUser.UniqueId,
-                assignee: $scope.selectedAssignee.UniqueId,
-                submitter: $scope.selectedSubmitter.UniqueId,
+                requester: requesterObj,
+                assignee: assigneeObj,
+                submitter: submitterObj,
                 tag: tagName,
                 channel: $scope.channelType,
                 priority: $scope.priorityType,
@@ -784,12 +801,29 @@ var extUserMaxChars=0;
                 tagName = $scope.selectedTag.name;
             }
 
+            var requesterObj =undefined;
+            var assigneeObj =undefined;
+            var submitterObj =undefined;
+
+            if($scope.selectedExtUser && $scope.selectedExtUser.UniqueId)
+            {
+                requesterObj=$scope.selectedExtUser.UniqueId;
+            }
+            if($scope.selectedAssignee && $scope.selectedAssignee.UniqueId)
+            {
+                assigneeObj=$scope.selectedAssignee.UniqueId;
+            }
+            if($scope.selectedSubmitter && $scope.selectedSubmitter.UniqueId)
+            {
+                submitterObj=$scope.selectedSubmitter.UniqueId;
+            }
+
             $scope.FilterData = {
                 sdate: startDate,
                 edate: endDate,
-                requester: $scope.selectedExtUser.UniqueId,
-                assignee: $scope.selectedAssignee.UniqueId,
-                submitter: $scope.selectedSubmitter.UniqueId,
+                requester: requesterObj,
+                assignee: assigneeObj,
+                submitter: submitterObj,
                 tag: tagName,
                 channel: $scope.channelType,
                 priority: $scope.priorityType,
