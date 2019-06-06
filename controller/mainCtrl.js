@@ -1989,7 +1989,7 @@ mainApp.controller("notificationModalController", function ($scope, $uibModalIns
 
     $scope.MessageObj = MessageObj;
 
-    if($scope.MessageObj.messageType='invitation')
+    if($scope.MessageObj.messageType=='invitation')
     {
         $scope.isInviteModal= true;
     }
@@ -2020,7 +2020,7 @@ mainApp.controller("notificationModalController", function ($scope, $uibModalIns
         $uibModalInstance.dismiss('cancel');
     }
     $scope.cancelInvitation = function (msgObj) {
-        cancelInvitation(msgObj);
+        //cancelInvitation(msgObj);
         $uibModalInstance.dismiss('cancel');
     }
 
