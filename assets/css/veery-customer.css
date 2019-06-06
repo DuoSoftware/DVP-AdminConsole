@@ -9314,3 +9314,10 @@ tags-input.input .tags {
     background: #71706a;
     color: #fffafa;
 }
+
+.menu-bu-body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 400px;
+
+}
