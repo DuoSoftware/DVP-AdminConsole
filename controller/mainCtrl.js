@@ -569,6 +569,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goSMSDetailReport: function () {
             $state.go('console.smsdetailreport');
         },
+        goEmailDetailReport: function () {
+            $state.go('console.emaildetailreport');
+        },       
+        goChatReport: function () {
+            $state.go('console.chatreport');
+        },  
         goCampaignCallSummery: function () {
             $state.go('console.CampaignCallSummary');
         },
