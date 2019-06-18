@@ -4164,16 +4164,19 @@ p.login-dark-separator:after {
 }
 
 .is-social-media-wrapper {
-    width: 352px;
-    height: 608px;
+    width: 100%;
+    height: 100%;
     position: absolute;
     z-index: 2000;
     background: rgba(69, 66, 62, 0.3);
     border-radius: 10px;
     text-align: center;
     font-size: 20px;
-    padding-top: 263px;
-    color: #f7af1c;
+    /*padding-top: 200px;*/
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /*passward strength*/
@@ -4355,8 +4358,8 @@ ul#strength {
     min-width: 230px;
     min-height: 115px;
     position: absolute;
-    top: -125px;
-    left: 1px;
+    top: 80px;
+    left: 0;
     background: #fafafa;
     padding: 15px 23px 13px 20px;
     z-index: 100;
@@ -9358,4 +9361,12 @@ tags-input.input .tags {
 .reqchip-header{
     font-size: 15px ;
     padding-bottom: 10px;
+}
+
+
+.menu-bu-body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 400px;
+
 }

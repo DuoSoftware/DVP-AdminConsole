@@ -39,7 +39,7 @@
                                 <span>{{BusinessUnit}}</span>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
-                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                            <ul class="dropdown-menu dropdown-usermenu pull-right menu-bu-body">
                                 <!--<li ng-click="clickDirective.SetBusinessUnit('default')"><a href="javascript:void(0)"> All Unit</a></li>-->
                                 <li ng-repeat="unit in BusinessUnits" ng-click="clickDirective.SetBusinessUnit(unit.unitName)">
                                     <a href="javascript:void(0)"> {{unit.unitName}}</a>
@@ -951,7 +951,7 @@
                                     </ul>
                                 </li>
 
-                                <li ng-show="accessNavigation.SMS_DETAIL_REPORT || accessNavigation.AUDITTRAIL || accessNavigation.USERDETAIL">
+                                <li ng-show="accessNavigation.SMS_DETAIL_REPORT || accessNavigation.AUDITTRAIL || accessNavigation.USERDETAIL ||  accessNavigation.USERDETAIL">
                                     <a class="font-robot font-300 ">
                                         <i class="fa fa-pied-piper"></i> Other Reports
                                         <span class="fa fa-chevron-down"></span>
@@ -965,6 +965,12 @@
                                         </li>
                                         <li ng-show="accessNavigation.USERDETAIL">
                                             <a Fhref="javascript:void(0);" ng-click="clickDirective.goUserDetailReport()">User Detail </a>
+                                        </li>
+                                        <li ng-show="accessNavigation.USERDETAIL">
+                                            <a Fhref="javascript:void(0);" ng-click="clickDirective.goEmailDetailReport()">Email Detail </a>
+                                        </li>
+                                        <li ng-show="accessNavigation.USERDETAIL">
+                                            <a Fhref="javascript:void(0);" ng-click="clickDirective.goChatReport()">Chat </a>
                                         </li>
                                     </ul>
                                 </li>

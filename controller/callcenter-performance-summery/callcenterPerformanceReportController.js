@@ -180,8 +180,8 @@
             }
 
             $scope.DownloadButtonName = 'PROCESSING...';
-
-            dashboardService.GetCallCenterPerformanceHistory($scope.startDate, $scope.endDate, 'download').then(function (response) {
+            var endDate = moment($scope.endDate).add(1, 'days').format('YYYY-MM-DD');
+            dashboardService.GetCallCenterPerformanceHistory($scope.startDate, endDate, 'download').then(function (response) {
                 if (response) {
                     checkFileReady(response);
                 }else{
@@ -200,7 +200,8 @@
         $scope.loadReportData = function () {
             $scope.reportData = [];
             $scope.isTableLoading = 0;
-            dashboardService.GetCallCenterPerformanceHistory($scope.startDate, $scope.endDate, 'report').then(function (response) {
+            var endDate = moment($scope.endDate).add(1, 'days').format('YYYY-MM-DD');
+            dashboardService.GetCallCenterPerformanceHistory($scope.startDate, endDate, 'report').then(function (response) {
                 if (response && response.length > 0) {
                     $scope.reportData = response.map(function (record) {
 

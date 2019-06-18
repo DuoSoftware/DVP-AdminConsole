@@ -150,7 +150,8 @@ var baseUrls = {
     'chatbotupdateentitityAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/BotEntity",
     'chatbotContextAPIUrl': "https://smoothbotservices.plus.smoothflow.io/DBF/API/1.0.0.0/ContextMap",
     'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/',
-    'contactbasednumberUrl': 'http://contactbasednumberdialingservice.app.veery.cloud/DVP/API/1.0.0.0/Campaign/' //contactbasednumberdialingservice.app.veery.cloud
+    'contactbasednumberUrl': 'http://contactbasednumberdialingservice.app.veery.cloud/DVP/API/1.0.0.0/Campaign/', //contactbasednumberdialingservice.app.veery.cloud
+    'interactionServiceURL': 'http://interactions.app1.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -439,6 +440,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "SMS_DETAIL_REPORT"
+            }
+        }).state('console.emaildetailreport', {
+            url: "/EmailDetailReport",
+            templateUrl: "views/emailReport/emailDetailReport.html",
+            controller: "emailDetailReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "USERDETAIL"
+            }
+        }).state('console.chatreport', {
+            url: "/ChatReport",
+            templateUrl: "views/chatReport/chatReport.html",
+            controller: "chatReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "USERDETAIL"
             }
         }).state('console.qaSubmission', {
             url: "/QAFormSubmission",

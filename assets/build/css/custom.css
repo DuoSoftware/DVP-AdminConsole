@@ -4309,6 +4309,7 @@ a.hiddenanchor {
 
 .login_form {
     z-index: 22;
+    position: relative;
 }
 
 #signup:target ~ .login_wrapper .registration_form, #signin:target ~ .login_wrapper .login_form {
