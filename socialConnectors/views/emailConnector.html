@@ -40,6 +40,27 @@
                             </div>
                         </div>
                         <div class="col-md-3">
+                            <div class="form-group" >
+                                <label class="control-label">Overwrite Sender</label>
+                                <input type="text" class="form-control " name="fromOverwrite"
+                                       ng-model="emailConfig.fromOverwrite"
+                                       placeholder="Overwrite Sender">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" >
+                                <label class="control-label">Overwrite ReplyTo</label>
+                                <input type="text" class="form-control " name="replytoOverwrite"
+                                       ng-model="emailConfig.replytoOverwrite"
+                                       placeholder="Overwrite ReplyTo">
+                            </div>
+                        </div>
+
+                        <div class="x_content" style="background-color: #F7F7F7">
+                            <div>
+                            <h2 class="font-robot font-300 text-uppercase font-15">Ticket Configuration</h2>
+
+                        <div class="col-md-3">
                             <div class="form-group"
                                  ng-class="{ 'has-error': addNewTicketForm.priority.$invalid && addNewTicketForm.priority.$dirty }">
                                 <label class="control-label">Priority*</label>
@@ -69,14 +90,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-9">
-                            <div class="form-group" >
-                                <label class="control-label">Overwrite Sender</label>
-                                <input type="text" class="form-control " name="fromOverwrite"
-                                       ng-model="emailConfig.fromOverwrite"
-                                       placeholder="Overwrite Sender">
-                            </div>
-                        </div>
                         <div class="col-md-10 col-sm-10 col-xs-10 form-group has-feedback">
                             <div class="form-group"
                                  ng-class="{ 'has-error': addNewTicketForm.tags.$invalid && addNewTicketForm.tags.$dirty }">
@@ -94,6 +107,8 @@
                                 </tags-input>
                             </div>
                         </div>
+                            </div>
+                        </div>
                         <div class="col-lg-2">
                             <div class="btn-warp " style="margin-top: 28px;">
                                 <span ng-disabled="addNewTicketForm.$invalid" class="btn btn-default btn-block"
@@ -101,7 +116,6 @@
                             </div>
                         </div>
                     </div>
-
 
                 </form>
 
@@ -149,7 +163,9 @@
                                 <th tabindex="1" class="column-title">Priority</th>
                                 <th tabindex="2" class="column-title selectedTpcs">Type</th>
                                 <th tabindex="3" class="column-title selectedTpcs">Tags</th>
-                                <th tabindex="3" class="column-title selectedTpcs">Overwrite Sender</th>
+                                <th tabindex="4" class="column-title selectedTpcs">Overwrite Sender</th>
+                                <th tabindex="5" class="column-title selectedTpcs">Overwrite ReplyTo</th>
+                                <th tabindex="6" class="column-title selectedTpcs">Status</th>
                             </tr>
                             </thead>
 
@@ -170,6 +186,20 @@
                                     </table>
                                 </td>
                                 <td class="valAlgn">{{mail.fromOverwrite}}</td>
+                                <td class="valAlgn">{{mail.replytoOverwrite}}</td>
+                                <td class="valAlgn">
+                                    <switch
+                                        id="enabled"
+                                        name="enabled"
+                                        ng-model="mail.active"
+                                        on="Active" off="Inactive"
+                                        class="green"
+                                        disabled="disableSwitch"
+                                        ng-change="deactivateMail(mail)"
+                                        style="margin-right: 10px">
+
+                                </switch>
+                                </td>
                             </tr>
 
                             </tbody>

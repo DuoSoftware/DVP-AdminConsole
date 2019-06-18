@@ -16,7 +16,8 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
         ticket_type:"",
         ticket_tags:[],
         name:"",
-        domain: ""
+        domain: "",
+        replytoOverwrite : ""
     };
     $scope.ticket_tags=[];
     $scope.tagList=[];
@@ -85,6 +86,128 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
         });
     };
     $scope.loadTags();
+
+    $scope.deactivateMail = function (mail) {
+
+
+        console.log(mail);
+        if (mail.active) {
+
+            if (!$scope.disableSwitch) {
+
+                $scope.safeApply(function () {
+                    $scope.disableSwitch = true;
+                });
+
+                console.log("activate");
+
+                new PNotify({
+                    title: 'Confirm Reactivation',
+                    text: 'Are You Sure You Want To Reactivate The Mail Configuration?',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                }).get().on('pnotify.confirm', function () {
+                    var mailObj = {'status': true};
+                    socialConnectorService.ChangeMailConfigStatus(mail._id, mailObj).then(function (data) {
+                        if (data) {
+                            $scope.showAlert('Success', 'info', 'Mail Configuration Reactivated');
+                            $scope.safeApply(function () {
+                                $scope.disableSwitch = false;
+                            });
+                        }
+                        else {
+                            $scope.safeApply(function () {
+                                mail.active = false;
+                                $scope.disableSwitch = false;
+                            });
+
+                            $scope.showAlert('Error', 'error', 'Error occurred while reactivating mail configuration');
+                        }
+
+                    }, function (err) {
+                        $scope.safeApply(function () {
+                            mail.active = false;
+                            $scope.disableSwitch = false;
+                        });
+                        $scope.showAlert('Error', 'error', "Error occurred while reactivating mail configuration");
+                    });
+                }).on('pnotify.cancel', function () {
+                    $scope.safeApply(function () {
+                        mail.active = false;
+                        $scope.disableSwitch = false;
+                    });
+                });
+            }
+
+        } else {
+            console.log("deactivate");
+            if (!$scope.disableSwitch) {
+
+                $scope.safeApply(function () {
+                    $scope.disableSwitch = true;
+                });
+                new PNotify({
+                    title: 'Confirm Deletion',
+                    text: 'Are You Sure You Want To Deactivate Mail Configuration ?',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                }).get().on('pnotify.confirm', function () {
+                    var mailObj = {'status': false};
+                    socialConnectorService.ChangeMailConfigStatus(mail._id, mailObj).then(function (data) {
+                        if (data) {
+                            $scope.showAlert('Success', 'info', 'Mail Configuration Deactivated');
+                            $scope.safeApply(function () {
+                                $scope.disableSwitch = false;
+                            });
+                        }
+                        else {
+                            $scope.safeApply(function () {
+                                mail.active = true;
+                                $scope.disableSwitch = false;
+                            });
+
+                            $scope.showAlert('Error', 'error', "Error occurred while deactivating mail configuration");
+                        }
+
+                    }, function (err) {
+                        $scope.safeApply(function () {
+                            mail.active = true;
+                            $scope.disableSwitch = false;
+                        });
+                        var errMsg = "Error occurred while deactivating mail configuration";
+                        if (err.statusText) {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                }).on('pnotify.cancel', function () {
+                    $scope.safeApply(function () {
+                        mail.active = true;
+                        $scope.disableSwitch = false;
+                    });
+                });
+            }
+        }
+
+    };
 
 
 });
