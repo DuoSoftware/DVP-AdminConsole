@@ -1424,12 +1424,13 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
             var method_list = [];
 
-            for (var i = 1; i <= pagecount; i++) {
+           /* for (var i = 1; i <= pagecount; i++) {
                 method_list.push(ShareData.getUsersByRoleWithPaging(pagesize, i));
-            }
+            }*/
+            $scope.loadUserRec(1,pagecount);
 
 
-            $q.all(method_list).then(function (resolveData) {
+           /* $q.all(method_list).then(function (resolveData) {
                 if (resolveData) {
 
                     resolveData.map(function (data) {
@@ -1452,7 +1453,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 console.error(err);
 
                 $scope.showAlert("Error","Error in loading Admin user details","error");
-            });
+            });*/
 
 
 
@@ -1475,6 +1476,31 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
         });*/
     };
+
+    $scope.loadUserRec = function(i,pageCount)
+    {
+        var index=i;
+        ShareData.getUsersByRoleWithPaging(20, index).then(function(items)
+        {
+            items.map(function(item)
+            {
+                $scope.headUsers.push(item);
+            });
+
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(index,pageCount);
+            }
+
+        },function (err) {
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(i,pageCount);
+            }
+        })
+    }
     $scope.nonAlocatedGroups =[];
 
     $scope.loadUserGroups = function () {

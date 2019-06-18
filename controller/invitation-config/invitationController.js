@@ -110,6 +110,7 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
             $scope.notRegisteredUsers=[];
             $scope.commonUsers=[];
             $scope.requestUsers=[];
+            $scope.invitedUsers=[];
 
             invitationApiAccess.checkInvitable(strNames).then(function (resUsers) {
                 $scope.isNotReg=true;
@@ -139,6 +140,10 @@ mainApp.controller("invitationController", function ($scope, $state, loginServic
                     if(resUsers.data.Result.requestUsers && resUsers.data.Result.requestUsers.length>0)
                     {
                         $scope.requestUsers=resUsers.data.Result.requestUsers;
+                    }
+                    if(resUsers.data.Result.invitedUsers && resUsers.data.Result.invitedUsers.length>0)
+                    {
+                        $scope.invitedUsers=resUsers.data.Result.invitedUsers;
                     }
 
                     if($scope.notRegisteredUsers.length==0 && $scope.requestableAccounts.length==0)

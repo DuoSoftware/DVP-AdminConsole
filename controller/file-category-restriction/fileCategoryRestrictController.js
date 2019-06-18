@@ -33,14 +33,15 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
             var pagesize = 20;
             var pagecount = Math.ceil(row_count / pagesize);
 
-            var method_list = [];
+            $scope.loadUserRec(1,pagecount);
+           /* var method_list = [];
 
             for (var i = 1; i <= pagecount; i++) {
                 method_list.push(ShareData.getUsersByRoleWithPaging(pagesize, i));
             }
+*/
 
-
-            $q.all(method_list).then(function (resolveData) {
+            /*$q.all(method_list).then(function (resolveData) {
                 if (resolveData) {
 
                     resolveData.map(function (data) {
@@ -63,7 +64,7 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
                 console.error(err);
 
                 $scope.showAlert("Error","Error in loading Admin user details","error");
-            });
+            });*/
 
 
 
@@ -89,6 +90,32 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
         });*/
     };
 
+    $scope.loadUserRec = function(i,pageCount)
+    {
+        var index=i;
+        userProfileApiAccess.LoadUsersByPage('all',20, index).then(function(items)
+        {
+            items.map(function (item) {
+                item.status = 'offline';
+                item.callstatus = 'offline';
+                item.callstatusstyle = 'call-status-offline';
+                $scope.AdminUsers.push(item);
+            })
+
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(index,pageCount);
+            }
+
+        },function (err) {
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(i,pageCount);
+            }
+        })
+    }
     $scope.loadFileCategoryList = function () {
         userProfileApiAccess.GetFileCatagories().then(function (response) {
 
