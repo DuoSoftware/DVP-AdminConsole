@@ -17,7 +17,8 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
         ticket_tags:[],
         name:"",
         domain: "",
-        replytoOverwrite : ""
+        replytoOverwrite : "",
+        create_engagement : false
     };
     $scope.ticket_tags=[];
     $scope.tagList=[];
