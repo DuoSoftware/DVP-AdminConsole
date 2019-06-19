@@ -87,10 +87,25 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                 $scope.isSocialMedia = false;
                 if (error.message) {
                     loginService.clearCookie();
-                    showAlert('Error', 'error', error.message);
+                    if(error.message=="The popup window was closed")
+                    {
+                        showAlert('Info', 'info', error.message);
+                    }
+                    else
+                    {
+                        showAlert('Error', 'error', error.message);
+                    }
+
                 } else if (error.data && error.data.message) {
                     loginService.clearCookie();
-                    showAlert('Error', 'error', error.data.message);
+                    if(error.data.message=="The popup window was closed")
+                    {
+                        showAlert('Info', 'info', error.data.message);
+                    }
+                    else
+                    {
+                        showAlert('Error', 'error', error.data.message);
+                    }
                 } else {
                     loginService.clearCookie();
                     showAlert('Error', 'error', 'Please check login details...');
