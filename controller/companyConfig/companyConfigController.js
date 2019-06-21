@@ -915,6 +915,81 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     };
 
+    // Console access limit details
+
+    var setMaximumConsoleAccessLimits = function (data) {
+
+        var maxAccessLimitAdminObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'admin'
+        });
+        $scope.maxAccessLimitAdmin = maxAccessLimitAdminObj[0].accessLimit;
+
+        var maxAccessLimitSupervisorObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'supervisor'
+        });
+        $scope.maxAccessLimitSupervisor = maxAccessLimitSupervisorObj[0].accessLimit;
+
+        var maxAccessLimitAgentObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'agent'
+        });
+        $scope.maxAccessLimitAgent = maxAccessLimitAgentObj[0].accessLimit;
+
+    };
+
+    var setCurrentConsoleAccessLimits = function (data) {
+
+        var currAccessLimitAdminObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'admin'
+        });
+        $scope.currentAccessLimitAdmin = currAccessLimitAdminObj[0].currentAccess.length;
+
+        var currAccessLimitSupervisorObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'supervisor'
+        });
+        $scope.currentAccessLimitSupervisor = currAccessLimitSupervisorObj[0].currentAccess.length;
+
+        var currAccessLimitAgentObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'agent'
+        });
+        $scope.currentAccessLimitAgent = currAccessLimitAgentObj[0].currentAccess.length;
+
+    };
+
+    var getConsoleAccessLimits = function () {
+
+        companyConfigBackendService.getConsoleAccessLimits().then(function (response) {
+            if(response && response.IsSuccess){
+                if(response.Result){
+                    setMaximumConsoleAccessLimits(response.Result);
+                    setCurrentConsoleAccessLimits(response.Result);
+                }
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Console Access Details', errMsg, 'error');
+            }
+        })
+    };
+    getConsoleAccessLimits();
+
+    $scope.bgColorAdmin = function () {
+        return ($scope.maxAccessLimitAdmin === $scope.currentAccessLimitAdmin) ? 'red-threshold' : 'product_price '
+    };
+
+    $scope.bgColorSupervisor = function () {
+        return ($scope.maxAccessLimitSupervisor === $scope.currentAccessLimitSupervisor) ? 'red-threshold' : 'product_price '
+    };
+
+    $scope.bgColorAgent = function () {
+        return ($scope.maxAccessLimitAgent === $scope.currentAccessLimitAgent) ? 'red-threshold' : 'product_price '
+    };
+
     var getAbandonRedialInfo = function () {
         companyConfigBackendService.getAbandonCallRedialConfig().then(function (response) {
             if(response && response.IsSuccess)

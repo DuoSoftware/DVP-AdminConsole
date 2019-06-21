@@ -6280,3 +6280,13 @@ ul.notifications {
 .selectRw td{
     background: aquamarine;
 }
+
+.red-threshold {
+    margin: 20px 0;
+    padding: 15px 5px 5px 5px;
+    background-color: #e4bdfe;
+    opacity: 0.8;
+    text-align: left;
+    border: 2px solid #f7f7f7;
+    border-radius: 10px;
+}

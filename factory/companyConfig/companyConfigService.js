@@ -491,6 +491,16 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 return response.data;
             });
         },
+        getConsoleAccessLimits: function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"Organisation/ConsoleAccessLimits"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
         updateOrganizationDetail: function(companyDetail){
             return $http({
                 method: 'PUT',
