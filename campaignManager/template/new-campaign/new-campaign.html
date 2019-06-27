@@ -225,7 +225,7 @@
 
 
                             <li>
-                                <button ng-show="!uploadButtonValue"
+                                <button ng-show="!uploadButtonValue" ng-disabled="campaign.DialoutMechanism=='PREVIEW' && previewData.length == 0"
                                         class="btn btn-wizard"
                                         ng-click="uploadNumbers()">
                                     Done
