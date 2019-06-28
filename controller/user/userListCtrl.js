@@ -722,8 +722,6 @@
                 userProfileApiAccess.updateUserGroup($scope.selectedGroup._id, updateObj).then(function (resUpdate) {
                     if (resUpdate.IsSuccess) {
                         $scope.showAlert("Success", "success", "Supervisor removed successfully");
-
-
                     }
                     else {
                         $scope.showAlert("Error", "error", "Supervisor removing failed");
