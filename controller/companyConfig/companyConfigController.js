@@ -915,6 +915,81 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     };
 
+    // Console access limit details
+
+    var setMaximumConsoleAccessLimits = function (data) {
+
+        var maxAccessLimitAdminObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'admin'
+        });
+        $scope.maxAccessLimitAdmin = maxAccessLimitAdminObj[0].accessLimit;
+
+        var maxAccessLimitSupervisorObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'supervisor'
+        });
+        $scope.maxAccessLimitSupervisor = maxAccessLimitSupervisorObj[0].accessLimit;
+
+        var maxAccessLimitAgentObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'agent'
+        });
+        $scope.maxAccessLimitAgent = maxAccessLimitAgentObj[0].accessLimit;
+
+    };
+
+    var setCurrentConsoleAccessLimits = function (data) {
+
+        var currAccessLimitAdminObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'admin'
+        });
+        $scope.currentAccessLimitAdmin = currAccessLimitAdminObj[0].currentAccess.length;
+
+        var currAccessLimitSupervisorObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'supervisor'
+        });
+        $scope.currentAccessLimitSupervisor = currAccessLimitSupervisorObj[0].currentAccess.length;
+
+        var currAccessLimitAgentObj = data.consoleAccessLimits.filter(function(obj) {
+            return obj.accessType === 'agent'
+        });
+        $scope.currentAccessLimitAgent = currAccessLimitAgentObj[0].currentAccess.length;
+
+    };
+
+    var getConsoleAccessLimits = function () {
+
+        companyConfigBackendService.getConsoleAccessLimits().then(function (response) {
+            if(response && response.IsSuccess){
+                if(response.Result){
+                    setMaximumConsoleAccessLimits(response.Result);
+                    setCurrentConsoleAccessLimits(response.Result);
+                }
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Console Access Details', errMsg, 'error');
+            }
+        })
+    };
+    getConsoleAccessLimits();
+
+    $scope.bgColorAdmin = function () {
+        return ($scope.maxAccessLimitAdmin === $scope.currentAccessLimitAdmin) ? 'red-threshold' : 'product_price '
+    };
+
+    $scope.bgColorSupervisor = function () {
+        return ($scope.maxAccessLimitSupervisor === $scope.currentAccessLimitSupervisor) ? 'red-threshold' : 'product_price '
+    };
+
+    $scope.bgColorAgent = function () {
+        return ($scope.maxAccessLimitAgent === $scope.currentAccessLimitAgent) ? 'red-threshold' : 'product_price '
+    };
+
     var getAbandonRedialInfo = function () {
         companyConfigBackendService.getAbandonCallRedialConfig().then(function (response) {
             if(response && response.IsSuccess)
@@ -1424,12 +1499,13 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
             var method_list = [];
 
-            for (var i = 1; i <= pagecount; i++) {
+           /* for (var i = 1; i <= pagecount; i++) {
                 method_list.push(ShareData.getUsersByRoleWithPaging(pagesize, i));
-            }
+            }*/
+            $scope.loadUserRec(1,pagecount);
 
 
-            $q.all(method_list).then(function (resolveData) {
+           /* $q.all(method_list).then(function (resolveData) {
                 if (resolveData) {
 
                     resolveData.map(function (data) {
@@ -1452,7 +1528,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 console.error(err);
 
                 $scope.showAlert("Error","Error in loading Admin user details","error");
-            });
+            });*/
 
 
 
@@ -1475,6 +1551,31 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
         });*/
     };
+
+    $scope.loadUserRec = function(i,pageCount)
+    {
+        var index=i;
+        ShareData.getUsersByRoleWithPaging(20, index).then(function(items)
+        {
+            items.map(function(item)
+            {
+                $scope.headUsers.push(item);
+            });
+
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(index,pageCount);
+            }
+
+        },function (err) {
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(i,pageCount);
+            }
+        })
+    }
     $scope.nonAlocatedGroups =[];
 
     $scope.loadUserGroups = function () {

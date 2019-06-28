@@ -316,14 +316,14 @@
                 var pagesize = 20;
                 var pagecount = Math.ceil(row_count / pagesize);
 
-                var method_list = [];
+               /* var method_list = [];
 
                 for (var i = 1; i <= pagecount; i++) {
                     method_list.push(ShareData.getUsersByRoleWithPaging(pagesize, i));
-                }
+                }*/
+                $scope.loadUserRec(1,pagecount);
 
-
-                $q.all(method_list).then(function (resolveData) {
+             /*   $q.all(method_list).then(function (resolveData) {
                     if (resolveData) {
 
                         resolveData.map(function (data) {
@@ -346,7 +346,7 @@
                     console.error(err);
 
                     $scope.showAlert("Error","Error in loading Admin user details","error");
-                });
+                });*/
 
 
 
@@ -375,7 +375,30 @@
             })*/
         };
 
+        $scope.loadUserRec = function(i,pageCount)
+        {
+            var index=i;
+            userProfileApiAccess.LoadUsersByPage('all',20, index).then(function(items)
+            {
 
+                items.map(function (item) {
+                    $scope.adminUserList.push(item);
+                });
+
+                index++;
+                if(index<=pageCount)
+                {
+                    $scope.loadUserRec(index,pageCount);
+                }
+
+            },function (err) {
+                index++;
+                if(index<=pageCount)
+                {
+                    $scope.loadUserRec(i,pageCount);
+                }
+            })
+        }
         var loadUserGroups = function () {
             userProfileApiAccess.getUserGroups().then(function (data) {
                 if (data.IsSuccess) {

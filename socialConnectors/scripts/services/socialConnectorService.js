@@ -44,6 +44,20 @@ mainApp.factory("socialConnectorService", function ($http,baseUrls) {
         });
     };
 
+    var changeMailConfigStatus = function (id, postData) {
+        return $http({
+            method: 'PUT',
+            url: baseUrls.mailSenderUrl+"Email/Status/"+id,
+            data:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return false;
+            }
+        });
+    };
+
     var addFacebookPageToSystem = function (postData) {
         return $http({
             method: 'POST',
@@ -118,6 +132,7 @@ mainApp.factory("socialConnectorService", function ($http,baseUrls) {
         DeleteFacebookAccount:deleteFacebookAccount,
         UpdatePagePicture:updatePagePicture,
         ActivateFacebookAccount:activateFacebookAccount,
+        ChangeMailConfigStatus:changeMailConfigStatus,
         CreateMailAccount:createMailAccount,
         GetEmailAccounts:getEmailAccounts,
         GetAllTags:getAllTags

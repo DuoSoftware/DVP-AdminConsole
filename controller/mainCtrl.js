@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-    authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http,internal_user_service) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http,internal_user_service) {
 
 
     // check adminconsole is focus or not.
@@ -113,11 +113,11 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.newNotifications = [];
 
 
-	/** Kasun_Wijeratne_2_MARCH_2018
-	 * ------------------------------ */
+    /** Kasun_Wijeratne_2_MARCH_2018
+     * ------------------------------ */
     $scope.invalidUserPassword = true;
-	/**---------------------------------
-	 Kasun_Wijeratne_2_MARCH_2018 */
+    /**---------------------------------
+     Kasun_Wijeratne_2_MARCH_2018 */
 
     // Register for notifications
 
@@ -472,13 +472,13 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     //check my navigation
     //is can access
-	/** Kasun_Wijeratne_5_MARCH_2018
-	 * ----------------------------------------
-	 * User validation for Dev or Live goes here
-	 * ----------------------------------------*/
+    /** Kasun_Wijeratne_5_MARCH_2018
+     * ----------------------------------------
+     * User validation for Dev or Live goes here
+     * ----------------------------------------*/
     $rootScope.isLive = false;
-	/** ----------------------------------------
-	 * Kasun_Wijeratne_5_MARCH_2018*/
+    /** ----------------------------------------
+     * Kasun_Wijeratne_5_MARCH_2018*/
 
     loginService.getNavigationAccess(function (result) {
 
@@ -569,6 +569,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goSMSDetailReport: function () {
             $state.go('console.smsdetailreport');
         },
+        goEmailDetailReport: function () {
+            $state.go('console.emaildetailreport');
+        },       
+        goChatReport: function () {
+            $state.go('console.chatreport');
+        },  
         goCampaignCallSummery: function () {
             $state.go('console.CampaignCallSummary');
         },
@@ -924,37 +930,37 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     $scope.loadBusinessUnit();
                     myUserProfileApiAccess.getMyOrganization().then(function (resOrg) {
 
-                        if (resOrg.IsSuccess && resOrg.Result) {
-                            if (resOrg.Result.ownerRef == resMyProf.Result._id) {
-                                $scope.displayname = resOrg.Result.companyName;
+                            if (resOrg.IsSuccess && resOrg.Result) {
+                                if (resOrg.Result.ownerRef == resMyProf.Result._id) {
+                                    $scope.displayname = resOrg.Result.companyName;
+                                }
+                                else {
+                                    if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
+                                        $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
+
+                                    }
+
+                                }
+                                $scope.showDisplayName = true;
                             }
                             else {
                                 if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
                                     $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
 
                                 }
-
+                                $scope.showDisplayName = true;
                             }
-                            $scope.showDisplayName = true;
-                        }
-                        else {
+
+
+                        }, function (errOrg) {
+
+                            console.log("Error in searching company");
                             if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
                                 $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
 
                             }
                             $scope.showDisplayName = true;
                         }
-
-
-                    }, function (errOrg) {
-
-                        console.log("Error in searching company");
-                        if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
-                            $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
-
-                        }
-                        $scope.showDisplayName = true;
-                    }
                     );
                 }
                 else {
@@ -1293,33 +1299,40 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             var pagesize = 20;
             var pagecount = Math.ceil(row_count / pagesize);
 
-            var method_list = [];
+            $scope.loadUserRec(1,pagecount);
+
+           /* var method_list = [];
 
             for (var i = 1; i <= pagecount; i++) {
                 method_list.push(notifiSenderService.LoadUsersByPage(pagesize, i));
-            }
-
-
-            $q.all(method_list).then(function (resolveData) {
-                if (resolveData) {
-                    resolveData.map(function (data) {
-                        data.map(function (item) {
-                            item.status = 'offline';
-                            item.callstatus = 'offline';
-                            item.callstatusstyle = 'call-status-offline';
-                            $scope.users.push(item);
-                        });
-                    });
-
-                }
+            }*/
 
 
 
-            }).catch(function (err) {
-                console.error(err);
-                loginService.isCheckResponse(err);
-                $scope.showAlert("Load Users", "error", "Fail To Get User List.");
-            });
+
+
+
+
+            /* $q.all(method_list).then(function (resolveData) {
+                 if (resolveData) {
+                     resolveData.map(function (data) {
+                         data.map(function (item) {
+                             item.status = 'offline';
+                             item.callstatus = 'offline';
+                             item.callstatusstyle = 'call-status-offline';
+                             $scope.users.push(item);
+                         });
+                     });
+
+                 }
+
+
+
+             }).catch(function (err) {
+                 console.error(err);
+                 loginService.isCheckResponse(err);
+                 $scope.showAlert("Load Users", "error", "Fail To Get User List.");
+             });*/
 
 
             // load notification message
@@ -1366,67 +1379,98 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
 
 
-/*
-        notifiSenderService.getUserList().then(function (response) {
+        /*
+                notifiSenderService.getUserList().then(function (response) {
 
-            if (response) {
-                $scope.users = response.map(function (item) {
-                    item.status = 'offline';
-                    item.callstatus = 'offline';
-                    item.callstatusstyle = 'call-status-offline';
-                    return item;
-                });
-            }
-            /!*for (var i = 0; i < response.length; i++) {
+                    if (response) {
+                        $scope.users = response.map(function (item) {
+                            item.status = 'offline';
+                            item.callstatus = 'offline';
+                            item.callstatusstyle = 'call-status-offline';
+                            return item;
+                        });
+                    }
+                    /!*for (var i = 0; i < response.length; i++) {
 
-             response[i].status = 'offline';
-             response[i].callstatus = 'offline';
-             response[i].callstatusstyle = 'call-status-offline';
+                     response[i].status = 'offline';
+                     response[i].callstatus = 'offline';
+                     response[i].callstatusstyle = 'call-status-offline';
 
-             }
-             $scope.users = response;*!/
+                     }
+                     $scope.users = response;*!/
 
 
-            $scope.userShowDropDown = 0;
+                    $scope.userShowDropDown = 0;
 
-            subscribeServices.Request('pendingall');
-            subscribeServices.Request('allstatus');
-            subscribeServices.Request('allcallstatus');
+                    subscribeServices.Request('pendingall');
+                    subscribeServices.Request('allstatus');
+                    subscribeServices.Request('allcallstatus');
 
-            // load notification message
-            if (!isPersistanceLoaded) {
-                subscribeServices.GetPersistenceMessages().then(function (response) {
+                    // load notification message
+                    if (!isPersistanceLoaded) {
+                        subscribeServices.GetPersistenceMessages().then(function (response) {
 
-                    if (response.data.IsSuccess) {
-                        isPersistanceLoaded = true;
+                            if (response.data.IsSuccess) {
+                                isPersistanceLoaded = true;
 
-                        angular.forEach(response.data.Result, function (value) {
+                                angular.forEach(response.data.Result, function (value) {
 
-                            var valObj = JSON.parse(value.Callback);
+                                    var valObj = JSON.parse(value.Callback);
 
-                            if (valObj.eventName == "todo_reminder") {
-                                //$scope.todoRemind($scope.MakeNotificationObject(value));
+                                    if (valObj.eventName == "todo_reminder") {
+                                        //$scope.todoRemind($scope.MakeNotificationObject(value));
+                                    }
+                                    else {
+                                        $scope.OnMessage($scope.MakeNotificationObject(value));
+                                    }
+
+
+                                });
+
                             }
-                            else {
-                                $scope.OnMessage($scope.MakeNotificationObject(value));
-                            }
 
+
+                        }, function (err) {
 
                         });
-
                     }
 
-
                 }, function (err) {
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+                });*/
+    };
 
-                });
+    $scope.loadUserRec = function(i,pageCount)
+    {
+        var index=i;
+        notifiSenderService.LoadUsersByPage(20, index).then(function(items)
+        {
+
+            items.map(function (item) {
+
+                item.status = 'offline';
+                item.callstatus = 'offline';
+                item.callstatusstyle = 'call-status-offline';
+                $scope.users.push(item);
+
+            });
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(index,pageCount);
             }
 
-        }, function (err) {
-            loginService.isCheckResponse(err);
-            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-        });*/
-    };
+
+
+        },function (err) {
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(i,pageCount);
+            }
+        })
+    }
     $scope.loadUsers();
 
     //load userGroup list
@@ -1936,10 +1980,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     // /Sidebar
 
 
-	/** Kasun_Wijeratne_14_FEB_2018
-	 * --------------------------------------------------------------------------
-	 * GUIDE FOR FRESH USERS
-	 * Functionality of Fresh User Guide panel appears on the very first Login.*/
+    /** Kasun_Wijeratne_14_FEB_2018
+     * --------------------------------------------------------------------------
+     * GUIDE FOR FRESH USERS
+     * Functionality of Fresh User Guide panel appears on the very first Login.*/
     $scope.freshUserConfigStep = 0;
     $rootScope.userGuideMin = false;
     $rootScope.toggleFreshUserGuide = function () {
@@ -1956,8 +2000,8 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         $rootScope.userGuideMin = !$rootScope.userGuideMin;
     };
 
-	/** GUIDE FOR ALL USERS
-	* Functionality for the Guide panel of all users appears after the main configuration is done.*/
+    /** GUIDE FOR ALL USERS
+     * Functionality for the Guide panel of all users appears after the main configuration is done.*/
     $rootScope.userGuide = {};
     $scope.userGuideStep = 0;
     $scope.$watch(function () {
@@ -1978,8 +2022,8 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $scope.userGuideStep--;
         }
     };
-	/** -------------------------------------------------------------------------
-	/*Kasun_Wijeratne_14_FEB_2018*/
+    /** -------------------------------------------------------------------------
+     /*Kasun_Wijeratne_14_FEB_2018*/
 
 
 });
@@ -1989,7 +2033,7 @@ mainApp.controller("notificationModalController", function ($scope, $uibModalIns
 
     $scope.MessageObj = MessageObj;
 
-    if($scope.MessageObj.messageType=='invite')
+    if($scope.MessageObj.messageType=='invitation')
     {
         $scope.isInviteModal= true;
     }
@@ -2020,7 +2064,7 @@ mainApp.controller("notificationModalController", function ($scope, $uibModalIns
         $uibModalInstance.dismiss('cancel');
     }
     $scope.cancelInvitation = function (msgObj) {
-        cancelInvitation(msgObj);
+        //cancelInvitation(msgObj);
         $uibModalInstance.dismiss('cancel');
     }
 
