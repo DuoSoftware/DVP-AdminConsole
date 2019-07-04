@@ -235,7 +235,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 else{
                     console.log("No data ");
                     resetTotals();
-                    $scope.showAlert("Agent Productivity Summary", 'error', "No data available for the selected filters");
+                    $scope.showAlert("Agent Productivity Summary", 'info', "No data available for the selected filters");
                     $scope.isTableLoading = 1;
                 }
             }
