@@ -196,37 +196,44 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
 
                 var summaryData = response.data.Result;
 
-                $scope.total.StaffTime = summaryData[0].totalStaffTime;
-                $scope.total.InboundIdleTime = summaryData[0].totalInboundIdleTime;
-                $scope.total.OutboundIdleTime = summaryData[0].totalOutboundIdleTime;
-                $scope.total.OfflineIdleTime = summaryData[0].totalOfflineIdleTime;
-                $scope.total.InboundAfterWorkTime = summaryData[0].totalInboundAfterWorkTime;
-                $scope.total.OutboundAfterWorkTime = summaryData[0].totalOutboundAfterWorkTime;
-                $scope.total.InboundAverageHandlingTime = summaryData[0].avgInboundHandlingTime;
-                $scope.total.OutboundAverageHandlingTime = summaryData[0].avgOutboundHandlingTime;
-                $scope.total.InboundTalkTime = summaryData[0].totalInboundTalkTime;
-                $scope.total.OutboundTalkTime = summaryData[0].totalOutboundTalkTime;
-                $scope.total.InboundHoldTime = summaryData[0].totalInboundHoldTime;
-                $scope.total.OutboundHoldTime = summaryData[0].totalOutboundHoldTime;
-                $scope.total.BreakTime = summaryData[0].totalBreakTime;
-                $scope.total.Answered = summaryData[0].totalInboundAnswered;
-                $scope.total.InboundCalls = summaryData[0].totalCallsInb;
-                $scope.total.OutboundCalls = summaryData[0].totalCallsOut;
-                // $scope.total.MissCallCount = MissCallCount;
-                $scope.total.OutboundAnswered = summaryData[0].totalOutboundAnswered;
-                $scope.agentSummaryList = summaryData;
+                if(summaryData.length !== 0) {
+                    $scope.total.StaffTime = summaryData[0].totalStaffTime;
+                    $scope.total.InboundIdleTime = summaryData[0].totalInboundIdleTime;
+                    $scope.total.OutboundIdleTime = summaryData[0].totalOutboundIdleTime;
+                    $scope.total.OfflineIdleTime = summaryData[0].totalOfflineIdleTime;
+                    $scope.total.InboundAfterWorkTime = summaryData[0].totalInboundAfterWorkTime;
+                    $scope.total.OutboundAfterWorkTime = summaryData[0].totalOutboundAfterWorkTime;
+                    $scope.total.InboundAverageHandlingTime = summaryData[0].avgInboundHandlingTime;
+                    $scope.total.OutboundAverageHandlingTime = summaryData[0].avgOutboundHandlingTime;
+                    $scope.total.InboundTalkTime = summaryData[0].totalInboundTalkTime;
+                    $scope.total.OutboundTalkTime = summaryData[0].totalOutboundTalkTime;
+                    $scope.total.InboundHoldTime = summaryData[0].totalInboundHoldTime;
+                    $scope.total.OutboundHoldTime = summaryData[0].totalOutboundHoldTime;
+                    $scope.total.BreakTime = summaryData[0].totalBreakTime;
+                    $scope.total.Answered = summaryData[0].totalInboundAnswered;
+                    $scope.total.InboundCalls = summaryData[0].totalCallsInb;
+                    $scope.total.OutboundCalls = summaryData[0].totalCallsOut;
+                    // $scope.total.MissCallCount = MissCallCount;
+                    $scope.total.OutboundAnswered = summaryData[0].totalOutboundAnswered;
+                    $scope.agentSummaryList = summaryData;
 
-                for (var k = 0; k < $scope.agentSummaryList.length; k++) {
-                    for (var l = 0; l < $scope.Agents.length; l++) {
-                        if ($scope.Agents[l].ResourceId == $scope.agentSummaryList[k].Agent) {
-                            $scope.agentSummaryList[k].AgentName = $scope.Agents[l].ResourceName;
+                    for (var k = 0; k < $scope.agentSummaryList.length; k++) {
+                        for (var l = 0; l < $scope.Agents.length; l++) {
+                            if ($scope.Agents[l].ResourceId == $scope.agentSummaryList[k].Agent) {
+                                $scope.agentSummaryList[k].AgentName = $scope.Agents[l].ResourceName;
 
+                            }
                         }
                     }
-                }
-                $scope.AgentDetailsAssignToSummery();
+                    $scope.AgentDetailsAssignToSummery();
 
-                $scope.isTableLoading = 1;
+                    $scope.isTableLoading = 1;
+                }
+                else{
+                    console.log("No data ");
+                    $scope.showAlert("Agent Productivity Summary", 'error', "No data available for the selected filters");
+                    $scope.isTableLoading = 1;
+                }
             }
 
         }, function (error) {
