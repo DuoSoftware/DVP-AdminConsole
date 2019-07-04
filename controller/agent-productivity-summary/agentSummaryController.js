@@ -178,73 +178,84 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         $scope.agentSummaryList = [];
         $scope.gridQOptions.data = [];
         var resId = null;
-        if ($scope.agentFilter) {
-            resId = $scope.agentFilter.ResourceId;
-        }
+        var duration = moment($scope.endDate, 'YYYY-MM-DD').diff(moment($scope.startDate, 'YYYY-MM-DD'), 'days');
 
-        var momentTz = moment.parseZone(new Date()).format('Z');
-        momentTz = momentTz.replace("+", "%2B");
+        if (duration <= applicationConfig.repMaxDateRangeAgentProd) {
 
-        var queryStartDate = $scope.startDate + ' 00:00:00' + momentTz;
-        var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
+            if ($scope.agentFilter) {
+                resId = $scope.agentFilter.ResourceId;
 
-        agentSummaryBackendService.getAgentSummary(queryStartDate, queryEndDate, resId, ShareData.BusinessUnit).then(function (response) {
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                momentTz = momentTz.replace("+", "%2B");
+
+                var queryStartDate = $scope.startDate + ' 00:00:00' + momentTz;
+                var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
+
+                agentSummaryBackendService.getAgentSummary(queryStartDate, queryEndDate, resId, ShareData.BusinessUnit).then(function (response) {
 
 
-            if (!response.data.IsSuccess) {
-                console.log("Queue Summary loading failed ", response.data.Exception);
-                $scope.isTableLoading = 1;
-            }
-            else {
-                resetTotals();
-                var summaryData = response.data.Result;
+                    if (!response.data.IsSuccess) {
+                        console.log("Queue Summary loading failed ", response.data.Exception);
+                        $scope.isTableLoading = 1;
+                    } else {
+                        resetTotals();
+                        var summaryData = response.data.Result;
 
-                if(summaryData.length !== 0) {
-                    $scope.total.StaffTime = summaryData[0].totalStaffTime;
-                    $scope.total.InboundIdleTime = summaryData[0].totalInboundIdleTime;
-                    $scope.total.OutboundIdleTime = summaryData[0].totalOutboundIdleTime;
-                    $scope.total.OfflineIdleTime = summaryData[0].totalOfflineIdleTime;
-                    $scope.total.InboundAfterWorkTime = summaryData[0].totalInboundAfterWorkTime;
-                    $scope.total.OutboundAfterWorkTime = summaryData[0].totalOutboundAfterWorkTime;
-                    $scope.total.InboundAverageHandlingTime = summaryData[0].avgInboundHandlingTime;
-                    $scope.total.OutboundAverageHandlingTime = summaryData[0].avgOutboundHandlingTime;
-                    $scope.total.InboundTalkTime = summaryData[0].totalInboundTalkTime;
-                    $scope.total.OutboundTalkTime = summaryData[0].totalOutboundTalkTime;
-                    $scope.total.InboundHoldTime = summaryData[0].totalInboundHoldTime;
-                    $scope.total.OutboundHoldTime = summaryData[0].totalOutboundHoldTime;
-                    $scope.total.BreakTime = summaryData[0].totalBreakTime;
-                    $scope.total.Answered = summaryData[0].totalInboundAnswered;
-                    $scope.total.InboundCalls = summaryData[0].totalCallsInb;
-                    $scope.total.OutboundCalls = summaryData[0].totalCallsOut;
-                    // $scope.total.MissCallCount = MissCallCount;
-                    $scope.total.OutboundAnswered = summaryData[0].totalOutboundAnswered;
-                    $scope.agentSummaryList = summaryData;
+                        if (summaryData.length !== 0) {
+                            $scope.total.StaffTime = summaryData[0].totalStaffTime;
+                            $scope.total.InboundIdleTime = summaryData[0].totalInboundIdleTime;
+                            $scope.total.OutboundIdleTime = summaryData[0].totalOutboundIdleTime;
+                            $scope.total.OfflineIdleTime = summaryData[0].totalOfflineIdleTime;
+                            $scope.total.InboundAfterWorkTime = summaryData[0].totalInboundAfterWorkTime;
+                            $scope.total.OutboundAfterWorkTime = summaryData[0].totalOutboundAfterWorkTime;
+                            $scope.total.InboundAverageHandlingTime = summaryData[0].avgInboundHandlingTime;
+                            $scope.total.OutboundAverageHandlingTime = summaryData[0].avgOutboundHandlingTime;
+                            $scope.total.InboundTalkTime = summaryData[0].totalInboundTalkTime;
+                            $scope.total.OutboundTalkTime = summaryData[0].totalOutboundTalkTime;
+                            $scope.total.InboundHoldTime = summaryData[0].totalInboundHoldTime;
+                            $scope.total.OutboundHoldTime = summaryData[0].totalOutboundHoldTime;
+                            $scope.total.BreakTime = summaryData[0].totalBreakTime;
+                            $scope.total.Answered = summaryData[0].totalInboundAnswered;
+                            $scope.total.InboundCalls = summaryData[0].totalCallsInb;
+                            $scope.total.OutboundCalls = summaryData[0].totalCallsOut;
+                            // $scope.total.MissCallCount = MissCallCount;
+                            $scope.total.OutboundAnswered = summaryData[0].totalOutboundAnswered;
+                            $scope.agentSummaryList = summaryData;
 
-                    for (var k = 0; k < $scope.agentSummaryList.length; k++) {
-                        for (var l = 0; l < $scope.Agents.length; l++) {
-                            if ($scope.Agents[l].ResourceId == $scope.agentSummaryList[k].Agent) {
-                                $scope.agentSummaryList[k].AgentName = $scope.Agents[l].ResourceName;
+                            for (var k = 0; k < $scope.agentSummaryList.length; k++) {
+                                for (var l = 0; l < $scope.Agents.length; l++) {
+                                    if ($scope.Agents[l].ResourceId == $scope.agentSummaryList[k].Agent) {
+                                        $scope.agentSummaryList[k].AgentName = $scope.Agents[l].ResourceName;
 
+                                    }
+                                }
                             }
+                            $scope.AgentDetailsAssignToSummery();
+
+                            $scope.isTableLoading = 1;
+                        } else {
+                            console.log("No data ");
+                            resetTotals();
+                            $scope.showAlert("Agent Productivity Summary", 'info', "No data available for the selected filters");
+                            $scope.isTableLoading = 1;
                         }
                     }
-                    $scope.AgentDetailsAssignToSummery();
 
+                }, function (error) {
+                    loginService.isCheckResponse(error);
+                    console.log("Error in Queue Summary loading ", error);
                     $scope.isTableLoading = 1;
-                }
-                else{
-                    console.log("No data ");
-                    resetTotals();
-                    $scope.showAlert("Agent Productivity Summary", 'info', "No data available for the selected filters");
-                    $scope.isTableLoading = 1;
-                }
+                });
+            } else {
+                resetTotals();
+                $scope.showAlert("Agent Productivity Summary", 'info', "Please select one or more agent");
+                $scope.isTableLoading = 1;
             }
-
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            console.log("Error in Queue Summary loading ", error);
+        }
+        else{
+            $scope.showAlert('Agent Productivity Summary', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeAgentProd + ' days exceeded');
             $scope.isTableLoading = 1;
-        });
+        }
     };
 
     $scope.disableDownload = false;

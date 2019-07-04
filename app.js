@@ -161,7 +161,8 @@ mainApp.constant('redctUrls', {admin:'http://localhost/DVP-AdminConsole' ,agent:
 
 var applicationConfig = {
     'captchaEnable': false,
-    'repMaxDateRangeHourlyBand': 30
+    'repMaxDateRangeHourlyBand': 30,
+    'repMaxDateRangeAgentProd': 1
 };
 mainApp.constant('applicationConfig', applicationConfig);
 
