@@ -32,32 +32,35 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
     //     $("#endDate").datepicker({maxDate: "-1D" });
     // });
 
-    $scope.total = {
-        StaffTime: 0,
-        InboundTime: 0,
-        OutboundTime: 0,
-        InboundIdleTime: 0,
-        OutboundIdleTime: 0,
-        OfflineIdleTime: 0,
-        InboundAfterWorkTime: 0,
-        OutboundAfterWorkTime: 0,
-        InboundAverageHandlingTime: '00:00:00',
-        OutboundAverageHandlingTime: '00:00:00',
-        InboundAverageTalkTime: '00:00:00',
-        OutboundAverageTalkTime: '00:00:00',
-        InboundTalkTime: 0,
-        OutboundTalkTime: 0,
-        InboundHoldTime: 0,
-        OutboundHoldTime: 0,
-        BreakTime: 0,
-        Answered: 0,
-        InboundCalls: 0,
-        OutboundCalls: 0,
-        OutboundAnswered: 0,
-        InboundHold: 0,
-        OutboundHold: 0,
-        InboundAverageHoldTime: '00:00:00',
-        OutboundAverageHoldTime: '00:00:00'
+    var resetTotals = function() {
+
+        $scope.total = {
+            StaffTime: 0,
+            InboundTime: 0,
+            OutboundTime: 0,
+            InboundIdleTime: 0,
+            OutboundIdleTime: 0,
+            OfflineIdleTime: 0,
+            InboundAfterWorkTime: 0,
+            OutboundAfterWorkTime: 0,
+            InboundAverageHandlingTime: '00:00:00',
+            OutboundAverageHandlingTime: '00:00:00',
+            InboundAverageTalkTime: '00:00:00',
+            OutboundAverageTalkTime: '00:00:00',
+            InboundTalkTime: 0,
+            OutboundTalkTime: 0,
+            InboundHoldTime: 0,
+            OutboundHoldTime: 0,
+            BreakTime: 0,
+            Answered: 0,
+            InboundCalls: 0,
+            OutboundCalls: 0,
+            OutboundAnswered: 0,
+            InboundHold: 0,
+            OutboundHold: 0,
+            InboundAverageHoldTime: '00:00:00',
+            OutboundAverageHoldTime: '00:00:00'
+        };
     };
 
     $scope.querySearch = function (query) {
@@ -193,7 +196,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 $scope.isTableLoading = 1;
             }
             else {
-
+                resetTotals();
                 var summaryData = response.data.Result;
 
                 if(summaryData.length !== 0) {
@@ -231,6 +234,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 }
                 else{
                     console.log("No data ");
+                    resetTotals();
                     $scope.showAlert("Agent Productivity Summary", 'error', "No data available for the selected filters");
                     $scope.isTableLoading = 1;
                 }
@@ -296,8 +300,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         Date: 'N/A',
                         LoginTime: 'N/A',
                         StaffTime: summaryData[0].totalStaffTime,
-                        InboundTime: '00:00:00',
-                        OutboundTime: '00:00:00',
+                        InboundTime: summaryData[0].inbound_total_time,
+                        OutboundTime: summaryData[0].outbound_total_time,
                         IdleTimeInbound: summaryData[0].totalInboundIdleTime,
                         IdleTimeOutbound: summaryData[0].totalOutboundIdleTime,
                         IdleTimeOffline: summaryData[0].totalOfflineIdleTime,
@@ -305,8 +309,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         AfterWorkTimeOutbound: summaryData[0].totalOutboundAfterWorkTime,
                         AverageHandlingTimeInbound: summaryData[0].avgInboundHandlingTime,
                         AverageHandlingTimeOutbound: summaryData[0].avgOutboundHandlingTime,
-                        AvgTalkTimeInbound: '00:00:00',
-                        AvgTalkTimeOutbound: '00:00:00',
+                        AvgTalkTimeInbound: summaryData[0].avg_inbound_talk_time,
+                        AvgTalkTimeOutbound: summaryData[0].avg_outbound_talk_time,
                         TalkTimeInbound: summaryData[0].totalInboundTalkTime,
                         TalkTimeOutbound: summaryData[0].totalOutboundTalkTime,
                         TotalHoldTimeInbound: summaryData[0].totalInboundHoldTime,
@@ -317,8 +321,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         TotalCallsOutbound: summaryData[0].totalCallsOut,
                         //MissCallCount: MissCallCount,
                         TotalAnsweredOutbound: summaryData[0].totalOutboundAnswered,
-                        TotalHoldInbound: 0,
-                        TotalHoldOutbound: 0,
+                        TotalHoldInbound: summaryData[0].inbound_hold_total_count,
+                        TotalHoldOutbound: summaryData[0].inbound_hold_total_count,
                         AvgHoldTimeInbound: '00:00:00',
                         AvgHoldTimeOutbound: '00:00:00'
                     };
