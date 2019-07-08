@@ -26,7 +26,10 @@
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <label>From</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" ng-model="filters.from" data-min-length="0" data-html="1" placeholder="From">
+                            <input type="text" class="form-control" ng-model="filters.from" data-min-length="1" data-html="1"
+                                   data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
+                                   bs-options="agt as agt.ResourceName for agt in querySearch($viewValue)"
+                                   placeholder="From" bs-typeahead>
                         </div>
                     </div>
 
@@ -34,7 +37,10 @@
                         <label>To</label>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" ng-model="filters.to" data-min-length="0" data-html="1" placeholder="To">
+                            <input type="text" class="form-control" ng-model="filters.to" data-min-length="1" data-html="1"
+                                   data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
+                                   bs-options="agt as agt.ResourceName for agt in querySearch($viewValue)"
+                                   placeholder="To" bs-typeahead>
                         </div>
                     </div>
 
