@@ -11,9 +11,21 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
     $scope.dateValid = true;
     $scope.agentSummaryList = [];
     $scope.Agents=[];
-    $scope.summaryData=[];
+    $scope.summaryData = {
+        'all': [],
+        'calls': [],
+        'credits': [],
+        'packages': []
+    };
     $scope.pageNo=1;
     $scope.rowCount=5;
+
+    $scope.paginateData = {
+        'all': { pageNo: 1, rowCount: 5 },
+        'calls': { pageNo: 1, rowCount: 5 },
+        'credits': { pageNo: 1, rowCount: 5 },
+        'packages': { pageNo: 1, rowCount: 5 },
+    };
 
     $scope.dtOptions = { paging: false, searching: false, info: false, order: [0, 'desc'] };
 
@@ -36,10 +48,10 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
     };
 
 
-    $scope.getBillHistoryCSV = function () {
-
-
-        $scope.DownloadFileName = 'BILL_HISTORY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
+    $scope.getBillHistoryCSV = function (type) {
+    
+        type = type || "all";
+        $scope.DownloadFileName = 'BILL_HISTORY_SUMMARY_' + type.toUpperCase() + '_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
 
         /* var billData = $scope.summaryData.map(function (c,index) {
@@ -49,7 +61,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
 
         //$scope.AgentDetailsAssignToSummery();
-        deferred.resolve($scope.summaryData);
+        deferred.resolve($scope.summaryData[type]);
 
         return deferred.promise;
 
@@ -94,9 +106,11 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
     //$scope.getAgents();
 
-    $scope.getBillingHistory = function () {
+    $scope.getBillingHistory = function (txType) {
 
-        billingHistoryService.getBillingHistory($scope.rowCount,$scope.pageNo).then(function (response) {
+        txType = txType || 'all';
+
+        billingHistoryService.getBillingHistory($scope.rowCount,$scope.paginateData[txType].pageNo, txType).then(function (response) {
 
             if(!response.data.IsSuccess)
             {
@@ -108,12 +122,15 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
                 if(response.data.Result)
                 {
                     //$scope.summaryData=$scope.summaryData.concat(response.data.Result);
-                    $scope.summaryData=response.data.Result;
+                    // $scope.summaryData[txType] = response.data.Result;
                     // $scope.pageNo+=1;
-                    $scope.rowCount+=5;
+                    // $scope.rowCount+=5;
+                    // $scope.paginateData[txType].rowCount +=5;
+                    $scope.paginateData[txType].pageNo +=1;
+                    // $scope.pageNo+=1;
 
 
-                    $scope.summaryData = $scope.summaryData.map(function (c,index) {
+                    response.data.Result.map(function (c,index) {
                         c.description = c.OtherJsonData.msg;
                         c.Payment=0;
                         if(c.OtherJsonData.amount && c.OtherJsonData.amount>0)
@@ -138,7 +155,8 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
                         }
 
 
-                        return c;
+                        // return c;
+                        $scope.summaryData[txType].push(c);
                     });
 
                 }
@@ -153,6 +171,10 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
 
 
-    $scope.getBillingHistory();
+    // $scope.getBillingHistory();
+    $scope.getBillingHistory('all');
+    $scope.getBillingHistory('credits');
+    $scope.getBillingHistory('calls');
+    $scope.getBillingHistory('packages');
 
 });
