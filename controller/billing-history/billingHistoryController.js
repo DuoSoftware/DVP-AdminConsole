@@ -18,13 +18,13 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
         'packages': []
     };
     $scope.pageNo=1;
-    $scope.rowCount=5;
+    $scope.rowCount=50;
 
     $scope.paginateData = {
-        'all': { pageNo: 1, rowCount: 5 },
-        'calls': { pageNo: 1, rowCount: 5 },
-        'credits': { pageNo: 1, rowCount: 5 },
-        'packages': { pageNo: 1, rowCount: 5 },
+        'all': { pageNo: 1, rowCount: 5, loadMore: true },
+        'calls': { pageNo: 1, rowCount: 5, loadMore: true },
+        'credits': { pageNo: 1, rowCount: 5, loadMore: true },
+        'packages': { pageNo: 1, rowCount: 5, loadMore: true },
     };
 
     $scope.dtOptions = { paging: false, searching: false, info: false, order: [0, 'desc'] };
@@ -45,6 +45,15 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
         {
             $scope.dateValid = false;
         }
+    };
+
+    $scope.showError = function (tittle, content) {
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
     };
 
 
@@ -119,8 +128,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
             else
             {
                 $scope.isTableLoading=1;
-                if(response.data.Result)
-                {
+                if(response.data.Result && response.data.Result.length > 0) {
                     //$scope.summaryData=$scope.summaryData.concat(response.data.Result);
                     // $scope.summaryData[txType] = response.data.Result;
                     // $scope.pageNo+=1;
@@ -159,6 +167,9 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
                         $scope.summaryData[txType].push(c);
                     });
 
+                }else{
+                    $scope.paginateData[txType].loadMore = false;
+                    $scope.showError("Billing History", "No data to load.");
                 }
 
 
