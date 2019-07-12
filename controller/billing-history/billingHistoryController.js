@@ -115,7 +115,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
     //$scope.getAgents();
 
-    $scope.getBillingHistory = function (txType) {
+    $scope.getBillingHistory = function (txType, hideErrors) {
 
         txType = txType || 'all';
 
@@ -137,6 +137,9 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
                     $scope.paginateData[txType].pageNo +=1;
                     // $scope.pageNo+=1;
 
+                    // hide more button if no. of records are less than page size.
+                    if(response.data.Result.length < $scope.rowCount)
+                        $scope.paginateData[txType].loadMore = false;
 
                     response.data.Result.map(function (c,index) {
                         c.description = c.OtherJsonData.msg;
@@ -169,7 +172,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
                 }else{
                     $scope.paginateData[txType].loadMore = false;
-                    $scope.showError("Billing History", "No data to load.");
+                    if(!hideErrors) $scope.showError("Billing History", "No data to load.");
                 }
 
 
@@ -181,11 +184,19 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
     };
 
 
+    $scope.reloadBillingHistory = function (txType) {
+        $scope.isTableLoading = 0;
+        $scope.paginateData[txType].pageNo = 1;
+        $scope.summaryData[txType] = [];
+        $scope.getBillingHistory(txType);
+    }
+
+
 
     // $scope.getBillingHistory();
-    $scope.getBillingHistory('all');
-    $scope.getBillingHistory('credits');
-    $scope.getBillingHistory('calls');
-    $scope.getBillingHistory('packages');
+    $scope.getBillingHistory('all', true);
+    $scope.getBillingHistory('credits', true);
+    $scope.getBillingHistory('calls', true);
+    $scope.getBillingHistory('packages', true);
 
 });
