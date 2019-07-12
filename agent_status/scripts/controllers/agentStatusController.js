@@ -66,9 +66,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         agentStatusService.GetProductivityWithLoginTime(queryStartDate, queryEndDate).then(function (response) {
             $scope.productivity = response;
             $scope.isLoading = true;
-            calculateProductivity();
+            calculateProductivity(deferred);
 
-            deferred.resolve(true);
+           // deferred.resolve(true);
         }, function (error) {
             $log.debug("productivity err");
             $scope.showAlert("Error", "error", "Fail To Get productivity.");
@@ -278,7 +278,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
 
-    var calculateProductivity = function () {
+    var calculateProductivity = function (deferred) {
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
@@ -494,9 +494,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
             });
             $scope.isLoading = false;
+            deferred.resolve(true);
         }
         else {
             $scope.isLoading = false;
+            deferred.resolve(true);
         }
 
     };
