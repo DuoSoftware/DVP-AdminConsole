@@ -75,7 +75,9 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     placeholderText: 'Enter Text Here'
 });
 
-
+mainApp.constant('appVersion', {
+    version: '3.0.0.8'
+});
 mainApp.constant('moment', moment);
 mainApp.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels

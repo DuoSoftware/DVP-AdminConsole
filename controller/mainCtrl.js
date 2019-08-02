@@ -4,8 +4,9 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http,internal_user_service) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData, $http,internal_user_service, appVersion) {
 
+    $scope.version = appVersion.version;
 
     // check adminconsole is focus or not.
     angular.element($window).bind('focus', function () {

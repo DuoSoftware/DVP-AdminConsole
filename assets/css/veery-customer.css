@@ -9370,3 +9370,11 @@ tags-input.input .tags {
     height: 400px;
 
 }
+.version-name {
+    /*font-family: 'AvenirNextLTPro-Regular', sans-serif;*/
+    position: absolute;
+    color: #90d246;
+    font-size: 8px;
+    left: 30px;
+    bottom: 3px;
+}
