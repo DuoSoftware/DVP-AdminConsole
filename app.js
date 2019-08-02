@@ -76,7 +76,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
 });
 
 mainApp.constant('appVersion', {
-    version: '3.0.0.8'
+    version: 'v3.0.0.8'
 });
 mainApp.constant('moment', moment);
 mainApp.run(['$anchorScroll', function ($anchorScroll) {
