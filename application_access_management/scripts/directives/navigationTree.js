@@ -2,7 +2,7 @@
  * Created by Rajinda on 6/13/2016.
  */
 
-mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
+mainApp.directive("navigationtree", function ($filter,$rootScope, appAccessManageService) {
 
     return {
         restrict: "EA",
@@ -11,14 +11,14 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
             selectedConsole: '=',
             userName: '@?',
             consoleName: '@?',
-            userrole:'@?'
+            userrole: '@?'
         },
 
         templateUrl: 'application_access_management/view/template/navigationTree.html',
 
 
         link: function (scope, element, attributes) {
-
+            scope.isupdating = false;
             scope.vm = {};
             scope.vm.expandAll = expandAll;
 
@@ -127,16 +127,25 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
              * Kasun_Wijeratne_16_MARCH_2018 */
 
 
+
+            var command_handler = $rootScope.$on('application_access_manager', function (events, args) {
+                angular.element(document.getElementById(scope.navigation.navigationName))[0].disabled = args;
+            });
+
+            scope.$on('$destroy', command_handler);
             scope.updateNavigation = function (navigationData) {
                 try {
 
-
-                    if(scope.userrole == 'admin')
-                    {
+                    if (scope.isupdating) {
+                        scope.showError("Error", "******************************s");
+                        return;
+                    }
+                    scope.isupdating = true;
+                    $rootScope.$emit('application_access_manager', true);
+                    if (scope.userrole == 'admin') {
                         scope.showError("Error", "Cannot Update Admin Scopes");
                     }
-                    else
-                    {
+                    else {
                         var editedMenus = {};
                         editedMenus = {
                             "menuItem": navigationData.name,//"navigationName": "ARDS_CONFIGURATION",
@@ -160,6 +169,8 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                             });
 
                             appAccessManageService.AddSelectedNavigationToUser(scope.userName, scope.consoleName, editedMenus).then(function (response) {
+
+                                $rootScope.$emit('application_access_manager', false);
                                 if (response.IsSuccess) {
                                     scope.showAlert("Info", "Info", "ok", navigationData.name + " Successfully Updated.")
                                 }
@@ -174,11 +185,13 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                                 }
 
                             }, function (error) {
+                                $rootScope.$emit('application_access_manager', false);
                                 scope.showError("Error", "Failed to Add Permissions[" + navigationData.name + "]");
                             });
                         }
                         else {
                             appAccessManageService.DeleteSelectedNavigationFrmUser(scope.userName, scope.consoleName, navigationData.name).then(function (response) {
+                                $rootScope.$emit('application_access_manager', false);
                                 if (response.IsSuccess) {
                                     scope.showAlert("Info", "Info", "ok", navigationData.name + " Permissions Successfully Remove.")
                                 }
@@ -193,16 +206,16 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                                 }
 
                             }, function (error) {
+                                $rootScope.$emit('application_access_manager', false);
                                 scope.showError("Error", " Failed to Remove Permissions[" + navigationData.name + "]");
                             });
                         }
                     }
 
 
-
-
                 }
                 catch (ex) {
+                    $rootScope.$emit('application_access_manager', false);
                     scope.showError("Error", "Failed to Add Permissions[" + navigationData.name + "]");
                     console.error(ex);
                 }
