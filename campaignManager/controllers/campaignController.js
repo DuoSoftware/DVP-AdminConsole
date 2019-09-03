@@ -207,6 +207,19 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
     };
 
+    $scope.flushCampaignNumbers = function (_campign) {
+
+        campaignService.FlushNumbers(_campign.CampaignId).then(function (response) {
+            if (response.Result) {
+                $scope.showAlert("Campaign", 'success', "Numbers Flushed Successfully");
+            }else{
+                $scope.showAlert("Campaign", 'error', "Error occurred");
+            }
+        });
+
+
+    };
+
     $scope.closeRightPanel = function () {
         campaignUiAction.rightPanelHide();
     };

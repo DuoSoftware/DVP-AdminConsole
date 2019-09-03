@@ -414,6 +414,20 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var flushNumbers = function(campaignId){
+        return $http({
+            method: 'delete',
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/RemoveNumbers"
+        }).then(function (response) {
+            if (response.status == 200) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    }
+
     var getTotalDialCount = function (campaignId) {
         return $http({
             method: 'get',
@@ -717,6 +731,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetCallBacks: getCallBacks,
         SetCallBack: setCallBack,
         DeleteCallBack: deleteCallBack,
+        FlushNumbers: flushNumbers,
         GetCategorys: getCategorys,
         MapNumberToCampaign: mapNumberToCampaign,
         MapScheduleToCampaign: mapScheduleToCampaign,

@@ -116,6 +116,10 @@
                                         rowspan="1"
                                         colspan="1" aria-label="To">To
                                     </th>
+                                    <th class="sorting" tabindex="1" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="Author">Author
+                                    </th>
                                     <th class="sorting" tabindex="2" aria-controls="datatable-responsive"
                                         rowspan="1"
                                         colspan="1" aria-label="Direction">Direction
@@ -139,6 +143,7 @@
                                     ng-repeat="sms in smsList">
                                     <td>{{sms.channel_from}}</td>
                                     <td>{{sms.channel_to}}</td>
+                                    <td>{{sms.user_info}}</td>
                                     <td>{{sms.direction}}</td>
                                     <td>{{moment(sms.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                                     <td>{{sms.delivery_status}}</td>
