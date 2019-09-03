@@ -16,7 +16,17 @@ mainApp.factory('ShareData', function ($http) {
         },
         listeningCallId:"",
         isInCall:false,
+        allowed_to_download : function () {
 
+            try {
+                var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+                var res = $filter('filter')(decodeData.scope, {resource: "FileDownLoad"}, true);
+                return res.length > 0 && res[0].actions.length > 0;
+
+            } catch (ex) {
+                return false;
+            }
+        },
         getUserCountByBusinessUnit : function() {
             return $http({
                 method: 'GET',

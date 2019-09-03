@@ -185,7 +185,7 @@
                                         <div class="tools tools-bottom">
                                             <a href="javascript:void(0);"><i class="fa fa-play"
                                                                              ng-click="playVideo(file)"></i></a>
-                                            <a href="javascript:void(0);"><i class="fa fa-cloud-download"
+                                            <a ng-hide="!allowed_file_downLoad" href="javascript:void(0);"><i class="fa fa-cloud-download"
                                                                              ng-click="downloadFile(file)"></i></a>
                                             <a ng-hide="file.FileCategory.Category === 'CONVERSATION'" href="javascript:void(0);"><i class="fa fa-times"
                                                                              ng-click="deleteFile(file)"></i></a>

@@ -15,7 +15,7 @@
 
         $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [7, 'desc']};
-
+        $scope.allowed_file_downLoad = ShareData.allowed_to_download();
         $scope.config = {
             preload: "auto",
             tracks: [
@@ -116,6 +116,12 @@
 
 
         $scope.SetDownloadPath = function (cdrInf) {
+            if(!$scope.allowed_file_downLoad){
+                console.log("feature is disabled----------------------");
+                $scope.showError("File Gallery", "feature is disabled.");
+                return;
+            }
+
             var decodedToken = loginService.getTokenDecode();
 
             if (decodedToken && decodedToken.company && decodedToken.tenant) {

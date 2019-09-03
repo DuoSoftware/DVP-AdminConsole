@@ -1,6 +1,6 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller('FileEditController', function ($scope, $filter,$q, FileUploader, fileService,userProfileApiAccess,$anchorScroll)
+app.controller('FileEditController', function ($scope, $filter,$q, FileUploader, fileService,userProfileApiAccess,$anchorScroll,ShareData)
 {
     $anchorScroll();
     $scope.file = {};
@@ -10,6 +10,21 @@ app.controller('FileEditController', function ($scope, $filter,$q, FileUploader,
     });
 
     // FILTERS
+
+    $scope.allowed_file_downLoad = ShareData.allowed_to_download();
+    /*var allowed_to_download = function () {
+
+        try {
+            var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+            var res = $filter('filter')(decodeData.scope, {resource: "FileDownLoad"}, true);
+            if (res.length > 0 && res[0].actions.length > 0) {
+                $scope.allowed_file_downLoad = true;
+            }
+        } catch (ex) {
+            console.error(ex);
+        }
+    };
+    allowed_to_download();*/
 
     $scope.showError = function (tittle, content) {
 
@@ -685,6 +700,11 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     };
 
     $scope.downloadFile = function (file) {
+        if(!$scope.allowed_file_downLoad){
+            console.log("feature is disabled----------------------");
+            $scope.showError("File Gallery", "feature is disabled.");
+            return;
+        }
         fileService.downloadInternalFile(file);
     };
 
