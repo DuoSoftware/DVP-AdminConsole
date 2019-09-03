@@ -207,14 +207,41 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
     };
 
+    var showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
+
+        (new PNotify({
+            title: tittle,
+            text: content,
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function () {
+            OkCallback("confirm");
+        }).on('pnotify.cancel', function () {
+
+        });
+
+    };
+
     $scope.flushCampaignNumbers = function (_campign) {
 
-        campaignService.FlushNumbers(_campign.CampaignId).then(function (response) {
-            if (response.Result) {
-                $scope.showAlert("Campaign", 'success', "Numbers Flushed Successfully");
-            }else{
-                $scope.showAlert("Campaign", 'error', "Error occurred");
-            }
+        showConfirm("Flush Numbers", "Delete", "ok", "cancel", "Do you wish to remove uploaded numbers from campaign ?", function (obj) {
+            campaignService.FlushNumbers(_campign.CampaignId).then(function (response) {
+                if (response.Result) {
+                    $scope.showAlert("Campaign", 'success', "Numbers Flushed Successfully");
+                }else{
+                    $scope.showAlert("Campaign", 'error', "Error occurred");
+                }
+            });
         });
 
 
