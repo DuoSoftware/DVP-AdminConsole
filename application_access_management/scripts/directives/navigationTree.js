@@ -137,7 +137,7 @@ mainApp.directive("navigationtree", function ($filter,$rootScope, appAccessManag
                 try {
 
                     if (scope.isupdating) {
-                        scope.showError("Error", "******************************s");
+                        scope.showError("Error", "Wait Till Current Process To Complete");
                         return;
                     }
                     scope.isupdating = true;
