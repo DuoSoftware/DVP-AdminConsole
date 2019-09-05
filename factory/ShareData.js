@@ -2,7 +2,7 @@
  * Created by Waruna on 1/2/2018.
  */
 
-mainApp.factory('ShareData', function ($http) {
+mainApp.factory('ShareData', function ($http,jwtHelper,authService,$filter) {
     return {BusinessUnit:'No Assigned Unit' , BusinessUnits: [], MyProfile: {}, UnitUsers: [],GetUserByBusinessUnit:function() {
             return $http({
                 method: 'GET',
