@@ -20,7 +20,7 @@ mainApp.factory('ShareData', function ($http) {
 
             try {
                 var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
-                var res = $filter('filter')(decodeData.scope, {resource: "FileDownLoad"}, true);
+                var res = $filter('filter')(decodeData.scope, {resource: "filedownload"}, true);
                 return res.length > 0 && res[0].actions.length > 0;
 
             } catch (ex) {
