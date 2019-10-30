@@ -182,8 +182,10 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
 
         if (duration <= applicationConfig.repMaxDateRangeAgentProd) {
 
-            if ($scope.agentFilter) {
-                resId = $scope.agentFilter.ResourceId;
+            // if ($scope.agentFilter) {
+                if ($scope.agentFilter) {
+                    resId = $scope.agentFilter.ResourceId;
+                }
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 momentTz = momentTz.replace("+", "%2B");
@@ -201,7 +203,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         resetTotals();
                         var summaryData = response.data.Result;
 
-                        if (summaryData.length !== 0) {
+                        if (summaryData && summaryData.length !== 0) {
                             $scope.total.StaffTime = summaryData[0].totalStaffTime;
                             $scope.total.InboundIdleTime = summaryData[0].totalInboundIdleTime;
                             $scope.total.OutboundIdleTime = summaryData[0].totalOutboundIdleTime;
@@ -246,12 +248,12 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                     console.log("Error in Queue Summary loading ", error);
                     $scope.isTableLoading = 1;
                 });
-            } else {
-                resetTotals();
-                $scope.showAlert("Agent Productivity Summary", 'info', "Please select one or more agent");
-                $scope.isTableLoading = 1;
-            }
-        }
+            // } else {
+            //     resetTotals();
+            //     $scope.showAlert("Agent Productivity Summary", 'info', "Please select one or more agent");
+            //     $scope.isTableLoading = 1;
+            // }
+      }
         else{
             $scope.showAlert('Agent Productivity Summary', 'error', 'Maximum date range of ' + applicationConfig.repMaxDateRangeAgentProd + ' days exceeded');
             $scope.isTableLoading = 1;
