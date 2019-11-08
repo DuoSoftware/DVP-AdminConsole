@@ -36,16 +36,34 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     };
 
     $scope.resources = [];
+
+    // Sanura Wijayarathne - 2019/11/01
     $scope.GetResources = function (rowCount, pageNo) {
-        resourceService.GetResources(rowCount, pageNo).then(function (response) {
-            $scope.resources = response;
-            $scope.showPaging = true;
-            $scope.isLoading = false;
-        }, function (error) {
-            $scope.isLoading = false;
-            $log.debug("GetResources err");
-            $scope.showError("Error", "Error", "ok", "There is an error ");
-        });
+        if($scope.searchCriteria == null || $scope.searchCriteria === "") {
+            console.log($scope.searchCriteria);
+            resourceService.GetResources(rowCount, pageNo).then(function (response) {
+                $scope.resources = response;
+                $scope.showPaging = true;
+                $scope.isLoading = false;
+            }, function (error) {
+                $scope.isLoading = false;
+                $log.debug("GetResources err");
+                $scope.showError("Error", "Error", "ok", "There is an error ");
+            });
+        }
+        else{
+            console.log($scope.searchCriteria);
+            resourceService.getResourcesWithoutPaging().then(function (response) {
+                $scope.resources = response;
+                $scope.showPaging = true;
+                $scope.isLoading = false;
+            }, function (error) {
+                $scope.isLoading = false;
+                $log.debug("GetResources err");
+                $scope.showError("Error", "Error", "ok", "There is an error ");
+            });
+        }
+
 
     };
     $scope.GetResources($scope.pageSize, 1);

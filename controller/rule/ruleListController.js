@@ -193,14 +193,21 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
 
     $scope.deleteRule= function(rule){
 
-        ruleconfigservice.deleteRules(rule).then(onRuleDeleted,onError);
+        // Sanura Wijayarathne - 2019/11/08
+        $scope.showConfirm("Delete Operation", "Delete", "ok", "cancel", "Do you want to delete ", function () {
+            ruleconfigservice.deleteRules(rule).then(onRuleDeleted,onError);
+            console.log(rule)
+        }, function () {
+
+        }, rule
+        );
 
     };
 
     $scope.editRule = function (rule) {
         //$location.path("/new-rule/"+rule.id);
         $state.go('console.editrule',{id:rule.id});
-    }
+    };
 
     var refershPage= function () {
         $scope.ruleObj = null;
@@ -211,7 +218,31 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
     }
 
     getAllRules();
+    // Sanura Wijayarathne - 2019/11/08
+    $scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
 
+        (new PNotify({
+            title: tittle,
+            text: content,
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function () {
+            OkCallback("confirm");
+        }).on('pnotify.cancel', function () {
+
+        });
+
+    };
 
 });
 
